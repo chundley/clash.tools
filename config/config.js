@@ -6,8 +6,7 @@ config.env = {
     development: {
         url: {
             host: '127.0.0.1',
-            port: '7993',
-            ssl_port: '7994',
+            port: '7997',
             base: 'http://localhost:7997'
         },
         mongoDb: {

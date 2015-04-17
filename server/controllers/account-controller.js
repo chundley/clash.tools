@@ -6,7 +6,6 @@ var async = require('async'),
     _     = require('underscore');
 
 var accountModel   = require('../models/account-model'),
-    analyticsModel = require('../models/analytics-model'),
     userModel      = require('../models/user-model'),
     mailModel      = require('../models/mail-model');
 
@@ -108,7 +107,7 @@ exports.addUser = function(req, res, next) {
         }
     }); // end userModel.findByEmail
 }
-
+/*
 exports.adminAllAccounts = function(req, res, next) {
     accountModel.adminAllAccounts(function (err, accounts) {
         if (err) {
@@ -166,4 +165,4 @@ exports.adminAllAccounts = function(req, res, next) {
             });
         }
     });
-}
+}*/

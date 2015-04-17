@@ -34,7 +34,7 @@ module.exports = function(grunt) {
         less: {
             dev: {
                 files: {
-                    'app/public/css/siftrock.min.css': 'app/shared/less/siftrock.less'
+                    'app/public/css/clashtools.min.css': 'app/shared/less/clashtools.less'
                 }
             },
             prod: {
@@ -42,7 +42,7 @@ module.exports = function(grunt) {
                     compress: true
                 },
                 files: {
-                    'app/public/css/siftrock.min.css': 'app/shared/less/siftrock.less'
+                    'app/public/css/clashtools.min.css': 'app/shared/less/clashtools.less'
                 }
             }
         },
@@ -154,7 +154,7 @@ module.exports = function(grunt) {
                         });
 
                         // replace dev/test analytics key with production key
-                        content = content.replace(config.env.development.mixpanel, config.env.production.mixpanel);
+                        //content = content.replace(config.env.development.mixpanel, config.env.production.mixpanel);
 
                         return content;
                     }
@@ -162,13 +162,13 @@ module.exports = function(grunt) {
             },
             server: {
                 src:  'server.js',
-                dest: '<%= paths.build %>/siftrock-app-prod.js'
+                dest: '<%= paths.build %>/clashtools-prod.js'
             }
         },
         compress: {
             build: {
                 options: {
-                    archive: '<%= paths.dist %>/siftrock-app-<%= pkg.version %>.zip',
+                    archive: '<%= paths.dist %>/clashtools-<%= pkg.version %>.zip',
                     pretty: true,
                     level: 9
                 },
@@ -184,7 +184,7 @@ module.exports = function(grunt) {
             },
             unit: {
                 src: ['test/unit/**/*-spec.js']
-            },            
+            },
             functional: {
                 src: ['test/functional/**/*-spec.js']
             }
@@ -204,7 +204,7 @@ module.exports = function(grunt) {
     grunt.registerTask('unit-test', ['mochacli:unit']);
 
     // Run functional tests
-    grunt.registerTask('functional-test', ['mochacli:functional']);    
+    grunt.registerTask('functional-test', ['mochacli:functional']);
 
     /*
     *   This is a custom task for renaming files to the cache-busting names created by the cachebuster task. That task creates the file map,

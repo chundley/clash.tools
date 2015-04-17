@@ -16,7 +16,6 @@ var http    = require('http'),
  * Module dependencies
 */
 var config       = require('./config/config'),
-    forwards     = require('./jobs/forwards-job'),
     mongoCache   = require('./app/shared/mongo-cache'),
     App          = require('./app/app');
 
@@ -41,7 +40,6 @@ db = mongoCache();
 var app = new App();
 
 app.init(function(err) {
-
     if (err) {
         logger.error('Failed to initialize Siftrock');
         return;

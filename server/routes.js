@@ -8,7 +8,6 @@ var _    = require('underscore'),
 var authCtrl            = require('./controllers/auth-controller'),
     configCtrl          = require('./controllers/config-controller'),
     userCtrl            = require('./controllers/user-controller'),
-    exportCtrl          = require('./controllers/export-controller'),
     accountCtrl         = require('./controllers/account-controller'),
     pwResetCtrl         = require('./controllers/pwreset-controller'),
     mailCtrl            = require('./controllers/mail-controller'),
@@ -28,7 +27,7 @@ var routes = [
         path: '/auth/logout',
         httpMethod: 'POST',
         middleware: [authCtrl.logout],
-        accessLevel: accessLevels.user
+        accessLevel: accessLevels.member
     },
     {
         path: '/auth/login',
@@ -39,7 +38,7 @@ var routes = [
         path: '/crud/account/:id',
         httpMethod: 'GET',
         middleware: [accountCtrl.findById],
-        accessLevel: accessLevels.user
+        accessLevel: accessLevels.member
     },
     {
         path: '/crud/account',
@@ -51,37 +50,37 @@ var routes = [
         path: '/crud/account/user/:id',
         httpMethod: 'GET',
         middleware: [accountCtrl.findByUserId],
-        accessLevel: accessLevels.user
+        accessLevel: accessLevels.member
     },
     {
         path: '/crud/account/:id/users',
         httpMethod: 'GET',
         middleware: [userCtrl.getByAccount],
-        accessLevel: accessLevels.user
+        accessLevel: accessLevels.member
     },
     {
         path: '/crud/account/:id/users',
         httpMethod: 'POST',
         middleware: [accountCtrl.addUser],
-        accessLevel: accessLevels.admin
+        accessLevel: accessLevels.member
     },
     {
         path: '/crud/user',
         httpMethod: 'GET',
         middleware: [userCtrl.allUsers],
-        accessLevel: accessLevels.user
+        accessLevel: accessLevels.member
     },
     {
         path: '/crud/user/:id',
         httpMethod: 'GET',
         middleware: [userCtrl.getById],
-        accessLevel: accessLevels.user
+        accessLevel: accessLevels.member
     },
     {
         path: '/crud/user/:id',
         httpMethod: 'POST',
         middleware: [userCtrl.save],
-        accessLevel: accessLevels.admin
+        accessLevel: accessLevels.member
     },
     {
         path: '/crud/user/:id/pw',
@@ -92,25 +91,25 @@ var routes = [
         path: '/crud/user/:id/session',
         httpMethod: 'GET',
         middleware: [userCtrl.getUserSession],
-        accessLevel: accessLevels.user
+        accessLevel: accessLevels.member
     },
     {
         path: '/crud/user/:id/session',
         httpMethod: 'POST',
         middleware: [userCtrl.saveUserSession],
-        accessLevel: accessLevels.user
+        accessLevel: accessLevels.member
     },
     {
         path: '/crud/user/:id/meta',
         httpMethod: 'GET',
         middleware: [userCtrl.getMeta],
-        accessLevel: accessLevels.user
+        accessLevel: accessLevels.member
     },
     {
         path: '/crud/user/:id/disable',
         httpMethod: 'POST',
         middleware: [userCtrl.disable],
-        accessLevel: accessLevels.user
+        accessLevel: accessLevels.member
     },
     {
         path: '/crud/verifyemail/:token',
@@ -131,19 +130,19 @@ var routes = [
         path: '/crud/messagelog/:account_id',
         httpMethod: 'POST',
         middleware: [messagelogCtrl.save],
-        accessLevel: accessLevels.user
+        accessLevel: accessLevels.member
     },
     {
         path: '/crud/messagelog/:user_id',
         httpMethod: 'GET',
         middleware: [messagelogCtrl.get],
-        accessLevel: accessLevels.user
+        accessLevel: accessLevels.member
     },
     {
         path: '/crud/messagelog/:user_id/dismiss/:message_id',
         httpMethod: 'POST',
         middleware: [messagelogCtrl.dismiss],
-        accessLevel: accessLevels.user
+        accessLevel: accessLevels.member
     },
     {
         path: '/mail/pwreset/:email',
@@ -165,26 +164,21 @@ var routes = [
         httpMethod: 'POST',
         middleware: [mailCtrl.wwwForm]
     },
-    {
-        path: '/export/:id/allnames',
-        httpMethod: 'GET',
-        middleware: [exportCtrl.allNames]
-    },
-    {
+/*    {
         path: '/config/hubspot',
         httpMethod: 'GET',
         middleware: [configCtrl.hubspotConfig]
-    },
+    },*/
     {
         path: '/crud/error',
         httpMethod: 'POST',
         middleware: [errorCtrl.save]
     },
-    {
+/*    {
         path: '/crud/admin/account',
         httpMethod: 'GET',
         middleware: [accountCtrl.adminAllAccounts]
-    },
+    },*/
     // AngularJS handles all other routes client-side
     {
         path: '/*',
@@ -201,7 +195,7 @@ var routes = [
             }
 
             // temporary cookie to communicate to the client for this session
-            res.cookie('f_user', JSON.stringify( {
+            res.cookie('clashtools_user', JSON.stringify( {
                 id: id,
                 email: email,
                 role: role
