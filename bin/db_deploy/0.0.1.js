@@ -1,16 +1,15 @@
 /*
-*   Siftrock db deploy script version 0.1.0
+*   clash.tools db deploy script v0.0.1
 *
 *   Changes:
-*       1. Account schema adds forwarding emails for settings and mx dns verification
-*       2. Set status to 5 on inbound_email records so they don't all forward
-*       3. Update user session data to include new fields
 */
 
 
 
 now = new Date();
 
+
+/*
 print();
 print('-----------------------------');
 print('      1. UPDATING ACCOUNTS');
@@ -94,3 +93,4 @@ while (cursor.hasNext()) {
 }
 
 print('Done updating inbound users');
+*/
