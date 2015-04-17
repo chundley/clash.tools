@@ -3,4 +3,4 @@
 DIR=$(cd $(dirname "$0"); pwd)
 
 pushd $DIR/..
-forever stop siftrock-app-prod.js
+forever stop clashtools-prod.js

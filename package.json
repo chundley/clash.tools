@@ -1,6 +1,6 @@
 {
-  "name": "siftrock-app",
-  "version": "1.3.2",
+  "name": "clash.tools",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "node server",
@@ -23,8 +23,7 @@
     "path": "~0.4.9",
     "request": "~2.33.0",
     "shortid": "^2.0.1",
-    "underscore": "1.5.1",
-    "node-dogstatsd": "0.0.6"
+    "underscore": "1.5.1"
   },
   "devDependencies": {
     "expect": "^1.6.0",

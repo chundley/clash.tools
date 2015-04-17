@@ -10,9 +10,9 @@ pushd $DIR
 if [ $1 = "-r" ]
 then
     echo "Restarting server..."
-    forever stop siftrock-app-prod.js
+    forever stop clashtools-prod.js
 fi
 
 export NODE_ENV=production
 
-forever start siftrock-app-prod.js
+forever start clashtools-prod.js
