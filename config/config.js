@@ -8,12 +8,12 @@ config.env = {
             host: '127.0.0.1',
             port: '7993',
             ssl_port: '7994',
-            base: 'http://localhost:7993'
+            base: 'http://localhost:7997'
         },
         mongoDb: {
-            dbName: 'siftrock_dev',
-            user: 'siftrock',
-            pwd: 'p{97Jf]mn3',
+            dbName: 'clashtools_dev',
+            user: 'clashtools',
+            pwd: 'qv98M*1wa[',
             servers: [
                 {
                     host: '127.0.0.1',
@@ -21,64 +21,35 @@ config.env = {
                 }
             ]
         },
-        hubspotApi: {
-            clientId: 'cbf0bffd-c2d6-11e4-b94f-3565887180c8',
-            clientSecret: '4c83de50-0de2-4e5a-ac5c-b3d90adddddd',
-            authUrl: 'https://app.hubspot.com/auth/authenticate',
-            redirectUrl: 'http://localhost:7993/settings/integration/hubspot',
-            baseUrl: 'https://api.hubapi.com'
-        },
-        wwwSite: 'http://localhost:8080',
-        mxRecord: 'mail.siftrock.com',
-        cookieSecret: 'abcxyz12',
+        cookieSecret: 'clashtools_bab',
         logLevel: 'debug',
-        mixpanel: '726a28dc2c661988df5c15493778c49a',
-        gh: 'dace52f944908e053cb7cb6ecad8719efa3e5903',
-        mandrill: 'EXW7zd8apIL6mWh5QbUXlQ'
+        mandrill: 'hYM_1Xl4pPKbF2EZR-pnmA'
     },
     production: {
         url: {
             host: '0.0.0.0',
-            port: '7993',
-            ssl_port: '443',
-            base: 'https://app.siftrock.com'
+            port: '80',
+            base: 'https://clash.tools'
         },
         mongoDb: {
-            dbName: 'siftrock',
-            user: 'siftrock',
-            pwd: 't6+17R}a$8',
+            dbName: 'clashtools',
+            user: 'clashtools',
+            pwd: 'u2p82KY#g!',
             servers: [
                 {
-                    host: 'siftrock-db1',
-                    port: '27017'
-                },
-                {
-                    host: 'siftrock-db2',
+                    host: '127.0.0.1',
                     port: '27017'
                 }
             ]
         },
-        hubspotApi: {
-            clientId: 'cbf0bffd-c2d6-11e4-b94f-3565887180c8',
-            clientSecret: '4c83de50-0de2-4e5a-ac5c-b3d90adddddd',
-            authUrl: 'https://app.hubspot.com/auth/authenticate',
-            redirectUrl: 'https://app.siftrock.com/settings/integration/hubspot',
-            baseUrl: 'https://api.hubapi.com'
-        },
-        wwwSite: 'http://www.siftrock.com',
-        mxRecord: 'mail.siftrock.com',
-        cookieSecret: 'qrshij72',
+        cookieSecret: 'clashtools_kak',
         logLevel: 'info',
-        mixpanel: '1baaef477804edefd768bb41f68eb9ac',
-        gh: 'dace52f944908e053cb7cb6ecad8719efa3e5903',
-        mandrill: 'IrTUE_HblIrL9uQD2d7Vmg'
+        mandrill: 'IAO8H52xJO-Lk-4_zBFcEQ'
     }
 };
 
-config.demoDomain = 'demo.siftrock.com';
-
 config.admins = [
-    'chris@siftrock.com'
+    'chundley@gmail.com'
 ];
 
 module.exports = config;
