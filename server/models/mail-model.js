@@ -226,45 +226,6 @@ exports.genericMail = function(recipients, subject, content, callback) {
 }
 
 /*
-*   Forwards email for a customer who has configured it
-*/
-exports.forwardMail = function(rawMail, mail, addresses, callback) {
-    async.forEach(addresses, function (recipient, callback_inner) {
-        var msg = new MailMessage;
-        //function forwardTemplate(recipientName, recipientEmail, id, content, html) {
-        if (!rawMail.html || rawMail.html.length == 0) {
-            rawMail.html = rawMail.text.replace(/\\n/g, '<br/>');
-        }
-        msg.setHtml(forwardTemplate(mail.type, mail.from_name, mail.from_address, mail._id, rawMail.html, true));
-        msg.setText(forwardTemplate(mail.type, mail.from_name, mail.from_address, mail._id, rawMail.text, false));
-        msg.setSubject('FWD from Siftrock: ' + mail.subject);
-        msg.addRecipient(recipient, recipient, 'to');
-        msg.addTags(['forward', appVersion]);
-
-        // use mandrill client library to send an email
-        var mandrill_client = new mandrill.Mandrill(config.env[process.env.NODE_ENV].mandrill);
-        mandrill_client.messages.send({"message": msg.createMessage(), "async": false, "ip_pool": null, "send_at": null}, function (result) {
-            logger.info('Forwarded email from: ' + mail.from_address + ' to: ' + recipient);
-            callback_inner(null, recipient);
-        },
-        function (e) {
-            // Mandrill returns the error as an object with name and message keys
-            logger.error('A mandrill error occurred: ' + e.name + ' - ' + e.message);
-            callback_inner(e.name + ' - ' + e.message, null);
-        });
-    },
-    function (err) {
-        if (err) {
-            logger.error('Problem forwarding email: ' + error);
-            callback(err);
-        }
-        else {
-            callback(null);
-        }
-    });
-}
-
-/*
 *   Form submitted from web site
 */
 exports.wwwForm = function(formData, callback) {
@@ -369,29 +330,6 @@ function inviteUserTemplate(html, tempPW, from) {
     }
     else {
         return template.replace('[invited]', from).replace('[password]', tempPW);
-    }
-}
-
-function forwardTemplate(type, recipientName, recipientEmail, id, content, html) {
-    var template = null;
-    if (html) {
-        template = fs.readFileSync(templatePath + 'forward.html', 'utf8');
-    }
-    else {
-        template = fs.readFileSync(templatePath + 'forward.txt', 'utf8');
-    }
-
-    if (!template) {
-        logger.error('Problem with email template for forward');
-        return null;
-    }
-    else {
-        template = template.replace('[type]', type);
-        template = template.replace('[recipient-name]', recipientName);
-        template = template.replace('[recipient-email]', recipientEmail);
-        template = template.replace('[id]', id);
-        template = template.replace('[original-email]', content);
-        return template;
     }
 }
 

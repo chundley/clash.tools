@@ -13,14 +13,8 @@ var async       = require('async'),
  * Local packages
 */
 var config       = require('../config/config'),
-    ddMiddleware = require('./shared/datadog-middleware'),
     User         = require('../server/models/user-model'),
     util         = require('./shared/util');
-
-/*
-* API routes
-*/
-var demo     = require('../api/routes/demo');
 
 /*
 * Local variables
@@ -58,9 +52,6 @@ App = function() {
                 next();
             });
 
-            // api
-            theApp.use(demo);
-
             // web app
             theApp.use('/', express.static(__dirname + '/public'));
             theApp.use('/vendor/css', express.static(__dirname + '/public/vendor/css'));
@@ -69,12 +60,6 @@ App = function() {
 
             // for angular-ui bootstrap control replacements
             theApp.use('/template', express.static(__dirname + '/public/vendor/js/template'));
-
-            // datadog metrics
-            theApp.use(ddMiddleware.ddLog({
-                path: true,
-                method: true
-            }));
 
             // general error handling
             theApp.use(function(err, req, res, next) {

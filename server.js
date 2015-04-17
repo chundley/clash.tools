@@ -36,28 +36,6 @@ logger.setLevel(config.env[process.env.NODE_ENV].logLevel);
 db = mongoCache();
 
 /*
-* Start up back-end cron jobs/tasks
-*/
-
-// forwards email to configured forwarders in each account
-var forwardsJobRunning = false;
-var forwardsJob = new cronJob('*/1 * * * *', function() {
-    try {
-        // only run if it's not already running, and only in production
-        if (!forwardsJobRunning && process.env.NODE_ENV=='production') {
-            logger.info('Started forwards job');
-            forwardsJobRunning = true;
-            forwards.runJob(function() {
-                forwardsJobRunning = false;
-            });
-        }
-    } catch(err) {
-       logger.error(err);
-   }
-});
-forwardsJob.start();
-
-/*
  * The app
 */
 var app = new App();

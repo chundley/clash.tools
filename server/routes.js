@@ -11,17 +11,10 @@ var authCtrl            = require('./controllers/auth-controller'),
     exportCtrl          = require('./controllers/export-controller'),
     accountCtrl         = require('./controllers/account-controller'),
     pwResetCtrl         = require('./controllers/pwreset-controller'),
-    emailDetailCtrl     = require('./controllers/emaildetail-controller'),
-    analyticsCtrl       = require('./controllers/analytics-controller'),
-    dnsCtrl             = require('./controllers/dns-controller'),
-    workflowCtrl        = require('./controllers/workflow-controller'),
-    marketoCtrl         = require('./controllers/marketo-controller'),
-    hubspotCtrl         = require('./controllers/hubspot-controller'),
     mailCtrl            = require('./controllers/mail-controller'),
     errorCtrl           = require('./controllers/error-controller'),
     messagelogCtrl      = require('./controllers/messagelog-controller'),
-    nlpConfigCtrl       = require('./controllers/nlpconfig-controller'),
-    User                = require('./models/user-model'),
+    userModel           = require('./models/user-model'),
     userRoles           = require('../app/shared/role-config').userRoles,
     accessLevels        = require('../app/shared/role-config').accessLevels;
 
@@ -135,30 +128,6 @@ var routes = [
         middleware: [pwResetCtrl.findByToken]
     },
     {
-        path: '/crud/mailstreamcount/:id',
-        httpMethod: 'GET',
-        middleware: [emailDetailCtrl.countByAccountId],
-        accessLevel: accessLevels.user
-    },
-    {
-        path: '/crud/mailstream/:id',
-        httpMethod: 'GET',
-        middleware: [emailDetailCtrl.findByAccountId],
-        accessLevel: accessLevels.user
-    },
-    {
-        path: '/crud/mailstream/:account_id/emaildetail/:email_id',
-        httpMethod: 'GET',
-        middleware: [emailDetailCtrl.findDetailAndRawById],
-        accessLevel: accessLevels.user
-    },
-    {
-        path: '/crud/mailstream/:account_id/hide/:email_id',
-        httpMethod: 'POST',
-        middleware: [emailDetailCtrl.setHidden],
-        accessLevel: accessLevels.user
-    },
-    {
         path: '/crud/messagelog/:account_id',
         httpMethod: 'POST',
         middleware: [messagelogCtrl.save],
@@ -174,96 +143,6 @@ var routes = [
         path: '/crud/messagelog/:user_id/dismiss/:message_id',
         httpMethod: 'POST',
         middleware: [messagelogCtrl.dismiss],
-        accessLevel: accessLevels.user
-    },
-    {
-        path: '/crud/workflow/:accountId',
-        httpMethod: 'GET',
-        middleware: [workflowCtrl.getByAccount],
-        accessLevel: accessLevels.user
-    },
-    {
-        path: '/crud/workflow/:accountId/:workflowId',
-        httpMethod: 'GET',
-        middleware: [workflowCtrl.getById],
-        accessLevel: accessLevels.user
-    },
-    {
-        path: '/crud/workflow/:accountId',
-        httpMethod: 'POST',
-        middleware: [workflowCtrl.saveWorkflow],
-        accessLevel: accessLevels.user
-    },
-    {
-        path: '/analytics/summary/:account_id',
-        httpMethod: 'GET',
-        middleware: [analyticsCtrl.summary],
-        accessLevel: accessLevels.user
-    },
-    {
-        path: '/analytics/emailcountbyday/:account_id',
-        httpMethod: 'GET',
-        middleware: [analyticsCtrl.emailCountByDay],
-        accessLevel: accessLevels.user
-    },
-    {
-        path: '/analytics/emailcountbytype/:account_id',
-        httpMethod: 'GET',
-        middleware: [analyticsCtrl.emailCountByType],
-        accessLevel: accessLevels.user
-    },
-    {
-        path: '/analytics/personcountbytype/:account_id',
-        httpMethod: 'GET',
-        middleware: [analyticsCtrl.personCountByType],
-        accessLevel: accessLevels.user
-    },
-    {
-        path: '/analytics/allpeople/:account_id',
-        httpMethod: 'GET',
-        middleware: [analyticsCtrl.allPeople],
-        accessLevel: accessLevels.user
-    },
-    {
-        path: '/dns/mx/:domain',
-        httpMethod: 'GET',
-        middleware: [dnsCtrl.getMXRecords],
-        accessLevel: accessLevels.user
-    },
-    {
-        path: '/marketo/auth',
-        httpMethod: 'POST',
-        middleware: [marketoCtrl.verifyCredentials],
-        accessLevel: accessLevels.user
-    },
-    {
-        path: '/marketo/lists/:accountId',
-        httpMethod: 'GET',
-        middleware: [marketoCtrl.getLists],
-        accessLevel: accessLevels.user
-    },
-    {
-        path: '/marketo/fields/:accountId',
-        httpMethod: 'GET',
-        middleware: [marketoCtrl.getFields],
-        accessLevel: accessLevels.user
-    },
-    {
-        path: '/hubspot/auth/:accountId',
-        httpMethod: 'GET',
-        middleware: [hubspotCtrl.verifyCredentials],
-        accessLevel: accessLevels.user
-    },
-    {
-        path: '/hubspot/lists/:accountId',
-        httpMethod: 'GET',
-        middleware: [hubspotCtrl.getLists],
-        accessLevel: accessLevels.user
-    },
-    {
-        path: '/hubspot/fields/:accountId',
-        httpMethod: 'GET',
-        middleware: [hubspotCtrl.getFields],
         accessLevel: accessLevels.user
     },
     {
@@ -306,18 +185,6 @@ var routes = [
         httpMethod: 'GET',
         middleware: [accountCtrl.adminAllAccounts]
     },
-    {
-        path: '/crud/admin/nlpconfig',
-        httpMethod: 'GET',
-        middleware: [nlpConfigCtrl.get],
-        accessLevel: accessLevels.sadmin
-    },
-    {
-        path: '/crud/admin/nlpconfig',
-        httpMethod: 'POST',
-        middleware: [nlpConfigCtrl.save],
-        accessLevel: accessLevels.sadmin
-    },
     // AngularJS handles all other routes client-side
     {
         path: '/*',
@@ -330,7 +197,7 @@ var routes = [
                 role = req.user.role;
                 email = req.user.email;
                 id = req.user.id;
-                User.updateLastLogin(id);
+                userModel.updateLastLogin(id);
             }
 
             // temporary cookie to communicate to the client for this session
