@@ -1,0 +1,70 @@
+<div class="top-shell-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-6 col-sm-6 col-md-3 brand">
+                <a href="/home"><img class="logo" src="/img/logo-small.png" alt="Siftrock home" border="0" width="56" height="46"></a>
+                <h2>siftrock</h2>
+            </div>
+            <div class="col-md-6 hidden-sm hidden-xs">
+                <ul class="main-nav">
+                    <li><a href="/home">Dashboard</a></li>
+                    <li><a href="/stream">Incoming</a></li>
+                    <li><a href="/workflow">Workflows</a></li>
+                    <li><a href="/settings">Settings</a></li>
+                    <li><a href="{{helpLink}}" target="_new">Help</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-6">
+                <span class="dropdown user-dropdown pull-right" on-toggle="toggled(open)">
+                    <a href class="dropdown-toggle">
+                        {{userName}}
+                        <i class="icon-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/home">Dashboard</a></li>
+                        <li><a href="/stream">Incoming</a></li>
+                        <li><a href="/workflow">Workflows</a></li>
+                        <li><a href="/settings">Settings</a></li>
+                        <li><a href="{{helpLink}}" target="_new">Help</a></li>
+                        <li class="divider"></li>
+                        <li access-level="sadmin"><a href="/admin">Admin</a></li>
+                        <li><a href="/logout">Logout</a></li>
+                    </ul>
+                </span>
+
+                <span class="dropdown system-messages pull-right" on-toggle="toggled(open)">
+                    <a href class="dropdown-toggle">
+                        <i class="icon-attention"></i>
+                        <span class="label">{{messageCount}}</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="message-header">
+                            <i class="icon-attention"></i> {{messageCount}} Messages
+                        </li>
+                        <li class="message-item" ng-repeat="message in messages">
+                            <div class="row">
+                                <div class="col-sm-4 vert-center-column">
+                                    <strong>@{{message.user_nickname}}</strong><br/>
+                                    <span class="time" am-time-ago="{{message.created_at}}"></span>
+                                </div>
+                                <div class="col-sm-8">
+                                    {{message.message}}:
+                                    <em>{{message.data.new_value}}</em>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="message-item" ng-show="messageCount > 5">
+                            <a href="/messages" class="text-right">See all messages</a>
+                        </li>
+                        <li class="message-item" ng-show="messageCount > 0 && messageCount < 6">
+                            <a href="/messages" class="text-right">Go to messages</a>
+                        </li>
+                    </ul>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="spoof-container" ng-show="isSpoofing">
+    Spoofing
+</div>

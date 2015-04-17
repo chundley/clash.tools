@@ -1,0 +1,32 @@
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="resetForm">
+                <div class="modal-header">
+                    Password reset request
+                </div>
+                <div class="modal-body">
+                    <div class="row margin-bottom-big">
+                        <div class="col-xs-12">
+                            <h5>Submit your email address and a password reset link will be emailed to you.</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            Email Address
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <input type="email" ng-model="modalOptions.emailAddress" class="form-control" required ng-minlength="1"></input>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-tertiary btn-sm" track="Password reset - submit" ng-click="$hide(); modalOptions.onSave(modalOptions.emailAddress);" ng-disabled="resetForm.$invalid">Send</button>
+                    <button class="btn btn-default btn-sm" track="Password reset - cancel" ng-click="$hide(); modalOptions.onCancel();">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,287 @@
+/* overrides to styles go here */
+
+html, body {
+    color: @primary;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+    margin: 0;
+    padding: 0;
+    display: inline;
+    font-weight: 400;
+    color: @primary;
+}
+
+.pagination {
+    margin: 0px;
+}
+
+.pagination-sm > li > a, .pagination-sm > li > span {
+    color: @primary;
+}
+
+/*
+*   From the ui.boostrap documentation:
+*   Original Bootstrap's CSS depends on empty href attributes to style cursors for several components (pagination, tabs etc.). But in
+*   AngularJS adding empty href attributes to link tags will cause unwanted route changes. This is why we need to remove empty href
+*   attributes from directive templates and as a result styling is not applied correctly. The remedy is simple, just add the following
+*    styling to your application:
+*/
+.nav, .pagination, .carousel a { cursor: pointer; }
+
+
+/*
+*   Handles button group icon tab controls
+*/
+.btn-group-sm>.btn {
+    padding: 1px 2px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+
+.btn, .btn-sm, .btn-xs {
+    border-radius: 0px;
+}
+
+.label {
+    font-weight: normal;
+}
+
+.dropdown-menu {
+    &.left {
+        left: -112px;
+    }
+
+    li {
+        text-align: left;
+        font-size: 11px;
+
+        i {
+            color: @primary-30;
+            vertical-align: middle;
+            font-size: 14px;
+        }
+
+        a {
+            color: @primary;
+        }
+    }
+}
+
+
+label {
+    font-weight: normal;
+    color: @primary;
+}
+
+
+.form-control {
+    .form-control-focus(@emphasis);
+    border-radius: 0px;
+}
+
+.form-control-small {
+    display: block;
+    width: 100%;
+    height: 22px;
+    padding: 1px 4px;
+    font-size: 12px;
+    line-height: 11px;
+    color: @input-color;
+    vertical-align: middle;
+    background-color: @input-bg;
+    background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
+    border: 1px solid @input-border;
+    border-radius: 0px;
+    .box-shadow(inset 0 1px 1px rgba(0,0,0,.075));
+    .transition(~"border-color ease-in-out .15s, box-shadow ease-in-out .15s");
+
+    // Customize the `:focus` state to imitate native WebKit styles.
+    .form-control-focus(@emphasis);
+
+    // Disabled and read-only inputs
+    // Note: HTML5 says that controls under a fieldset > legend:first-child won't
+    // be disabled if the fieldset is disabled. Due to implementation difficulty,
+    // we don't honor that edge case; we style them as disabled anyway.
+    &[disabled],
+    &[readonly],
+    fieldset[disabled] & {
+      cursor: not-allowed;
+      background-color: @input-bg-disabled;
+    }
+
+    // Reset height for `textarea`s
+    textarea& {
+      height: auto;
+    }
+}
+
+.form-control-small-inline {
+    display: inline-block;
+    height: 20px;
+    padding: 1px 2px 2px 2px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 11px;
+    //color: @alternate;
+    vertical-align: middle;
+    background-color: @primary-50;
+    background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
+    border: 0;
+    border-radius: 0;
+
+    &:hover, &:focus, {
+        border: 1px dotted @primary-30;
+    }
+}
+
+.form-control-medium {
+    display: block;
+    width: 100%;
+    height: 28px;
+    padding: 2px 4px;
+    font-size: 12px;
+    line-height: 11px;
+    color: @input-color;
+    vertical-align: middle;
+    background-color: @input-bg;
+    background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
+    border: 1px solid @input-border;
+    border-radius: 0;
+    .box-shadow(inset 0 1px 1px rgba(0,0,0,.075));
+    .transition(~"border-color ease-in-out .15s, box-shadow ease-in-out .15s");
+
+    // Customize the `:focus` state to imitate native WebKit styles.
+    .form-control-focus(@emphasis);
+
+    // Disabled and read-only inputs
+    // Note: HTML5 says that controls under a fieldset > legend:first-child won't
+    // be disabled if the fieldset is disabled. Due to implementation difficulty,
+    // we don't honor that edge case; we style them as disabled anyway.
+    &[disabled],
+    &[readonly],
+    fieldset[disabled] & {
+      cursor: not-allowed;
+      background-color: @input-bg-disabled;
+    }
+
+    // Reset height for `textarea`s
+    textarea& {
+      height: auto;
+    }
+}
+
+.form-horizontal .control-label {
+    padding-right: 16px;
+}
+
+.modal-dialog {
+    padding: 4px;
+}
+
+.modal-content {
+    border: none;
+    border-radius: 0px;
+}
+
+.modal-header {
+    padding: 8px 12px;
+    font-size: 16px;
+    color: @primary-50;
+    border-bottom: 1px solid @primary-dark;
+
+    background-color: @primary-30;
+
+    background-image: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        color-stop(0, @primary),
+        color-stop(1, @primary-dark)
+    );
+    background-image: -o-linear-gradient(bottom, @primary 0%, @primary-dark 100%);
+    background-image: -moz-linear-gradient(bottom, @primary 0%, @primary-dark 100%);
+    background-image: -webkit-linear-gradient(bottom, @primary 0%, @primary-dark 100%);
+    background-image: -ms-linear-gradient(bottom, @primary 0%, @primary-dark 100%);
+    background-image: linear-gradient(to bottom, @primary 0%, @primary-dark 100%);
+
+}
+
+.modal-body {
+    padding: 12px 12px 6px 12px;
+}
+
+.modal-footer {
+    margin-top: 0px;
+    border-top: none;
+    padding: 8px 12px;
+}
+
+.popover {
+    color: @primary-dark;
+    border-color: @primary;
+
+    padding: 0px;
+
+    &.edit-staff-team {
+        width: 300px;
+        max-width: 300px;
+    }
+
+    &.edit-staff {
+        width: 400px;
+        max-width: 400px;
+    }
+
+    &.signup-or-login {
+        width: 320px;
+        max-width: 320px;
+    }
+}
+
+.popover-content {
+    font-size: 11px;
+    padding: 4px 8px;
+}
+
+.popover-title {
+    font-size: 13px;
+    background-color: @primary;
+    color: @primary-50;
+    padding: 4px 7px;
+}
+
+.tooltip.in {
+    opacity: 1;
+    filter: alpha(opacity=100);
+}
+
+.tooltip-inner {
+    max-width: 300px;
+    padding: 4px 8px 8px 8px;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    background-color: @primary-dark;
+    border-radius: 4px;
+}
+
+.tooltip.top .tooltip-arrow {
+    border-top-color: @primary-dark;
+}
+
+// the following two styles get rid of the annoying scrollbar/space created by modals
+.modal {
+    overflow-y: hidden;
+}
+
+body.modal-open, .modal-open .navbar-fixed-top, .modal-open .navbar-fixed-bottom {
+     margin-right: 0px;
+}
+
+.panel, .panel-heading {
+    border-radius: 0px;
+}

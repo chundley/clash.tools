@@ -1,0 +1,10 @@
+*.log*
+
+/app/public/css
+/app/public/js/resource.min.js
+/app/public/js/resource.js
+.build
+.dist
+
+node_modules
+.DS_Store

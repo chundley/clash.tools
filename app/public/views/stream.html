@@ -1,0 +1,157 @@
+<div top-nav></div>
+
+<div class="body-container">
+    <div class="container">
+        <div class="row margin-bottom-big">
+            <div class="col-xs-12 col-sm-6">
+                <h4>Incoming reply stream</h4>
+            </div>
+            <div class="col-sm-6 hidden-xs">
+                <div class="pull-right small">
+                Records per page
+                <div class="btn-group per-page-control">
+                    <button type="button" class="btn btn-sm btn-default" ng-class="{'btn-primary-light': userSession.stream_per_page==5}" ng-click="setPerPage(5)">5</button>
+                    <button type="button" class="btn btn-sm btn-default" ng-class="{'btn-primary-light': userSession.stream_per_page==10}" ng-click="setPerPage(10)">10</button>
+                    <button type="button" class="btn btn-sm btn-default" ng-class="{'btn-primary-light': userSession.stream_per_page==20}" ng-click="setPerPage(20)">20</button>
+                </div>
+                </div>
+            </div>
+        </div>
+        <!-- begin filter section -->
+        <div class="row stream-filter-container hidden-xs">
+            <div class="col-sm-12">
+                <div class="filter-body">
+                    <div class="row">
+                        <div class="col-sm-3 filter-label">
+                            Replies from last
+                        </div>
+                        <div class="col-sm-2 filter-label">
+                            Type
+                        </div>
+                        <div class="col-sm-3 filter-label">
+                            Recipient
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <a href class="day-link" ng-repeat="day in filterSet.days" ng-click="filterDay(day.num)" ng-class="day.active">{{day.display}}</a>
+                        </div>
+                        <div class="col-sm-2">
+                            <span class="dropdown type-dropdown" on-toggle="toggled(open)">
+                                <a href class="dropdown-toggle">
+                                    {{filterSet.displayType}}
+                                    <i class="icon-angle-down"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li ng-repeat="type in types"><a href ng-click="filterType(type.type)">{{type.displayCaps}}</a></li>
+                                </ul>
+                            </span>
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control-small" ng-model="userSession.stream_filters.recipient" ng-change="filterRecipient()">
+                        </div>
+                        <div class="col-sm-4 text-right">
+                            <a class="btn btn-primary-light btn-xs" ng-click="refresh()">Refresh</a>
+                            <a class="btn btn-primary-light btn-xs" ng-click="exportNames()" ng-disabled="nullState">Download to CSV</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end filter section -->
+
+        <div class="row" ng-hide="nullState">
+            <div class="col-sm-12">
+                <div class="widget">
+                    <!-- <div class="widget-header">Incoming reply stream</div> -->
+                    <div class="widget-body">
+                        <div class="row stream-header">
+                            <div class="col-xs-5 col-sm-3">
+                                Recipient
+                            </div>
+                            <div class="col-xs-3 col-sm-5">
+                                Subject
+                            </div>
+                            <div class="col-sm-1 hidden-xs">
+                                Received
+                            </div>
+                            <div class="col-xs-2 col-sm-1 text-center">
+                                Type
+                            </div>
+                            <div class="col-sm-1 hidden-xs text-center">
+                                Names
+                            </div>
+                            <div class="col-xs-2 col-sm-1 text-right">
+
+                            </div>
+                        </div>
+                        <div class="row row-underline-1"></div>
+                        <div ng-repeat="email in emails">
+                            <div class="row stream-item">
+                                <div class="col-xs-5 col-sm-3">
+                                <span class="stream-name">{{email.from_name}}</span><br/>
+                                {{email.domain}}
+                                </div>
+                                <div class="col-xs-3 col-sm-5">
+                                {{email.subject}}
+                                </div>
+                                <div class="col-sm-1 hidden-xs vert-center-column small">
+                                    <span am-time-ago="{{email.date}}"></span>
+                                </div>
+                                <div class="col-xs-2 col-sm-1 vert-center-column text-center">
+                                    <span class="label label-{{email.type}}">{{types[email.type].displaySmall}}</span>
+                                </div>
+                                <div class="col-sm-1 hidden-xs vert-center-column text-center">
+                                    {{email.new_name_count}}
+                                </div>
+                                <div class="col-xs-2 col-sm-1 vert-center-column text-center">
+                                    <a href="/stream/{{email._id}}" title="Email detail"><i class="icon-zoom-in"></i></a>
+                                    <a href ng-click="hideEmail(email._id)" title="Hide this email"><i class="icon-eye-off-1"></i></a>
+                                </div>
+                            </div>
+                            <div class="row row-underline-1"></div>
+                        </div>
+                        <div class="row pagination-row" ng-hide="nullState">
+                            <div class="col-sm-3 record-count">
+                                Replies {{(userSession.stream_filters.page-1)*userSession.stream_per_page + 1}} to {{(userSession.stream_filters.page-1)*userSession.stream_per_page + emails.length}} of {{totalEmails | number:0}}
+                            </div>
+                            <div class="col-sm-9">
+                                <ul class="pagination pagination-sm pull-right">
+                                    <li ng-show="userSession.stream_filters.page<numPages"><a href ng-click="changePage(userSession.stream_filters.page+1)">>></a></li>
+                                    <li ng-show="userSession.stream_filters.page==numPages" class="disabled"><a href>>></a></li>
+                                </ul>
+                                <ul class="pagination pagination-sm margin-right-medium pull-right" ng-show="numPages>7">
+                                    <li ng-show="userSession.stream_filters.page<numPages"><a href ng-click="changePage(numPages)">Last</a></li>
+                                    <li ng-show="userSession.stream_filters.page==numPages" class="disabled"><a href>Last</a></li>
+                                </ul>
+                                <ul class="pagination pagination-sm margin-right-medium pull-right">
+                                    <li ng-repeat="page in pages" ng-class="{active: page == userSession.stream_filters.page}"><a href ng-click="changePage(page)">{{page}}</a></li>
+                                </ul>
+                                <ul class="pagination pagination-sm margin-right-medium pull-right" ng-show="numPages>7">
+                                    <li ng-show="userSession.stream_filters.page>1"><a href ng-click="changePage(1)">First</a></li>
+                                    <li ng-show="userSession.stream_filters.page==1" class="disabled"><a href>First</a></li>
+                                </ul>
+                                <ul class="pagination pagination-sm margin-right-medium pull-right">
+                                    <li ng-show="userSession.stream_filters.page>1"><a href ng-click="changePage(userSession.stream_filters.page-1)"><<</a></li>
+                                    <li ng-show="userSession.stream_filters.page==1" class="disabled"><a href><<</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- widget -->
+            </div>
+        </div> <!-- widget row -->
+
+        <div class="row" ng-show="nullState">
+            <div class="col-sm-12">
+                <div class="widget">
+                    <div class="widget-body">
+                        <h5><strong>No emails found matching your criteria</strong></h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div footer></div>

@@ -1,0 +1,16 @@
+Siftrock - Forwarded email
+
+Type: [type]
+
+Recipient
+----------------------------
+[recipient-name]
+[recipient-email]
+
+View in Siftrock: https://app.siftrock.com/stream/[id]
+
+------------------------------------------------------------------------
+[original-email]
+------------------------------------------------------------------------
+
+

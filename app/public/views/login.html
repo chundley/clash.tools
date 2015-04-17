@@ -1,0 +1,60 @@
+<div class="lr-header text-center">
+    <img src="/img/logo-medium.png" class="logo">
+    <h1>siftrock</h1>
+</div>
+
+<form name="loginForm" ng-submit="login()" novalidate>
+<div class="lr-login">
+
+    <div class="left-side text-center">
+        <h5>Get more value out of your email marketing campaigns</h5><br/><br/><br/>
+        <h4>Nearly 5% of all recipients are out of the office or have moved to a new job</h4><br/><br/><br/>
+        <h4>More than 90% of automated responses contain valuable detail including new leads</h4>
+    </div>
+    <div class="hr-vertical">
+        <div class="inner">
+            &nbsp;
+        </div>
+    </div>
+    <div class="right-side" ng-show="!reset">
+        <div class="margin-bottom-huge">
+            <h2>Login</h2>
+        </div>
+        <div class="form-group">
+            <label for="emailAddress" class="control-label">Email Address</label>
+            <input type="email" name="emailAddress" ng-model="emailAddress" class="form-control req-field" placeholder="Email" required ng-minlength="1">
+        </div>
+        <div class="form-group">
+            <label for="password" class="control-label">Password</label> <span class="pull-right"><a href="#" ng-click="pwReset()" tabindex="-1">I forgot</a></span>
+            <input type="password" name="password" ng-model="password" class="form-control req-field" placeholder="Password" required ng-minlength="4" ng-maxlength="50">
+        </div>
+        <div class="form-group" ng-show="hasError">
+            <strong>Invalid email/password combination.</strong>
+        </div>
+        <div class="form-group">
+            <div class="pull-left">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="rememberMe"> Stay logged in
+                    </label>
+                </div>
+            </div>
+            <div class="pull-right">
+                <button name="logIn" track="Login page - submit" type="submit" ng-disabled="loginForm.$invalid" class="btn btn-primary">Log in</button>
+            </div>
+        </div>
+    </div>
+    <div class="right-side" ng-show="reset">
+        <div class="margin-bottom-huge">
+            <h2>Password reset request</h2>
+        </div>
+        <div class="margin-bottom-huge">
+            <h4>A password reset link has been emailed to you, please follow the instructions when you receive it.</h4>
+        </div>
+    </div>
+</div>
+</form>
+<div class="lr-footer text-right">
+    Need an account? <a href="/register">Sign up for free trial</a>
+</div>
+

@@ -1,0 +1,917 @@
+/*
+*   Page-specific styles
+*/
+
+
+
+/*
+* Dashboard styles
+*/
+.summary-widget-big {
+    background-color: #fff;
+    border: 1px solid @primary-50;
+    padding: 18px;
+    i {
+        font-size: 48px;
+        color: #fff;
+        border-radius: 50%;
+        padding: 4px;
+    }
+
+    .metric {
+        font-size: 36px;
+    }
+}
+
+.summary-widget-small {
+    background-color: #fff;
+    border: 1px solid @primary-50;
+    padding: 9px;
+    font-size: 11px;
+
+    i {
+        font-size: 28px;
+        color: #fff;
+        border-radius: 50%;
+        padding: 2px;
+    }
+
+    .metric {
+        font-size: 20px;
+        font-weight: 600;
+    }
+}
+
+.dashboard-filter-container {
+    .filter-label {
+        font-weight: 600;
+        font-size: 13px;
+        margin-right: 16px;
+    }
+
+    .day-link {
+        margin-right: 16px;
+        font-size: 12px;
+        color: @primary;
+
+        &:hover {
+            text-decoration: none;
+            color: @emphasis;
+            //font-weight: 600;
+        }
+    }
+
+    .day-link-active {
+        color: @emphasis;
+        font-size: 14px;
+        font-weight: 600;
+    }
+}
+
+/*
+*   Register and Login page styles
+*/
+.lr-header {
+    margin-top: 40px;
+    margin-bottom: 40px;
+
+    .logo {
+        padding-right: 16px;
+        margin-top: -10px;
+    }
+
+    h1 {
+        font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+}
+
+.lr-register {
+    margin-left: auto;
+    margin-right: auto;
+    width: 800px;
+    border-top: 8px solid @primary-30;
+    outline: 1px solid @primary-50;
+    background-color: #f5f5f5;
+    display: table;
+
+    .left-side {
+        width: 450px;
+        padding: 30px 40px 30px 40px;
+        //margin: 10px 0px 10px 0px;
+        display: table-cell;
+        //border-right: 1px solid @primary-30;
+        h2 {
+            font-size: 26px;
+            line-height: 40px;
+        }
+
+        h4 {
+            font-size: 17px;
+        }
+    }
+
+    .right-side {
+        display: table-cell;
+        padding: 0px 40px 0px 40px;
+        h4 {
+            color: @primary-10;
+            font-style: italic;
+            font-size: 18px;
+        }
+    }
+}
+
+.lr-login {
+    margin-left: auto;
+    margin-right: auto;
+    width: 800px;
+    border-top: 8px solid @primary-30;
+    outline: 1px solid @primary-50;
+    background-color: #f5f5f5;
+    display: table;
+
+    .left-side {
+        display: table-cell;
+        padding: 0px 40px 0px 40px;
+        h4 {
+            color: @primary-10;
+            font-style: italic;
+            font-size: 18px;
+        }
+    }
+
+    .right-side {
+        width: 450px;
+        padding: 30px 40px 30px 40px;
+        display: table-cell;
+        h2 {
+            font-size: 26px;
+            line-height: 40px;
+        }
+
+        h4 {
+            font-size: 17px;
+        }
+
+        button {
+            width: 160px;
+        }
+    }
+}
+
+.hr-vertical {
+    display: table-cell;
+    .inner {
+        width: 1px;
+        height: 320px;
+        border-left: 1px solid @primary-50;
+    }
+}
+
+.lr-footer {
+    margin-left: auto;
+    margin-right: auto;
+    width: 800px;
+    padding-top: 10px;
+    color: @primary;
+}
+
+/*
+*   Inbound email stream styles
+*/
+
+.per-page-control {
+    margin-left: 4px;
+
+    .btn {
+        font-size: 11px;
+    }
+}
+
+.stream-filter-container {
+
+    .filter-body {
+        background-color: darken(@content-container, 3%);
+        border-top: 1px solid @primary-50;
+        border-left: 1px solid @primary-50;
+        border-right: 1px solid @primary-50;
+        padding: 10px 10px 10px 10px;
+    }
+
+    .filter-label {
+        font-weight: 600;
+        font-size: 13px;
+        margin-bottom: 6px;
+    }
+
+    .day-link {
+        margin-right: 16px;
+        font-size: 12px;
+        color: @primary;
+
+        &:hover {
+            text-decoration: none;
+            font-weight: 600;
+        }
+    }
+
+    .day-link-active {
+        color: @emphasis;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .type-dropdown {
+        border: 1px solid @primary-40;
+        background-color: #fff;
+        padding: 1px 6px 1px 6px;
+        font-size: 12px;
+        a {
+            color: @primary;
+            text-decoration: none;
+        }
+    }
+}
+
+.stream-filter-container.ng-hide-add,
+.stream-filter-container.ng-hide-remove {
+    display:block!important;
+}
+
+.stream-filter-container.ng-hide {
+    height: 0px;
+}
+
+.stream-header {
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 600;
+    color: @primary;
+    margin-bottom: 4px;
+}
+
+.stream-item {
+    font-size: 12px;
+    padding: 8px 0px 8px 0px;
+
+    .stream-name {
+        color: @primary-dark;
+        font-size: 16px;
+    }
+
+    a {
+        color: @primary-10;
+        &:hover,
+        &:focus {
+            text-decoration: none;
+            color: @primary-20;
+        }
+
+        i {
+            font-size: 14px;
+        }
+    }
+
+    .vert-center-column {
+        min-height: 39px;
+        padding-top: 10px;
+    }
+
+    .label {
+        font-size: 11px;
+    }
+
+    &:last-child {
+        border: 0px;
+    }
+}
+
+.detail-item {
+    padding: 6px 0px 6px 0px;
+    .title {
+        font-weight: 600;
+    }
+
+    .label {
+        font-size: 14px;
+    }
+}
+
+.detail-person {
+    font-size: 12px;
+    border-bottom: 1px solid @primary-50;
+    padding: 6px 0px 6px 0px;
+}
+
+.pagination-row {
+    margin: 12px 0px 8px 0px;
+}
+
+.record-count {
+    color: @primary-20;
+    font-style: italic;
+    padding-top: 6px;
+}
+
+/*
+*   Custom labels for incoming stream
+*/
+.label-unknown {
+  .label-variant(@primary-30);
+}
+
+.label-system {
+  .label-variant(@primary);
+}
+
+.label-vacation {
+  .label-variant(@vis-1);
+}
+
+.label-left {
+  .label-variant(@vis-4);
+}
+
+.label-changed {
+  .label-variant(@vis-3);
+}
+
+.label-general {
+  .label-variant(@vis-2);
+}
+
+.label-spamshield {
+  .label-variant(@vis-5);
+}
+
+.label-bounce {
+  .label-variant(@vis-6);
+}
+
+.label-human {
+  .label-variant(@vis-7);
+}
+
+/*
+*   Custom labels for admin term badges
+*/
+
+.badge-weight-6 {
+    background-color: @vis-5;
+}
+
+.badge-weight-3 {
+    background-color: @vis-6;
+}
+
+.badge-weight-2 {
+    background-color: @vis-3;
+}
+
+.badge-weight-1 {
+    background-color: @vis-4;
+}
+/*
+*   Styles for email detail view
+*/
+.confidence-high {
+    color: #699400;
+}
+
+.confidence-med {
+    color: #EB7D2F;
+}
+
+.confidence-low {
+    color: #BF0F20;
+}
+
+.original-subject {
+    border-bottom: 1px solid @primary-50;
+    margin-bottom: 10px;
+    padding-bottom: 4px;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.original-email {
+    font-size: 10px;
+    overflow-x: scroll;
+}
+
+.contact-card {
+    border: 1px solid @primary-50;
+    margin-bottom: 20px;
+
+    .contact-card-topper {
+        min-height: 4px;
+    }
+
+    .confidence-6, .confidence-5 {
+        background-color: @vis-2;
+    }
+
+    .confidence-4, .confidence-3 {
+        background-color: @vis-3;
+    }
+
+    .confidence-2, .confidence-1 {
+        background-color: @vis-5;
+    }
+
+    .contact-card-body {
+        padding: 8px;
+
+        .bigger {
+            font-size: 16px;
+        }
+
+        .smaller {
+            font-size: 11px;
+        }
+
+        i {
+            color: @primary-dark;
+        }
+
+        i.null {
+            color: @primary-30;
+        }
+    }
+}
+
+/*
+*   Styles for the workflow list view
+*/
+
+.workflow-padded-container {
+    font-size: 13px;
+    background-color: #fff;
+    border: 1px solid @primary-50;
+    padding: 30px 40px;
+    margin-bottom: 20px;
+
+    h4 {
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    h5 {
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    a {
+        i.close-button {
+            position: relative;
+            top: -18px;
+            right: -28px;
+            font-size: 16px;
+            color: @primary-20;
+            border: 1px solid @primary-40;
+
+        }
+    }
+
+    .wf-action-panel {
+        width: 93px;
+        height: 93px;
+        border: 1px solid @primary-40;
+        padding: 14px 0px;
+        margin-right: 10px;
+        font-size: 11px;
+        float: left;
+        p {
+            line-height: 60px;
+        }
+
+        &:hover,
+        &:focus {
+            border: 1px solid @emphasis;
+            cursor: pointer;
+            color: @emphasis;
+        }
+    }
+
+    .wf-action-panel-disabled {
+        width: 93px;
+        height: 93px;
+        border: 1px solid @primary-50;
+        padding: 14px 0px;
+        margin-right: 10px;
+        font-size: 11px;
+        color: @primary-40;
+        float: left;
+        p {
+            line-height: 60px;
+        }
+    }
+
+    .wf-list {
+        font-size: 12px;
+
+        .wf-list-header {
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .wf-list-item-true {
+            border: 1px solid @primary-40;
+            padding: 25px 0px;
+            margin-bottom: 10px;
+
+            .wf-badge {
+                display: inline-block;
+                min-width: 120px;
+                padding: 6px 10px;
+                color: #fff;
+                text-transform: capitalize;
+            }
+
+            .wf-badge-changed {
+                background-color: @vis-3;
+            }
+
+            .wf-badge-left {
+                background-color: @vis-4;
+            }
+
+            .wf-badge-unknown {
+                background-color: @primary-30;
+            }
+
+            .wf-badge-system {
+                background-color: @primary;
+            }
+
+            .wf-badge-vacation {
+                background-color: @vis-1;
+            }
+
+            .wf-badge-general {
+                background-color: @vis-2;
+            }
+
+            .wf-badge-spamshield {
+                background-color: @vis-5;
+            }
+
+            .wf-badge-bounce {
+                background-color: @vis-6;
+            }
+
+            .wf-badge-human {
+                background-color: @vis-7;
+            }
+
+            a {
+                i {
+                    font-size: 18px;
+                    color: @primary-20;
+                    border: 1px solid @primary-40;
+                }
+            }
+
+            i.status {
+                font-size: 28px;
+            }
+        }
+
+        .wf-list-item-false {
+            border: 1px solid @primary-50;
+            padding: 25px 0px;
+            margin-bottom: 10px;
+            color: @primary-30;
+
+            .wf-badge {
+                display: inline-block;
+                min-width: 120px;
+                padding: 6px 10px;
+                color: #fff;
+                text-transform: capitalize;
+            }
+
+            .wf-badge-changed {
+                background-color: desaturate(lighten(@vis-3, 20%), 10%);
+            }
+
+            .wf-badge-left {
+                background-color: desaturate(lighten(@vis-4, 30%), 20%);
+            }
+
+            .wf-badge-unknown {
+                background-color: desaturate(lighten(@primary-30, 10%), 10%);
+            }
+
+            .wf-badge-system {
+                background-color: desaturate(lighten(@primary, 30%), 20%);
+            }
+
+            .wf-badge-vacation {
+                background-color: desaturate(lighten(@vis-1, 20%), 20%);
+            }
+
+            .wf-badge-general {
+                background-color: desaturate(lighten(@vis-2, 20%), 20%);
+            }
+
+            .wf-badge-spamshield {
+                background-color: desaturate(lighten(@vis-5, 20%), 10%);
+            }
+
+            .wf-badge-bounce {
+                background-color:desaturate(lighten(@vis-6, 20%), 10%);
+            }
+
+            .wf-badge-human {
+                background-color: desaturate(lighten(@vis-7, 20%), 10%);
+            }
+            a {
+                i {
+                    font-size: 18px;
+                    color: @primary-20;
+                    border: 1px solid @primary-40;
+                }
+            }
+        }
+
+        .wf-vert-center {
+            padding-top: 6px;
+        }
+
+    }
+}
+
+.wf-status-key {
+    font-size: 13px;
+
+    i {
+        margin-left: 30px;
+        font-size: 18px;
+    }
+}
+
+.workflow-list {
+    font-size: 12px;
+
+    .workflow-row {
+        padding: 6px 0px 6px 0px;
+        .title {
+            font-weight: 600;
+        }
+
+        .label {
+            font-size: 11px;
+        }
+
+        a.alt {
+            color: @vis-1;
+            &:hover,
+            &:focus {
+                text-decoration: none;
+                color: @primary-20;
+            }
+
+            i {
+                font-size: 14px;
+            }
+        }
+
+        a {
+            font-size: 14px;
+        }
+    }
+}
+
+/*
+*   Styles for the workflow detail view
+*/
+
+.workflow-page-container {
+
+    .widget-body {
+        min-height: 600px;
+    }
+
+    .workflow-step-divider {
+        border-bottom: 2px dashed @primary-50;
+        margin: 40px 30px;
+    }
+}
+
+.workflow-container {
+    margin: 10px 10px 10px 10px;
+
+    .wc-header {
+        //background-color: @primary-50;
+        font-size: 16px;
+        margin-bottom: 12px;
+        font-weight: 500;
+
+        img {
+            margin-right: 10px;
+        }
+    }
+
+    .step-detail {
+        padding: 8px 10px 14px 10px;
+        .help-text {
+            color: @primary-10;
+            font-size: 12px;
+            padding: 4px 8px 0px 8px;
+            border: 1px solid @primary-50;
+
+            p {
+                margin-bottom: 6px;
+            }
+        }
+
+        .radio-inline {
+            margin-right: 40px;
+        }
+    }
+
+    .dropdown {
+        button {
+            text-align: left;
+            font-size: 12px;
+            i {
+               float: right;
+            }
+        }
+    }
+
+    .dropdown-menu {
+        a {
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .dropdown-header {
+            font-size: 15px;
+            padding-left: 12px;
+        }
+    }
+
+    .half {
+        width: 90%;
+    }
+
+    .full {
+        width: 100%;
+    }
+
+    .form-control-inline {
+        height: 31px;
+        font-size: 12px;
+    }
+
+    .ng-invalid {
+        color: @error-red;
+        background-color: lighten(@error-red, 40%);
+        border: 1px solid @error-red;
+    }
+
+    a i {
+        color: @primary;
+    }
+}
+
+
+/*
+*   Styles for settings view
+*/
+.detail-row {
+    margin-bottom: 4px;
+}
+
+.reply-to-address {
+    border: 1px solid @primary-40;
+    font-weight: 600;
+    padding: 6px 12px;
+    margin-top: 4px;
+    width: 100%;
+}
+
+.verified {
+    color: @vis-2;
+    font-weight: 600;
+}
+
+.reply-to-unverified {
+    background-color: lighten(@error-red, 5%);
+    border: 1px solid @error-red;
+    color: #fff;
+    padding: 6px 6px 6px 6px;
+    margin-bottom: 10px;
+}
+
+.test-button {
+    margin-left: 20px;
+}
+
+.testing-wait {
+    color: @alternate;
+    font-size: 16px;
+}
+
+.integration-container {
+    border: 1px solid @primary-50;
+    background-color: #fff;
+    padding: 10px 20px;
+
+    .partner-row {
+        padding: 10px 0px;
+    }
+
+    .config-small {
+        font-size: 12px;
+    }
+}
+
+/*
+*   Styles for forms used on the www site
+*/
+
+.form_darkgray {
+    color: #fff;
+}
+
+
+/*
+*   Styles for specialty pages like email verify
+*/
+
+.brand-header {
+    margin-bottom: 20px;
+ }
+
+/*
+*   Styles for alpha signup (should be temporary)
+*/
+.top-line {
+    width: 100%;
+    min-height: 6px;
+    background-color: @emphasis;
+}
+
+.signup-masthead-container {
+    background-color: #f0f4f8;
+    padding: 30px 0px 30px 0px;
+    border-bottom: 1px solid @primary-40;
+
+    h1 {
+        color: @emphasis;
+        font-size: 42px;
+        line-height: 1.5em;
+        font-weight: 500;
+        margin-bottom: 10px;
+        font-family: 'Raleway', 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+}
+
+.signup-form-container {
+    border-bottom: 1px solid @primary-40;
+    padding: 20px 0px 20px 0px;
+}
+
+.signup-footer-container {
+    border-bottom: 1px solid @primary-40;
+    background-color: #f0f4f8;
+    padding: 20px 0px 20px 0px;
+}
+
+/*
+*   Siftrock form handler outputs a message, this defines the container
+*/
+.form-submitted-message {
+    border: 1px solid @primary-50;
+    background-color: @primary-60;
+    padding: 4px 10px;
+    color: @primary-10;
+}
+
+/*
+ * Styles for the application (funded.io below this line)
+ *
+*/
+
+textarea:focus, input:focus{
+    outline: 0;
+}
+
+.white {
+    color: #fff;
+}
+
+.dotted-link {
+    border-bottom: 1px dotted @link-color;
+    &:hover {
+        text-decoration: none;
+        border-bottom: 1px dotted darken(@link-color, 10%);
+    }
+}
+
+.twitter-blue {
+    color: #4099ff;
+}

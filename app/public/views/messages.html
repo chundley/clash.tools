@@ -1,0 +1,65 @@
+<div top-nav></div>
+
+<div class="body-container">
+    <div class="container">
+        <div class="row margin-bottom-big">
+            <div class="col-sm-6">
+                <h4>Account Messages</h4>
+            </div>
+            <div class="col-sm-6">
+            </div>
+        </div>
+        <div class="row" ng-hide="nullState">
+            <div class="col-sm-12">
+                <div class="widget">
+                    <div class="widget-body">
+                        <div class="row stream-header">
+                            <div class="col-sm-2">
+                                Date
+                            </div>
+                            <div class="col-sm-2">
+                                User
+                            </div>
+                            <div class="col-sm-7">
+                                Message
+                            </div>
+                            <div class="col-sm-1 text-right">
+                                <button class="btn btn-alternate btn-xs" ng-click="dismissAll(allMessages)" ng-show="allMessages.length>0">Dismiss All</button>
+                            </div>
+                        </div>
+                        <div class="row row-underline-1"></div>
+                        <div ng-repeat="message in allMessages">
+                            <div class="row stream-item">
+                                <div class="col-sm-2">
+                                    <span am-time-ago="{{message.created_at}}"></span>
+                                </div>
+                                <div class="col-sm-2">
+                                    {{message.user_nickname}}
+                                </div>
+                                <div class="col-sm-7">
+                                    {{message.message}}: <em>{{message.data.new_value}}</em>
+                                </div>
+                                <div class="col-sm-1 text-right">
+                                    <button class="btn btn-primary btn-xxs" ng-click="dismiss(message._id)">Dismiss</button>
+                                </div>
+                            </div>
+                            <div class="row row-underline-1"></div>
+                        </div>
+                    </div>
+                </div> <!-- widget -->
+            </div>
+        </div> <!-- widget row -->
+
+        <div class="row" ng-show="nullState">
+            <div class="col-sm-12">
+                <div class="widget">
+                    <div class="widget-body">
+                        <h5><strong>No messages</strong></h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div footer></div>

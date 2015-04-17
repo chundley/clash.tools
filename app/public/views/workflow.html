@@ -1,0 +1,168 @@
+<div top-nav></div>
+
+<div class="body-container">
+    <div class="container">
+        <div class="workflow-padded-container" ng-if="workflowOverview">
+            <div class="row margin-bottom-big">
+                <div class="col-sm-10">
+                    <h4>Getting started with Workflows</h4>
+                </div>
+                <div class="col-sm-2 text-right">
+                    <a href ng-click="closeHelper()"><i class="icon-cancel close-button"></i></a>
+                </div>
+            </div>
+            <div class="row margin-bottom-huge">
+                <div class="col-sm-12">
+                    Workflows let you automate common tasks such as sending new leads to your marketing automation platform of choice.
+                </div>
+            </div>
+            <div class="row margin-bottom-huge">
+                <div class="col-sm-5">
+                    <p><h5>Integration</h5></p>
+                    Integration workflows allow you to take specific actions based on the type of email processed by Siftrock. For example, a common integration workflow is to update lead detail records when an auto response indicates the original recipient's email address has changed.
+                </div>
+                <div class="col-sm-5 col-sm-offset-1">
+                    <p><h5>Alerts</h5> (coming soon)</p>
+                    Alert workflows allow you to configure notifications from the system when an email is processed by Siftrock. For example, your account is configured by default with a workflow that automatically forwards you any human responses processed by the system.
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <a href="http://www.siftrock.com/help/" target="_blank" class="btn btn-emphasis">Workflow Help</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="workflow-padded-container">
+            <div class="row margin-bottom-big">
+                <div class="col-sm-12">
+                    <h4>Create a new Workflow</h4>
+                </div>
+            </div>
+            <div class="row margin-bottom-gigantic">
+                <div class="col-sm-12 text-center">
+                    <div class="wf-action-panel" ng-if="account.integration.hubspot" ng-click="newWorkflow('hubspot')" track="Workflow overview - new Hubspot">
+                        <img src="/img/workflow-hubspot-true.png">
+                        <p>Add New</p>
+                    </div>
+                    <div class="wf-action-panel" ng-if="!account.integration.hubspot" ng-click="config('hubspot')" track="Workflow overview - configure Hubspot">
+                        <img src="/img/workflow-hubspot-true.png">
+                        <p>Configure</p>
+                    </div>
+                    <div class="wf-action-panel" ng-if="account.integration.marketo" ng-click="newWorkflow('marketo')" track="Workflow overview - new Marketo">
+                        <img src="/img/workflow-marketo-true.png">
+                        <p>Add New</p>
+                    </div>
+                    <div class="wf-action-panel" ng-if="!account.integration.marketo" ng-click="config('marketo')" track="Workflow overview - configure Marketo">
+                        <img src="/img/workflow-marketo-true.png">
+                        <p>Configure</p>
+                    </div>
+                    <div class="wf-action-panel-disabled">
+                        <img src="/img/workflow-eloqua-false.png">
+                        <p>Coming Soon</p>
+                    </div>
+                    <div class="wf-action-panel-disabled">
+                        <img src="/img/workflow-alert-false.png">
+                        <p>Coming Soon</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row margin-bottom-big">
+                <div class="col-sm-12">
+                    <h4>Workflows</h4>
+                </div>
+            </div>
+            <div class="row" ng-if="!nullState">
+                <div class="col-sm-12 wf-list">
+                    <div class="row wf-list-header">
+                        <div class="col-sm-1 text-center">
+                            Partner
+                        </div>
+                        <div class="col-sm-2 text-center">
+                            Response Trigger
+                        </div>
+                        <div class="col-sm-2 text-center">
+                            Source Data
+                        </div>
+                        <div class="col-sm-5 text-left">
+                            <div class="row">
+                                <div class="col-sm-4 text-right">
+                                    Action
+                                </div>
+                                <div class="col-sm-8">
+                                    Destination
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2 text-center">
+
+                        </div>
+                    </div>
+                    <div class="row wf-list-item-{{workflow.enabled}}" ng-repeat="workflow in workflows" ng-if="!workflow.deleted">
+                        <div class="col-sm-1 text-center">
+                            <img src="/img/workflow-{{workflow.partner}}-{{workflow.enabled}}.png">
+                        </div>
+                        <div class="col-sm-2 text-center">
+                            <span class="wf-badge wf-badge-{{workflow.trigger.type}}">{{types[workflow.trigger.type].displaySmall}}</span>
+                        </div>
+                        <div class="col-sm-2 text-center wf-vert-center">
+                            <span ng-if="workflow.trigger.data=='contacts'">New contacts</span>
+                            <span ng-if="workflow.trigger.data=='recipient'">Original recipient</span>
+                        </div>
+                        <div class="col-sm-5 wf-vert-center" ng-if="workflow.action.id=='add-to-list'">
+                            <div class="row">
+                                <div class="col-sm-4 text-right">
+                                    Add to list
+                                </div>
+                                <div class="col-sm-8">
+                                    <strong class="primary-10">{{workflow.action.meta.list.name}}</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-5 text-left wf-vert-center" ng-if="workflow.action.id=='update-fields'">
+                            <div class="row">
+                                <div class="col-sm-4 text-right">
+                                    Update fields
+                                </div>
+                                <div class="col-sm-8">
+                                    <span ng-repeat="field in workflow.action.meta.fields" class="primary-10"><strong>{{field.description}}</strong><br/></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-5" ng-if="workflow.action.id=='add-and-update'">
+                            <div class="row margin-bottom-big">
+                                <div class="col-sm-4 text-right">
+                                    Add to list
+                                </div>
+                                <div class="col-sm-8">
+                                    <strong class="primary-10">{{workflow.action.meta.list.name}}</strong>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4 text-right">
+                                    Update fields
+                                </div>
+                                <div class="col-sm-8">
+                                    <span ng-repeat="field in workflow.action.meta.fields" class="primary-10"><strong>{{field.description}}</strong><br/></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2 text-right">
+                            <a href ng-click="pause(workflow)" ng-if="workflow.enabled" title="Pause workflow" class="alt" track="Workflow overview - pause"><i class="icon-pause"></i></a>
+                            <a href ng-click="play(workflow)" ng-if="!workflow.enabled" title="Activate workflow" class="alt" track="Workflow overview - enable"><i class="icon-play"></i></a>
+                            <a href="/workflow/{{workflow.partner}}/{{workflow._id}}" title="Edit workflow" class="alt" track="Workflow overview - edit"><i class="icon-pencil"></i></a>
+                            <a href ng-click="delete(workflow)" title="Delete workflow" track="Workflow overview - delete"><i class="icon-trash"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" ng-if="nullState">
+                <div class="col-sm-12">
+                    You have not configured any workflows. You can create a new workflow by selecting a type above.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div footer></div>

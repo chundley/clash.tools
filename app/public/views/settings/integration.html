@@ -1,0 +1,144 @@
+<div top-nav></div>
+
+<div class="body-container">
+
+
+    <div class="container">
+        <div class="row bottom-border-light margin-bottom-huge">
+            <div class="col-sm-12">
+                <ul class="tab-nav">
+                    <li><a href="" track="Settings - profile tab" ng-click="changeTab('profile')">My Profile</a></li>
+                    <li><a href="" track="Settings - account tab" ng-click="changeTab('account')">Account settings</a></li>
+                    <li access-level="admin"><a href="" track="Settings - users tab" ng-click="changeTab('users')">Users</a></li>
+                    <li access-level="admin" class="active"><a href="" track="Settings - integration tab" ng-click="changeTab('integration')">Integration</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="workflow-padded-container">
+            <div class="row margin-bottom-big">
+                <div class="col-sm-12">
+                    <h4>Integrate with one of our partners</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    We have partnered with the following vendors to provide rich data connectors that make it easy for you to seamlessly incorporate Siftrock's data into your marketing automation process. If you are using a product not listed here and would like to see it added, please <a href="mailto:support@siftrock.com" target="_blank">let us know</a> and we'll consider it for the roadmap.
+                </div>
+            </div>
+        </div>
+
+        <div class="workflow-padded-container">
+            <div class="row margin-bottom-big">
+                <div class="col-sm-12">
+                    <h4>Select an integration to add</h4>
+                </div>
+            </div>
+            <div class="row margin-bottom-gigantic">
+                <div class="col-sm-12 text-center">
+                    <div class="wf-action-panel-disabled" ng-if="account.integration.hubspot">
+                        <img src="/img/workflow-hubspot-false.png">
+                        <p class="primary-10"><strong>Done</strong></p>
+                    </div>
+                    <div class="wf-action-panel" ng-if="!account.integration.hubspot" ng-click="configHubspot()" track="Settings - configure Hubspot">
+                        <img src="/img/workflow-hubspot-true.png">
+                        <p>Configure</p>
+                    </div>
+                    <div class="wf-action-panel-disabled" ng-if="account.integration.marketo">
+                        <img src="/img/workflow-marketo-false.png">
+                        <p class="primary-10"><strong>Done</strong></p>
+                    </div>
+                    <div class="wf-action-panel" ng-if="!account.integration.marketo" ng-click="configMarketo()" track="Settings - configure Marketo">
+                        <img src="/img/workflow-marketo-true.png">
+                        <p>Configure</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- configured integrations -->
+            <div class="row margin-bottom-big">
+                <div class="col-sm-12">
+                    <h4>Configured integrations</h4>
+                </div>
+            </div>
+            <div class="row" ng-if="!nullState">
+                <div class="col-sm-12 wf-list">
+                    <div class="row wf-list-header">
+                        <div class="col-sm-2">
+                            Partner
+                        </div>
+                        <div class="col-sm-7">
+                            Settings
+                        </div>
+                        <div class="col-sm-3">
+                            Status
+                        </div>
+                    </div>
+                    <div class="row wf-list-item-true" ng-if="marketoConfig">
+                        <div class="col-sm-2">
+                            <img src="/img/workflow-marketo-true.png">
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="row">
+                                <div class="col-sm-3"><strong>Endpoint Url</strong></div>
+                                <div class="col-sm-9">{{marketoConfig.endpoint}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3"><strong>Identity Url</strong></div>
+                                <div class="col-sm-9">{{marketoConfig.identity}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3"><strong>Client Id</strong></div>
+                                <div class="col-sm-9">{{marketoConfig.client_id}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3"><strong>Client Secret</strong></div>
+                                <div class="col-sm-9">{{marketoConfig.client_secret}}</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                            <h4><span class="vis-2" ng-show="marketoStatus==2" title="Everything looks good!"><i class="icon-ok-circle status"></i></span></h4>
+                            <h4><span class="vis-3" ng-show="marketoStatus==1" title="Missing required fields"><i class="icon-attention-circle status"></i></span></h4>
+                            <h4><span class="vis-5" ng-show="marketoStatus==0" title="Bad configuration"><i class="icon-attention-circle status"></i></span></h4>
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="submit" class="btn btn-primary btn-sm" ng-click="configMarketo()" track="Settings - integration - edit Marketo">Edit Settings</button>
+                        </div>
+                    </div>
+                    <div class="row wf-list-item-true" ng-if="hubspotConfig">
+                        <div class="col-sm-2">
+                            <img src="/img/workflow-hubspot-true.png">
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="row">
+                                <div class="col-sm-3"><strong>Portal Id</strong></div>
+                                <div class="col-sm-9">{{hubspotConfig.hub_id}}</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                            <h4><span class="vis-2" ng-show="hubspotStatus==2" title="Everything looks good!"><i class="icon-ok-circle status"></i></span></h4>
+                            <h4><span class="vis-3" ng-show="hubspotStatus==1" title="Missing required fields"><i class="icon-attention-circle status"></i></span></h4>
+                            <h4><span class="vis-5" ng-show="hubspotStatus==0" title="Bad configuration"><i class="icon-attention-circle status"></i></span></h4>
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="submit" class="btn btn-primary btn-sm" ng-click="configHubspot()" track="Settings - integration - edit Marketo">Edit Settings</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" ng-if="nullState">
+                <div class="col-sm-12">
+                    None configured. Select a partner from above to configure your first integration.
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-if="!nullState">
+            <div class="col-sm-12 wf-status-key text-right">
+                <i class="icon-ok-circle vis-2"></i>Good to go
+                <i class="icon-attention-circle vis-3"></i>Missing fields
+                <i class="icon-attention-circle vis-5"></i>Bad credentials
+            </div>
+        </div>
+    </div>
+</div>
+
+<div footer></div>

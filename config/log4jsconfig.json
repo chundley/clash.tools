@@ -1,0 +1,25 @@
+
+{
+  "appenders": [
+    {
+      "type": "console",
+      "layout": {
+        "type": "pattern",
+        "pattern": "%[%d %p -%] %m"
+      }
+    },  
+    {
+      "type": "file",
+      "filename": "log/siftrock-app.log",
+      "absolute": true,
+      "maxLogSize": 16777216,
+      "backups": 3,
+      "category": "file-logger",
+      "layout": {
+        "type": "pattern",
+        "pattern": "%d %p - %m"
+      }
+    }
+  ],
+  "replaceConsole": true
+}

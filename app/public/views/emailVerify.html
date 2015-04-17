@@ -1,0 +1,41 @@
+<div class="container margin-top-big" ng-show="success">
+    <div class="row brand-header">
+        <div class="col-sm-6">
+            <img src="/img/logo-small.png" class="pull-right">
+        </div>
+        <div class="col-sm-6">
+            <h2>siftrock</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-5 col-sm-offset-4 margin-bottom-big text-center">
+            <h4><strong>Your email has been verified, thank you!</strong></h4>
+        </div>
+    </div>
+    <div class="row margin-bottom-gigantic">
+        <div class="col-sm-5 col-sm-offset-4">
+            The application should automatically refresh - if not <a href="/">click here</a> to go home.
+        </div>
+    </div>
+</div>
+
+<div class="container margin-top-big" ng-show="badToken">
+    <div class="row brand-header">
+        <div class="col-sm-6">
+            <img src="/img/logo-small.png" class="pull-right">
+        </div>
+        <div class="col-sm-6">
+            <h2>siftrock</h2>
+        </div>
+    </div>
+    <div class="row margin-bottom-big text-center">
+        <div class="col-sm-5 col-sm-offset-4">
+            <h4><strong>Invalid token, could not verify</strong></h4>
+        </div>
+    </div>
+    <div class="row margin-bottom-gigantic">
+        <div class="col-sm-5 col-sm-offset-4">
+            It looks like something went wrong. If you'd like to generate another verification link, <a href="/settings">go to the settings page</a>.
+        </div>
+    </div>
+</div>

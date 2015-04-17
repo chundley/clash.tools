@@ -1,0 +1,131 @@
+<div top-nav></div>
+
+<div class="body-container">
+    <div class="container">
+        <div class="row margin-bottom-big">
+            <div class="col-sm-8">
+                <h4>Email Detail</h4>
+            </div>
+            <div class="col-sm-4 text-right">
+                <a href class="btn btn-admin btn-sm" ng-click="adminShowRecords()" access-level="sadmin">Show Records</a>
+                <a href class="btn btn-default btn-sm" ng-click="hide()">Hide Email</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-5">
+                <div class="widget margin-bottom-big">
+                    <div class="widget-header">Detail</div>
+                    <div class="widget-body">
+                        <div class="row detail-item">
+                            <div class="col-sm-3 title">
+                                From
+                            </div>
+                            <div class="col-sm-9">
+                                {{detail.from_name}}<br/>
+                                {{detail.from_address}}
+                            </div>
+                        </div>
+                        <div class="row detail-item">
+                            <div class="col-sm-3 title">
+                                Subject
+                            </div>
+                            <div class="col-sm-9">
+                                {{detail.subject}}
+                            </div>
+                        </div>
+                        <div class="row detail-item">
+                            <div class="col-sm-3 title">
+                                Date
+                            </div>
+                            <div class="col-sm-9">
+                                {{detail.date | date:'yyyy-MM-dd HH:mm:ss'}}
+                            </div>
+                        </div>
+                        <div class="row detail-item">
+                            <div class="col-sm-3 title">
+                                Type
+                            </div>
+                            <div class="col-sm-9">
+                                <span class="label label-{{detail.type}}">{{types[detail.type].displaySmall}}</span>
+                            </div>
+                        </div>
+                    </div>  <!-- widget-body -->
+                </div> <!-- widget -->
+
+                <div class="widget margin-bottom-big">
+                    <div class="widget-header">Original Email</div>
+                    <div class="widget-body">
+                        <div class="original-subject">{{detail.original_subject}}</div>
+                        <div class="original-email" ng-bind-html="detail.raw.htmlTrusted"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-7">
+                <div class="widget">
+                    <div class="widget-header">New Contacts</div>
+                    <div class="widget-body">
+                        <div class="row margin-top-big">
+                            <div class="col-sm-6" ng-repeat="person in detail.people" ng-show="!person.sender">
+                                <div class="contact-card">
+                                    <div class="contact-card-topper confidence-{{person.total_confidence}}"></div>
+                                    <div class="contact-card-body">
+                                        <span class="bigger">{{person.name}}</span><br/>
+                                        <span class="smaller">
+                                            <i class="icon-mail"></i> {{person.email_address}}<br/>
+                                            <i class="icon-phone"></i> {{person.phone_number}}<br/>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="widget margin-top-big" access-level="sadmin">
+                    <div class="widget-header">Categorization</div>
+                    <div class="widget-body">
+                        <div ng-repeat="(category, value) in detail.typeData">
+                            <div class="row margin-bottom-big" ng-show="detail.typeData[category].foundTerms.length>0">
+                                <div class="col-sm-2">
+                                    {{category}}
+                                </div>
+                                <div class="col-sm-1">
+                                    <span class="badge">{{value.totalWeight}}</span>
+                                </div>
+                                <div class="col-sm-9">
+                                    <span class="label label-{{category}} margin-right-medium" ng-repeat="term in value.foundTerms">
+                                    {{term.term}} <strong>{{term.weight}}</strong>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row margin-top-big" access-level="sadmin" ng-show="adminShow">
+            <div class="col-sm-12">
+                <div class="widget">
+                    <div class="widget-header">Raw Records</div>
+                    <div class="widget-body">
+                        <h5>Email Detail</h5>
+                        <pre class="small">{{adminDetail | json}}</pre>
+                        <h5>Raw Email</h5>
+                        <pre class="small">{{adminRaw | json}}</pre>
+                        <h5>DBA Stuff</h5>
+<pre>
+<u>Re-process</u>
+db.inbound_email.update({_id: ObjectId('{{adminRaw._id}}')}, {$set: {status:10}})
+
+<u>Process as new</u>
+db.email_detail.remove({_id: ObjectId('{{adminDetail._id}}')})
+db.inbound_email.update({_id: ObjectId('{{adminRaw._id}}')}, {$set: {status:0}})</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div footer></div>

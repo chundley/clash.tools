@@ -1,0 +1,48 @@
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <strong>Siftrock</strong> - Add a new user to your account
+            </div>
+            <div class="modal-body">
+                <div class="row margin-bottom-big">
+                    <div class="col-sm-12">
+                        New users will be issued a temporary password and notified via email, using the address you provide in this form.
+                    </div>
+                </div>
+                <form class="form-horizontal" name="userForm">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label">Name</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control req-field" ng-model="modalOptions.formData.name" placeholder="John Doe" required>
+                        </div>
+                    </div>                    
+                    <div class="form-group">
+                        <label for="email" class="col-sm-3 control-label">Email Address</label>
+                        <div class="col-sm-9">
+                            <input type="email" class="form-control req-field" ng-model="modalOptions.formData.email_address" placeholder="someone@somewhere.com" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="role" class="col-sm-3 control-label">Role</label>
+                        <div class="col-sm-3">
+                            <select class="form-control col-sm-3" ng-model="modalOptions.formData.role" >
+                                <option>Admin</option>
+                                <option selected>User</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 error-red text-center">
+                        <strong>{{modalOptions.formData.error}}</strong>
+                        </div>
+                    </div>                    
+                </form>
+            </div>
+            <div class="modal-footer">
+            <button track="Add user dialog - submit" class="btn btn-primary btn-sm" ng-disabled="userForm.$invalid" ng-click="modalOptions.onYes(modalOptions.formData);">{{modalOptions.yesBtn}}</button>
+            <button class="btn btn-default btn-sm" ng-click="$hide();">{{modalOptions.noBtn}}</button>
+            </div>
+        </div>
+    </div>
+</div>

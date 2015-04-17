@@ -1,0 +1,821 @@
+/*
+ *  Main scaffolding for the app
+ */
+
+body {
+    overflow-x: hidden;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+.top-shell-container {
+    width: 100%;
+    min-height: 60px;
+    max-height: 60px;
+    border-bottom: 1px solid #e1e4e8;
+
+    .logo {
+        padding-right: 10px;
+    }
+
+    .brand {
+        img {
+            margin-top: -15px;
+        }
+
+        h2 {
+            line-height: 60px;
+            font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+    }
+}
+
+/* main navigation */
+ul.main-nav {
+    padding-left: 0; // Override default ul/ol
+    float: left;
+    width: 100%;
+    list-style: none;
+    margin-top: 20px;
+    .clearfix();
+
+    li {
+        position: relative;
+        display: inline-block;
+        padding: 0px 30px 0px 0px;
+        font-size: 14px;
+
+        > a {
+            color: @primary;
+            &:hover,
+            &:focus {
+                text-decoration: none;
+                color: @emphasis;
+            }
+        }
+    }
+
+    li.active {
+        > a {
+            color: @emphasis;
+            &:hover,
+            &:focus {
+                text-decoration: none;
+                color: @emphasis;
+            }
+        }
+    }
+}
+
+.user-dropdown {
+    margin-top: 20px;
+    > a {
+        font-size: 12px;
+        color: @primary;
+        &:hover,
+        &:focus {
+            text-decoration: none;
+            color: @primary;
+        }
+    }
+
+    .dropdown-menu {
+        li {
+            > a {
+                padding: 3px 10px;
+            }
+        }
+    }
+}
+
+.body-container {
+    background-color: @content-container;
+    width: 100%;
+    min-height: 200px;
+    padding-bottom: 40px;
+    padding-top: 12px;
+    padding: 20px 0px 40px 0px;
+    border-bottom: 1px solid #e1e4e8;
+}
+
+
+.footer-container {
+    margin-top: 4px;
+    font-size: 11px;
+}
+
+/*
+*   When a field becomes valid, remove the background image
+*/
+input.ng-valid {
+    background: none;
+    background-color: #ffffff;
+}
+
+/*
+*   Required fields get a little astericks graphic
+*/
+.req-field {
+    background: top right no-repeat;
+    background-position-x: 100%;
+    background-position-y: 0%;
+    background-size: initial;
+    background-repeat-x: no-repeat;
+    background-repeat-y: no-repeat;
+    background-attachment: initial;
+    background-origin: initial;
+    background-clip: initial;
+    background-image: url('/img/req-field.png');
+    background-color: #ffffff;
+}
+
+/* custom tabs */
+ul.tab-nav {
+    padding-left: 0; // Override default ul/ol
+    float: left;
+    width: 100%;
+    list-style: none;
+    .clearfix();
+
+    li {
+        position: relative;
+        display: inline-block;
+        padding: 0px 24px 0px 0px;
+        font-size: 16px;
+        font-weight: 600;
+        color: @primary;
+
+        > a {
+            color: @primary-dark;
+            &:hover,
+            &:focus {
+                text-decoration: none;
+                color: @primary-30;
+            }
+        }
+    }
+
+    li.active {
+        > a {
+            color: @emphasis;
+            &:hover,
+            &:focus {
+                text-decoration: none;
+                color: @emphasis;
+            }
+        }
+    }
+}
+
+ul.tab-subnav {
+    padding-left: 0; // Override default ul/ol
+    float: left;
+    width: 100%;
+    list-style: none;
+    .clearfix();
+    border-top: 1px dotted @primary-40;
+    border-bottom: 1px dotted @primary-40;
+    background-color: @primary-60;
+    padding-top: 2px;
+    padding-bottom: 4px;
+
+    li {
+        position: relative;
+        display: inline-block;
+        padding: 0px 24px 0px 0px;
+        font-size: 12px;
+        font-weight: 600;
+        color: @primary;
+
+        > a {
+            color: @primary-dark;
+            &:hover,
+            &:focus {
+                text-decoration: none;
+                color: @primary-30;
+            }
+        }
+    }
+
+    li.active {
+        > a {
+            color: @emphasis;
+            &:hover,
+            &:focus {
+                text-decoration: none;
+                color: @emphasis;
+            }
+        }
+    }
+}
+
+/*
+*   Convenience color styles
+*/
+
+.primary-dark {
+    color: @primary-dark;
+}
+
+.primary {
+    color: @primary;
+}
+
+.primary-10 {
+    color: @primary-10;
+}
+
+.primary-20 {
+    color: @primary-20;
+}
+
+.primary-30 {
+    color: @primary-30;
+}
+
+.primary-40 {
+    color: @primary-40;
+}
+
+.primary-50 {
+    color: @primary-50;
+}
+
+.primary-60 {
+    color: @primary-60;
+}
+
+.primary-dark-bg {
+    background-color: @primary-dark;
+}
+
+.primary-bg {
+    background-color: @primary;
+}
+
+.primary-10-bg {
+    background-color: @primary-10;
+}
+
+.primary-20-bg {
+    background-color: @primary-20;
+}
+
+.primary-30-bg {
+    background-color: @primary-30;
+}
+
+.primary-40-bg {
+    background-color: @primary-40;
+}
+
+.primary-50-bg {
+    background-color: @primary-50;
+}
+
+.primary-60-bg {
+    background-color: @primary-60;
+}
+
+.tertiary {
+    color: @emphasis;
+}
+
+.alternate {
+    color: @alternate;
+}
+
+.error-red {
+    color: @error-red;
+}
+
+/*
+*   Buttons
+*/
+
+.btn-primary-light {
+    .button-variant(#fff; @primary-20; @primary-20);
+}
+
+.btn-tertiary {
+    .button-variant(@primary-50; darken(@emphasis, 5%); darken(@emphasis, 15%));
+
+  .caret {
+    // Firefox fix for https://github.com/twbs/bootstrap/issues/9538. Once this
+    // gets fixed, restore `border-top: 0;`.
+    border-bottom: 0 dotted;
+    border-top: 4px solid #fff;
+    content: "";
+    margin-left: 4px;
+  }
+}
+
+.btn-inverse {
+    .button-variant(@primary; @primary-60; @primary-40);
+}
+
+.btn-inverse-next {
+    .button-variant(@primary; @primary-60; @emphasis);
+    border: 2px solid @emphasis;
+}
+
+.btn-emphasis {
+    .button-variant(lighten(@emphasis, 40%); @emphasis; @emphasis);
+/*    .caret {
+    // Firefox fix for https://github.com/twbs/bootstrap/issues/9538. Once this
+    // gets fixed, restore `border-top: 0;`.
+        border-bottom: 0 dotted;
+        border-top: 4px solid #fff;
+        content: "";
+        margin-left: 4px;
+    }*/
+}
+
+.btn-alternate {
+    .button-variant(#fff; @alternate; darken(@alternate, 10%));
+}
+
+.btn-bad {
+    .button-variant(#fff; @error-red; darken(@error-red, 10%));
+}
+
+.btn-admin {
+    .button-variant(#fff; #961e2a; darken(#961e2a, 10%));
+}
+
+.btn-popover-help {
+    display: inline-block;
+}
+
+.btn-group-sm>.btn {
+    i {
+        color: @primary-30;
+    }
+}
+
+.btn-xxs {
+    .button-size(1px; 3px; 10px; 11px; 0px);
+}
+
+
+/*
+*   Icons
+*/
+
+.action-icon {
+    cursor: pointer;
+}
+
+.icon-small {
+    font-size: 9px;
+}
+
+.icon-medium {
+    font-size: 12px;
+}
+
+.icon-standard {
+    font-size: 14px!important;
+}
+
+.icon-large {
+    font-size: 16px;
+}
+
+.icon-huge {
+    font-size: 20px;
+}
+
+.icon-gigantic {
+    font-size: 36px;
+}
+
+.icon-primary {
+    color: @primary;
+    &:hover {
+        color: @primary-dark;
+    }
+}
+
+/*
+*   System message dropdown
+*/
+.system-messages {
+    display: inline-block;
+    padding-top: 8px;
+    margin-top: 11px;
+    margin-right: 8px;
+
+    .dropdown-menu {
+        border-radius: 0px;
+        border: 1px solid @primary-40;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.175);
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    i {
+        color: @primary;
+        font-size: 18px;
+    }
+
+    .label {
+        padding: 1px 6px 1px 6px;
+        position: relative;
+        left: -14px;
+        top: -10px;
+        background-color: lighten(desaturate(@emphasis, 10%), 10%);
+        font-size: 9px;
+        margin: 0px;
+    }
+
+    .message-header {
+        padding: 8px 20px 8px 20px;
+        margin: 0px;
+        background-color: @primary-60;//lighten(@alternate, 40%);
+        font-size: 13px;
+        color: @primary;//@alternate;
+        border-bottom: 1px solid @primary-40;//lighten(desaturate(@alternate, 20%), 20%);
+        i {
+            color: @primary;
+            font-size: 16px;
+            padding-top: -10px;
+        }
+    }
+
+    .message-item {
+        width: 280px;
+        margin: 10px 20px 0px 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid @primary-50;//lighten(@alternate, 37%);
+        &:last-child {
+            border: 0px;
+        }
+
+        i {
+            color: @primary-20;
+            font-size: 20px;
+        }
+
+        a {
+            font-size: 13px;
+            padding: 0px;
+            color: @emphasis;
+            &:hover {
+                background-color: #fff;
+                color: lighten(@emphasis, 15%);
+            }
+        }
+
+        .time {
+            font-size: 9px;
+        }
+    }
+}
+
+a {
+    i.inline-link {
+        color: @alternate
+    }
+}
+
+a.external-link {
+    color: @vis-4;
+    text-decoration: underline;
+
+    &:hover {
+        color: darken(@vis-4, 20%);
+    }
+}
+
+.caret-primary {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 2px;
+    vertical-align: middle;
+    border-top: 6px solid @primary-30;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+    border-bottom: 0 dotted;
+    content: "";
+}
+
+.panel-emphasis {
+  .panel-variant(@primary; #fff; @primary; @primary);
+}
+
+/*
+*   Visualization palette
+*/
+
+.vis-1 {
+    color: @vis-1;
+}
+
+.vis-2 {
+    color: @vis-2;
+}
+
+.vis-3 {
+    color: @vis-3;
+}
+
+.vis-4 {
+    color: @vis-4;
+}
+
+.vis-5 {
+    color: @vis-5;
+}
+
+.vis-6 {
+    color: @vis-6;
+}
+
+.vis-1-bg {
+    background-color: @vis-1;
+}
+
+.vis-2-bg {
+    background-color: @vis-2;
+}
+
+.vis-3-bg {
+    background-color: @vis-3;
+}
+
+.vis-4-bg {
+    background-color: @vis-4;
+}
+
+/*
+*   Convenience spacers
+*/
+
+.margin-bottom-big {
+    margin-bottom: 12px;
+}
+
+.margin-bottom-huge {
+    margin-bottom: 20px;
+}
+
+.margin-bottom-gigantic {
+    margin-bottom: 40px;
+}
+
+.margin-top-big {
+    margin-top: 12px;
+}
+
+.margin-right-medium {
+    margin-right: 8px;
+}
+
+/*
+*   Standard container used throughout the app
+*/
+.widget {
+    background-color: #fff;
+    .widget-header {
+        color: @primary-dark;
+        font-size: 18px;
+        font-family: 'Raleway', sans-serif;
+        padding: 4px 6px 4px 6px;
+        border-left: 1px solid @primary-50;
+        border-right: 1px solid @primary-50;
+        border-top: 1px solid @primary-50;
+        background-image: -webkit-gradient(
+            linear,
+            left top,
+            left bottom,
+            color-stop(0, darken(@primary, 8%)),
+            color-stop(1, darken(@primary, 2%))
+        );
+        background-image: -o-linear-gradient(bottom, darken(@primary-50, 8%) 0%, darken(@primary-50, 2%) 100%);
+        background-image: -moz-linear-gradient(bottom, darken(@primary-50, 8%) 0%, darken(@primary-50, 2%) 100%);
+        background-image: -webkit-linear-gradient(bottom, darken(@primary-50, 8%) 0%, darken(@primary-50, 2%) 100%);
+        background-image: -ms-linear-gradient(bottom, darken(@primary-50, 8%) 0%, darken(@primary-50, 2%) 100%);
+        background-image: linear-gradient(to bottom, @primary-50 0%, @primary-60 75%);
+    }
+
+    .widget-body {
+        .clearfix();
+        background-color: #fff;
+        padding: 8px 10px 8px 10px;
+        border: 1px solid @primary-50;
+    }
+
+    .widget-footer {
+        .clearfix();
+        border-right: 1px solid @primary-50;
+        border-left: 1px solid @primary-50;
+        border-bottom: 1px solid @primary-50;
+        padding: 8px 10px 8px 10px;
+        background-color: @primary-60;
+    }
+
+    .widget-body.no-padding {
+        padding: 0px;
+    }
+}
+
+.row-underline-1 {
+    margin: 0px;
+    border-bottom: 1px solid @primary-50;
+}
+
+.row-underline-2 {
+    margin: 0px;
+    border-bottom: 2px solid @primary-50;
+}
+
+/*
+*   Dropdown menu styles lifted from original bootstrap to support hierarchical
+*   menus generated dynamically by angularjs (li embedded inside p)
+*/
+
+.dropdown-menu p {
+    margin: 0px;
+    padding: 0px;
+}
+
+.dropdown-menu > li > p > a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.42857143;
+    color: #333333;
+    white-space: nowrap;
+}
+
+.dropdown-menu > li > p > a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: normal;
+    line-height: @line-height-base;
+    color: @dropdown-link-color;
+    white-space: nowrap; // prevent links from randomly breaking onto new lines
+}
+
+// Hover/Focus state
+.dropdown-menu > li > p > a {
+    &:hover,
+    &:focus {
+        text-decoration: none;
+        color: @dropdown-link-hover-color;
+        background-color: @dropdown-link-hover-bg;
+    }
+}
+
+// Active state
+.dropdown-menu > .active > p > a {
+    &,
+    &:hover,
+    &:focus {
+        color: @dropdown-link-active-color;
+        text-decoration: none;
+        outline: 0;
+        background-color: @dropdown-link-active-bg;
+    }
+}
+
+// Disabled state
+//
+// Gray out text and ensure the hover/focus state remains gray
+.dropdown-menu > .disabled > p > a {
+    &,
+    &:hover,
+    &:focus {
+        color: @dropdown-link-disabled-color;
+    }
+}
+// Nuke hover/focus effects
+.dropdown-menu > .disabled > p > a {
+    &:hover,
+    &:focus {
+        text-decoration: none;
+        background-color: transparent;
+        background-image: none; // Remove CSS gradient
+        .reset-filter();
+        cursor: not-allowed;
+    }
+}
+
+/*
+*   Support alternate placement for modal dialogs
+*/
+.modal {
+    &.center {
+        .modal-dialog {
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            min-width: 320px;
+            max-width: 630px;
+            width: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        }
+    }
+
+    &.center-left {
+        .modal-dialog {
+            position: fixed;
+            top: 40%;
+            left: 30%;
+            min-width: 320px;
+            max-width: 630px;
+            width: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        }
+    }
+
+}
+
+
+/*
+*   Confirmation dialog
+*/
+.confirm-dialog .modal-dialog {
+    margin-top: 200px;
+    width: 400px;
+}
+
+.confirm-dialog-header {
+    padding: 8px;
+    background-color: @primary;
+    color: #fff;
+}
+
+.confirm-dialog-body {
+    padding: 8px;
+}
+
+.well-nullstate {
+    background-color: #fff;
+    border-color: @primary-50;
+
+    h3 {
+        line-height: 40px;
+    }
+}
+
+.spoof-container {
+    position: fixed;
+    top: 17px;
+    right: 300px;
+    color: @vis-5;
+    text-transform: uppercase;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    padding: 3px 24px;
+    border: 1px dotted @vis-5;
+}
+
+/*
+    Stuff below this line from funded.io
+*/
+
+.global-message {
+    position: absolute;
+    right : 0px;
+    top: 8px;
+    width: 99%;
+    padding: 4px 4px 6px 4px;
+    margin: 0px 5px 0px 5px;
+    background-color: @alternate;
+    color: #fff;
+    text-align: center;
+    font-size: 18px;
+    border-radius: 4px;
+    border: 1px solid darken(@alternate, 20%);
+    -webkit-transition: 1.0s linear all;
+    transition: 1.0s linear all;
+    z-index: 2000;
+}
+
+.global-message.ng-hide-add,
+.global-message.ng-hide-remove {
+    /* necessary due to ng-animate trickery */
+    display: block!important;
+
+}
+
+.global-message.ng-hide {
+    opacity: 0;
+    top: -200px;
+}

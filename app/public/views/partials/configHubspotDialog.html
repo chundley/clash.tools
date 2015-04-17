@@ -1,0 +1,40 @@
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <strong>Siftrock</strong> - Configure Hubspot
+            </div>
+            <div class="modal-body">
+                <div class="row margin-bottom-big">
+                    <div class="col-sm-12">
+                        <p>In order to integrate with Hubspot, Siftrock needs your Hubspot portal ID (Hub ID). It can be found in the upper righthand corner of your browser when <a href="https://app.hubspot.com" target="_blank">logged into your Hubspot account</a>. See the below example.</p>
+                        <p class="primary-dark"><em>You will be taken to Hubspot's web site for authorization after clicking the Save button.</em></p>
+                    </div>
+                </div>
+                <form class="form-horizontal" name="configForm">
+                    <div class="form-group margin-bottom-huge">
+                        <div class="col-sm-3 control-label">Example</div>
+                        <div class="col-sm-9">
+                            <img src="/img/hubspot-hubId.png">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label">Your Hub Id</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control req-field" ng-model="modalOptions.formData.hubId" placeholder="000000" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 error-red text-center">
+                        <strong>{{modalOptions.formData.error}}</strong>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+            <button track="Add user dialog - submit" class="btn btn-primary btn-sm" ng-disabled="configForm.$invalid" ng-click="modalOptions.onYes(modalOptions.formData);">{{modalOptions.yesBtn}}</button>
+            <button class="btn btn-default btn-sm" ng-click="$hide();">{{modalOptions.noBtn}}</button>
+            </div>
+        </div>
+    </div>
+</div>

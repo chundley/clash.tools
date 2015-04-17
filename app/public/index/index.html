@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html ng-app="SiftrockApp">
+    <head>
+        <link rel="stylesheet" href="/css/siftrock.min.css" />
+        <link rel="stylesheet" href="/vendor/css/fontello.css" />
+        <link rel="stylesheet" href="/vendor/css/animation.css" />
+        <link rel="stylesheet" href="/vendor/css/angular-motion.css" />
+        <link href="//fonts.googleapis.com/css?family=Roboto:500" rel="stylesheet" type="text/css">
+        <link href='//fonts.googleapis.com/css?family=Open+Sans:400italic,700,400,600' rel='stylesheet' type='text/css'>
+        <link href='//fonts.googleapis.com/css?family=Raleway:400' rel='stylesheet' type='text/css'>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Intelligent reply mail management with Siftrock">
+        <meta name="keywords" content="email,marketing,leads,leadgen,oof,out,office,vacation,opportunities">
+
+        <!-- AngularJS Local (for dev) -->
+        <script src="/js/dev/angular/angular.js"></script>
+        <script src="/js/dev/angular/angular-route.js"></script>
+        <script src="/js/dev/angular/angular-cookies.js"></script>
+        <script src="/js/dev/angular/angular-animate.js"></script>
+        <script src="/js/dev/angular/angular-sanitize.js"></script>
+
+        <!-- Highcharts Local (for dev) -->
+        <script src="/js/dev/highcharts/standalone-framework.js"></script>
+        <script src="/js/dev/highcharts/highcharts.js"></script>
+
+        <!-- 3rd party scripts -->
+        <script src="/vendor/js/angular-strap.min.js"></script>
+        <script src="/vendor/js/angular-md5.min.js"></script>
+        <script src="/vendor/js/moment.min.js"></script>
+        <script src="/vendor/js/angular-moment.min.js"></script>
+
+        <!-- The app -->
+        <script src="/js/roleconfig.min.js"></script>
+        <script src="/js/webapp.js"></script>
+        <script src="/js/resource.js"></script>
+
+        <!-- start Mixpanel -->
+        <script type="text/javascript">(function(f,b){if(!b.__SV){var a,e,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+        for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;a.src="//cdn.mxpnl.com/libs/mixpanel-2.2.min.js";e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]);
+        mixpanel.init("726a28dc2c661988df5c15493778c49a");</script>
+        <!-- end Mixpanel -->
+
+        <title ng-bind="title">Siftrock - Intelligent reply mail management</title>
+    </head>
+    <body data-ng-cloak>
+        <div global-message></div>
+        <div class="content" ng-view>
+        </div>
+    </body>
+</html>

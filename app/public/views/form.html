@@ -1,0 +1,77 @@
+<html>
+<head>
+<style>
+    body {
+        background: none transparent;
+    }
+</style>
+</head>
+<body>
+<div class="container {{formCssClass}}">
+<form name="theForm" ng-submit="processForm()" novalidate ng-if="!submitted">
+<div class="row" ng-repeat="field in form.fields">
+    <div class="col-xs-12">
+        <!-- Text field, required -->
+        <div ng-if="field.type == 'text' && field.required == true">
+            <div class="form-group">
+                <label for="{{field.name}}" class="control-label">{{field.label}}</label>
+                <input type="{{field.type}}" ng-model="field.value" class="form-control req-field" required=>
+            </div>
+        </div>
+
+        <!-- Text field, optional -->
+        <div ng-if="field.type == 'text' && field.required == false">
+            <div class="form-group">
+                <label for="{{field.name}}" class="control-label">{{field.label}}</label>
+                <input type="{{field.type}}" ng-model="field.value" class="form-control">
+            </div>
+        </div>
+
+        <!-- Email field, required -->
+        <div ng-if="field.type == 'email' && field.required == true">
+            <div class="form-group">
+                <label for="{{field.name}}" class="control-label">{{field.label}}</label>
+                <input type="{{field.type}}" ng-model="field.value" class="form-control req-field" required>
+            </div>
+        </div>
+
+        <!-- Email field, optional -->
+        <div ng-if="field.type == 'email' && field.required == false">
+            <div class="form-group">
+                <label for="{{field.name}}" class="control-label">{{field.label}}</label>
+                <input type="{{field.type}}" ng-model="field.value" class="form-control">
+            </div>
+        </div>
+
+        <!-- Text area field, required -->
+        <div ng-if="field.type == 'textarea' && field.required == true">
+            <div class="form-group">
+                <label for="{{field.name}}" class="control-label">{{field.label}}</label>
+                <textarea ng-model="field.value" class="form-control req-field" required rows="{{field.rows}}"></textarea>
+            </div>
+        </div>
+
+        <!-- Text area field, optional -->
+        <div ng-if="field.type == 'textarea' && field.required == false">
+            <div class="form-group">
+                <label for="{{field.name}}" class="control-label">{{field.label}}</label>
+                <textarea type="{{field.type}}" ng-model="field.value" class="form-control" rows="{{field.rows}}"></textarea>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+    <button track="Web site form - {{type}}" type="submit" ng-disabled="theForm.$invalid" class="btn btn-emphasis">Submit</button>
+    </div>
+</div>
+</form>
+
+<div class="row" ng-if="submitted">
+    <div class="col-sm-12 form-submitted-message">
+        {{formTypes[formType].message}}
+    </div>
+</div>
+</div>
+</body>

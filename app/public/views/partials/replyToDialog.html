@@ -1,0 +1,34 @@
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <strong>Siftrock</strong> - Change reply-to domain
+            </div>
+            <div class="modal-body">
+                <div class="row margin-bottom-big">
+                    <div class="col-sm-12">
+                        The reply-to domain is an important configuration setting for your Siftrock account. It tells our system to accept emails on your behalf that are sent to this domain. If you have questions about this setting, please refer to the <a class="external-link" href="http://www.siftrock.com/getting-started/" target="_new">getting started guide</a>.<br/><br/>
+                        The system will automatically test the domain for a valid MX record when you submit your change.
+                    </div>
+                </div>
+                <form class="form-horizontal" name="emailForm">
+                    <div class="form-group">
+                        <label for="domain" class="col-sm-3 control-label">Domain</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control req-field" ng-model="modalOptions.formData.domain" placeholder="sub.yourdomain.com" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-11 col-sm-offset-1 error-red">
+                        <strong>{{modalOptions.formData.error}}</strong>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+            <button track="Change reply-to domain dialog - submit" class="btn btn-primary btn-sm" ng-disabled="domainForm.$invalid" ng-click="modalOptions.onYes(modalOptions.formData);">{{modalOptions.yesBtn}}</button>
+            <button class="btn btn-default btn-sm" ng-click="$hide();">{{modalOptions.noBtn}}</button>
+            </div>
+        </div>
+    </div>
+</div>
