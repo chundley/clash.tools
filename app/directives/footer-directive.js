@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('SiftrockApp.directives')
+angular.module('Clashtools.directives')
     .directive('footer', ['$location', function ($location) {
         return {
             restrict: 'A',

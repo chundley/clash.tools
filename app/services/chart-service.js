@@ -7,7 +7,7 @@
 var brandPrimary         = '#556270',
     brandPrimaryLight    = '#dee2e6';
 
-angular.module('SiftrockApp.services')
+angular.module('Clashtools.services')
 .factory('dashboardCharts', [
 function() {
     return {

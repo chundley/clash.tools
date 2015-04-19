@@ -4,7 +4,7 @@
 *  Service for authentication / authorization
 */
 
-angular.module('SiftrockApp.services')
+angular.module('Clashtools.services')
 .factory('authService', ['$http', '$rootScope', '$cookieStore', 'md5', 'accountService', 'sessionService', 'cacheService', 'errorService',
 function ($http, $rootScope, $cookieStore, md5, accountService, sessionService, cacheService, errorService) {
     var accessLevels = roleConfig.accessLevels;
@@ -91,7 +91,7 @@ function ($http, $rootScope, $cookieStore, md5, accountService, sessionService, 
                 changeUser(user, function() {
                     callback();
                 });
-            });            
+            });
         },
         user: currentUser,
         userRoles: userRoles,

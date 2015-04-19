@@ -4,7 +4,7 @@
 *  Service for accounts
 */
 
-angular.module('SiftrockApp.services')
+angular.module('Clashtools.services')
 .factory('configService', ['$http', 'errorService',
 function ($http, errorService) {
     return {

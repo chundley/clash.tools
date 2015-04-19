@@ -4,7 +4,7 @@
 *  Session service for managing session data for client-state
 */
 
-angular.module('SiftrockApp.services')
+angular.module('Clashtools.services')
 .factory('sessionService', ['$http', 'cacheService', 'userService', 'accountService',
 function ($http, cacheService, userService, accountService) {
 
@@ -50,7 +50,7 @@ function ($http, cacheService, userService, accountService) {
             }
         },
         getUserSession: function(userid, callback) {
-            if (userSession) {                 
+            if (userSession) {
                 callback(null, userSession);
             }
             else {
@@ -59,7 +59,7 @@ function ($http, cacheService, userService, accountService) {
                         err.stack_trace.unshift( { file: 'session-service.js', func: 'getUserSession', message: 'Error getting user session' } );
                         callback(err, null);
                     }
-                    else {                      
+                    else {
                         userSession = session;
                         callback(null, userSession);
                     }
@@ -72,7 +72,7 @@ function ($http, cacheService, userService, accountService) {
                     err.stack_trace.unshift( { file: 'session-service.js', func: 'saveUserSession', message: 'Error saving user session' } );
                     callback(err, null);
                 }
-                else {                  
+                else {
                     userSession = session;
                     callback(null, userSession);
                 }

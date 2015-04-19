@@ -8,7 +8,7 @@
 *  http://stackoverflow.com/questions/15072152/angularjs-input-model-changes-from-integer-to-string-when-changed
 */
 
-angular.module('SiftrockApp.directives')
+angular.module('Clashtools.directives')
 .directive('integer', [
 function () {
     return {

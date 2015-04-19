@@ -4,23 +4,23 @@
 *  Directive for testing matching fields
 */
 
-angular.module('SiftrockApp.directives')
+angular.module('Clashtools.directives')
 .directive('fieldMatch', [
 function () {
-	return {
+    return {
         require: 'ngModel',
         link: function (scope, elem , attrs, control) {
 
-        	control.$parsers.unshift(function (viewValue) {
-        		if (viewValue == scope[attrs.fieldMatch]) {
-        			control.$setValidity('match', true);
-        			return viewValue;
-        		}
-        		else {
-        			control.$setValidity('match', false);
-        			return undefined;
-        		}
-        	});
+            control.$parsers.unshift(function (viewValue) {
+                if (viewValue == scope[attrs.fieldMatch]) {
+                    control.$setValidity('match', true);
+                    return viewValue;
+                }
+                else {
+                    control.$setValidity('match', false);
+                    return undefined;
+                }
+            });
         }
     };
 }])

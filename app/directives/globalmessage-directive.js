@@ -4,7 +4,7 @@
 *   Directive for the global message
 */
 
-angular.module('SiftrockApp.directives')
+angular.module('Clashtools.directives')
 .directive('globalMessage', ['$rootScope', '$timeout',
 function ($rootScope, $timeout) {
 

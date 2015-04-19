@@ -4,7 +4,7 @@
 *   Directive to control access level on page elements
 */
 
-angular.module('SiftrockApp.directives')
+angular.module('Clashtools.directives')
 .directive('accessLevel', ['authService',
 function (authService) {
     return {

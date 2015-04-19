@@ -4,7 +4,7 @@
 *  Service for errors
 */
 
-angular.module('SiftrockApp.services')
+angular.module('Clashtools.services')
 .factory('errorService', ['$http', 'cacheService',
 function ($http, cacheService) {
     return {

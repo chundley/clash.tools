@@ -4,7 +4,7 @@
 *   Controller for the login page of the application
 */
 
-angular.module('SiftrockApp.controllers')
+angular.module('Clashtools.controllers')
 .controller('LoginCtrl', ['$rootScope', '$scope', '$location', '$modal', 'md5', 'authService', 'mailService', 'errorService',
 function ($rootScope, $scope, $location, $modal, md5, authService, mailService, errorService) {
 

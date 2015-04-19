@@ -4,7 +4,7 @@
 *   Controller for logging out
 */
 
-angular.module('SiftrockApp.controllers')
+angular.module('Clashtools.controllers')
 .controller('StreamCtrl', ['$rootScope', '$scope', '$window', 'moment', 'authService', 'sessionService', 'errorService', 'emailStreamService', 'RESPONSE_TYPES',
 function ($rootScope, $scope, $window, moment, authService, sessionService, errorService, emailStreamService, RESPONSE_TYPES) {
 

@@ -4,7 +4,7 @@
 *   Controller for the home page of the application
 */
 
-angular.module('SiftrockApp.controllers')
+angular.module('Clashtools.controllers')
 .controller('HomeCtrl', ['$rootScope', '$scope', '$modal', 'authService', 'cacheService', 'sessionService', 'accountService', 'errorService', 'utils', 'analyticsService', 'dashboardCharts',
 function ($rootScope, $scope, $modal, authService, cacheService, sessionService, accountService, errorService, utils, analyticsService, dashboardCharts) {
     // initialize

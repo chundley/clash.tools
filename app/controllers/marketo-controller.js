@@ -4,7 +4,7 @@
 *   Controller for the Marketo workflow page
 */
 
-angular.module('SiftrockApp.controllers')
+angular.module('Clashtools.controllers')
 .controller('MarketoCtrl', ['$rootScope', '$scope', '$routeParams', '$location', 'authService', 'sessionService', 'errorService', 'marketoService', 'workflowService', 'messagelogService', 'RESPONSE_TYPES', 'SIFTROCK_FIELDS',
 function ($rootScope, $scope, $routeParams, $location, authService, sessionService, errorService, marketoService, workflowService, messagelogService, RESPONSE_TYPES, SIFTROCK_FIELDS) {
 

@@ -4,7 +4,7 @@
 *   Controller for the generic confirmation modal dialog
 */
 
-angular.module('SiftrockApp.controllers')
+angular.module('Clashtools.controllers')
 .controller('ConfirmationCtrl', ['$scope', '$modalInstance', 'dialogTitle', 'yesBtn', 'noBtn',
 function ($scope, $modalInstance, dialogTitle, yesBtn, noBtn) {
 

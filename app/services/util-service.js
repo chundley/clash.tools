@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('SiftrockApp.services')
+angular.module('Clashtools.services')
 .factory('utils', [
 function () {
     return {

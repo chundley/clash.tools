@@ -4,7 +4,7 @@
 *   Controller for the admin page
 */
 
-angular.module('SiftrockApp.controllers')
+angular.module('Clashtools.controllers')
 .controller('WorkflowCtrl', ['$rootScope', '$scope', '$location', '$modal', 'authService', 'sessionService', 'errorService', 'workflowService', 'messagelogService', 'RESPONSE_TYPES',
 function ($rootScope, $scope, $location, $modal, authService, sessionService, errorService, workflowService, messagelogService, RESPONSE_TYPES) {
 

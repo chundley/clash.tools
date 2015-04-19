@@ -4,7 +4,7 @@
 *   Controller for the home page of the application
 */
 
-angular.module('SiftrockApp.controllers')
+angular.module('Clashtools.controllers')
 .controller('FeedbackCtrl', ['$rootScope', '$scope', '$routeParams', '$window', 'authService', 'feedbackService',
 function ($rootScope, $scope, $routeParams, $window, authService, feedbackService) {
 
@@ -30,7 +30,7 @@ function ($rootScope, $scope, $routeParams, $window, authService, feedbackServic
             "title"   : $scope.feedbackSubject,
             "body"    : 'Submitted by: ' + authService.user.email + '\n' +
                         'Referring path: ' + $scope.ref + '\n' +
-                        'User agent: ' + $scope.agent + '\n\n' + 
+                        'User agent: ' + $scope.agent + '\n\n' +
                         $scope.feedbackDetail,
             "labels"  : labels
         };

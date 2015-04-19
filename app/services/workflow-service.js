@@ -4,7 +4,7 @@
 *  Service for workflows
 */
 
-angular.module('SiftrockApp.services')
+angular.module('Clashtools.services')
 .factory('workflowService', ['$http', 'errorService',
 function ($http, errorService) {
     return {

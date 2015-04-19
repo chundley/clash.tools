@@ -4,7 +4,7 @@
 *   Controller for the settings page of the application
 */
 
-angular.module('SiftrockApp.controllers')
+angular.module('Clashtools.controllers')
 .controller('SettingsCtrl', ['$rootScope', '$scope', '$location', '$modal', 'md5', 'authService', 'sessionService', 'accountService', 'userService', 'mailService', 'dnsService', 'errorService', 'utils', 'messagelogService',
 function ($rootScope, $scope, $location, $modal, md5, authService, sessionService, accountService, userService, mailService, dnsService, errorService, utils, messagelogService) {
 

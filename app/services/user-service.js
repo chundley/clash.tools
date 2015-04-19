@@ -4,7 +4,7 @@
 *  Service for user data
 */
 
-angular.module('SiftrockApp.services')
+angular.module('Clashtools.services')
 .factory('userService', ['$http', 'errorService',
 function ($http, errorService) {
     return {

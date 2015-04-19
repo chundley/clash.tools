@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('SiftrockApp.directives')
+angular.module('Clashtools.directives')
 .directive('topNav', ['moment', 'authService', 'sessionService', 'messagelogService',
 function (moment, authService, sessionService, messagelogService) {
     return {

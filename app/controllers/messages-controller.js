@@ -4,7 +4,7 @@
 *   Controller for messages
 */
 
-angular.module('SiftrockApp.controllers')
+angular.module('Clashtools.controllers')
 .controller('MessagesCtrl', ['$rootScope', '$scope', 'authService', 'messagelogService', 'errorService',
 function ($rootScope, $scope, authService, messagelogService, errorService) {
 

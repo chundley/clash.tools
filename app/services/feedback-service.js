@@ -4,7 +4,7 @@
 *  Service for sending feedback to github
 */
 
-angular.module('SiftrockApp.services')
+angular.module('Clashtools.services')
 .factory('feedbackService', ['$http', 'errorService',
 function ($http, errorService) {
     return {

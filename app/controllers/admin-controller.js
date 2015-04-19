@@ -4,7 +4,7 @@
 *   Controller for the admin page
 */
 
-angular.module('SiftrockApp.controllers')
+angular.module('Clashtools.controllers')
 .controller('AdminCtrl', ['$rootScope', '$scope', '$location', 'accountService', 'userService', 'nlpConfigService', 'authService', 'sessionService', 'errorService',
 function ($rootScope, $scope, $location, accountService, userService, nlpConfigService, authService, sessionService, errorService) {
 

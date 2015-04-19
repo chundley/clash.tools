@@ -4,7 +4,7 @@
 *  Directive for draggable divs
 */
 
-angular.module('SiftrockApp.directives')
+angular.module('Clashtools.directives')
 .directive('draggable', ['$document',
 function ($document) {
     return function(scope, element, attr) {

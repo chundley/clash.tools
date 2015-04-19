@@ -4,7 +4,7 @@
 *   Controller for the admin page
 */
 
-angular.module('SiftrockApp.controllers')
+angular.module('Clashtools.controllers')
 .controller('StreamDetailCtrl', ['$rootScope', '$scope', '$sce', '$routeParams', '$location', 'authService', 'sessionService', 'errorService', 'emailStreamService', 'RESPONSE_TYPES',
 function ($rootScope, $scope, $sce, $routeParams, $location, authService, sessionService, errorService, emailStreamService, RESPONSE_TYPES) {
 

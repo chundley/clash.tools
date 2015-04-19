@@ -4,7 +4,7 @@
 *  Service for account messages
 */
 
-angular.module('SiftrockApp.services')
+angular.module('Clashtools.services')
 .factory('messagelogService', ['$http', '$rootScope', 'authService', 'errorService',
 function ($http, $rootScope, authService, errorService) {
     return {

@@ -4,7 +4,7 @@
 *  Service for the Marketo API
 */
 
-angular.module('SiftrockApp.services')
+angular.module('Clashtools.services')
 .factory('marketoService', ['$http', 'errorService',
 function ($http, errorService) {
     return {

@@ -4,7 +4,7 @@
 *  Service for password resets
 */
 
-angular.module('SiftrockApp.services')
+angular.module('Clashtools.services')
 .factory('pwResetService', ['$http', 'errorService',
 function ($http, errorService) {
     return {

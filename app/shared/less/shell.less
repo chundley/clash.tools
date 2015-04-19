@@ -14,102 +14,6 @@ body {
     text-transform: capitalize;
 }
 
-.top-shell-container {
-    width: 100%;
-    min-height: 60px;
-    max-height: 60px;
-    border-bottom: 1px solid #e1e4e8;
-
-    .logo {
-        padding-right: 10px;
-    }
-
-    .brand {
-        img {
-            margin-top: -15px;
-        }
-
-        h2 {
-            line-height: 60px;
-            font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        }
-    }
-}
-
-/* main navigation */
-ul.main-nav {
-    padding-left: 0; // Override default ul/ol
-    float: left;
-    width: 100%;
-    list-style: none;
-    margin-top: 20px;
-    .clearfix();
-
-    li {
-        position: relative;
-        display: inline-block;
-        padding: 0px 30px 0px 0px;
-        font-size: 14px;
-
-        > a {
-            color: @primary;
-            &:hover,
-            &:focus {
-                text-decoration: none;
-                color: @emphasis;
-            }
-        }
-    }
-
-    li.active {
-        > a {
-            color: @emphasis;
-            &:hover,
-            &:focus {
-                text-decoration: none;
-                color: @emphasis;
-            }
-        }
-    }
-}
-
-.user-dropdown {
-    margin-top: 20px;
-    > a {
-        font-size: 12px;
-        color: @primary;
-        &:hover,
-        &:focus {
-            text-decoration: none;
-            color: @primary;
-        }
-    }
-
-    .dropdown-menu {
-        li {
-            > a {
-                padding: 3px 10px;
-            }
-        }
-    }
-}
-
-.body-container {
-    background-color: @content-container;
-    width: 100%;
-    min-height: 200px;
-    padding-bottom: 40px;
-    padding-top: 12px;
-    padding: 20px 0px 40px 0px;
-    border-bottom: 1px solid #e1e4e8;
-}
-
-
-.footer-container {
-    margin-top: 4px;
-    font-size: 11px;
-}
-
 /*
 *   When a field becomes valid, remove the background image
 */
@@ -133,86 +37,6 @@ input.ng-valid {
     background-clip: initial;
     background-image: url('/img/req-field.png');
     background-color: #ffffff;
-}
-
-/* custom tabs */
-ul.tab-nav {
-    padding-left: 0; // Override default ul/ol
-    float: left;
-    width: 100%;
-    list-style: none;
-    .clearfix();
-
-    li {
-        position: relative;
-        display: inline-block;
-        padding: 0px 24px 0px 0px;
-        font-size: 16px;
-        font-weight: 600;
-        color: @primary;
-
-        > a {
-            color: @primary-dark;
-            &:hover,
-            &:focus {
-                text-decoration: none;
-                color: @primary-30;
-            }
-        }
-    }
-
-    li.active {
-        > a {
-            color: @emphasis;
-            &:hover,
-            &:focus {
-                text-decoration: none;
-                color: @emphasis;
-            }
-        }
-    }
-}
-
-ul.tab-subnav {
-    padding-left: 0; // Override default ul/ol
-    float: left;
-    width: 100%;
-    list-style: none;
-    .clearfix();
-    border-top: 1px dotted @primary-40;
-    border-bottom: 1px dotted @primary-40;
-    background-color: @primary-60;
-    padding-top: 2px;
-    padding-bottom: 4px;
-
-    li {
-        position: relative;
-        display: inline-block;
-        padding: 0px 24px 0px 0px;
-        font-size: 12px;
-        font-weight: 600;
-        color: @primary;
-
-        > a {
-            color: @primary-dark;
-            &:hover,
-            &:focus {
-                text-decoration: none;
-                color: @primary-30;
-            }
-        }
-    }
-
-    li.active {
-        > a {
-            color: @emphasis;
-            &:hover,
-            &:focus {
-                text-decoration: none;
-                color: @emphasis;
-            }
-        }
-    }
 }
 
 /*
@@ -283,7 +107,7 @@ ul.tab-subnav {
     background-color: @primary-60;
 }
 
-.tertiary {
+.emphasis {
     color: @emphasis;
 }
 
@@ -303,7 +127,7 @@ ul.tab-subnav {
     .button-variant(#fff; @primary-20; @primary-20);
 }
 
-.btn-tertiary {
+.btn-emphasis {
     .button-variant(@primary-50; darken(@emphasis, 5%); darken(@emphasis, 15%));
 
   .caret {
@@ -323,18 +147,6 @@ ul.tab-subnav {
 .btn-inverse-next {
     .button-variant(@primary; @primary-60; @emphasis);
     border: 2px solid @emphasis;
-}
-
-.btn-emphasis {
-    .button-variant(lighten(@emphasis, 40%); @emphasis; @emphasis);
-/*    .caret {
-    // Firefox fix for https://github.com/twbs/bootstrap/issues/9538. Once this
-    // gets fixed, restore `border-top: 0;`.
-        border-bottom: 0 dotted;
-        border-top: 4px solid #fff;
-        content: "";
-        margin-left: 4px;
-    }*/
 }
 
 .btn-alternate {
@@ -400,86 +212,6 @@ ul.tab-subnav {
     color: @primary;
     &:hover {
         color: @primary-dark;
-    }
-}
-
-/*
-*   System message dropdown
-*/
-.system-messages {
-    display: inline-block;
-    padding-top: 8px;
-    margin-top: 11px;
-    margin-right: 8px;
-
-    .dropdown-menu {
-        border-radius: 0px;
-        border: 1px solid @primary-40;
-        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.175);
-        padding-top: 0px;
-        padding-bottom: 0px;
-    }
-
-    a {
-        text-decoration: none;
-    }
-
-    i {
-        color: @primary;
-        font-size: 18px;
-    }
-
-    .label {
-        padding: 1px 6px 1px 6px;
-        position: relative;
-        left: -14px;
-        top: -10px;
-        background-color: lighten(desaturate(@emphasis, 10%), 10%);
-        font-size: 9px;
-        margin: 0px;
-    }
-
-    .message-header {
-        padding: 8px 20px 8px 20px;
-        margin: 0px;
-        background-color: @primary-60;//lighten(@alternate, 40%);
-        font-size: 13px;
-        color: @primary;//@alternate;
-        border-bottom: 1px solid @primary-40;//lighten(desaturate(@alternate, 20%), 20%);
-        i {
-            color: @primary;
-            font-size: 16px;
-            padding-top: -10px;
-        }
-    }
-
-    .message-item {
-        width: 280px;
-        margin: 10px 20px 0px 20px;
-        padding-bottom: 10px;
-        border-bottom: 1px solid @primary-50;//lighten(@alternate, 37%);
-        &:last-child {
-            border: 0px;
-        }
-
-        i {
-            color: @primary-20;
-            font-size: 20px;
-        }
-
-        a {
-            font-size: 13px;
-            padding: 0px;
-            color: @emphasis;
-            &:hover {
-                background-color: #fff;
-                color: lighten(@emphasis, 15%);
-            }
-        }
-
-        .time {
-            font-size: 9px;
-        }
     }
 }
 

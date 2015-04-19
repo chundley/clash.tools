@@ -4,7 +4,7 @@
 *  Service for accounts
 */
 
-angular.module('SiftrockApp.services')
+angular.module('Clashtools.services')
 .factory('nlpConfigService', ['$http', 'cacheService', 'errorService',
 function ($http, cacheService, errorService) {
     return {

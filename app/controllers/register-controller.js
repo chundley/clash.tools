@@ -4,7 +4,7 @@
 *   Controller for the registration page of the application
 */
 
-angular.module('SiftrockApp.controllers')
+angular.module('Clashtools.controllers')
 .controller('RegisterCtrl', ['$rootScope', '$scope', '$location', 'md5', 'accountService', 'authService', 'sessionService', 'mailService', 'errorService',
 function ($rootScope, $scope, $location, md5, accountService, authService, sessionService, mailService, errorService) {
 

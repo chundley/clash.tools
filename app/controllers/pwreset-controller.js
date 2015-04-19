@@ -4,7 +4,7 @@
 *   Controller for the admin page
 */
 
-angular.module('SiftrockApp.controllers')
+angular.module('Clashtools.controllers')
 .controller('PWResetCtrl', ['$rootScope', '$scope', '$routeParams', 'md5', 'userService', 'pwResetService', 'errorService',
 function ($rootScope, $scope, $routeParams, md5, userService, pwResetService, errorService) {
 
@@ -26,7 +26,7 @@ function ($rootScope, $scope, $routeParams, md5, userService, pwResetService, er
         else {
             $scope.userId = data.user_id;
         }
-    });  
+    });
 
     $scope.reset = function() {
         userService.changePassword($scope.userId, md5.createHash($scope.pw1), function (err, data) {

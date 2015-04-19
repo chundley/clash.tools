@@ -4,7 +4,7 @@
 *  Service for dns lookups
 */
 
-angular.module('SiftrockApp.services')
+angular.module('Clashtools.services')
 .factory('dnsService', ['$http', 'errorService',
 function ($http, errorService) {
     return {

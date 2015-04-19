@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('SiftrockApp.directives')
+angular.module('Clashtools.directives')
   .directive('highchart', function () {
 
     //IE8 support
@@ -110,7 +110,7 @@ angular.module('SiftrockApp.directives')
       if (config.credits) {
         mergedOptions.credits = config.credits;
       }
-      
+
 
       // CSH added the below, otherwise they don't get in?
       if (config.plotOptions) {
@@ -123,7 +123,7 @@ angular.module('SiftrockApp.directives')
 
       if (config.legend) {
         mergedOptions.legend = config.legend;
-      }      
+      }
 
       return mergedOptions;
     };

@@ -4,7 +4,7 @@
 *  Service for the Hubspot API
 */
 
-angular.module('SiftrockApp.services')
+angular.module('Clashtools.services')
 .factory('hubspotService', ['$http', 'errorService',
 function ($http, errorService) {
     return {

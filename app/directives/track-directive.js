@@ -4,7 +4,7 @@
 *  Directive for analytics tracking
 */
 
-angular.module('SiftrockApp.directives')
+angular.module('Clashtools.directives')
 .directive('track', ['$document', '$rootScope',
 function ($document, $rootScope) {
     return function(scope, element, attr) {

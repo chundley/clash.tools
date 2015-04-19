@@ -4,7 +4,7 @@
 *   Controller for creating and processing forms from the marketing web site
 */
 
-angular.module('SiftrockApp.controllers')
+angular.module('Clashtools.controllers')
 .controller('FormCtrl', ['$scope', '$routeParams', '$location', 'errorService', 'mailService',
 function ($scope, $routeParams, $location, errorService, mailService) {
 
@@ -78,7 +78,7 @@ function ($scope, $routeParams, $location, errorService, mailService) {
                     required: true
                 }
             ]
-        }        
+        }
     };
 
     $scope.form = $scope.formTypes[$scope.formType];

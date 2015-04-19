@@ -4,7 +4,7 @@
 *   Controller for the admin page
 */
 
-angular.module('SiftrockApp.controllers')
+angular.module('Clashtools.controllers')
 .controller('EmailVerifyCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$timeout', 'userService', 'errorService',
 function ($rootScope, $scope, $routeParams, $location, $timeout, userService, errorService) {
 
