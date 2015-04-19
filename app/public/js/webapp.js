@@ -18,8 +18,8 @@ angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize',
         .when('/logout', { controller: 'LogoutCtrl', templateUrl: '/views/login.html', access: access.public } )
         .when('/verify/:id', { controller: 'EmailVerifyCtrl', templateUrl: '/views/emailVerify.html', access: access.public } )
         .when('/pwreset/:id', { controller: 'PWResetCtrl', templateUrl: '/views/pwreset.html', access: access.public } )
-/*        .when('/home', { controller: 'HomeCtrl', templateUrl: '/views/home.html', access: access.user } )
-        .when('/messages', { controller: 'MessagesCtrl', templateUrl: '/views/messages.html', access: access.user } )
+        .when('/home', { controller: 'HomeCtrl', templateUrl: '/views/home.html', access: access.member } )
+/*        .when('/messages', { controller: 'MessagesCtrl', templateUrl: '/views/messages.html', access: access.user } )
         .when('/admin', { controller: 'AdminCtrl', templateUrl: '/views/admin/home.html', access: access.sadmin } )
         .when('/admin/unspoof', { controller: 'AdminCtrl', templateUrl: '/views/admin/home.html', access: access.admin } )
         .when('/form/:id', { controller: 'FormCtrl', templateUrl: '/views/form.html', access: access.public } )*/

@@ -9,19 +9,16 @@ var LocalStrategy = require('passport-local').Strategy,
 var config = require('../../config/config'),
     util   = require('../../app/shared/util');
 
-exports.addUser = function(account_id, user, callback) {
+exports.addUser = function(user, callback) {
     var now = new Date();
     var user = {
-        account_id: account_id,
-        name: user.name,
         email_address: user.email_address,
-        nickname: user.nickname,
         password: user.password,
         role: user.role,
         enabled: true,
         verified: user.verified,
         verify_token: util.createGUID(),
-        session_data: {
+/*        session_data: {
             settings_tab: 'account',
             dashboard_filters: {
                 days: 90,
@@ -40,7 +37,7 @@ exports.addUser = function(account_id, user, callback) {
                 last_changed: now
             },
             ui_flags: {}
-        },
+        },*/
         last_login: now,
         created_at: now,
         last_updated_at: now

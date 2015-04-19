@@ -9,11 +9,11 @@ angular.module('Clashtools.services')
 function ($http, $rootScope, $cookieStore, md5, accountService, sessionService, cacheService, errorService) {
     var accessLevels = roleConfig.accessLevels;
     var userRoles = roleConfig.userRoles;
-    var currentUser = $cookieStore.get('f_user') || { id: null, email: null, role: userRoles.public };
+    var currentUser = $cookieStore.get('clashtools_user') || { id: null, email: null, role: userRoles.public };
     var currentAccount = null;
 
     // this was just temporary for server -> client communication
-    $cookieStore.remove('f_user');
+    $cookieStore.remove('clashtools_user');
 
     return {
         authorize: function(accessLevel, role) {
@@ -43,7 +43,6 @@ function ($http, $rootScope, $cookieStore, md5, accountService, sessionService, 
                 data: user,
                 headers: {'Content-Type': 'application/json'}
             }).success(function (data, status, headers, config) {
-                mixpanel.track("Registration completed");
                 callback(null, data);
             }).error(function (data, status, headers, config) {
                 callback(errorService.initMessage('auth-service.js', 'register', status, user.email_address), null);
@@ -57,7 +56,6 @@ function ($http, $rootScope, $cookieStore, md5, accountService, sessionService, 
                 headers: {'Content-Type': 'application/json'}
             }).success(function (data, status, headers, config) {
                 changeUser(data, function() {
-                    mixpanel.track("Login completed");
                     callback(null);
                 });
             }).error(function (data, status, headers, config) {
@@ -104,13 +102,13 @@ function ($http, $rootScope, $cookieStore, md5, accountService, sessionService, 
         angular.extend(currentUser, { id: user.id, email: user.email, role: user.role });
         if (loggedIn()) {
             // mixpanel
-            if (!$rootScope.isSpoofing) {
+/*            if (!$rootScope.isSpoofing) {
                 mixpanel.identify(currentUser.id);
                 mixpanel.people.set({
                     "$first_name": currentUser.email,
                     "$email": currentUser.email
                 });
-            }
+            }*/
 
             callback();
         }

@@ -12,18 +12,17 @@ function ($rootScope, $scope, $location, md5, accountService, authService, sessi
         $location.path('/home').replace();
     }
 
-    $rootScope.title = "Siftrock - Register a new account";
+    $rootScope.title = "Register new user - clash.tools";
 
     $scope.register = function() {
 
         var newUser = {
-            name: $scope.name,
-            company: $scope.company,
+            ign: $scope.ign,
             email_address: $scope.emailAddress,
-            nickname: $scope.emailAddress.substring(0, $scope.emailAddress.indexOf('@')),
             password: md5.createHash($scope.password),
-            role: authService.userRoles.admin,
+            role: authService.userRoles.member,
             verified: false,
+            clan: {},
             last_login: new Date()
         };
 
