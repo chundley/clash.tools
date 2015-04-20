@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('Clashtools.directives')
-.directive('topNav', ['moment', 'authService', 'sessionService', 'messagelogService',
+.directive('sidebar', ['moment', 'authService', 'sessionService', 'messagelogService',
 function (moment, authService, sessionService, messagelogService) {
     return {
         restrict: 'A',
-        templateUrl: '/views/partials/topNav.html',
+        templateUrl: '/views/partials/sidebar.html',
         link: function(scope, element, attrs) {
 /*            sessionService.getUserMeta(authService.user.id, function (err, meta) {
                 scope.userName = meta.name;

@@ -11,7 +11,7 @@ function ($document, $rootScope) {
         var trackEvent = attr.track;
         element.on('click', function(event) {
             if (trackEvent && trackEvent.length > 0 && !$rootScope.isSpoofing) {
-                mixpanel.track(trackEvent);
+                //mixpanel.track(trackEvent);
             }
         });
     }
