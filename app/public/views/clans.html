@@ -19,19 +19,19 @@
                                 <div class="widget-header">Clans registered with clash.tools</div>
                                 <div class="widget-body">
                                     <div class="row">
-                                        <div class="col-sm-3 t-header">Clan name</div>
-                                        <div class="col-sm-2 t-header">Clan tag</div>
-                                        <div class="col-sm-2 t-header">Leader</div>
-                                        <div class="col-sm-2 t-header text-center">Members</div>
+                                        <div class="col-xs-4 t-header">Clan name</div>
+                                        <div class="col-xs-2 t-header">Clan tag</div>
+                                        <div class="col-xs-2 t-header">Leader</div>
+                                        <div class="col-xs-2 t-header text-center">Members</div>
                                     </div>
                                     <div class="row row-underline-1"></div>
                                     <div ng-repeat="clan in clans">
                                         <div class="row t-row">
-                                            <div class="col-sm-3">{{clan.name}}</div>
-                                            <div class="col-sm-2">{{clan.clan_tag}}</div>
-                                            <div class="col-sm-2">{{clan.metrics.leader}}</div>
-                                            <div class="col-sm-2 text-center">{{clan.metrics.totalMembers}}</div>
-                                            <div class="col-sm-2"><a class="btn btn-alternate btn-xs">Join</a></div>
+                                            <div class="col-xs-4">{{clan.name}}</div>
+                                            <div class="col-xs-2">{{clan.clan_tag}}</div>
+                                            <div class="col-xs-2">{{clan.metrics.leader}}</div>
+                                            <div class="col-xs-2 text-center">{{clan.metrics.totalMembers}}</div>
+                                            <div class="col-xs-2 text-right"><a class="btn btn-alternate btn-xs">Join</a></div>
                                         </div>
                                     </div>
                                 </div>

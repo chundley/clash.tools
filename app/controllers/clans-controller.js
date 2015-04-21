@@ -28,7 +28,6 @@ function ($rootScope, $scope, $routeParams, $location, $modal, authService, cach
     });
 
     clanService.allClans(query, function (err, clans) {
-        console.log(clans);
         $scope.clans = clans;
     });
 
