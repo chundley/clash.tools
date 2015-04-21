@@ -1,0 +1,52 @@
+<div id="wrapper">
+    <div sidebar></div>
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div top-nav></div>
+            <!-- page content -->
+            <div class="row content-body">
+                <div class="col-sm-12 margin-bottom-big">
+                    <h1>Create new clan</h1>
+                </div>
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="widget">
+                                <div class="widget-header">
+                                    Clan information
+                                </div>
+                                <div class="widget-body">
+                                    <form name="newClanForm" class="form-horizontal" ng-submit="saveNewClan()" novalidate>
+                                        <div class="form-group">
+                                            <label for="clanName" class="col-sm-4 control-label">Clan name</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control req-field" id="clanName" ng-model="clan.name" placeholder="Enter clan name" required ng-minlength="1">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="clanTag" class="col-sm-4 control-label">Clan tag</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control req-field" id="clanName" ng-model="clan.clan_tag" placeholder="Enter clan tag" ng-minlength="1" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-4">
+                                                <button class="btn btn-emphasis btn-sm" ng-disabled="newClanForm.$invalid">Save</button>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" ng-if="errorMsg">
+                                            <div class="col-sm-12 text-center alternate">
+                                                {{errorMsg}} <a class="btn btn-alternate btn-sm">Join clan</a>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- /page content -->
+        </div>
+    </div>  <!-- /#page-content-wrapper -->
+</div>  <!-- /#wrapper -->

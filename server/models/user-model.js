@@ -13,13 +13,16 @@ exports.addUser = function(user, callback) {
     var now = new Date();
     var user = {
         email_address: user.email_address,
+        ign: user.ign,
         password: user.password,
         role: user.role,
         enabled: true,
+        current_clan: {},
+        clan_history: [],
         verified: user.verified,
         verify_token: util.createGUID(),
-/*        session_data: {
-            settings_tab: 'account',
+        session_data: {
+/*            settings_tab: 'account',
             dashboard_filters: {
                 days: 90,
                 last_changed: now
@@ -35,9 +38,9 @@ exports.addUser = function(user, callback) {
                 first_date: 0,
                 last_date: 0,
                 last_changed: now
-            },
+            },*/
             ui_flags: {}
-        },*/
+        },
         last_login: now,
         created_at: now,
         last_updated_at: now
@@ -59,6 +62,41 @@ exports.addUser = function(user, callback) {
         }
     });
 }
+
+exports.updateClan = function(userId, clan, callback) {
+    if (_.isString(userId)) {
+        userId = new ObjectID.createFromHexString(userId);
+    }
+
+    var clanTrimmed = {
+        clan_id: clan._id,
+        name: clan.name,
+        clan_tag: clan.clan_tag,
+        joined: new Date()
+    };
+
+    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'user', function (err, collection) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            collection.update(
+                { _id: userId },
+                { $set: { current_clan: clanTrimmed }, $push: {clan_history: clanTrimmed} },
+                { upsert: false },
+                function (err, result) {
+                    if (err) {
+                        callback(err, null);
+                    }
+                    else {
+                        callback(null, result);
+                    }
+                }
+            );
+        }
+    });
+}
+
 
 /*
 * Updates a record and returns the record

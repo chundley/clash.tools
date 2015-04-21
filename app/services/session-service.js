@@ -39,7 +39,7 @@ function ($http, cacheService, userService, accountService) {
             else {
                 userService.getMeta(userid, function (err, meta) {
                     if (err) {
-                        err.stack_trace.unshift( { file: 'session-service.js', func: 'getMeta', message: 'Error getting meta data: ' + err } );
+                        err.stack_trace.unshift( { file: 'session-service.js', func: 'getUserMeta', message: 'Error getting meta data: ' + err } );
                         callback(err, null);
                     }
                     else {

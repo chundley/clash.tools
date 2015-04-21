@@ -8,6 +8,7 @@ var _    = require('underscore'),
 var authCtrl            = require('./controllers/auth-controller'),
     configCtrl          = require('./controllers/config-controller'),
     userCtrl            = require('./controllers/user-controller'),
+    clanCtrl            = require('./controllers/clan-controller'),
     accountCtrl         = require('./controllers/account-controller'),
     pwResetCtrl         = require('./controllers/pwreset-controller'),
     mailCtrl            = require('./controllers/mail-controller'),
@@ -109,6 +110,12 @@ var routes = [
         path: '/crud/user/:id/disable',
         httpMethod: 'POST',
         middleware: [userCtrl.disable],
+        accessLevel: accessLevels.member
+    },
+    {
+        path: '/crud/clan',
+        httpMethod: 'POST',
+        middleware: [clanCtrl.save],
         accessLevel: accessLevels.member
     },
     {

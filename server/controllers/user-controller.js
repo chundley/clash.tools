@@ -129,9 +129,9 @@ exports.getMeta = function(req, res, next) {
         }
         else if (user) {
             var ret = {
-                name: user.name,
+                ign: user.ign,
                 email_address: user.email_address,
-                nickname: user.nickname
+                current_clan: user.current_clan
             };
             res.json(200, ret);
         }

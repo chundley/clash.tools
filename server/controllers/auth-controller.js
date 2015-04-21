@@ -95,7 +95,7 @@ exports.login = function(req, res, next) {
                 }
 
                 if (req.body.remember) {
-                    req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 7;
+                    req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 30;
                 }
                 res.json(200, loginUser);
             });

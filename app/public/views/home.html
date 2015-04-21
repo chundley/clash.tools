@@ -7,8 +7,10 @@
             <!-- page content -->
             <div class="row content-body">
                 <div class="col-lg-12">
-                    <h1>Clan Members</h1>
-                    <h3 class="same-line-sub-heading alternate">KARA Rising</h3>
+                    <h1>{{ign}}</h1>
+                    <h3 class="same-line-sub-heading alternate" ng-if="clan">{{clan.name}}</h3>
+                    <a href class="same-line-sub-heading-btn btn btn-sm btn-alternate">Join a clan</a>
+                    <a href="/clan/new" class="same-line-sub-heading-btn btn btn-sm btn-alternate">Create a clan</a>
                 </div>
             </div> <!-- /page content -->
         </div>

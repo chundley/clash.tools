@@ -14,6 +14,12 @@ function ($rootScope, $scope, $modal, authService, cacheService, sessionService,
 
     $scope.nullState = false;
 
+
+    sessionService.getUserMeta(authService.user.id, function (err, meta) {
+        $scope.ign = meta.ign;
+        $scope.clan = meta.clan;
+    });
+
 /*
     $scope.filterSet = {
         days: [

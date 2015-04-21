@@ -43,6 +43,11 @@ input.ng-valid {
     margin-left: 14px;
 }
 
+.same-line-sub-heading-btn {
+    margin-left: 14px;
+    margin-top: -10px;
+}
+
 /*
 *   Convenience color styles
 */
@@ -132,7 +137,7 @@ input.ng-valid {
 }
 
 .btn-emphasis {
-    .button-variant(@primary-50; darken(@emphasis, 5%); darken(@emphasis, 15%));
+    .button-variant(#fff; darken(@emphasis, 5%); darken(@emphasis, 15%));
 
   .caret {
     // Firefox fix for https://github.com/twbs/bootstrap/issues/9538. Once this
@@ -323,33 +328,24 @@ a.external-link {
 *   Standard container used throughout the app
 */
 .widget {
-    background-color: #fff;
+    background-color: transparent;
     .widget-header {
-        color: @primary-dark;
-        font-size: 18px;
-        font-family: 'Raleway', sans-serif;
-        padding: 4px 6px 4px 6px;
-        border-left: 1px solid @primary-50;
-        border-right: 1px solid @primary-50;
-        border-top: 1px solid @primary-50;
-        background-image: -webkit-gradient(
-            linear,
-            left top,
-            left bottom,
-            color-stop(0, darken(@primary, 8%)),
-            color-stop(1, darken(@primary, 2%))
-        );
-        background-image: -o-linear-gradient(bottom, darken(@primary-50, 8%) 0%, darken(@primary-50, 2%) 100%);
-        background-image: -moz-linear-gradient(bottom, darken(@primary-50, 8%) 0%, darken(@primary-50, 2%) 100%);
-        background-image: -webkit-linear-gradient(bottom, darken(@primary-50, 8%) 0%, darken(@primary-50, 2%) 100%);
-        background-image: -ms-linear-gradient(bottom, darken(@primary-50, 8%) 0%, darken(@primary-50, 2%) 100%);
-        background-image: linear-gradient(to bottom, @primary-50 0%, @primary-60 75%);
+        color: #fff;
+        background: @primary;
+        font-size: 14px;
+        font-family: 'Merriweather Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        padding: 8px 12px 8px 12px;
+        border-left: 1px solid @primary;
+        border-right: 1px solid @primary;
+        border-top: 1px solid @primary;
+        border-top-right-radius: 3px;
+        border-top-left-radius: 3px;
     }
 
     .widget-body {
         .clearfix();
         background-color: #fff;
-        padding: 8px 10px 8px 10px;
+        padding: 12px 12px 8px 12px;
         border: 1px solid @primary-50;
     }
 
