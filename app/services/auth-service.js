@@ -10,7 +10,6 @@ function ($http, $rootScope, $cookieStore, md5, accountService, sessionService, 
     var accessLevels = roleConfig.accessLevels;
     var userRoles = roleConfig.userRoles;
     var currentUser = $cookieStore.get('clashtools_user') || { id: null, email: null, role: userRoles.public };
-    var currentAccount = null;
 
     // this was just temporary for server -> client communication
     $cookieStore.remove('clashtools_user');

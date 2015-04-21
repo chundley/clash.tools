@@ -9,17 +9,17 @@
                 <a href class="snh-clan" ng-if="clanName.length==0">Join a clan</a>
             </div>
         </div>
-        <li class="header">
+        <li class="header" ng-if="clanName.length>0">
             Clan
         </li>
-        <li>
+        <li ng-if="clanName.length>0">
             <a href="#">Members</a>
         </li>
-        <li>
+        <li ng-if="clanName.length>0">
             <a href="#">Wars</a>
         </li>
-        <li>
-            <a href="#">Chat</a>
+        <li ng-if="clanName.length>0">
+            <a href="/clan/{{clanId}}">Settings</a>
         </li>
         <li class="header">
             You

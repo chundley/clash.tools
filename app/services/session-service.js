@@ -49,6 +49,9 @@ function ($http, cacheService, userService, accountService) {
                 });
             }
         },
+        clearUserMeta: function() {
+            userMeta = null;
+        },
         getUserSession: function(userid, callback) {
             if (userSession) {
                 callback(null, userSession);

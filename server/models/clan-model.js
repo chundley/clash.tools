@@ -100,8 +100,6 @@ exports.save = function(model, callback) {
 *   Find Clan by id
 */
 exports.findById = function(id, callback) {
-
-    // sometimes id is native, sometimes it's been converted to a string
     if (_.isString(id)) {
         id = new ObjectID.createFromHexString(id);
     }

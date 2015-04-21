@@ -9,7 +9,8 @@ function (moment, authService, sessionService, messagelogService) {
         link: function(scope, element, attrs) {
             sessionService.getUserMeta(authService.user.id, function (err, meta) {
                 scope.ign = meta.ign;
-                scope.clanName = meta.clan ? meta.clan.name : '';
+                scope.clanName = meta.current_clan.name ? meta.current_clan.name : '';
+                scope.clanId = meta.current_clan.clan_id ? meta.current_clan.clan_id : '';
             });
 
 /*            scope.$watch('logUpdate', function() {

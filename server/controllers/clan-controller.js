@@ -26,3 +26,17 @@ exports.save = function(req, res, next) {
         }
     });
 };
+
+exports.getById = function(req, res, next) {
+    clanModel.findById(req.params.id, function (err, clan) {
+        if (err) {
+            res.send(500, err);
+        }
+        else if (clan) {
+            res.json(200, clan);
+        }
+        else {
+            res.send(404, 'not found');
+        }
+    });
+}

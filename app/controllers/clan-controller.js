@@ -8,16 +8,25 @@ angular.module('Clashtools.controllers')
 .controller('ClanCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$modal', 'authService', 'cacheService', 'sessionService', 'errorService', 'clanService',
 function ($rootScope, $scope, $routeParams, $location, $modal, authService, cacheService, sessionService, errorService, clanService) {
     // initialize
-    $rootScope.title = 'New clan - clash.tools';
+
 
     //$scope.helpLink = 'http://www.siftrock.com/help/dashboard/';
-
-    $scope.nullState = false;
 
     var clanId = $routeParams.id;
 
     if (clanId !== 'new') {
+        $scope.newClan = false;
 
+        clanService.getById(clanId, function (err, clan) {
+            $scope.clan = clan;
+        });
+
+        $rootScope.title = 'New clan - clash.tools';
+    }
+    else {
+        $scope.newClan = true;
+        $scope.clan = {};
+        $rootScope.title = 'New clan - clash.tools';
     }
 
 /*    sessionService.getUserMeta(authService.user.id, function (err, meta) {
@@ -40,21 +49,13 @@ function ($rootScope, $scope, $routeParams, $location, $modal, authService, cach
                 $scope.errorMsg = 'A clan with that tag already exists';
             }
             else {
-                $location.url('/clan/' + result._id).replace();
-            }
-        });
-    }
-
-
-    /*
-    *   Saves the user session when it changes
-    */
-    function saveUserSession() {
-        $scope.userSession.dashboard_filters.last_changed = new Date();
-        sessionService.saveUserSession(authService.user.id, $scope.userSession, function (err, session) {
-            if (err) {
-                err.stack_trace.unshift( { file: 'dashboard-controller.js', func: '$scope.setPerPage', message: 'Error saving user session' } );
-                errorService.save(err, function() {});
+                // in every case with a new clan, the creator becomes the leader
+                var newUser = authService.user;
+                newUser.role = { bitMask: 16, title: 'leader' };
+                authService.changeUser(newUser, function () {
+                    sessionService.clearUserMeta(); // clear session data so clan gets reset in user meta data
+                    $location.url('/clan/' + result._id).replace();
+                });
             }
         });
     }

@@ -82,7 +82,7 @@ exports.updateClan = function(userId, clan, callback) {
         else {
             collection.update(
                 { _id: userId },
-                { $set: { current_clan: clanTrimmed }, $push: {clan_history: clanTrimmed} },
+                { $set: { current_clan: clanTrimmed, role: { bitMask: 16, title: 'leader' } }, $push: {clan_history: clanTrimmed} },
                 { upsert: false },
                 function (err, result) {
                     if (err) {

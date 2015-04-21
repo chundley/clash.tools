@@ -26,7 +26,7 @@ function ($http, errorService) {
                 }
             });
         },
-        get: function(id, callback) {
+        getById: function(id, callback) {
             $http({
                 url: '/crud/clan/' + id,
                 method: 'GET'

@@ -65,6 +65,9 @@ var routes = [
         middleware: [accountCtrl.addUser],
         accessLevel: accessLevels.member
     },
+    /*
+    *   User endpoints
+    */
     {
         path: '/crud/user',
         httpMethod: 'GET',
@@ -112,12 +115,24 @@ var routes = [
         middleware: [userCtrl.disable],
         accessLevel: accessLevels.member
     },
+    /*
+    *   Clan endpoints
+    */
     {
         path: '/crud/clan',
         httpMethod: 'POST',
         middleware: [clanCtrl.save],
         accessLevel: accessLevels.member
     },
+    {
+        path: '/crud/clan/:id',
+        httpMethod: 'GET',
+        middleware: [clanCtrl.getById],
+        accessLevel: accessLevels.member
+    },
+    /*
+    *   Utility endpoints
+    */
     {
         path: '/crud/verifyemail/:token',
         httpMethod: 'GET',
