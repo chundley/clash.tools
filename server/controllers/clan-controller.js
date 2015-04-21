@@ -17,11 +17,6 @@ exports.save = function(req, res, next) {
             res.send(500, err);
         }
         else {
-            userModel.updateClan(clan.created_by, clan, function (err, result) {
-                if (err) {
-                    // TODO: Ugly, ugly problem here
-                }
-            });
             res.json(200, clan);
         }
     });

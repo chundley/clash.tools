@@ -25,7 +25,10 @@ function ($rootScope, $scope, $routeParams, $location, $modal, authService, cach
     }
     else {
         $scope.newClan = true;
-        $scope.clan = {};
+        $scope.clan = {
+            meta: {},
+            created_by: authService.user.id
+        };
         $rootScope.title = 'New clan - clash.tools';
     }
 
@@ -37,8 +40,6 @@ function ($rootScope, $scope, $routeParams, $location, $modal, authService, cach
 
 
     $scope.saveNewClan = function() {
-        $scope.clan.created_by = authService.user.id;
-
         clanService.save($scope.clan, function (err, result) {
             if (err) {
                 err.stack_trace.unshift( { file: 'clan-controller.js', func: '$scope.saveNewClan', message: 'Error saving new clan' } );
@@ -49,7 +50,7 @@ function ($rootScope, $scope, $routeParams, $location, $modal, authService, cach
                 $scope.errorMsg = 'A clan with that tag already exists';
             }
             else {
-                // in every case with a new clan, the creator becomes the leader
+                // in every case with a new clan, the creator becomes the leader. Need to reset role for UI permissions
                 var newUser = authService.user;
                 newUser.role = { bitMask: 16, title: 'leader' };
                 authService.changeUser(newUser, function () {

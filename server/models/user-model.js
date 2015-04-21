@@ -63,7 +63,11 @@ exports.addUser = function(user, callback) {
     });
 }
 
-exports.updateClan = function(userId, clan, callback) {
+/*
+*   Updates a user's clan. The "newClan" flag indicates a new clan was created. In that case
+*   the user needs to be set as leader
+*/
+exports.updateClan = function(userId, clan, newClan, callback) {
     if (_.isString(userId)) {
         userId = new ObjectID.createFromHexString(userId);
     }
@@ -75,6 +79,14 @@ exports.updateClan = function(userId, clan, callback) {
         joined: new Date()
     };
 
+    var updateFields = {
+        current_clan: clanTrimmed
+    };
+
+    if (newClan) {
+        updateFields.role = { bitMask: 16, title: 'leader' };
+    }
+
     db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'user', function (err, collection) {
         if (err) {
             callback(err, null);
@@ -82,7 +94,7 @@ exports.updateClan = function(userId, clan, callback) {
         else {
             collection.update(
                 { _id: userId },
-                { $set: { current_clan: clanTrimmed, role: { bitMask: 16, title: 'leader' } }, $push: {clan_history: clanTrimmed} },
+                { $set: updateFields, $push: { clan_history: clanTrimmed } },
                 { upsert: false },
                 function (err, result) {
                     if (err) {

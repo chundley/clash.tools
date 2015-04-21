@@ -6,13 +6,15 @@ var ObjectID = require('mongodb').ObjectID,
     async    = require('async'),
     _        = require('underscore');
 
-var config = require('../../config/config');
+var config    = require('../../config/config'),
+    userModel = require('./user-model');
 
 /*
 * Upserts a record and returns the resulting record
 */
 exports.save = function(model, callback) {
     var me = this;
+    var newClan = false;
     async.waterfall([
         function (callback_wf) {
             if (!model._id) {
@@ -21,10 +23,10 @@ exports.save = function(model, callback) {
                         callback_wf(err, null);
                     }
                     else if (record) {
-                        exists = true;
                         callback_wf('Clan already exists', record);
                     }
                     else {
+                        newClan = true;
                         callback_wf(null, null);
                     }
                 });
@@ -36,9 +38,10 @@ exports.save = function(model, callback) {
         function (clan, callback_wf) {
             if (clan) {
                 // attempting to save a new clan, clan tag already exists
-                callback_wf(err, clan);
+                logger.error('we should never see this message');
+                callback_wf('Clan already exists', clan);
             }
-            else {  // saving an existing clan
+            else {  // everything is good, save clan (new or existing)
                 // sometimes id is native, sometimes it's been converted to a string
                 if (model._id && _.isString(model._id)) {
                     model._id = new ObjectID.createFromHexString(model._id);
@@ -83,14 +86,28 @@ exports.save = function(model, callback) {
             }
         }
     ], function (err, result) {
-        if (err && !result) {
+        if (err && !result) {       // an error happened
             callback(err, null);
         }
-        else if (err && result) {
+        else if (err && result) {   // tried to save a duplicate
             callback(err, result);
         }
-        else {
-            callback(null, result)
+        else {                      // save successful
+            if (newClan) {
+                // in the case of a new clan, we need to update the user model to reflect joining the new clan (and leader)
+                userModel.updateClan(result.created_by, result, true, function (err, user) {
+                    if (err) {
+                        // this should never hapen
+                        callback(err, null);
+                    }
+                    else {
+                        callback(null, result);
+                    }
+                });
+            }
+            else {
+                callback(null, result);
+            }
         }
     });
 }
