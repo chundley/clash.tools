@@ -9,8 +9,7 @@ function ($location, moment, authService, sessionService, messagelogService) {
         link: function(scope, element, attrs) {
 
             scope.search = function() {
-                console.log(scope.searchTerms);
-                $location.path('/search?q=' + scope.searchTerms);
+                $location.path('/clans/' + scope.searchTerms);
             }
 
             sessionService.getUserMeta(authService.user.id, function (err, meta) {

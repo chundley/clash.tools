@@ -121,7 +121,15 @@ exports.allClans = function(query, callback) {
             callback(err, null);
         }
         else {
-            collection.find( {}, {} ).sort({name: 1}).limit(50).toArray(function (err, clans) {
+            var q = {};
+            if (query !== '*') {
+                q.$or = [
+                    { name: { $regex: query, $options: 'i'} },
+                    { clan_tag: { $regex: query, $options: 'i'} }
+                ];
+            }
+
+            collection.find( q, {} ).sort({name: 1}).limit(50).toArray(function (err, clans) {
                 if (err) {
                     callback(err, null);
                 }

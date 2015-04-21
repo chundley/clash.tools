@@ -13,21 +13,15 @@ function ($rootScope, $scope, $routeParams, $location, $modal, authService, cach
     //$scope.helpLink = 'http://www.siftrock.com/help/dashboard/';
     $rootScope.title = 'Find a clan - clash.tools';
 
-    var query = $routeParams.query;
-
-    if ($routeParams.query === 'all') {
-        $scope.query = '';
-    }
-    else {
-        $scope.query = $routeParams.query;
-    }
+    $scope.query = $routeParams.query;
+    $scope.searchTerms = $scope.query;
 
     sessionService.getUserMeta(authService.user.id, function (err, meta) {
         $scope.ign = meta.ign;
         $scope.clan = meta.current_clan;
     });
 
-    clanService.allClans(query, function (err, clans) {
+    clanService.allClans($scope.query, function (err, clans) {
         $scope.clans = clans;
     });
 
