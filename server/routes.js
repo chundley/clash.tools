@@ -9,6 +9,7 @@ var authCtrl            = require('./controllers/auth-controller'),
     configCtrl          = require('./controllers/config-controller'),
     userCtrl            = require('./controllers/user-controller'),
     clanCtrl            = require('./controllers/clan-controller'),
+    emailMessageCtrl    = require('./controllers/emailmessage-controller'),
     accountCtrl         = require('./controllers/account-controller'),
     pwResetCtrl         = require('./controllers/pwreset-controller'),
     mailCtrl            = require('./controllers/mail-controller'),
@@ -131,11 +132,27 @@ var routes = [
         accessLevel: accessLevels.member
     },
     {
+        path: '/crud/clan/:clanId/members',
+        httpMethod: 'GET',
+        middleware: [clanCtrl.getByClan],
+        accessLevel: accessLevels.member
+    },
+    {
         path: '/crud/clans/:query',
         httpMethod: 'GET',
         middleware: [clanCtrl.allClans],
         accessLevel: accessLevels.public
     },
+    /*
+    *   App email endpoints
+    */
+    {
+        path: '/crud/email',
+        httpMethod: 'POST',
+        middleware: [emailMessageCtrl.save],
+        accessLevel: accessLevels.member
+    },
+
     /*
     *   Utility endpoints
     */

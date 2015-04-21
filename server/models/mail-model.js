@@ -84,7 +84,7 @@ exports.verifyEmail = function(id, callback) {
 
                 msg.setHtml(verifyEmailTemplate(requestUrl, true));
                 msg.setText(verifyEmailTemplate(requestUrl, false));
-                msg.setSubject('Verify your Siftrock email address');
+                msg.setSubject('Verify your email address');
                 msg.addRecipient(u.email_address, u.email_address, 'to');
                 msg.addTags(['email-verify', appVersion]);
 
@@ -127,7 +127,7 @@ exports.welcome = function(userId, callback) {
 
                 msg.setHtml(newUserTemplate(requestUrl, true));
                 msg.setText(newUserTemplate(requestUrl, false));
-                msg.setSubject('Welcome to Siftrock');
+                msg.setSubject('Welcome to clash.tools');
                 msg.addRecipient(u.email_address, u.email_address, 'to');
                 msg.addTags(['welcome', appVersion]);
 
@@ -235,7 +235,7 @@ exports.wwwForm = function(formData, callback) {
 
         msg.setHtml(wwwFormTemplate(formData, true));
         msg.setText(wwwFormTemplate(JSON.stringify(formData), false));
-        msg.setSubject('www.siftrock.com form submission [' + formData.type + ']');
+        msg.setSubject('clash.tools form submission [' + formData.type + ']');
         msg.addRecipient(recipient, recipient, 'to');
         msg.addTags(['wwwForm', appVersion]);
 
@@ -386,8 +386,8 @@ function MailMessage() {
     this.html = '';
     this.text = '';
     this.subject = '';
-    this.from_email = 'noreply@siftrock.com';
-    this.from_name = 'Siftrock';
+    this.from_email = 'noreply@clash.tools';
+    this.from_name = 'clash.tools';
     this.to = [];
     this.headers = {};
     this.important = false;
@@ -407,7 +407,7 @@ function MailMessage() {
     this.merge_vars = null,
     this.tags = [];
     this.subaccount = null;
-    this.google_analytics_domains = ['siftrock.com'];
+    this.google_analytics_domains = [];
     this.google_analytics_campaign = null;
     this.metadata = { "AppVersion": appVersion};
     this.recipient_metadata = null;

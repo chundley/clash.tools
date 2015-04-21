@@ -4,7 +4,7 @@ angular.module('Clashtools.controllers', []);
 angular.module('Clashtools.services', []);
 angular.module('Clashtools.directives', []);
 
-angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize', 'Clashtools.controllers', 'Clashtools.services', 'Clashtools.directives', 'angular-md5', 'angularMoment', 'webStorageService', 'mgcrea.ngStrap', 'ui.bootstrap.dropdown', 'ui.bootstrap.buttons', 'ui.bootstrap.accordion', 'ui.bootstrap.collapse', 'ui.bootstrap.transition', 'ui.bootstrap.typeahead'])
+angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize', 'Clashtools.controllers', 'Clashtools.services', 'Clashtools.directives', 'angular-md5', 'angularMoment', 'webStorageService', 'mgcrea.ngStrap', 'ui.bootstrap.dropdown', 'ui.bootstrap.buttons', 'ui.bootstrap.accordion', 'ui.bootstrap.collapse', 'ui.bootstrap.transition', 'ui.bootstrap.typeahead', 'ui.bootstrap.popover'])
 .config(function ($locationProvider, $routeProvider, $httpProvider) {
 
     $locationProvider.html5Mode(true);

@@ -109,16 +109,31 @@ exports.updateClan = function(userId, clan, newClan, callback) {
     });
 }
 
-exports.usersByClan = function(clanId, callback) {
+/*
+*   Gets all members of a clan with an optional parameter for level (elder/coleader/leader) passed in as an
+*   array, such as ['coleader', 'leader']
+*/
+exports.usersByClan = function(clanId, memberTypes, callback) {
     if (_.isString(clanId)) {
         clanId = new ObjectID.createFromHexString(clanId);
     }
+
+    var whereClause = {
+        'current_clan.clan_id': clanId
+    };
+
+    if (memberTypes.length > 0) {
+        whereClause['role.title'] = {
+            $in: memberTypes
+        };
+    }
+
     db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'user', function (err, collection) {
         if (err) {
             callback(err, null);
         }
         else {
-            collection.find( { 'current_clan.clan_id': clanId }, {} ).toArray(function (err, items) {
+            collection.find( whereClause, { _id: 1, ign: 1, role: 1 } ).toArray(function (err, items) {
                 if (err) {
                     callback(err, null);
                 }

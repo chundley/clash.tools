@@ -218,7 +218,7 @@ function clanMetrics(clanId, callback) {
     var metrics = {};
     async.parallel({
         users: function (callback_p) {
-            userModel.usersByClan(clanId, function (err, users) {
+            userModel.usersByClan(clanId, ['member','elder','coleader','leader'], function (err, users) {
                 if (err) {
                     callback_p(err, null);
                 }

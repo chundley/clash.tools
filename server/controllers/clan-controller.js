@@ -49,3 +49,21 @@ exports.getById = function(req, res, next) {
         }
     });
 }
+
+/*
+*   Gets users by clan, optionally specify levels (member, elder, coleader, leader) comma separated
+*   as a query string parameter, such as ?types=coleader,leader
+*/
+exports.getByClan = function(req, res, next) {
+    userModel.usersByClan(req.params.clanId, req.query.types.split(','), function (err, users) {
+        if (err) {
+            res.send(500, err);
+        }
+        else if (users) {
+            res.json(200, users);
+        }
+        else {
+            res.send(404, 'not found');
+        }
+    });
+}
