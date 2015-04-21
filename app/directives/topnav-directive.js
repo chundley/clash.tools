@@ -13,10 +13,11 @@ function ($location, moment, authService, sessionService, messagelogService) {
                 $location.path('/search?q=' + scope.searchTerms);
             }
 
-/*            sessionService.getUserMeta(authService.user.id, function (err, meta) {
-                console.log(meta);
+            sessionService.getUserMeta(authService.user.id, function (err, meta) {
                 scope.ign = meta.ign;
-            });*/
+                scope.clanName = meta.current_clan.name ? meta.current_clan.name : '';
+                scope.clanId = meta.current_clan.clan_id ? meta.current_clan.clan_id : '';
+            });
 
 /*            scope.$watch('logUpdate', function() {
                 messagelogService.get(authService.user.id, 10000, function (err, messages) {

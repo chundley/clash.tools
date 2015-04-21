@@ -7,17 +7,30 @@
                         <div class="col-sm-4 col-sm-offset-2 search-box">
                             <div class="form-control-group">
                                 <input class="form-control" type="text" placeholder="Search for a clan by name or tag" ng-model="searchTerms">
-                                <button class="btn btn-search" ng-click="search()"><i class="icon-mail"></i></button>
+                                <button class="btn btn-search" ng-click="search()"><i class="icon-search"></i></button>
                             </div>
                         </div>
-                        <div class="col-sm-1 text-right">
-                            <i class="icon-mail"></i>
-                        </div>
-                        <div class="col-sm-1 text-right">
-                            <i class="icon-mail"></i>
-                        </div>
-                        <div class="col-sm-1 text-right">
-                            <i class="icon-mail"></i>
+                        <div class="col-sm-3 text-right icon-notification">
+                            <i class="icon-chat"></i><span class="count-indicator vis-1-bg">42</span>
+                            <i class="icon-mail"></i><span class="count-indicator vis-2-bg">42</span>
+
+
+                            <span class="dropdown pull-right" on-toggle="toggled(open)">
+                                <a href class="dropdown-toggle">
+                                    <i class="icon-menu"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <p class="dropdown-header">Clan</p>
+                                    <li><a href="/home">Members</a></li>
+                                    <li><a href="/stream">Wars</a></li>
+                                    <li class="margin-bottom-medium"><a href="/clan/{{clanId}}">Settings</a></li>
+                                    <p class="dropdown-header">You</p>
+                                    <li><a href="/stream">Profile</a></li>
+                                    <li><a href="/settings">History</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="/logout">Logout</a></li>
+                                </ul>
+                            </span>
                         </div>
                     </div>
                 </div>
