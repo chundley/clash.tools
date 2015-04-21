@@ -12,7 +12,7 @@
                         </div>
                         <div class="col-sm-3 text-right icon-notification">
                             <i class="icon-chat"></i><span class="count-indicator vis-1-bg">42</span>
-                            <i class="icon-mail"></i><span class="count-indicator vis-2-bg">42</span>
+                            <i class="icon-mail"></i><span class="count-indicator vis-2-bg">8</span>
 
 
                             <span class="dropdown pull-right" on-toggle="toggled(open)">
@@ -20,10 +20,10 @@
                                     <i class="icon-menu"></i>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <p class="dropdown-header">Clan</p>
-                                    <li><a href="/home">Members</a></li>
-                                    <li><a href="/stream">Wars</a></li>
-                                    <li class="margin-bottom-medium"><a href="/clan/{{clanId}}">Settings</a></li>
+                                    <p class="dropdown-header" ng-if="clanName.length>0">Clan</p>
+                                    <li ng-if="clanName.length>0"><a href="/home">Members</a></li>
+                                    <li ng-if="clanName.length>0"><a href="/stream">Wars</a></li>
+                                    <li class="margin-bottom-medium" ng-if="clanName.length>0"><a href="/clan/{{clanId}}">Settings</a></li>
                                     <p class="dropdown-header">You</p>
                                     <li><a href="/stream">Profile</a></li>
                                     <li><a href="/settings">History</a></li>

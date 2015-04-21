@@ -4,7 +4,7 @@ angular.module('Clashtools.controllers', []);
 angular.module('Clashtools.services', []);
 angular.module('Clashtools.directives', []);
 
-angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize', 'Clashtools.controllers', 'Clashtools.services', 'Clashtools.directives', 'angular-md5', 'angularMoment', 'webStorageService', 'mgcrea.ngStrap', 'ui.bootstrap.dropdown', 'ui.bootstrap.buttons', 'ui.bootstrap.accordion', 'ui.bootstrap.collapse', 'ui.bootstrap.transition', 'ui.bootstrap.typeahead'])
+angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize', 'Clashtools.controllers', 'Clashtools.services', 'Clashtools.directives', 'angular-md5', 'angularMoment', 'webStorageService', 'mgcrea.ngStrap', 'ui.bootstrap.dropdown', 'ui.bootstrap.buttons', 'ui.bootstrap.accordion', 'ui.bootstrap.collapse', 'ui.bootstrap.transition', 'ui.bootstrap.typeahead', 'angularHelpOverlay'])
 .config(function ($locationProvider, $routeProvider, $httpProvider) {
 
     $locationProvider.html5Mode(true);
@@ -20,6 +20,7 @@ angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize',
         .when('/pwreset/:id', { controller: 'PWResetCtrl', templateUrl: '/views/pwreset.html', access: access.public } )
         .when('/home', { controller: 'HomeCtrl', templateUrl: '/views/home.html', access: access.member } )
         .when('/clan/:id', { controller: 'ClanCtrl', templateUrl: '/views/clan.html', access: access.member } )
+        .when('/clans/:query', { controller: 'ClansCtrl', templateUrl: '/views/clans.html', access: access.member } )
 /*        .when('/messages', { controller: 'MessagesCtrl', templateUrl: '/views/messages.html', access: access.user } )
         .when('/admin', { controller: 'AdminCtrl', templateUrl: '/views/admin/home.html', access: access.sadmin } )
         .when('/admin/unspoof', { controller: 'AdminCtrl', templateUrl: '/views/admin/home.html', access: access.admin } )

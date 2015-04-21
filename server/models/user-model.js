@@ -109,6 +109,32 @@ exports.updateClan = function(userId, clan, newClan, callback) {
     });
 }
 
+exports.usersByClan = function(clanId, callback) {
+    if (_.isString(clanId)) {
+        clanId = new ObjectID.createFromHexString(clanId);
+    }
+    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'user', function (err, collection) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            collection.find( { 'current_clan.clan_id': clanId }, {} ).toArray(function (err, items) {
+                if (err) {
+                    callback(err, null);
+                }
+                else {
+                    if (items) {
+                        callback(null, items);
+                    }
+                    else {
+                        callback(null, null);
+                    }
+                }
+            });
+        }
+    });
+}
+
 
 /*
 * Updates a record and returns the record

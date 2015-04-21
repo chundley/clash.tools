@@ -1,0 +1,45 @@
+<div id="wrapper">
+    <div sidebar></div>
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div top-nav></div>
+            <!-- page content -->
+            <div class="row content-body">
+                <div class="col-sm-12">
+                    <div class="row margin-bottom-huge">
+                        <div class="col-sm-12">
+                            <h1>Find a clan</h1>
+                            <h3 class="same-line-sub-heading alternate">{{ign}}</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="widget">
+                                <div class="widget-header">Clans registered with clash.tools</div>
+                                <div class="widget-body">
+                                    <div class="row">
+                                        <div class="col-sm-3 t-header">Clan name</div>
+                                        <div class="col-sm-2 t-header">Clan tag</div>
+                                        <div class="col-sm-2 t-header">Leader</div>
+                                        <div class="col-sm-2 t-header text-center">Members</div>
+                                    </div>
+                                    <div class="row row-underline-1"></div>
+                                    <div ng-repeat="clan in clans">
+                                        <div class="row t-row">
+                                            <div class="col-sm-3">{{clan.name}}</div>
+                                            <div class="col-sm-2">{{clan.clan_tag}}</div>
+                                            <div class="col-sm-2">{{clan.metrics.leader}}</div>
+                                            <div class="col-sm-2 text-center">{{clan.metrics.totalMembers}}</div>
+                                            <div class="col-sm-2"><a class="btn btn-alternate btn-xs">Join</a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- /page content -->
+        </div>
+    </div>  <!-- /#page-content-wrapper -->
+</div>  <!-- /#wrapper -->

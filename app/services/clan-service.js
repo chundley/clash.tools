@@ -35,6 +35,16 @@ function ($http, errorService) {
             }).error(function (data, status, headers, config) {
                 callback(errorService.initMessage('clan-service.js', 'get', status), null);
             });
+        },
+        allClans: function(query, callback) {
+            $http({
+                url: '/crud/clans/' + query,
+                method: 'GET'
+            }).success(function (data, status, headers, config) {
+                callback(null, data);
+            }).error(function (data, status, headers, config) {
+                callback(errorService.initMessage('clan-service.js', 'get', status), null);
+            });
         }
     }
 }]);

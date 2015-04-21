@@ -22,6 +22,20 @@ exports.save = function(req, res, next) {
     });
 };
 
+exports.allClans = function(req, res, next) {
+    clanModel.allClans(req.params.query, function (err, clans) {
+        if (err) {
+            res.send(500, err);
+        }
+        else if (clans) {
+            res.json(200, clans);
+        }
+        else {
+            res.send(404, 'not found');
+        }
+    });
+}
+
 exports.getById = function(req, res, next) {
     clanModel.findById(req.params.id, function (err, clan) {
         if (err) {

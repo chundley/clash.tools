@@ -112,6 +112,48 @@ exports.save = function(model, callback) {
     });
 }
 
+/*
+*   Get metadata for all clans
+*/
+exports.allClans = function(query, callback) {
+    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'clan', function (err, collection) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            collection.find( {}, {} ).sort({name: 1}).limit(50).toArray(function (err, clans) {
+                if (err) {
+                    callback(err, null);
+                }
+                else {
+                    if (clans) {
+                        async.each(clans, function (clan, callback_a) {
+                            clanMetrics(clan._id, function (err, metrics) {
+                                if (err) {
+                                    callback_a(err);
+                                }
+                                else {
+                                    clan.metrics = metrics;
+                                    callback_a(null)
+                                }
+                            });
+                        }, function (err) {
+                            if (err) {
+                                callback(err, null);
+                            }
+                            else {
+                                callback(null, clans);
+                            }
+                        });
+                    }
+                    else {
+                        callback(null, null);
+                    }
+                }
+            });
+        }
+    });
+}
 
 /*
 *   Find Clan by id
@@ -160,6 +202,33 @@ exports.findByTag = function(tag, callback) {
     });
 }
 
+
+/*
+*   Internal function for gathering clan metrics across all models
+*/
+function clanMetrics(clanId, callback) {
+    var metrics = {};
+    async.parallel({
+        users: function (callback_p) {
+            userModel.usersByClan(clanId, function (err, users) {
+                if (err) {
+                    callback_p(err, null);
+                }
+                else {
+                    callback_p(null, users);
+                }
+            });
+        }
+    }, function (err, results) {
+        metrics.totalMembers = results.users.length;
+        _.each(results.users, function (user) {
+            if (user.role.title === 'leader') {
+                metrics.leader = user.ign;
+            }
+        });
+        callback(null, metrics);
+    });
+}
 
 /*
 *   Set a field value in the account record

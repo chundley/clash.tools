@@ -130,6 +130,12 @@ var routes = [
         middleware: [clanCtrl.getById],
         accessLevel: accessLevels.member
     },
+    {
+        path: '/crud/clans/:query',
+        httpMethod: 'GET',
+        middleware: [clanCtrl.allClans],
+        accessLevel: accessLevels.public
+    },
     /*
     *   Utility endpoints
     */
