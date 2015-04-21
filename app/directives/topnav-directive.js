@@ -9,7 +9,16 @@ function ($location, moment, authService, sessionService, messagelogService) {
         link: function(scope, element, attrs) {
 
             scope.search = function() {
-                $location.path('/clans/' + scope.searchTerms);
+                $location.path('/clans/' + scope.searchTerms).replace();
+            }
+
+            scope.mightSearch = function() {
+                if (scope.searchTerms.length == 0) {
+                    $location.path('/clans/*').replace();
+                }
+                else if (scope.searchTerms.length > 1) {
+                    $location.path('/clans/' + scope.searchTerms).replace();
+                }
             }
 
             sessionService.getUserMeta(authService.user.id, function (err, meta) {

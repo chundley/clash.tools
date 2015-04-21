@@ -14,7 +14,11 @@ function ($rootScope, $scope, $routeParams, $location, $modal, authService, cach
     $rootScope.title = 'Find a clan - clash.tools';
 
     $scope.query = $routeParams.query;
-    $scope.searchTerms = $scope.query;
+
+    // don't display the asterix for the 'all' search
+    if ($scope.query !== '*') {
+        $scope.searchTerms = $scope.query;
+    }
 
     sessionService.getUserMeta(authService.user.id, function (err, meta) {
         $scope.ign = meta.ign;
