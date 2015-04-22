@@ -40,7 +40,7 @@
                                     <div class="row t-row">
                                         <div class="col-xs-2 t-header" ng-if="folder=='inbox'">From</div>
                                         <div class="col-xs-2 t-header" ng-if="folder=='sent'">To</div>
-                                        <div class="col-xs-2 t-header" ng-if="folder=='trash'">From/To</div>
+                                        <div class="col-xs-2 t-header" ng-if="folder=='trash'">From</div>
                                         <div class="col-xs-5 t-header">Subject</div>
                                         <div class="col-xs-3 t-header">Sent</div>
                                         <div class="col-xs-2 t-header text-right"></div>
@@ -53,6 +53,9 @@
                                             </div>
                                             <div class="col-xs-2" ng-class="{'unread-message': message.read==false}" ng-if="folder=='sent'">
                                                 <a href="/mail/{{message._id}}">{{message.to_user.ign}}</a>
+                                            </div>
+                                            <div class="col-xs-2" ng-class="{'unread-message': message.read==false}" ng-if="folder=='trash'">
+                                                <a href="/mail/{{message._id}}">{{message.from_user.ign}}</a>
                                             </div>
                                             <div class="col-xs-5" ng-class="{'unread-message': message.read==false}">
                                                 <a href="/mail/{{message._id}}">{{message.subject}}</a>

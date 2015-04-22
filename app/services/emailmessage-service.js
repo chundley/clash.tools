@@ -32,6 +32,16 @@ function ($http, $rootScope, authService, errorService) {
                 callback(errorService.initMessage('messagelog-service.js', 'get', status), null);
             });
         },
+        delete: function(messageId, callback) {
+            $http({
+                url: '/crud/email/' + messageId,
+                method: 'DELETE'
+            }).success(function (data, status, headers, config) {
+                callback(null, data);
+            }).error(function (data, status, headers, config) {
+                callback(errorService.initMessage('messagelog-service.js', 'get', status), null);
+            });
+        }
         /*dismiss: function(userId, messageId, callback) {
             ///crud/messagelog/:user_id/dismiss/:message_id
             $http({

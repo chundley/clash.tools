@@ -40,7 +40,7 @@ exports.get = function(req, res, next) {
 *   Mark an email message as "read"
 */
 exports.read = function(req, res, next) {
-    emailMessageModel.updateField(req.params.message_id, 'read', true, function (err, message) {
+    emailMessageModel.updateField(req.params.messageId, 'read', true, function (err, message) {
         if (err) {
             res.send(500, err);
         }
@@ -54,7 +54,7 @@ exports.read = function(req, res, next) {
 *   Mark an email message as "deleted"
 */
 exports.delete = function(req, res, next) {
-    emailMessageModel.updateField(req.params.message_id, 'deleted', true, function (err, message) {
+    emailMessageModel.updateField(req.params.messageId, 'deleted', true, function (err, message) {
         if (err) {
             res.send(500, err);
         }

@@ -39,11 +39,35 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
         setActiveMessages();
     }
 
+    $scope.deleteMessage = function(message) {
+        emailMessageService.delete(message._id, function (err, resp) {
+            if (err) {
+                err.stack_trace.unshift( { file: 'mail-controller.js', func: 'init', message: 'Error saving getting email messages' } );
+                errorService.save(err, function() {});
+            }
+            else {
+                angular.forEach($scope.allMessages, function (msg) {
+                    if (msg._id == message._id) {
+                        msg.deleted = true;
+                    }
+                });
+                setCounts();
+                setActiveMessages();
+            }
+        });
+    }
+
     function setCounts() {
+        $scope.counts = {
+            inbox: 0,
+            sent: 0,
+            trash: 0
+        };
+
         angular.forEach($scope.allMessages, function (message) {
             if (message.to_user.user_id === authService.user.id) {
                 if (message.deleted) {
-                    $scope.counts.deleted++;
+                    $scope.counts.trash++;
                 }
                 else {
                     $scope.counts.inbox++;
@@ -51,7 +75,7 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
             }
             if (message.from_user.user_id === authService.user.id) {
                 if (message.deleted) {
-                    $scope.counts.deleted++;
+                    $scope.counts.trash++;
                 }
                 else {
                     $scope.counts.sent++;

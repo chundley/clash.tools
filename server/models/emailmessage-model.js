@@ -76,7 +76,9 @@ exports.updateField = function(emailMessageId, field, value, callback) {
     if (_.isString(emailMessageId)) {
         emailMessageId = new ObjectID.createFromHexString(emailMessageId);
     }
-    var update = { field: value };
+    var update = {};
+    update[field] = value;
+
     db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'email_message', function (err, collection) {
         if (err) {
             callback(err, null);

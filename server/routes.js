@@ -158,6 +158,12 @@ var routes = [
         middleware: [emailMessageCtrl.get],
         accessLevel: accessLevels.member
     },
+    {
+        path: '/crud/email/:messageId',
+        httpMethod: 'DELETE',
+        middleware: [emailMessageCtrl.delete],
+        accessLevel: accessLevels.member
+    },
     /*
     *   User account management endpoints
     */
