@@ -9,7 +9,7 @@ angular.module('Clashtools.controllers')
 function ($rootScope, $scope, $routeParams, $location, authService, sessionService, errorService, emailMessageService) {
     //$scope.helpLink = 'http://www.siftrock.com/help/dashboard/';
 
-    $scope.folder = 'inbox';
+    $scope.folder = $location.search().folder ? $location.search().folder : 'inbox';
     $scope.counts = {
         inbox: 0,
         sent: 0,
@@ -24,7 +24,7 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
 
     emailMessageService.get(authService.user.id, 20, function (err, mailMessages) {
         if (err) {
-            err.stack_trace.unshift( { file: 'mail-controller.js', func: 'init', message: 'Error saving getting email messages' } );
+            err.stack_trace.unshift( { file: 'mail-controller.js', func: 'init', message: 'Error getting email messages' } );
             errorService.save(err, function() {});
         }
         else {
@@ -42,7 +42,7 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
     $scope.deleteMessage = function(message) {
         emailMessageService.delete(message._id, function (err, resp) {
             if (err) {
-                err.stack_trace.unshift( { file: 'mail-controller.js', func: 'init', message: 'Error saving getting email messages' } );
+                err.stack_trace.unshift( { file: 'mail-controller.js', func: '$scope.deleteMessage', message: 'Error deleting message' } );
                 errorService.save(err, function() {});
             }
             else {

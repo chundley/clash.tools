@@ -26,7 +26,18 @@ exports.save = function(req, res, next) {
 *   Get last N messages - query string parameter = count
 */
 exports.get = function(req, res, next) {
-    emailMessageModel.get(req.params.userId, req.query.count, function (err, messages) {
+    emailMessageModel.get(req.query.userId, req.query.count, function (err, messages) {
+        if (err) {
+            res.send(500, err);
+        }
+        else {
+            res.json(200, messages);
+        }
+    });
+};
+
+exports.getById = function(req, res, next) {
+    emailMessageModel.getById(req.params.messageId, function (err, messages) {
         if (err) {
             res.send(500, err);
         }

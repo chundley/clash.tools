@@ -87,7 +87,66 @@
     }
 }
 
+/*
+*   Email detail styles
+*/
 
+.mail-detail-container {
+    .md-subject {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 10px;
+
+        a {
+
+            color: @primary;
+
+            &:hover {
+                text-decoration: none;
+            }
+
+            i {
+                font-size: 16px;
+                margin-left: 4px;
+                border: 1px solid @primary-60;
+            }
+
+            .icon-reply, .icon-forward {
+                color: @primary-30;
+                &:hover {
+                    color: @primary-10;
+                    border: 1px solid @primary-40;
+                }
+            }
+
+            .icon-trash {
+                color: @primary-30;
+                &:hover {
+                    color: @error-red;
+                    border: 1px solid @error-red;
+                }
+            }
+
+            .icon-forward {
+                font-size: 16px;
+            }
+        }
+    }
+    .md-header {
+        font-size: 12px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        .mdh-picture {
+            float: left;
+        }
+
+        .mdh-people {
+            float:left;
+            margin-left: 6px;
+        }
+    }
+
+}
 
 /*
 * Dashboard styles

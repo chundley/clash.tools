@@ -69,6 +69,30 @@ exports.get = function(userId, count, callback) {
     });
 }
 
+exports.getById = function(messageId, callback) {
+    if (_.isString(messageId)) {
+        messageId = new ObjectID.createFromHexString(messageId);
+    }
+    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'email_message', function (err, collection) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            collection.findOne( { _id: messageId }, function (err, item) {
+                if (err) {
+                    callback(err, null);
+                }
+                else if (item) {
+                    callback(null, item);
+                }
+                else {
+                    callback(null, null);
+                }
+            });
+        }
+    });
+}
+
 /*
 *   Used to update a simple name/value pair field, like "read" and "deleted"
 */

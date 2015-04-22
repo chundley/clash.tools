@@ -49,23 +49,23 @@
                                     <div ng-repeat="message in activeMessages">
                                         <div class="row t-row">
                                             <div class="col-xs-2" ng-class="{'unread-message': message.read==false}" ng-if="folder=='inbox'">
-                                                <a href="/mail/{{message._id}}">{{message.from_user.ign}}</a>
+                                                <a href="/mail/{{message._id}}?folder={{folder}}">{{message.from_user.ign}}</a>
                                             </div>
                                             <div class="col-xs-2" ng-class="{'unread-message': message.read==false}" ng-if="folder=='sent'">
-                                                <a href="/mail/{{message._id}}">{{message.to_user.ign}}</a>
+                                                <a href="/mail/{{message._id}}?folder={{folder}}">{{message.to_user.ign}}</a>
                                             </div>
                                             <div class="col-xs-2" ng-class="{'unread-message': message.read==false}" ng-if="folder=='trash'">
-                                                <a href="/mail/{{message._id}}">{{message.from_user.ign}}</a>
+                                                <a href="/mail/{{message._id}}?folder={{folder}}">{{message.from_user.ign}}</a>
                                             </div>
                                             <div class="col-xs-5" ng-class="{'unread-message': message.read==false}">
-                                                <a href="/mail/{{message._id}}">{{message.subject}}</a>
+                                                <a href="/mail/{{message._id}}?folder={{folder}}">{{message.subject}}</a>
                                             </div>
                                             <div class="col-xs-3">
                                                 <span am-time-ago="{{message.created_at}}"></span>
                                             </div>
                                             <div class="col-xs-2 text-right">
-                                                <a href="/newmail/{{message._id}}?hint=reply"><i class="icon-reply" title="Reply"></i></a>
-                                                <a href="/newmail/{{message._id}}?hint=forward"><i class="icon-forward" title="Forward"></i></a>
+                                                <a href="/newmail/{{message._id}}?hint=reply&folder={{folder}}"><i class="icon-reply" title="Reply"></i></a>
+                                                <a href="/newmail/{{message._id}}?hint=forward&folder={{folder}}"><i class="icon-forward" title="Forward"></i></a>
                                                 <a href ng-click="deleteMessage(message)"><i class="icon-trash" title="Delete"></i></a>
                                             </div>
                                         </div>

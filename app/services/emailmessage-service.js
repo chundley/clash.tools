@@ -24,7 +24,7 @@ function ($http, $rootScope, authService, errorService) {
         },
         get: function(userId, count, callback) {
             $http({
-                url: '/crud/email/' + userId + '?count=' + count,
+                url: '/crud/email?userId=' + userId + '&count=' + count,
                 method: 'GET'
             }).success(function (data, status, headers, config) {
                 callback(null, data);
@@ -36,6 +36,16 @@ function ($http, $rootScope, authService, errorService) {
             $http({
                 url: '/crud/email/' + messageId,
                 method: 'DELETE'
+            }).success(function (data, status, headers, config) {
+                callback(null, data);
+            }).error(function (data, status, headers, config) {
+                callback(errorService.initMessage('messagelog-service.js', 'get', status), null);
+            });
+        },
+        getById: function(messageId, callback) {
+            $http({
+                url: '/crud/email/' + messageId,
+                method: 'GET'
             }).success(function (data, status, headers, config) {
                 callback(null, data);
             }).error(function (data, status, headers, config) {

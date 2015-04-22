@@ -153,9 +153,15 @@ var routes = [
         accessLevel: accessLevels.member
     },
     {
-        path: '/crud/email/:userId',
+        path: '/crud/email',
         httpMethod: 'GET',
         middleware: [emailMessageCtrl.get],
+        accessLevel: accessLevels.member
+    },
+    {
+        path: '/crud/email/:messageId',
+        httpMethod: 'GET',
+        middleware: [emailMessageCtrl.getById],
         accessLevel: accessLevels.member
     },
     {
