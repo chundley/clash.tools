@@ -10,7 +10,6 @@ var config = require('../../config/config');
 * Saves a record and returns the resulting record
 */
 exports.save = function(message, callback) {
-    message.created_at = new Date();
     db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'message_log', function (err, collection) {
         if (err) {
             callback(err, null);
@@ -18,7 +17,6 @@ exports.save = function(message, callback) {
         else {
             collection.save(message, function (err, result) {
                 if (err) {
-                    logger.error(err);
                     callback(err, null);
                 }
                 else {
@@ -29,7 +27,7 @@ exports.save = function(message, callback) {
     });
 }
 
-exports.get = function(accountId, userId, count, callback) {
+exports.get = function(clanId, count, callback) {
     db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'message_log', function (err, collection) {
         if (err) {
             callback(err, null);
@@ -37,13 +35,11 @@ exports.get = function(accountId, userId, count, callback) {
         else {
             collection.find(
                 {
-                    account_id: accountId,
-                    dismissed: { $nin: [userId] }
+                    clan_id: clanId
                 },
                 {} )
                 .sort({created_at: -1}).toArray(function (err, items) {
                 if (err) {
-                    logger.error(err);
                     callback(err, null);
                 }
                 else {
@@ -59,7 +55,7 @@ exports.get = function(accountId, userId, count, callback) {
     });
 }
 
-exports.dismiss = function(userId, messageId, callback) {
+/*exports.dismiss = function(userId, messageId, callback) {
     db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'message_log', function (err, collection) {
         if (err) {
             callback(err, null);
@@ -80,4 +76,4 @@ exports.dismiss = function(userId, messageId, callback) {
             );
         }
     });
-}
+}*/

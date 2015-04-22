@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('ClanCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$modal', 'authService', 'cacheService', 'sessionService', 'errorService', 'clanService',
-function ($rootScope, $scope, $routeParams, $location, $modal, authService, cacheService, sessionService, errorService, clanService) {
+.controller('ClanCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$modal', 'authService', 'cacheService', 'sessionService', 'errorService', 'messagelogService', 'clanService',
+function ($rootScope, $scope, $routeParams, $location, $modal, authService, cacheService, sessionService, errorService, messagelogService, clanService) {
     // initialize
 
 
@@ -50,7 +50,16 @@ function ($rootScope, $scope, $routeParams, $location, $modal, authService, cach
                 $scope.errorMsg = 'A clan with that tag already exists';
             }
             else {
-                // in every case with a new clan, the creator becomes the leader. Need to reset role for UI permissions
+                // Log this activity
+                messagelogService.save(result._id, 'Clan "' + $scope.clan.name + '" created by [ign]', $scope.ign, 'special', function (err, msg) {
+                    if (err) {
+                        err.stack_trace.unshift( { file: 'clan-controller.js', func: '$scope.saveNewClan', message: 'Error saving new clan message in the log' } );
+                        errorService.save(err, function() {});
+                    }
+                });
+
+                // In every case with a new clan, the creator becomes the leader. Need to reset role for UI permissions. The back-end
+                // takes care of changing the values in the database
                 var newUser = authService.user;
                 newUser.role = { bitMask: 16, title: 'leader' };
                 authService.changeUser(newUser, function () {

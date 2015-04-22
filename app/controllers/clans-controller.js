@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('ClansCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$modal', 'authService', 'cacheService', 'sessionService', 'errorService', 'clanService', 'emailMessageService',
-function ($rootScope, $scope, $routeParams, $location, $modal, authService, cacheService, sessionService, errorService, clanService, emailMessageService) {
+.controller('ClansCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$modal', 'authService', 'cacheService', 'sessionService', 'errorService', 'messagelogService', 'clanService', 'emailMessageService',
+function ($rootScope, $scope, $routeParams, $location, $modal, authService, cacheService, sessionService, errorService, messagelogService, clanService, emailMessageService) {
 
     //$scope.helpLink = 'http://www.siftrock.com/help/dashboard/';
     $rootScope.title = 'Find a clan - clash.tools';
@@ -37,7 +37,15 @@ function ($rootScope, $scope, $routeParams, $location, $modal, authService, cach
             onYes: function() {
                 // need to send app emails to leaders and coleaders
                 clanService.getMembers(clan._id, 'coleader,leader', function (err, members) {
-                    console.log(members);
+
+                    // Log this activity
+                    messagelogService.save(clan._id, '[ign] would like to join the clan', $scope.ign, 'member', function (err, msg) {
+                        if (err) {
+                            err.stack_trace.unshift( { file: 'clan-controller.js', func: '$scope.saveNewClan', message: 'Error saving new clan message in the log' } );
+                            errorService.save(err, function() {});
+                        }
+                    });
+
                     var emailMsg = {
                         subject: $scope.ign + ' would like to join the clan',
                         message: 'There has just been a request to join the clan from ' + $scope.ign,

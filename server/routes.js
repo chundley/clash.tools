@@ -154,7 +154,7 @@ var routes = [
     },
 
     /*
-    *   Utility endpoints
+    *   User account management endpoints
     */
     {
         path: '/crud/verifyemail/:token',
@@ -171,24 +171,24 @@ var routes = [
         httpMethod: 'GET',
         middleware: [pwResetCtrl.findByToken]
     },
+    /*
+    *   Messagelog endpoints
+    */
     {
-        path: '/crud/messagelog/:account_id',
+        path: '/crud/messagelog/:clanId',
         httpMethod: 'POST',
         middleware: [messagelogCtrl.save],
         accessLevel: accessLevels.member
     },
     {
-        path: '/crud/messagelog/:user_id',
+        path: '/crud/messagelog/:clanId',
         httpMethod: 'GET',
         middleware: [messagelogCtrl.get],
         accessLevel: accessLevels.member
     },
-    {
-        path: '/crud/messagelog/:user_id/dismiss/:message_id',
-        httpMethod: 'POST',
-        middleware: [messagelogCtrl.dismiss],
-        accessLevel: accessLevels.member
-    },
+    /*
+    *   Email send endpoints
+    */
     {
         path: '/mail/pwreset/:email',
         httpMethod: 'POST',

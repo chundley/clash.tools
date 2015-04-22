@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('HomeCtrl', ['$rootScope', '$scope', '$modal', 'authService', 'cacheService', 'sessionService', 'accountService', 'errorService', 'utils', 'analyticsService', 'dashboardCharts',
-function ($rootScope, $scope, $modal, authService, cacheService, sessionService, accountService, errorService, utils, analyticsService, dashboardCharts) {
+.controller('HomeCtrl', ['$rootScope', '$scope', '$modal', 'moment', 'authService', 'cacheService', 'sessionService', 'accountService', 'errorService', 'messagelogService',
+function ($rootScope, $scope, $modal, moment, authService, cacheService, sessionService, accountService, errorService, messagelogService) {
     // initialize
     $rootScope.title = 'Dashboard - clash.tools';
 
@@ -18,6 +18,16 @@ function ($rootScope, $scope, $modal, authService, cacheService, sessionService,
     sessionService.getUserMeta(authService.user.id, function (err, meta) {
         $scope.ign = meta.ign;
         $scope.clan = meta.current_clan;
+
+        if ($scope.clan.clan_id) {
+            messagelogService.get($scope.clan.clan_id, 10, function (err, messages) {
+                angular.forEach(messages, function (message) {
+                    message.created_at = new moment(message.created_at);
+                    message.message = message.message.replace('[ign]', '<b class="emphasis">' + message.ign + '</b>');
+                });
+                $scope.clanMessages = messages;
+            });
+        }
     });
 
 /*

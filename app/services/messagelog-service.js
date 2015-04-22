@@ -8,33 +8,30 @@ angular.module('Clashtools.services')
 .factory('messagelogService', ['$http', '$rootScope', 'authService', 'errorService',
 function ($http, $rootScope, authService, errorService) {
     return {
-        save: function(accountId, message, type, data, callback) {
+        save: function(clanId, message, ign, type, callback) {
             var newMsg = {
-                account_id: accountId,
+                clan_id: clanId,
                 user_id: authService.user.id,
                 created_at: new Date(),
-                type: type,
                 message: message,
-                dismissed: [],
-                data: data
+                ign: ign,
+                type: type /* person, target (called), target (attacked), special (start war) */
             };
 
             $http({
-                url: '/crud/messagelog/' + message.account_id,
+                url: '/crud/messagelog/' + message.clan_id,
                 method: 'POST',
                 data: newMsg,
                 headers: {'Content-Type': 'application/json'}
             }).success(function (data, status, headers, config) {
-                // there's a listener in the topNav directive for the logUpdate variable
-                $rootScope.logUpdate = new Date();
                 callback(null, data);
             }).error(function (data, status, headers, config) {
                 callback(errorService.initMessage('messagelog-service.js', 'save', status), null);
             });
         },
-        get: function(userId, count, callback) {
+        get: function(clanId, count, callback) {
             $http({
-                url: '/crud/messagelog/' + userId + '?count=' + count,
+                url: '/crud/messagelog/' + clanId + '?count=' + count,
                 method: 'GET'
             }).success(function (data, status, headers, config) {
                 callback(null, data);
@@ -50,8 +47,6 @@ function ($http, $rootScope, authService, errorService) {
                 data: null,
                 headers: {'Content-Type': 'application/json'}
             }).success(function (data, status, headers, config) {
-                // there's a listener in the topNav directive for the logUpdate variable
-                $rootScope.logUpdate = new Date();
                 callback(null, data);
             }).error(function (data, status, headers, config) {
                 callback(errorService.initMessage('messagelog-service.js', 'dismiss', status), null);

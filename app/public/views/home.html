@@ -6,12 +6,59 @@
             <div top-nav></div>
             <!-- page content -->
             <div class="row content-body">
-                <div class="col-lg-12">
-                    <h1>{{ign}}</h1>
-                    <h3 class="same-line-sub-heading alternate" ng-if="clan.name">{{clan.name}}</h3>
-                    <a href="/clans/*" class="same-line-sub-heading-btn btn btn-sm btn-alternate" ng-if="!clan.name">Join a clan</a>
-                    <a href="/clan/new" class="same-line-sub-heading-btn btn btn-sm btn-alternate" ng-if="!clan.name">Create a clan</a>
+                <div class="col-sm-12">
+                    <div class="row margin-bottom-huge">
+                        <div class="col-sm-12">
+                            <h1>{{ign}}</h1>
+                            <h3 class="same-line-sub-heading alternate" ng-if="clan.name">{{clan.name}}</h3>
+                            <a href="/clans/*" class="same-line-sub-heading-btn btn btn-sm btn-alternate" ng-if="!clan.name">Join a clan</a>
+                            <a href="/clan/new" class="same-line-sub-heading-btn btn btn-sm btn-alternate" ng-if="!clan.name">Create a clan</a>
+                        </div>
+                    </div>
+                    <div class="row margin-bottom-huge">
+                        <div class="col-sm-12">
+                            <div class="widget">
+                                <div class="widget-header">War status</div>
+                                <div class="widget-body">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            Bunch of cool shit about the current war is going here
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="widget">
+                                <div class="widget-header">Recent messages</div>
+                                <div class="widget-body">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="widget">
+                                <div class="widget-header">Recent clan activity</div>
+                                <div class="widget-body">
+                                    <div class="row margin-bottom-medium" ng-repeat="cm in clanMessages">
+                                        <div class="col-sm-8 tiny">
+                                            <i class="icon-user icon-medium primary-20" ng-if="cm.type=='member'"></i>
+                                            <i class="icon-user icon-award primary-20" ng-if="cm.type=='special'"></i>
+                                            <span ng-bind-html="cm.message">
+                                            {{cm.message}}
+                                        </span>
+                                        </div>
+                                        <div class="col-sm-4 tiny text-right">
+                                            <span am-time-ago="{{cm.created_at}}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
             </div> <!-- /page content -->
         </div>
     </div>  <!-- /#page-content-wrapper -->
