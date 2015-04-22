@@ -1,0 +1,74 @@
+<div id="wrapper">
+    <div sidebar></div>
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div top-nav></div>
+            <!-- page content -->
+            <div class="row content-body mail-container">
+                <div class="col-sm-12">
+                    <div class="row margin-bottom-huge">
+                        <div class="col-sm-12">
+                            <h1>{{ign}}</h1>
+                            <h3 class="same-line-sub-heading alternate" ng-if="clan.name">{{clan.name}}</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="row folder" ng-class="{'active-folder': folder=='inbox'}">
+                                <div class="col-sm-12">
+                                    <a href="/mail?folder=inbox"><i class="icon-inbox"></i> Inbox <span ng-if="counts.inbox>0">({{counts.inbox}})</span></a>
+                                </div>
+                            </div>
+                            <div class="row folder" ng-class="{'active-folder': folder=='sent'}">
+                                <div class="col-sm-12">
+                                    <a href="/mail?folder=sent"><i class="icon-inbox"></i> Sent <span ng-if="counts.sent>0">({{counts.sent}})</span></a>
+                                </div>
+                            </div>
+                            <div class="row folder" ng-class="{'active-folder': folder=='trash'}">
+                                <div class="col-sm-12">
+                                    <a href="/mail?folder=trash"><i class="icon-trash"></i> Trash <span ng-if="counts.trash>0">({{counts.trash}})</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-10">
+                            <div class="widget">
+                                <div class="widget-header">
+                                    Send a new message
+                                </div>
+                                <div class="widget-body mail-detail-container">
+                                    <form name="newMailForm" class="form-horizontal" ng-submit="sendMail()" novalidate>
+                                    <div class="form-group">
+                                        <label for="to" class="col-sm-2 control-label text-left">To</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control req-field" id="to" ng-model="newTo" placeholder="Recipients" required ng-minlength="1">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="subject" class="col-sm-2 control-label text-left">Subject</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control req-field" id="subject" ng-model="emailDetail.subject" placeholder="Subject" required ng-minlength="1">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="message" class="col-sm-2 control-label text-left">Message</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control req-field" id="message" ng-model="emailDetail.message" placeholder="Message" required ng-minlength="1" rows="15"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-10 col-sm-offset-2">
+                                            <button class="btn btn-emphasis btn-sm" ng-disabled="newMailForm.$invalid">Send</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- /page content -->
+        </div>
+    </div>  <!-- /#page-content-wrapper -->
+</div>  <!-- /#wrapper -->
