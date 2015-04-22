@@ -21,10 +21,10 @@ function ($http, $rootScope, authService, errorService) {
             }).error(function (data, status, headers, config) {
                 callback(errorService.initMessage('emailmessage-service.js', 'save', status), null);
             });
-        }/*,
+        },
         get: function(userId, count, callback) {
             $http({
-                url: '/crud/messagelog/' + userId + '?count=' + count,
+                url: '/crud/email/' + userId + '?count=' + count,
                 method: 'GET'
             }).success(function (data, status, headers, config) {
                 callback(null, data);
@@ -32,7 +32,7 @@ function ($http, $rootScope, authService, errorService) {
                 callback(errorService.initMessage('messagelog-service.js', 'get', status), null);
             });
         },
-        dismiss: function(userId, messageId, callback) {
+        /*dismiss: function(userId, messageId, callback) {
             ///crud/messagelog/:user_id/dismiss/:message_id
             $http({
                 url: '/crud/messagelog/' + userId + '/dismiss/' + messageId,

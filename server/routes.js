@@ -152,7 +152,12 @@ var routes = [
         middleware: [emailMessageCtrl.save],
         accessLevel: accessLevels.member
     },
-
+    {
+        path: '/crud/email/:userId',
+        httpMethod: 'GET',
+        middleware: [emailMessageCtrl.get],
+        accessLevel: accessLevels.member
+    },
     /*
     *   User account management endpoints
     */

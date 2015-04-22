@@ -26,41 +26,12 @@ exports.save = function(req, res, next) {
 *   Get last N messages - query string parameter = count
 */
 exports.get = function(req, res, next) {
-    accountModel.findByUserId(req.params.user_id, function (err, account) {
+    emailMessageModel.get(req.params.userId, req.query.count, function (err, messages) {
         if (err) {
             res.send(500, err);
         }
         else {
-            emailMessageModel.get(account._id.toString(), req.params.user_id, req.query.count, function (err, messages) {
-                if (err) {
-                    res.send(500, err);
-                }
-                else {
-                    userModel.getByAccount(account._id.toString(), function (err, users) {
-                        if (err) {
-                            res.send(500, err);
-                        }
-                        else {
-                            async.each(messages, function (message, callback) {
-                                _.each(users, function (user) {
-                                    if (message.user_id == user._id.toString()) {
-                                        message.user_nickname = user.nickname;
-                                    }
-                                });
-                                callback();
-                            },
-                            function (err) {
-                                if (err) {
-                                    res.send(500, err);
-                                }
-                                else {
-                                    res.json(200, messages);
-                                }
-                            });
-                        }
-                    });
-                }
-            });
+            res.json(200, messages);
         }
     });
 };

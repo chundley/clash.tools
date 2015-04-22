@@ -11,6 +11,13 @@ var config = require('../../config/config');
 * Saves a record and returns the resulting record
 */
 exports.save = function(message, callback) {
+    if (_.isString(message.from_user.user_id)) {
+        message.from_user.user_id = new ObjectID.createFromHexString(message.from_user.user_id);
+    }
+    if (_.isString(message.to_user.user_id)) {
+        message.to_user.user_id = new ObjectID.createFromHexString(message.to_user.user_id);
+    }
+
     db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'email_message', function (err, collection) {
         if (err) {
             callback(err, null);
@@ -29,6 +36,9 @@ exports.save = function(message, callback) {
 }
 
 exports.get = function(userId, count, callback) {
+    if (_.isString(userId)) {
+        userId = new ObjectID.createFromHexString(userId);
+    }
     db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'email_message', function (err, collection) {
         if (err) {
             callback(err, null);
@@ -36,13 +46,14 @@ exports.get = function(userId, count, callback) {
         else {
             collection.find(
                 {
-                    account_id: accountId,
-                    dismissed: { $nin: [userId] }
+                    $or: [
+                        { 'from_user.user_id': userId },
+                        { 'to_user.user_id': userId }
+                    ]
                 },
                 {} )
                 .sort({created_at: -1}).toArray(function (err, items) {
                 if (err) {
-                    logger.error(err);
                     callback(err, null);
                 }
                 else {

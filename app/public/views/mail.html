@@ -1,0 +1,91 @@
+<div id="wrapper">
+    <div sidebar></div>
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div top-nav></div>
+            <!-- page content -->
+            <div class="row content-body mail-container">
+                <div class="col-sm-12">
+                    <div class="row margin-bottom-huge">
+                        <div class="col-sm-9">
+                            <h1>{{ign}}</h1>
+                            <h3 class="same-line-sub-heading alternate" ng-if="clan.name">{{clan.name}}</h3>
+                        </div>
+                        <div class="col-sm-3 text-right">
+                            <a href="/newmail/new" class="btn btn-emphasis btn-sm text-right">New message</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="row folder" ng-class="{'active-folder': folder=='inbox'}">
+                                <div class="col-sm-12">
+                                    <a href ng-click="changeFolder('inbox')"><i class="icon-inbox"></i> Inbox <span ng-if="counts.inbox>0">({{counts.inbox}})</span></a>
+                                </div>
+                            </div>
+                            <div class="row folder" ng-class="{'active-folder': folder=='sent'}">
+                                <div class="col-sm-12">
+                                    <a href ng-click="changeFolder('sent')"><i class="icon-inbox"></i> Sent <span ng-if="counts.sent>0">({{counts.sent}})</span></a>
+                                </div>
+                            </div>
+                            <div class="row folder" ng-class="{'active-folder': folder=='trash'}">
+                                <div class="col-sm-12">
+                                    <a href ng-click="changeFolder('trash')"><i class="icon-trash"></i> Trash <span ng-if="counts.trash>0">({{counts.trash}})</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-10" ng-if="activeMessages.length > 0">
+                            <div class="widget">
+                                <div class="widget-body mail-table">
+                                    <div class="row t-row">
+                                        <div class="col-xs-2 t-header" ng-if="folder=='inbox'">From</div>
+                                        <div class="col-xs-2 t-header" ng-if="folder=='sent'">To</div>
+                                        <div class="col-xs-2 t-header" ng-if="folder=='trash'">From/To</div>
+                                        <div class="col-xs-5 t-header">Subject</div>
+                                        <div class="col-xs-3 t-header">Sent</div>
+                                        <div class="col-xs-2 t-header text-right"></div>
+                                    </div>
+                                    <div class="row row-underline-2"></div>
+                                    <div ng-repeat="message in activeMessages">
+                                        <div class="row t-row">
+                                            <div class="col-xs-2" ng-class="{'unread-message': message.read==false}" ng-if="folder=='inbox'">
+                                                <a href="/mail/{{message._id}}">{{message.from_user.ign}}</a>
+                                            </div>
+                                            <div class="col-xs-2" ng-class="{'unread-message': message.read==false}" ng-if="folder=='sent'">
+                                                <a href="/mail/{{message._id}}">{{message.to_user.ign}}</a>
+                                            </div>
+                                            <div class="col-xs-5" ng-class="{'unread-message': message.read==false}">
+                                                <a href="/mail/{{message._id}}">{{message.subject}}</a>
+                                            </div>
+                                            <div class="col-xs-3">
+                                                <span am-time-ago="{{message.created_at}}"></span>
+                                            </div>
+                                            <div class="col-xs-2 text-right">
+                                                <a href="/newmail/{{message._id}}?hint=reply"><i class="icon-reply" title="Reply"></i></a>
+                                                <a href="/newmail/{{message._id}}?hint=forward"><i class="icon-forward" title="Forward"></i></a>
+                                                <a href ng-click="deleteMessage(message)"><i class="icon-trash" title="Delete"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="row row-underline-1" ng-if="$index<activeMessages.length-1"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-10" ng-if="activeMessages.length==0">
+                            <div class="widget">
+                                <div class="widget-body">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            No messages
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- /page content -->
+        </div>
+    </div>  <!-- /#page-content-wrapper -->
+</div>  <!-- /#wrapper -->

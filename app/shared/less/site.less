@@ -2,6 +2,91 @@
 *   Page-specific styles
 */
 
+/*
+*   Email page styles
+*/
+.mail-container {
+    .folder {
+        padding: 6px 0px;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 2px;
+        color: @primary-10;
+
+        a {
+            color: @primary-10;
+            &:hover, &:focus {
+                text-decoration: none;
+                //background: @primary-60;
+            }
+        }
+
+        &:hover {
+            background: @primary-50;
+        }
+    }
+
+    .active-folder {
+        color: #fff;
+        background: @primary;
+        a {
+            color: #fff;
+
+            &:hover {
+                text-decoration: none;
+            }
+        }
+
+        &:hover {
+            background: @primary;
+        }
+    }
+
+    .mail-table {
+        font-size: 12px;
+
+        .t-row {
+            margin: 2px 0px;
+        }
+
+        .unread-message {
+            font-weight: 600;
+        }
+
+        a {
+
+            color: @primary;
+
+            &:hover {
+                text-decoration: none;
+            }
+
+            i {
+                font-size: 14px;
+                padding-left: 4px;
+            }
+
+            .icon-reply, .icon-forward {
+                color: @primary-40;
+                &:hover {
+                    color: @primary-20;
+                }
+            }
+
+            .icon-trash {
+                color: @primary-40;
+                &:hover {
+                    color: @error-red;
+                }
+            }
+
+            .icon-forward {
+                font-size: 16px;
+            }
+        }
+    }
+}
+
 
 
 /*

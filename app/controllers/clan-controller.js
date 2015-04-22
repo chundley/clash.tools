@@ -5,11 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('ClanCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$modal', 'authService', 'cacheService', 'sessionService', 'errorService', 'messagelogService', 'clanService',
-function ($rootScope, $scope, $routeParams, $location, $modal, authService, cacheService, sessionService, errorService, messagelogService, clanService) {
-    // initialize
-
-
+.controller('ClanCtrl', ['$rootScope', '$scope', '$routeParams', '$location', 'authService', 'sessionService', 'errorService', 'messagelogService', 'clanService',
+function ($rootScope, $scope, $routeParams, $location, authService, sessionService, errorService, messagelogService, clanService) {
     //$scope.helpLink = 'http://www.siftrock.com/help/dashboard/';
 
     var clanId = $routeParams.id;
