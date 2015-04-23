@@ -20,11 +20,7 @@ function ($rootScope, $scope, $routeParams, $location, moment, authService, sess
     };
 
     $scope.tags = [
-        {text: 'See'},
-        {text: 'how'},
-        {text: 'amazing'},
-        {text: 'is'},
-        {text: 'AngularJS'}
+
     ];
 
     sessionService.getUserMeta(authService.user.id, function (err, meta) {
@@ -43,6 +39,18 @@ function ($rootScope, $scope, $routeParams, $location, moment, authService, sess
             setCounts();
         }
     });
+
+    $scope.loadMembers = function(query) {
+        return [
+            { id: 1, text: 'minpin'},
+            { id: 2, text: 'Yung_Jojo'}
+        ];
+    }
+
+    $scope.sendMail = function() {
+
+        console.log($scope.recipients);
+    }
 
     $scope.deleteMessage = function() {
         emailMessageService.delete($scope.emailDetail._id, function (err, resp) {
@@ -69,12 +77,12 @@ function ($rootScope, $scope, $routeParams, $location, moment, authService, sess
                 if ($scope.type == 'reply') {
                     $scope.emailDetail.subject = 'Re: ' + $scope.emailDetail.subject;
                     var m = new moment($scope.emailDetail.created_at);
-                    $scope.emailDetail.message = '\n\nOn ' + m.format('ddd MMMM Do YYYY [at] h:mm:ss A') + ', ' + $scope.emailDetail.from_user.ign + ' wrote:\n' + $scope.emailDetail.message;
+                    $scope.emailDetail.message = '\n\n-----\nOn ' + m.format('ddd MMMM Do YYYY [at] h:mm:ss A') + ', ' + $scope.emailDetail.from_user.ign + ' wrote:\n' + $scope.emailDetail.message;
                 }
                 else if ($scope.type == 'forward') {
                     $scope.emailDetail.subject = 'Fwd: ' + $scope.emailDetail.subject;
                     var m = new moment($scope.emailDetail.created_at);
-                    $scope.emailDetail.message = '\n\nOn ' + m.format('ddd MMMM Do YYYY [at] h:mm:ss A') + ', ' + $scope.emailDetail.from_user.ign + ' wrote:\n' + $scope.emailDetail.message;
+                    $scope.emailDetail.message = '\n\n-----\nOn ' + m.format('ddd MMMM Do YYYY [at] h:mm:ss A') + ', ' + $scope.emailDetail.from_user.ign + ' wrote:\n' + $scope.emailDetail.message;
                 }
             }
 
