@@ -19,6 +19,14 @@ function ($rootScope, $scope, $routeParams, $location, moment, authService, sess
         trash: 0
     };
 
+    $scope.tags = [
+        {text: 'See'},
+        {text: 'how'},
+        {text: 'amazing'},
+        {text: 'is'},
+        {text: 'AngularJS'}
+    ];
+
     sessionService.getUserMeta(authService.user.id, function (err, meta) {
         $scope.ign = meta.ign;
         $scope.clan = meta.current_clan;
