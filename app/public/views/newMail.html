@@ -41,7 +41,7 @@
                                     <div class="form-group">
                                         <label for="to" class="col-sm-2 control-label text-left">To</label>
                                         <div class="col-sm-10">
-                                            <tags-input ng-model="recipients" placeholder="Add" add-from-autocomplete-only="true" min-tags="1">
+                                            <tags-input ng-model="recipients" placeholder="Add" add-from-autocomplete-only="true" min-tags="1" display-property="ign" ng-disabled="type=='reply'">
                                                 <auto-complete source="loadMembers($query)" min-length="0" max-results-to-show="10" load-on-focus="true" load-on-empty="true"></auto-complete>
                                             </tags-input>
                                         </div>

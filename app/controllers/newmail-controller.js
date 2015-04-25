@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('NewMailCtrl', ['$rootScope', '$scope', '$routeParams', '$location', 'moment', 'authService', 'sessionService', 'errorService', 'emailMessageService',
-function ($rootScope, $scope, $routeParams, $location, moment, authService, sessionService, errorService, emailMessageService) {
+.controller('NewMailCtrl', ['$rootScope', '$scope', '$routeParams', '$location', 'moment', 'authService', 'sessionService', 'errorService', 'emailMessageService', 'clanService',
+function ($rootScope, $scope, $routeParams, $location, moment, authService, sessionService, errorService, emailMessageService, clanService) {
     //$scope.helpLink = 'http://www.siftrock.com/help/dashboard/';
 
     $scope.emailId = $routeParams.id;
@@ -19,14 +19,34 @@ function ($rootScope, $scope, $routeParams, $location, moment, authService, sess
         trash: 0
     };
 
-    $scope.tags = [
+    $scope.recipients = [
 
     ];
 
     sessionService.getUserMeta(authService.user.id, function (err, meta) {
-        $scope.ign = meta.ign;
-        $scope.clan = meta.current_clan;
+        if (err) {
+            err.stack_trace.unshift( { file: 'mail-maildetail.js', func: 'init', message: 'Error getting user meta data' } );
+            errorService.save(err, function() {});
+        }
+        else {        
+            $scope.ign = meta.ign;
+            $scope.clan = meta.current_clan;
+
+            if ($scope.type != 'reply') {
+                clanService.getMembers($scope.clan.clan_id, 'all', function (err, members) {
+                    if (err) {
+                        err.stack_trace.unshift( { file: 'mail-maildetail.js', func: 'init', message: 'Error getting user meta data' } );
+                        errorService.save(err, function() {});
+                    }
+                    else {                   
+                        $scope.recipientPool = members;
+                    }
+                });
+            }
+        }        
     });
+
+
 
     // still need to do this unfortunately for folder counts
     emailMessageService.get(authService.user.id, 20, function (err, mailMessages) {
@@ -36,15 +56,23 @@ function ($rootScope, $scope, $routeParams, $location, moment, authService, sess
         }
         else {
             $scope.allMessages = mailMessages;
+            if ($scope.type == 'reply') {
+                // need the original sender
+                angular.forEach(mailMessages, function (message) {
+                    if (message._id == $scope.emailId) {
+                        $scope.recipientPool = [
+                            { id: message.from_user.user_id, ign: message.from_user.ign }
+                        ];
+                        $scope.recipients = $scope.recipientPool;
+                    }
+                });
+            }
             setCounts();
         }
     });
 
     $scope.loadMembers = function(query) {
-        return [
-            { id: 1, text: 'minpin'},
-            { id: 2, text: 'Yung_Jojo'}
-        ];
+        return $scope.recipientPool;
     }
 
     $scope.sendMail = function() {

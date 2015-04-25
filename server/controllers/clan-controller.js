@@ -55,6 +55,9 @@ exports.getById = function(req, res, next) {
 *   as a query string parameter, such as ?types=coleader,leader
 */
 exports.getByClan = function(req, res, next) {
+    if (req.query.types === 'all') {
+        req.query.types = 'member,elder,coleader,leader';
+    }
     userModel.usersByClan(req.params.clanId, req.query.types.split(','), function (err, users) {
         if (err) {
             res.send(500, err);
