@@ -165,7 +165,13 @@ var routes = [
         accessLevel: accessLevels.member
     },
     {
-        path: '/crud/email/:messageId',
+        path: '/crud/email/:messageId/:userId',
+        httpMethod: 'POST',
+        middleware: [emailMessageCtrl.setRead],
+        accessLevel: accessLevels.member
+    },    
+    {
+        path: '/crud/email/:messageId/:userId',
         httpMethod: 'DELETE',
         middleware: [emailMessageCtrl.delete],
         accessLevel: accessLevels.member

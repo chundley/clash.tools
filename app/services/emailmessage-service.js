@@ -32,9 +32,19 @@ function ($http, $rootScope, authService, errorService) {
                 callback(errorService.initMessage('messagelog-service.js', 'get', status), null);
             });
         },
-        delete: function(messageId, callback) {
+        setRead: function(messageId, userId, callback) {
             $http({
-                url: '/crud/email/' + messageId,
+                url: '/crud/email/' + messageId + '/' + userId,
+                method: 'POST'
+            }).success(function (data, status, headers, config) {
+                callback(null, data);
+            }).error(function (data, status, headers, config) {
+                callback(errorService.initMessage('messagelog-service.js', 'get', status), null);
+            });
+        },        
+        delete: function(messageId, userId, callback) {
+            $http({
+                url: '/crud/email/' + messageId + '/' + userId,
                 method: 'DELETE'
             }).success(function (data, status, headers, config) {
                 callback(null, data);

@@ -65,7 +65,7 @@ exports.read = function(req, res, next) {
 *   Mark an email message as "deleted"
 */
 exports.delete = function(req, res, next) {
-    emailMessageModel.updateField(req.params.messageId, 'deleted', true, function (err, message) {
+    emailMessageModel.deleteEmail(req.params.messageId, req.params.userId, function (err, message) {
         if (err) {
             res.send(500, err);
         }

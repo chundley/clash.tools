@@ -14,9 +14,12 @@ exports.save = function(message, callback) {
     if (_.isString(message.from_user.user_id)) {
         message.from_user.user_id = new ObjectID.createFromHexString(message.from_user.user_id);
     }
-    if (_.isString(message.to_user.user_id)) {
-        message.to_user.user_id = new ObjectID.createFromHexString(message.to_user.user_id);
-    }
+
+    _.each(message.to_users, function (user) {
+        if (_.isString(user.user_id)) {
+            user.user_id = new ObjectID.createFromHexString(user.user_id);
+        }
+    });
 
     db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'email_message', function (err, collection) {
         if (err) {
@@ -48,7 +51,8 @@ exports.get = function(userId, count, callback) {
                 {
                     $or: [
                         { 'from_user.user_id': userId },
-                        { 'to_user.user_id': userId }
+                        //{ 'to_user.user_id': userId }
+                        { to_users: { $elemMatch: { user_id: userId } } }
                     ]
                 },
                 {} )
@@ -96,7 +100,7 @@ exports.getById = function(messageId, callback) {
 /*
 *   Used to update a simple name/value pair field, like "read" and "deleted"
 */
-exports.updateField = function(emailMessageId, field, value, callback) {
+/*exports.updateField = function(emailMessageId, field, value, callback) {
     if (_.isString(emailMessageId)) {
         emailMessageId = new ObjectID.createFromHexString(emailMessageId);
     }
@@ -113,6 +117,76 @@ exports.updateField = function(emailMessageId, field, value, callback) {
                 { $set: update },
                 { upsert: false },
                 function (err, doc) {
+                    if (err) {
+                        callback(err, null);
+                    }
+                    else {
+                        callback(null, doc);
+                    }
+                }
+            );
+        }
+    });
+}*/
+
+/*
+*   Sets an email to "deleted" puts in trash folder
+*/
+exports.deleteEmail = function(emailMessageId, userId, callback) {
+    if (_.isString(emailMessageId)) {
+        emailMessageId = new ObjectID.createFromHexString(emailMessageId);
+    }
+    if (_.isString(userId)) {
+        userId = new ObjectID.createFromHexString(userId);
+    }    
+
+    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'email_message', function (err, collection) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            collection.update(
+                { _id: emailMessageId, 'to_users.user_id': userId },
+                { $set: { 'to_users.$.deleted': true} },
+                { upsert: false },
+                function (err, doc) {
+                    //logger.warn(doc);
+                    //logger.warn(err);
+                    if (err) {
+                        callback(err, null);
+                    }
+                    else {
+                        callback(null, doc);
+                    }
+                }
+            );
+        }
+    });
+}
+
+/*
+*   Sets an email to "deleted" puts in trash folder
+*/
+exports.setRead = function(emailMessageId, userId, callback) {
+    if (_.isString(emailMessageId)) {
+        emailMessageId = new ObjectID.createFromHexString(emailMessageId);
+    }
+    if (_.isString(userId)) {
+        userId = new ObjectID.createFromHexString(userId);
+    }    
+
+    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'email_message', function (err, collection) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            collection.update(
+                { _id: emailMessageId, 'to_users.user_id': userId },
+                { $set: { 'to_users.$.read': true} },
+                { upsert: false },
+                function (err, doc) {
+                    //logger.warn(doc);
+                    //logger.warn(err);
                     if (err) {
                         callback(err, null);
                     }

@@ -65,14 +65,17 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
         };
 
         angular.forEach($scope.allMessages, function (message) {
-            if (message.to_user.user_id === authService.user.id) {
-                if (message.deleted) {
-                    $scope.counts.trash++;
-                }
-                else {
-                    $scope.counts.inbox++;
-                }
-            }
+            angular.forEach(message.to_users, function (user) {
+                if (user.user_id === authService.user.id) {
+                    if (user.deleted) {
+                        $scope.counts.trash++;
+                    }
+                    else {
+                        $scope.counts.inbox++;
+                    }
+                }                
+            })
+
             if (message.from_user.user_id === authService.user.id) {
                 if (message.deleted) {
                     $scope.counts.trash++;
@@ -89,10 +92,12 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
         angular.forEach($scope.allMessages, function (message) {
             message.created_at = new moment(message.created_at);
             if ($scope.folder == 'inbox') {
-                if (message.to_user.user_id === authService.user.id &&
-                    !message.deleted) {
-                    $scope.activeMessages.push(message);
-                }
+                angular.forEach(message.to_users, function (user) {
+                    if (user.user_id === authService.user.id &&
+                        !user.deleted) {
+                        $scope.activeMessages.push(message);
+                    }                    
+                });
             }
 
             else if ($scope.folder == 'sent') {
@@ -103,7 +108,12 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
             }
             else {
                 if (message.deleted) {
-                    $scope.activeMessages.push(message);
+                    angular.forEach(message.to_users, function (user) {
+                        if (user.user_id === authService.user.id &&
+                            user.deleted) {
+                            $scope.activeMessages.push(message);
+                        }                    
+                    });
                 }
             }
         });

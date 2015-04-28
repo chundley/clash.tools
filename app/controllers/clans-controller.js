@@ -51,28 +51,33 @@ function ($rootScope, $scope, $routeParams, $location, $modal, authService, cach
                         message: 'There has just been a request to join the clan from ' + $scope.ign,
                         from_user: {
                             user_id: authService.user.id,
-                            ign: $scope.ign
+                            ign: $scope.ign,
+                            deleted: false
                         },
+                        to_users: [],
                         read: false,
                         deleted: false,
                         created_at: new Date()
                     };
 
                     angular.forEach(members, function (member) {
-                        var newMsg = JSON.parse(JSON.stringify(emailMsg));
-                        newMsg.to_user = {
-                            user_id: member._id,
-                            ign: member.ign
-                        };
-
-                        emailMessageService.save(newMsg, function (err, msg) {
-                            if (err) {
-
+                        emailMsg.to_users.push(
+                            {
+                                user_id: member._id,
+                                ign: member.ign,
+                                read: false,
+                                deleted: false
                             }
-                            else {
-                                // do something yeah?
-                            }
-                        });
+                        );
+                    });
+
+                    emailMessageService.save(emailMsg, function (err, msg) {
+                        if (err) {
+
+                        }
+                        else {
+                            // do something yeah?
+                        }
                     });
                 });
 

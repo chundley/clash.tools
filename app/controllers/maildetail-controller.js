@@ -35,7 +35,7 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
     });
 
     $scope.deleteMessage = function() {
-        emailMessageService.delete($scope.emailDetail._id, function (err, resp) {
+        emailMessageService.delete($scope.emailDetail._id, authService.user.id, function (err, resp) {
             if (err) {
                 err.stack_trace.unshift( { file: 'maildetail-controller.js', func: '$scope.deleteMessage', message: 'Error deleting message' } );
                 errorService.save(err, function() {});
@@ -53,19 +53,30 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
             trash: 0
         };
 
+        $scope.toUsers = '';
+
         angular.forEach($scope.allMessages, function (message) {
+            var msgDetail = false;
             if (message._id == $scope.emailId) {
                 $scope.emailDetail = message;
-            }
+                msgDetail = true;
+            }            
+            angular.forEach(message.to_users, function (user) {
+                if (user.user_id === authService.user.id) {
+                    if (user.deleted) {
+                        $scope.counts.trash++;
+                    }
+                    else {
+                        $scope.counts.inbox++;
+                    }
+                }   
 
-            if (message.to_user.user_id === authService.user.id) {
-                if (message.deleted) {
-                    $scope.counts.trash++;
-                }
-                else {
-                    $scope.counts.inbox++;
-                }
-            }
+                // need to create the toUsers output
+                if (msgDetail) {
+                    $scope.toUsers += user.ign + ', ';
+                }             
+            })
+
             if (message.from_user.user_id === authService.user.id) {
                 if (message.deleted) {
                     $scope.counts.trash++;
@@ -75,6 +86,7 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
                 }
             }
         });
-    }
+        $scope.toUsers = $scope.toUsers.substring(0, $scope.toUsers.length-2);
+    }    
 
 }]);

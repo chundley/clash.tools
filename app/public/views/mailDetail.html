@@ -38,11 +38,13 @@
                             <div class="widget">
                                 <div class="widget-body mail-detail-container">
                                     <div class="row md-subject">
-                                        <div class="col-sm-10">{{emailDetail.subject}}</div>
-                                        <div class="col-sm-2 text-right">
-                                            <a href="/newmail/{{message._id}}?hint=reply&folder={{folder}}"><i class="icon-reply" title="Reply"></i></a>
-                                            <a href="/newmail/{{message._id}}?hint=forward&folder={{folder}}"><i class="icon-forward" title="Forward"></i></a>
-                                            <a href ng-click="deleteMessage()" ng-if="folder!='trash'"><i class="icon-trash" title="Delete"></i></a>
+                                        <div class="col-sm-9">{{emailDetail.subject}}</div>
+                                        <div class="col-sm-3 text-right">
+                                            <div class="btn-group">
+                                                <a class="btn btn-default btn-xs" href="/newmail/{{message._id}}?hint=reply&folder={{folder}}"><i class="icon-reply" title="Reply"></i></a>
+                                                <a class="btn btn-default btn-xs" href="/newmail/{{message._id}}?hint=forward&folder={{folder}}"><i class="icon-forward" title="Forward"></i></a>
+                                                <a class="btn btn-default btn-xs" href ng-click="deleteMessage()" ng-if="folder!='trash'"><i class="icon-trash" title="Delete"></i></a>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row row-underline-1"></div>
@@ -50,7 +52,7 @@
                                         <div class="col-sm-6">
                                             <img class="mdh-picture" src="/img/player-temp.png" width="32" height="32">
                                             <span class="mdh-people"><strong>{{emailDetail.from_user.ign}}</strong><br/>
-                                            To: {{emailDetail.to_user.ign}}</span>
+                                            To: {{toUsers}}</span>
                                         </div>
                                     </div>
                                     <div class="row md-body">
