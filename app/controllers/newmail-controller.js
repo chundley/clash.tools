@@ -76,6 +76,39 @@ function ($rootScope, $scope, $routeParams, $location, moment, authService, sess
     }
 
     $scope.sendMail = function() {
+        var emailMsg = {
+            subject: $scope.emailDetail.subject,
+            message: $scope.emailDetail.message,
+            from_user: {
+                user_id: authService.user.id,
+                ign: $scope.ign,
+                deleted: false
+            },
+            to_users: [],
+            created_at: new Date()
+        };
+
+        console.log($scope.recipients);
+        angular.forEach($scope.recipients, function (recipient) {
+            emailMsg.to_users.push(
+                {
+                    user_id: recipient._id,
+                    ign: recipient.ign,
+                    read: false,
+                    deleted: false
+                }
+            );
+        });
+
+        emailMessageService.save(emailMsg, function (err, msg) {
+            if (err) {
+
+            }
+            else {
+                // do something yeah?
+            }
+        });        
+
         $location.path('/mail').search('folder', $scope.folder).replace();
     }
 

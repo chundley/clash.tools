@@ -52,7 +52,7 @@
                                                 <a href="/mail/{{message._id}}?folder={{folder}}">{{message.from_user.ign}}</a>
                                             </div>
                                             <div class="col-xs-2" ng-class="{'unread-message': message.read==false}" ng-if="folder=='sent'">
-                                                <a href="/mail/{{message._id}}?folder={{folder}}">{{message.to_user.ign}}</a>
+                                                <a href="/mail/{{message._id}}?folder={{folder}}">{{message.toUsers}}</a>
                                             </div>
                                             <div class="col-xs-2" ng-class="{'unread-message': message.read==false}" ng-if="folder=='trash'">
                                                 <a href="/mail/{{message._id}}?folder={{folder}}">{{message.from_user.ign}}</a>

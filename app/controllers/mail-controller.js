@@ -108,7 +108,14 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
                 if (message.from_user.user_id === authService.user.id &&
                     !message.deleted) {
                     message.read = true;
+                    var toUsers = '';
+                    angular.forEach(message.to_users, function (user) {
+                        toUsers += user.ign + ','
+                    });
+                    toUsers = toUsers.substring(0, toUsers.length-1);
+                    message.toUsers = toUsers;
                     $scope.activeMessages.push(message);
+
                 }
             }
             else {
