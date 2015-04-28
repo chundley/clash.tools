@@ -138,7 +138,7 @@ exports.deleteEmail = function(emailMessageId, userId, callback) {
     }
     if (_.isString(userId)) {
         userId = new ObjectID.createFromHexString(userId);
-    }    
+    }
 
     db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'email_message', function (err, collection) {
         if (err) {
@@ -150,8 +150,6 @@ exports.deleteEmail = function(emailMessageId, userId, callback) {
                 { $set: { 'to_users.$.deleted': true} },
                 { upsert: false },
                 function (err, doc) {
-                    //logger.warn(doc);
-                    //logger.warn(err);
                     if (err) {
                         callback(err, null);
                     }
@@ -173,7 +171,7 @@ exports.setRead = function(emailMessageId, userId, callback) {
     }
     if (_.isString(userId)) {
         userId = new ObjectID.createFromHexString(userId);
-    }    
+    }
 
     db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'email_message', function (err, collection) {
         if (err) {
@@ -185,8 +183,6 @@ exports.setRead = function(emailMessageId, userId, callback) {
                 { $set: { 'to_users.$.read': true} },
                 { upsert: false },
                 function (err, doc) {
-                    //logger.warn(doc);
-                    //logger.warn(err);
                     if (err) {
                         callback(err, null);
                     }

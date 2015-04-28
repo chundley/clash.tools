@@ -28,7 +28,7 @@ function ($rootScope, $scope, $routeParams, $location, moment, authService, sess
             err.stack_trace.unshift( { file: 'mail-maildetail.js', func: 'init', message: 'Error getting user meta data' } );
             errorService.save(err, function() {});
         }
-        else {        
+        else {
             $scope.ign = meta.ign;
             $scope.clan = meta.current_clan;
 
@@ -38,12 +38,12 @@ function ($rootScope, $scope, $routeParams, $location, moment, authService, sess
                         err.stack_trace.unshift( { file: 'mail-maildetail.js', func: 'init', message: 'Error getting user meta data' } );
                         errorService.save(err, function() {});
                     }
-                    else {                   
+                    else {
                         $scope.recipientPool = members;
                     }
                 });
             }
-        }        
+        }
     });
 
 
@@ -67,7 +67,7 @@ function ($rootScope, $scope, $routeParams, $location, moment, authService, sess
                     }
                 });
             }
-            setCounts();
+            setState();
         }
     });
 
@@ -76,8 +76,7 @@ function ($rootScope, $scope, $routeParams, $location, moment, authService, sess
     }
 
     $scope.sendMail = function() {
-
-        console.log($scope.recipients);
+        $location.path('/mail').search('folder', $scope.folder).replace();
     }
 
     $scope.deleteMessage = function() {
@@ -92,7 +91,7 @@ function ($rootScope, $scope, $routeParams, $location, moment, authService, sess
         });
     }
 
-    function setCounts() {
+    function setState() {
         $scope.counts = {
             inbox: 0,
             sent: 0,
@@ -114,14 +113,17 @@ function ($rootScope, $scope, $routeParams, $location, moment, authService, sess
                 }
             }
 
-            if (message.to_user.user_id === authService.user.id) {
-                if (message.deleted) {
-                    $scope.counts.trash++;
+            angular.forEach(message.to_users, function (user) {
+                if (user.user_id === authService.user.id) {
+                    if (user.deleted) {
+                        $scope.counts.trash++;
+                    }
+                    else {
+                        $scope.counts.inbox++;
+                    }
                 }
-                else {
-                    $scope.counts.inbox++;
-                }
-            }
+            });
+
             if (message.from_user.user_id === authService.user.id) {
                 if (message.deleted) {
                     $scope.counts.trash++;
@@ -132,5 +134,4 @@ function ($rootScope, $scope, $routeParams, $location, moment, authService, sess
             }
         });
     }
-
 }]);

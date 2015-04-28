@@ -55,8 +55,6 @@ function ($rootScope, $scope, $routeParams, $location, $modal, authService, cach
                             deleted: false
                         },
                         to_users: [],
-                        read: false,
-                        deleted: false,
                         created_at: new Date()
                     };
 

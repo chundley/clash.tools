@@ -60,13 +60,13 @@
                                             <div class="col-xs-5" ng-class="{'unread-message': message.read==false}">
                                                 <a href="/mail/{{message._id}}?folder={{folder}}">{{message.subject}}</a>
                                             </div>
-                                            <div class="col-xs-3">
+                                            <div class="col-xs-3" ng-class="{'unread-message': message.read==false}">
                                                 <span am-time-ago="{{message.created_at}}"></span>
                                             </div>
                                             <div class="col-xs-2 text-right">
                                                 <a href="/newmail/{{message._id}}?hint=reply&folder={{folder}}"><i class="icon-reply" title="Reply"></i></a>
                                                 <a href="/newmail/{{message._id}}?hint=forward&folder={{folder}}"><i class="icon-forward" title="Forward"></i></a>
-                                                <a href ng-click="deleteMessage(message)"><i class="icon-trash" title="Delete"></i></a>
+                                                <a href ng-click="deleteMessage(message)" ng-if="folder!='trash'"><i class="icon-trash" title="Delete"></i></a>
                                             </div>
                                         </div>
                                         <div class="row row-underline-1" ng-if="$index<activeMessages.length-1"></div>

@@ -30,7 +30,7 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
         }
         else {
             $scope.allMessages = mailMessages;
-            setCounts();
+            setState();
         }
     });
 
@@ -46,7 +46,7 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
         });
     }
 
-    function setCounts() {
+    function setState() {
         $scope.counts = {
             inbox: 0,
             sent: 0,
@@ -60,7 +60,7 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
             if (message._id == $scope.emailId) {
                 $scope.emailDetail = message;
                 msgDetail = true;
-            }            
+            }
             angular.forEach(message.to_users, function (user) {
                 if (user.user_id === authService.user.id) {
                     if (user.deleted) {
@@ -69,12 +69,12 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
                     else {
                         $scope.counts.inbox++;
                     }
-                }   
+                }
 
                 // need to create the toUsers output
                 if (msgDetail) {
                     $scope.toUsers += user.ign + ', ';
-                }             
+                }
             })
 
             if (message.from_user.user_id === authService.user.id) {
@@ -86,7 +86,18 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
                 }
             }
         });
+
+        // mark the email read
+        if ($scope.emailDetail) {
+            emailMessageService.setRead($scope.emailDetail._id, authService.user.id, function (err, result) {
+                if (err) {
+                    err.stack_trace.unshift( { file: 'maildetail-controller.js', func: 'setState', message: 'Error setting message to read' } );
+                    errorService.save(err, function() {});
+                }
+            });
+        }
+
         $scope.toUsers = $scope.toUsers.substring(0, $scope.toUsers.length-2);
-    }    
+    }
 
 }]);

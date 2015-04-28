@@ -73,7 +73,7 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
                     else {
                         $scope.counts.inbox++;
                     }
-                }                
+                }
             })
 
             if (message.from_user.user_id === authService.user.id) {
@@ -95,26 +95,33 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
                 angular.forEach(message.to_users, function (user) {
                     if (user.user_id === authService.user.id &&
                         !user.deleted) {
+                        message.read = false;
+                        if (user.read) {
+                            message.read = true;
+                        }
                         $scope.activeMessages.push(message);
-                    }                    
+                    }
                 });
             }
 
             else if ($scope.folder == 'sent') {
                 if (message.from_user.user_id === authService.user.id &&
                     !message.deleted) {
+                    message.read = true;
                     $scope.activeMessages.push(message);
                 }
             }
             else {
-                if (message.deleted) {
-                    angular.forEach(message.to_users, function (user) {
-                        if (user.user_id === authService.user.id &&
-                            user.deleted) {
-                            $scope.activeMessages.push(message);
-                        }                    
-                    });
-                }
+                angular.forEach(message.to_users, function (user) {
+                    if (user.user_id === authService.user.id &&
+                        user.deleted) {
+                        message.read = false;
+                        if (user.read) {
+                            message.read = true;
+                        }
+                        $scope.activeMessages.push(message);
+                    }
+                });
             }
         });
     }

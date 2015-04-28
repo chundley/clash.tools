@@ -50,8 +50,8 @@ exports.getById = function(req, res, next) {
 /*
 *   Mark an email message as "read"
 */
-exports.read = function(req, res, next) {
-    emailMessageModel.updateField(req.params.messageId, 'read', true, function (err, message) {
+exports.setRead = function(req, res, next) {
+    emailMessageModel.setRead(req.params.messageId, req.params.userId, function (err, message) {
         if (err) {
             res.send(500, err);
         }

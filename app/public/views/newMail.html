@@ -15,17 +15,17 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-2">
-                            <div class="row folder" ng-class="{'active-folder': folder=='inbox'}">
+                            <div class="row folder" ng-class="{'active-folder': folder=='x'}">
                                 <div class="col-sm-12">
                                     <a href="/mail?folder=inbox"><i class="icon-inbox"></i> Inbox <span ng-if="counts.inbox>0">({{counts.inbox}})</span></a>
                                 </div>
                             </div>
-                            <div class="row folder" ng-class="{'active-folder': folder=='sent'}">
+                            <div class="row folder" ng-class="{'active-folder': folder=='x'}">
                                 <div class="col-sm-12">
                                     <a href="/mail?folder=sent"><i class="icon-inbox"></i> Sent <span ng-if="counts.sent>0">({{counts.sent}})</span></a>
                                 </div>
                             </div>
-                            <div class="row folder" ng-class="{'active-folder': folder=='trash'}">
+                            <div class="row folder" ng-class="{'active-folder': folder=='x'}">
                                 <div class="col-sm-12">
                                     <a href="/mail?folder=trash"><i class="icon-trash"></i> Trash <span ng-if="counts.trash>0">({{counts.trash}})</span></a>
                                 </div>

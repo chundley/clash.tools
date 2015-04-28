@@ -169,7 +169,7 @@ var routes = [
         httpMethod: 'POST',
         middleware: [emailMessageCtrl.setRead],
         accessLevel: accessLevels.member
-    },    
+    },
     {
         path: '/crud/email/:messageId/:userId',
         httpMethod: 'DELETE',
