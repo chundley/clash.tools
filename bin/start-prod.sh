@@ -4,7 +4,7 @@
 #pushd $DIR/..
 
 # production location of the app is hard-coded for rc0.d startup
-DIR=/var/node/siftrock-app
+DIR=/var/node/clash.tools
 pushd $DIR
 
 if [ $1 = "-r" ]
