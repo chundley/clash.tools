@@ -71,14 +71,18 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
                     }
                 }
 
-                // need to create the toUsers output
+                // format toUsers output
                 if (msgDetail) {
                     $scope.toUsers += user.ign + ', ';
                 }
-            })
+            });
+
+            if (msgDetail) {
+                $scope.emailDetail.messageHtml = $scope.emailDetail.message.replace(/\n/g, '<br/>');
+            }
 
             if (message.from_user.user_id === authService.user.id) {
-                if (message.deleted) {
+                if (message.from_user.deleted) {
                     $scope.counts.trash++;
                 }
                 else {

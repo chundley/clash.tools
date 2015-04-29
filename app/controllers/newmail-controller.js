@@ -61,7 +61,7 @@ function ($rootScope, $scope, $routeParams, $location, moment, authService, sess
                 angular.forEach(mailMessages, function (message) {
                     if (message._id == $scope.emailId) {
                         $scope.recipientPool = [
-                            { id: message.from_user.user_id, ign: message.from_user.ign }
+                            { _id: message.from_user.user_id, ign: message.from_user.ign }
                         ];
                         $scope.recipients = $scope.recipientPool;
                     }
@@ -88,7 +88,6 @@ function ($rootScope, $scope, $routeParams, $location, moment, authService, sess
             created_at: new Date()
         };
 
-        console.log($scope.recipients);
         angular.forEach($scope.recipients, function (recipient) {
             emailMsg.to_users.push(
                 {
@@ -158,7 +157,7 @@ function ($rootScope, $scope, $routeParams, $location, moment, authService, sess
             });
 
             if (message.from_user.user_id === authService.user.id) {
-                if (message.deleted) {
+                if (message.from_user.deleted) {
                     $scope.counts.trash++;
                 }
                 else {

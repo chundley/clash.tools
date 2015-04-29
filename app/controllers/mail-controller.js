@@ -40,7 +40,7 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
     }
 
     $scope.deleteMessage = function(message) {
-        emailMessageService.delete(message._id, function (err, resp) {
+        emailMessageService.delete(message._id, authService.user.id, function (err, resp) {
             if (err) {
                 err.stack_trace.unshift( { file: 'mail-controller.js', func: '$scope.deleteMessage', message: 'Error deleting message' } );
                 errorService.save(err, function() {});
@@ -48,7 +48,16 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
             else {
                 angular.forEach($scope.allMessages, function (msg) {
                     if (msg._id == message._id) {
-                        msg.deleted = true;
+                        if ($scope.folder == 'sent') {
+                            msg.from_user.deleted = true;
+                        }
+                        else {
+                            angular.forEach(msg.to_users, function (user) {
+                                if (user.user_id == authService.user.id) {
+                                    user.deleted = true;
+                                }
+                            });
+                        }
                     }
                 });
                 setCounts();
@@ -77,7 +86,7 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
             })
 
             if (message.from_user.user_id === authService.user.id) {
-                if (message.deleted) {
+                if (message.from_user.deleted) {
                     $scope.counts.trash++;
                 }
                 else {
@@ -106,7 +115,7 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
 
             else if ($scope.folder == 'sent') {
                 if (message.from_user.user_id === authService.user.id &&
-                    !message.deleted) {
+                    !message.from_user.deleted) {
                     message.read = true;
                     var toUsers = '';
                     angular.forEach(message.to_users, function (user) {
@@ -119,16 +128,22 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
                 }
             }
             else {
-                angular.forEach(message.to_users, function (user) {
-                    if (user.user_id === authService.user.id &&
-                        user.deleted) {
-                        message.read = false;
-                        if (user.read) {
-                            message.read = true;
+                if (message.from_user.user_id == authService.user.id &&
+                    message.from_user.deleted) {
+                    $scope.activeMessages.push(message);
+                }
+                else {
+                    angular.forEach(message.to_users, function (user) {
+                        if (user.user_id === authService.user.id &&
+                            user.deleted) {
+                            message.read = false;
+                            if (user.read) {
+                                message.read = true;
+                            }
+                            $scope.activeMessages.push(message);
                         }
-                        $scope.activeMessages.push(message);
-                    }
-                });
+                    });
+                }
             }
         });
     }

@@ -145,6 +145,7 @@ exports.deleteEmail = function(emailMessageId, userId, callback) {
             callback(err, null);
         }
         else {
+            // delete message "to" users (deleting from inbox)
             collection.update(
                 { _id: emailMessageId, 'to_users.user_id': userId },
                 { $set: { 'to_users.$.deleted': true} },
@@ -158,6 +159,21 @@ exports.deleteEmail = function(emailMessageId, userId, callback) {
                     }
                 }
             );
+
+            // delete message "from" users (deleting from sent mail)
+            collection.update(
+                { _id: emailMessageId, 'from_user.user_id': userId },
+                { $set: { 'from_user.deleted': true} },
+                { upsert: false },
+                function (err, doc) {
+                    if (err) {
+                        callback(err, null);
+                    }
+                    else {
+                        callback(null, doc);
+                    }
+                }
+            );            
         }
     });
 }
