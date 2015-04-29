@@ -74,3 +74,14 @@ exports.delete = function(req, res, next) {
         }
     });
 }
+
+exports.countNew = function(req, res, next) {
+    emailMessageModel.countNew(req.params.userId, function (err, count) {
+        if (err) {
+            res.send(500, err);
+        }
+        else {
+            res.json(200, { count: count });
+        }
+    });
+}

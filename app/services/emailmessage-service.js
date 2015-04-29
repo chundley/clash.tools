@@ -61,6 +61,16 @@ function ($http, $rootScope, authService, errorService) {
             }).error(function (data, status, headers, config) {
                 callback(errorService.initMessage('messagelog-service.js', 'get', status), null);
             });
+        },
+        countNew: function(userId, callback) {
+            $http({
+                url: '/crud/email/countnew/' + userId,
+                method: 'GET'
+            }).success(function (data, status, headers, config) {
+                callback(null, data);
+            }).error(function (data, status, headers, config) {
+                callback(errorService.initMessage('messagelog-service.js', 'get', status), null);
+            });
         }
     }
 }]);

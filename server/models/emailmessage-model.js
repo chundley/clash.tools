@@ -179,7 +179,7 @@ exports.deleteEmail = function(emailMessageId, userId, callback) {
 }
 
 /*
-*   Sets an email to "deleted" puts in trash folder
+*   Sets an email to "read"
 */
 exports.setRead = function(emailMessageId, userId, callback) {
     if (_.isString(emailMessageId)) {
@@ -207,6 +207,34 @@ exports.setRead = function(emailMessageId, userId, callback) {
                     }
                 }
             );
+        }
+    });
+}
+
+/*
+*   Gets a count of new emails for the top nav interface
+*/
+exports.countNew = function(userId, callback) {
+    if (_.isString(userId)) {
+        userId = new ObjectID.createFromHexString(userId);
+    }
+
+    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'email_message', function (err, collection) {
+        if (err) {
+            callback(err, null);
+        }
+        else {  
+            collection.find( { 'to_users.user_id': userId, 
+                               'to_users.read': false, 
+                               'to_users.deleted': false } 
+                            ).count(function (err, count) {
+                if (err) {
+                    callback(err, null);
+                }
+                else {
+                    callback(null, count);
+                }
+            });                  
         }
     });
 }

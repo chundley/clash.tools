@@ -176,6 +176,12 @@ var routes = [
         middleware: [emailMessageCtrl.delete],
         accessLevel: accessLevels.member
     },
+    {
+        path: '/crud/email/countnew/:userId',
+        httpMethod: 'GET',
+        middleware: [emailMessageCtrl.countNew],
+        accessLevel: accessLevels.member
+    },    
     /*
     *   User account management endpoints
     */
