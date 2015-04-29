@@ -10,7 +10,7 @@
     },  
     {
       "type": "file",
-      "filename": "log/siftrock-app.log",
+      "filename": "log/clashtools.log",
       "absolute": true,
       "maxLogSize": 16777216,
       "backups": 3,
