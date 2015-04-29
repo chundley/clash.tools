@@ -23,7 +23,7 @@ Rst='\e[0m'     # reset styles
 
 # fancy banner!
 echo -e ${Green}${Bold}
-echo -e "clash.tools Deployment\n'
+echo -e "clash.tools Deployment\n"
 
 # pre-requisites
 #############################################################################################
