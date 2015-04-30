@@ -1,59 +1,69 @@
-<div class="lr-header">
-    <img src="/img/logo-large.png" class="img-responsive object-center">
-</div>
-
 <form name="loginForm" ng-submit="login()" novalidate>
-<div class="lr-login">
-
-    <div class="left-side text-center">
-        <h5>Clan management done right</h5><br/><br/><br/>
-        <h4>Keep organized for war, clan communication, blah blah blah</h4><br/><br/><br/>
-        <h4>Something else interesting blah blah blah</h4>
-    </div>
-    <div class="hr-vertical">
-        <div class="inner">
-            &nbsp;
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 lr-header">
+            <img src="/img/logo-large.png" class="img-responsive object-center">
         </div>
     </div>
-    <div class="right-side" ng-show="!reset">
-        <div class="margin-bottom-huge">
-            <h2>Login</h2>
-        </div>
-        <div class="form-group">
-            <label for="emailAddress" class="control-label">Email Address</label>
-            <input type="email" name="emailAddress" ng-model="emailAddress" class="form-control req-field" placeholder="Email" required ng-minlength="1">
-        </div>
-        <div class="form-group">
-            <label for="password" class="control-label">Password</label> <span class="pull-right"><a href="#" ng-click="pwReset()" tabindex="-1">I forgot</a></span>
-            <input type="password" name="password" ng-model="password" class="form-control req-field" placeholder="Password" required ng-minlength="4" ng-maxlength="50">
-        </div>
-        <div class="form-group" ng-show="hasError">
-            <strong>Invalid email/password combination.</strong>
-        </div>
-        <div class="form-group">
-            <div class="pull-left">
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" ng-model="rememberMe"> Stay logged in
-                    </label>
+    <div class="row margin-bottom-medium">
+        <div class="col-xs-8 col-xs-offset-2 lr-login-container">
+            <div class="row">
+                <div class="col-md-5 lr-left hidden-sm hidden-xs">
+                    <div class="row margin-bottom-huge">
+                        <div class="col-sm-12 text-center">
+                        <h3>Clan management done right</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <img src="http://placehold.it/320x240/6f8293/ffffff&text=clash.tools" class="img-responsive object-center">
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="pull-right">
-                <button name="logIn" track="Login page - submit" type="submit" ng-disabled="loginForm.$invalid" class="btn btn-primary">Log in</button>
+                <div class="col-md-1 hidden-sm hidden-xs">
+                    <div class="row">
+                        <div class="col-md-6 lr-splitter"></div>
+                    </div>
+                </div>                
+                <div class="col-md-6 col-sm-12 lr-right">
+                    <div class="margin-bottom-huge">
+                        <h2>Login</h2>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label for="emailAddress" class="control-label">Email Address</label>
+                                <input type="email" name="emailAddress" ng-model="emailAddress" class="form-control req-field" placeholder="Email" required ng-minlength="1">
+                            </div>
+                            <div class="form-group">
+                                <label for="password" class="control-label">Password</label> <span class="pull-right"><a href="#" ng-click="pwReset()" tabindex="-1">I forgot</a></span>
+                                <input type="password" name="password" ng-model="password" class="form-control req-field" placeholder="Password" required ng-minlength="4" ng-maxlength="50">
+                            </div>
+                            <div class="form-group" ng-show="hasError">
+                                <strong>Invalid email/password combination.</strong>
+                            </div>
+                            <div class="form-group">
+                                <div class="pull-left">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" ng-model="rememberMe"> Stay logged in
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="pull-right">
+                                    <button name="logIn" track="Login page - submit" type="submit" ng-disabled="loginForm.$invalid" class="btn btn-emphasis">Log in</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
             </div>
         </div>
     </div>
-    <div class="right-side" ng-show="reset">
-        <div class="margin-bottom-huge">
-            <h2>Password reset request</h2>
-        </div>
-        <div class="margin-bottom-huge">
-            <h4>A password reset link has been emailed to you, please follow the instructions when you receive it.</h4>
+    <div class="row">
+        <div class="col-xs-8 col-xs-offset-2 text-right">
+            Need an account? <a href="/register">Sign up</a>
         </div>
     </div>
 </div>
 </form>
-<div class="lr-footer text-right">
-    Need an account? <a href="/register">Sign up</a>
-</div>
-
