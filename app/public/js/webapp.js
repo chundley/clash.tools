@@ -67,8 +67,13 @@ angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize',
             }
         }
     });
-});
+})
 
+.constant('CLAN_EMAILS',
+    {
+        joinRequest: 'There has just been a request to join the clan from <b>[1]</b>. Please confirm or decline the request by selecting from below:<br/><br/><a href="/action/confirm?id=[2]" class="btn btn-sm btn-emphasis">Confirm</a> <a href="/action/decline?id=[2]" class="btn btn-sm btn-alternate">Decline</a>'
+    }
+);
 /*
 *   Response types supported by Siftrock
 */

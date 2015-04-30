@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('ClansCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$modal', 'authService', 'cacheService', 'sessionService', 'errorService', 'messagelogService', 'clanService', 'emailMessageService',
-function ($rootScope, $scope, $routeParams, $location, $modal, authService, cacheService, sessionService, errorService, messagelogService, clanService, emailMessageService) {
+.controller('ClansCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$modal', 'authService', 'cacheService', 'sessionService', 'errorService', 'messagelogService', 'clanService', 'emailMessageService', 'CLAN_EMAILS',
+function ($rootScope, $scope, $routeParams, $location, $modal, authService, cacheService, sessionService, errorService, messagelogService, clanService, emailMessageService, CLAN_EMAILS) {
 
     //$scope.helpLink = 'http://www.siftrock.com/help/dashboard/';
     $rootScope.title = 'Find a clan - clash.tools';
@@ -57,7 +57,8 @@ function ($rootScope, $scope, $routeParams, $location, $modal, authService, cach
 
                     var emailMsg = {
                         subject: $scope.ign + ' would like to join the clan',
-                        message: 'There has just been a request to join the clan from ' + $scope.ign,
+                        //message: 'There has just been a request to join the clan from ' + $scope.ign,
+                        message: CLAN_EMAILS.joinRequest.replace(/\[1\]/g, $scope.ign).replace(/\[2\]/g, authService.user.id),
                         from_user: {
                             user_id: authService.user.id,
                             ign: $scope.ign,
@@ -109,6 +110,6 @@ function ($rootScope, $scope, $routeParams, $location, $modal, authService, cach
     function runSearch(query) {
         clanService.allClans(query, function (err, clans) {
             $scope.clans = clans;
-        });        
+        });
     }
 }]);
