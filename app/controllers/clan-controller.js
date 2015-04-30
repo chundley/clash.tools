@@ -16,14 +16,21 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
 
         clanService.getById(clanId, function (err, clan) {
             $scope.clan = clan;
+            $rootScope.title = 'Clan settings: ' + clan.name + ' - clash.tools';
         });
-
-        $rootScope.title = 'New clan - clash.tools';
     }
     else {
         $scope.newClan = true;
         $scope.clan = {
             meta: {},
+            war_config: {
+                first_assignment: 'leader',
+                cleanup_assignment: 'all',
+                first_attack_time: 12,
+                cleanup_attack_time: 4,
+                free_for_all_time: 2,
+                overcalls: false
+            },
             created_by: authService.user.id
         };
         $rootScope.title = 'New clan - clash.tools';
@@ -62,6 +69,24 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
                 authService.changeUser(newUser, function () {
                     sessionService.clearUserMeta(); // clear session data so clan gets reset in user meta data
                     $location.url('/clan/' + result._id).replace();
+                });
+            }
+        });
+    }
+
+    $scope.saveClan = function() {
+        clanService.save($scope.clan, function (err, result) {
+            if (err) {
+                err.stack_trace.unshift( { file: 'clan-controller.js', func: '$scope.saveClan', message: 'Error saving clan' } );
+                errorService.save(err, function() {});
+            }
+            else {
+                // Log this activity
+                messagelogService.save(result._id, 'Clan settings changed by [ign]', $scope.ign, 'special', function (err, msg) {
+                    if (err) {
+                        err.stack_trace.unshift( { file: 'clan-controller.js', func: '$scope.saveClan', message: 'Error saving new clan message in the log' } );
+                        errorService.save(err, function() {});
+                    }
                 });
             }
         });

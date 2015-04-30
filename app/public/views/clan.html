@@ -6,16 +6,16 @@
             <div top-nav></div>
             <!-- page content - new clan -->
             <div class="row content-body" ng-if="newClan">
-                <div class="col-sm-12">
+                <div class="col-xs-12">
                     <div class="row margin-bottom-big">
-                        <div class="col-sm-12">
+                        <div class="col-xs-12">
                             <h1>Create new clan</h1>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-12">
+                        <div class="col-xs-12">
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-xs-6">
                                     <div class="widget">
                                         <div class="widget-header">
                                             Clan information
@@ -23,24 +23,24 @@
                                         <div class="widget-body">
                                             <form name="newClanForm" class="form-horizontal" ng-submit="saveNewClan()" novalidate>
                                                 <div class="form-group">
-                                                    <label for="clanName" class="col-sm-4 control-label">Clan name</label>
-                                                    <div class="col-sm-8">
+                                                    <label for="clanName" class="col-xs-4 control-label">Clan name</label>
+                                                    <div class="col-xs-8">
                                                         <input type="text" class="form-control req-field" id="clanName" ng-model="clan.name" placeholder="Enter clan name" required ng-minlength="1">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="clanTag" class="col-sm-4 control-label">Clan tag</label>
-                                                    <div class="col-sm-8">
+                                                    <label for="clanTag" class="col-xs-4 control-label">Clan tag</label>
+                                                    <div class="col-xs-8">
                                                         <input type="text" class="form-control req-field" id="clanName" ng-model="clan.clan_tag" placeholder="Enter clan tag" ng-minlength="1" required>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <div class="col-sm-8 col-sm-offset-4">
+                                                    <div class="col-xs-8 col-xs-offset-4">
                                                         <button class="btn btn-emphasis btn-sm" ng-disabled="newClanForm.$invalid">Save</button>
                                                     </div>
                                                 </div>
                                                 <div class="form-group" ng-if="errorMsg">
-                                                    <div class="col-sm-12 text-center alternate">
+                                                    <div class="col-xs-12 text-center alternate">
                                                         {{errorMsg}} <a class="btn btn-alternate btn-sm">Join clan</a>
                                                     </div>
                                                 </div>
@@ -56,42 +56,38 @@
 
             <!-- page content - existing clan -->
             <div class="row content-body" ng-if="!newClan">
-                <div class="col-sm-12">
+                <div class="col-xs-12">
                     <div class="row margin-bottom-big">
-                        <div class="col-sm-12">
+                        <div class="col-xs-12">
                             <h1>{{clan.name}}</h1> <h3 class="same-line-sub-heading alternate">{{clan.clan_tag}}</h3>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-12">
+                    <!-- public information -->
+                    <div class="row margin-bottom-huge">
+                        <div class="col-xs-12">
                             <div class="row">
-                                <div class="col-sm-12">
+                                <div class="col-xs-12">
                                     <div class="widget">
                                         <div class="widget-header">
                                             Public information
                                         </div>
                                         <div class="widget-body">
-                                            <form name="editClanForm" class="form-horizontal" ng-submit="saveClan()" novalidate>
+                                            <form name="publicInformationForm" class="form-horizontal" ng-submit="saveClan()" novalidate>
                                                 <div class="form-group">
-                                                    <label for="clanOverview" class="col-sm-3 control-label">Clan Overview</label>
-                                                    <div class="col-sm-9">
+                                                    <label for="clanOverview" class="col-xs-3 control-label">Clan Overview</label>
+                                                    <div class="col-xs-9">
                                                         <textarea class="form-control" id="clanOverview" ng-model="clan.meta.overview" placeholder="Give the world a brief overview of what your clan is all about (500 characters max)" rows="4" ng-maxlength="500" access-level-disable="coleader"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="clanLookingFor" class="col-sm-3 control-label">We're looking for</label>
-                                                    <div class="col-sm-9">
-                                                        <textarea type="text" class="form-control" id="clanLookingFor" ng-model="clan.meta.lookingFor" placeholder="Tell everyone what type of members your're looking for - town halls, hero levels, etc. (500 characters max)" rows="4" ng-maxlength="5" access-level-disable="coleader"></textarea>
+                                                    <label for="clanLookingFor" class="col-xs-3 control-label">We're looking for</label>
+                                                    <div class="col-xs-9">
+                                                        <textarea type="text" class="form-control" id="clanLookingFor" ng-model="clan.meta.lookingFor" placeholder="Tell everyone what type of members you're looking for - town halls, hero levels, etc. (500 characters max)" rows="4" ng-maxlength="5" access-level-disable="coleader"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <div class="col-sm-9 col-sm-offset-3">
-                                                        <button class="btn btn-emphasis btn-sm" ng-disabled="editClanForm.$invalid" access-level-disable="coleader">Save</button>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group" ng-if="errorMsg">
-                                                    <div class="col-sm-12 text-center alternate">
-                                                        {{errorMsg}} <a class="btn btn-alternate btn-sm">Join clan</a>
+                                                    <div class="col-xs-12 text-right">
+                                                        <button class="btn btn-emphasis btn-sm" ng-disabled="publicInformationForm.$invalid" access-level-disable="coleader">Save</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -100,10 +96,120 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> <!-- /public information -->
+
+                    <!-- war configuration -->
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="widget">
+                                        <div class="widget-header">
+                                            War settings
+                                        </div>
+                                        <div class="widget-body">
+                                            <form name="warSettingsForm" class="form-horizontal" ng-submit="saveClan()" novalidate>
+                                                <div class="form-group">
+                                                    <label for="firstAssignment" class="col-sm-5 col-xs-12 control-label">Base assignment - first target <i class="icon-help-circled" popover-placement="right" popover="Will first targets be assigned by clan leadership, or will you allow members to pick their own bases to attack?" popover-append-to-body="true" popover-trigger="mouseenter"></i></label>
+                                                    <div class="col-sm-7 col-xs-12">
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="firstAssignment" ng-model="clan.war_config.first_assignment" value="leader" access-level-disable="coleader">Leader / co-leaders
+                                                        </label>
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="firstAssignment" ng-model="clan.war_config.first_assignment" value="all" access-level-disable="coleader">Self-assigned
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="cleanupAssignment" class="col-sm-5 col-xs-12 control-label">Base assignment - cleanups <i class="icon-help-circled" popover-placement="right" popover="For cleanup attacks, will leadeship assign bases or can all members choose their own?" popover-append-to-body="true" popover-trigger="mouseenter"></i></label>
+                                                    <div class="col-sm-7 col-xs-12">
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="cleanupAssignment" ng-model="clan.war_config.cleanup_assignment" value="leader" access-level-disable="coleader">Leader / co-leaders
+                                                        </label>
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="cleanupAssignment" ng-model="clan.war_config.cleanup_assignment" value="all" access-level-disable="coleader">Self-assigned
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="firstTargetTime" class="col-sm-5 col-xs-12 control-label">First target calls last <i class="icon-help-circled" popover-placement="right" popover="How many hours will you give members to do their first attack?" popover-append-to-body="true" popover-trigger="mouseenter"></i></label>
+                                                    <div class="col-md-2 col-sm-3 col-xs-5">
+                                                        <select class="form-control" ng-model="clan.war_config.first_attack_time">
+                                                            <option value="12">12 hours</option>
+                                                            <option value="11">11 hours</option>
+                                                            <option value="10">10 hours</option>
+                                                            <option value="9">9 hours</option>
+                                                            <option value="8">8 hours</option>
+                                                            <option value="7">7 hours</option>
+                                                            <option value="6">6 hours</option>
+                                                            <option value="5">5 hours</option>
+                                                            <option value="4">4 hours</option>
+                                                            <option value="3">3 hours</option>
+                                                            <option value="2">2 hours</option>
+                                                            <option value="1">1 hour</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="cleanupTargetTime" class="col-sm-5 col-xs-12 control-label">Cleanup calls last <i class="icon-help-circled" popover-placement="right" popover="How many hours will you give members to do their cleanup attack?" popover-append-to-body="true" popover-trigger="mouseenter"></i></label>
+                                                    <div class="col-md-2 col-sm-3 col-xs-5">
+                                                        <select class="form-control" ng-model="clan.war_config.cleanup_attack_time">
+                                                            <option value="12">12 hours</option>
+                                                            <option value="11">11 hours</option>
+                                                            <option value="10">10 hours</option>
+                                                            <option value="9">9 hours</option>
+                                                            <option value="8">8 hours</option>
+                                                            <option value="7">7 hours</option>
+                                                            <option value="6">6 hours</option>
+                                                            <option value="5">5 hours</option>
+                                                            <option value="4">4 hours</option>
+                                                            <option value="3">3 hours</option>
+                                                            <option value="2">2 hours</option>
+                                                            <option value="1">1 hour</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="freeForAllTime" class="col-sm-5 col-xs-12 control-label">Free for all period <i class="icon-help-circled" popover-placement="right" popover="When this much time is left in the war, allow anyone to attack without waiting (pick zero hours if you don't allow this)" popover-append-to-body="true" popover-trigger="mouseenter"></i></label>
+                                                    <div class="col-md-2 col-sm-3 col-xs-5">
+                                                        <select class="form-control" ng-model="clan.war_config.free_for_all_time">
+                                                            <option value="8">8 hours</option>
+                                                            <option value="7">7 hours</option>
+                                                            <option value="6">6 hours</option>
+                                                            <option value="5">5 hours</option>
+                                                            <option value="4">4 hours</option>
+                                                            <option value="3">3 hours</option>
+                                                            <option value="2">2 hours</option>
+                                                            <option value="1">1 hour</option>
+                                                            <option value="0">0 hours</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="allowOvercalls" class="col-sm-5 col-xs-12 control-label">Allow overcalls <i class="icon-help-circled" popover-placement="right" popover="Allow members to sign up for targets that are already assigned but not attacked yet?" popover-append-to-body="true" popover-trigger="mouseenter"></i></label>
+                                                    <div class="col-xs-7">
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="allowOvercalls" ng-model="clan.war_config.overcalls" value="true" access-level-disable="coleader">Yes
+                                                        </label>
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="allowOvercalls" ng-model="clan.war_config.overcalls" value="false" access-level-disable="coleader">No
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-xs-12 text-right">
+                                                        <button class="btn btn-emphasis btn-sm" ng-disabled="warSettingsForm.$invalid" access-level-disable="coleader">Save</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- /war configuration -->
                 </div>
             </div> <!-- /page content - existing clan -->
-
         </div>
     </div>  <!-- /#page-content-wrapper -->
 </div>  <!-- /#wrapper -->
