@@ -6,12 +6,18 @@
             <div top-nav></div>
             <!-- page content -->
             <div class="row content-body">
-                <div class="col-sm-12">
-                    <div class="row margin-bottom-huge">
-                        <div class="col-sm-12">
+                <div class="col-xs-12">
+                    <div class="row margin-bottom-huge clan-search">
+                        <div class="col-md-12 col-sm-6 hidden-xs">
                             <h1>Find a clan</h1>
                             <h3 class="same-line-sub-heading alternate">{{ign}}</h3>
                         </div>
+                        <div class="col-sm-6 col-xs-12 hidden-lg hidden-md search-box">
+                            <div class="form-control-group">
+                                <input class="form-control" type="text" placeholder="Search for a clan by name or tag" ng-model="localSearchTerms" press-enter="searchLocal()">
+                                <button class="btn btn-search" ng-click="searchLocal()"><i class="icon-search"></i></button>
+                            </div>
+                        </div>                        
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
@@ -19,20 +25,20 @@
                                 <div class="widget-header">Clans registered with clash.tools</div>
                                 <div class="widget-body">
                                     <div class="row">
-                                        <div class="col-xs-4 t-header">Clan name</div>
-                                        <div class="col-xs-2 t-header">Clan tag</div>
-                                        <div class="col-xs-2 t-header">Leader</div>
-                                        <div class="col-xs-2 t-header text-center">Members</div>
+                                        <div class="col-sm-4 col-xs-4 t-header">Clan name</div>
+                                        <div class="col-sm-2 col-xs-4 t-header">Clan tag</div>
+                                        <div class="col-sm-2 hidden-xs t-header">Leader</div>
+                                        <div class="col-sm-2 col-xs-2 t-header text-center">Members</div>
                                     </div>
                                     <div class="row row-underline-1"></div>
                                     <div ng-repeat="c in clans">
                                         <div class="row t-row">
-                                            <div class="col-xs-4">{{c.name}}</div>
-                                            <div class="col-xs-2">{{c.clan_tag}}</div>
-                                            <div class="col-xs-2">{{c.metrics.leader}}</div>
-                                            <div class="col-xs-2 text-center">{{c.metrics.totalMembers}}</div>
-                                            <div class="col-xs-2 text-right" ng-if="clan.name==undefined"><button class="btn btn-alternate btn-xs" ng-click="joinClan(c)">Join</button></div>
-                                            <div class="col-xs-2 text-right" ng-if="clan.name!==undefined"><button class="btn btn-alternate btn-xs" popover-placement="left" popover="You can't join another clan until you leave your current one" popover-append-to-body="true" popover-trigger="mouseenter" readonly>Join</button></div>
+                                            <div class="col-sm-4 col-xs-4">{{c.name}}</div>
+                                            <div class="col-sm-2 col-xs-4">{{c.clan_tag}}</div>
+                                            <div class="col-sm-2 hidden-xs">{{c.metrics.leader}}</div>
+                                            <div class="col-sm-2 col-xs-2 text-center">{{c.metrics.totalMembers}}</div>
+                                            <div class="col-sm-2 text-right" ng-if="clan.name==undefined"><button class="btn btn-alternate btn-xs" ng-click="joinClan(c)">Join</button></div>
+                                            <div class="col-sm-2 text-right" ng-if="clan.name!==undefined"><button class="btn btn-emphasis btn-xs" popover-placement="left" popover="You can't join another clan until you leave your current one" popover-append-to-body="true" popover-trigger="mouseenter" readonly>Join</button></div>
                                         </div>
                                     </div>
                                 </div>

@@ -23,10 +23,19 @@ function ($rootScope, $scope, $routeParams, $location, $modal, authService, cach
         $scope.clan = meta.current_clan;
     });
 
-    clanService.allClans($scope.query, function (err, clans) {
-        $scope.clans = clans;
-    });
+    runSearch($scope.query);
 
+    $scope.searchLocal = function() {
+        if ($scope.localSearchTerms.length > 0) {
+            //$scope.query = $scope.localSearchTerms;
+            runSearch($scope.localSearchTerms);
+
+        }
+        else {
+            //$scope.query = '*';
+            runSearch('*');
+        }
+    }
 
     $scope.joinClan = function (clan) {
         $scope.modalOptions = {
@@ -95,5 +104,11 @@ function ($rootScope, $scope, $routeParams, $location, $modal, authService, cach
         modalInstance.$promise.then(function() {
             modalInstance.show();
         });
+    }
+
+    function runSearch(query) {
+        clanService.allClans(query, function (err, clans) {
+            $scope.clans = clans;
+        });        
     }
 }]);
