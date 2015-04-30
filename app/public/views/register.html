@@ -1,50 +1,61 @@
-<div class="lr-header text-center">
-    <img src="/img/logo-large.png" class="logo">
-</div>
-
 <form name="registerForm" ng-submit="register()" novalidate>
-<div class="lr-register">
-    <div class="left-side">
-        <div>
-            <h2>Create a clash.tools account</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 lr-header">
+            <img src="/img/logo-large.png" class="img-responsive object-center">
         </div>
-        <div class="margin-bottom-huge">
-            <h4>No cost, and we promise not to spam you</h4>
-        </div>
-        <div class="form-group">
-            <label for="emailAddress" class="control-label">Email Address</label>
-            <input type="email" name="emailAddress" ng-model="emailAddress" class="form-control req-field" placeholder="Email" required ng-minlength="1">
-        </div>
-        <div class="form-group">
-            <label for="company" class="control-label">In Game Name</label>
-            <input type="text" name="ign" ng-model="ign" class="form-control req-field" placeholder="IGN" required ng-minlength="1">
-        </div>
-        <div class="form-group">
-            <label for="password" class="control-label">Password (minimum 4 characters)</label>
-            <input type="password" name="password" ng-model="password" class="form-control req-field" placeholder="Password" required ng-minlength="4" ng-maxlength="50">
-        </div>
-        <div class="form-group" ng-show="hasError">
-            <strong>Account already exists - to log in <a href="/login">click here</a>.</strong>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-5 col-xs-6">
-                <button track="Register page - submit" type="submit" class="btn btn-primary" ng-disabled="registerForm.$invalid">Create Account</button>
+    </div>
+    <div class="row margin-bottom-medium">
+        <div class="col-xs-10 col-xs-offset-1 lr-container">
+            <div class="row">
+                <div class="col-md-6 col-sm-12 lr-left">
+                    <div class="margin-bottom-huge">
+                        <h2>Create a clash.tools account</h2><br/>
+                        <h4>We promise not to spam you</h4>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label for="emailAddress" class="control-label">Email Address</label>
+                                <input type="email" name="emailAddress" ng-model="emailAddress" class="form-control req-field" placeholder="Email" required ng-minlength="1">
+                            </div>
+                            <div class="form-group">
+                                <label for="company" class="control-label">In Game Name</label>
+                                <input type="text" name="ign" ng-model="ign" class="form-control req-field" placeholder="IGN" required ng-minlength="1">
+                            </div>
+                            <div class="form-group">
+                                <label for="password" class="control-label">Password (minimum 4 characters)</label>
+                                <input type="password" name="password" ng-model="password" class="form-control req-field" placeholder="Password" required ng-minlength="4" ng-maxlength="50">
+                            </div>
+                            <div class="form-group" ng-show="hasError">
+                                <strong>Account already exists - to log in <a href="/login">click here</a>.</strong>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-emphasis" ng-disabled="registerForm.$invalid">Create Account</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 lr-right hidden-sm hidden-xs">
+                    <div class="row margin-bottom-huge">
+                        <div class="col-sm-12 text-center">
+                        <h3>Management for serious war clans</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <img src="http://placehold.it/320x240/6f8293/ffffff&text=clash.tools" class="img-responsive object-center">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
     </div>
-    <div class="hr-vertical">
-        <div class="inner">
-            &nbsp;
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1">
+            Already have an account? <a href="/login">Log in</a>
         </div>
-    </div>
-    <div class="right-side text-center">
-        <h5>Clan management done right</h5><br/><br/><br/>
-        <h4>Keep organized for war, clan communication, blah blah blah</h4><br/><br/><br/>
-        <h4>Something else interesting blah blah blah</h4>
     </div>
 </div>
 </form>
-<div class="lr-footer">
-    Already have an account? <a href="/login">Log in</a>
-</div>
