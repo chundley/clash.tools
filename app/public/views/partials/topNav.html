@@ -1,18 +1,18 @@
             <div class="row">
-                <div class="col-sm-12 top-nav-container">
+                <div class="col-xs-12 top-nav-container">
                     <div class="row">
-                        <div class="col-sm-3">
+                        <div class="col-md-4 col-sm-6 col-xs-6">
                             <a href="/home"><img class="logo" src="/img/logo-small.png"></a> 
                         </div>
-                        <div class="col-sm-4 col-sm-offset-2 search-box">
+                        <div class="col-md-4 hidden-sm hidden-xs search-box">
                             <div class="form-control-group">
-                                <input class="form-control" type="text" placeholder="Search for a clan by name or tag" ng-model="searchTerms" press-enter="search()" ng-change="mightSearch()">
+                                <input class="form-control" type="text" placeholder="Search for a clan by name or tag" ng-model="searchTerms" press-enter="search()">
                                 <button class="btn btn-search" ng-click="search()"><i class="icon-search"></i></button>
                             </div>
                         </div>
-                        <div class="col-sm-3 text-right icon-notification">
-                            <A href="/chat"><i class="icon-chat"></i><span class="count-indicator vis-2-bg">12</span></a>
-                            <a href="/mail"><i class="icon-mail"></i></a><span class="count-indicator vis-2-bg">{{newMailCount}}</span>
+                        <div class="col-md-4 col-sm-6 col-xs-6 text-right icon-notification">
+                            <A href="/chat"><i class="icon-chat"></i><span class="count-indicator alternate-bg">12</span></a>
+                            <a href="/mail"><i class="icon-mail"></i></a><span class="count-indicator alternate-bg">{{newMailCount}}</span>
 
                             <span class="dropdown pull-right" on-toggle="toggled(open)">
                                 <a href class="dropdown-toggle">
