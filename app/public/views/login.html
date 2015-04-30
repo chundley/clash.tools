@@ -1,4 +1,3 @@
-<form name="loginForm" ng-submit="login()" novalidate>
 <div class="container">
     <div class="row">
         <div class="col-xs-12 lr-header">
@@ -6,7 +5,7 @@
         </div>
     </div>
     <div class="row margin-bottom-medium">
-        <div class="col-xs-8 col-xs-offset-2 lr-login-container">
+        <div class="col-xs-10 col-xs-offset-1 lr-login-container">
             <div class="row">
                 <div class="col-md-5 lr-left hidden-sm hidden-xs">
                     <div class="row margin-bottom-huge">
@@ -30,6 +29,7 @@
                         <h2>Login</h2>
                     </div>
                     <div class="row">
+                        <form name="loginForm" ng-submit="login()" novalidate>
                         <div class="col-xs-12">
                             <div class="form-group">
                                 <label for="emailAddress" class="control-label">Email Address</label>
@@ -55,13 +55,14 @@
                                 </div>
                             </div>
                         </div>
+                        </form>
                     </div>
                 </div>                
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-8 col-xs-offset-2 text-right">
+        <div class="col-xs-10 col-xs-offset-1 text-right">
             Need an account? <a href="/register">Sign up</a>
         </div>
     </div>
