@@ -6,18 +6,16 @@
             <div top-nav></div>
             <!-- page content -->
             <div class="row content-body mail-container">
-                <div class="col-sm-12">
-                    <div class="row margin-bottom-huge">
-                        <div class="col-sm-9">
+                <div class="col-xs-12">
+                    <div class="row">
+                        <div class="col-xs-12">
                             <h1>{{ign}}</h1>
-                            <h3 class="same-line-sub-heading alternate" ng-if="clan.name">{{clan.name}}</h3>
-                        </div>
-                        <div class="col-sm-3 text-right">
-                            <a href="/newmail/new" class="btn btn-emphasis btn-sm text-right">New message</a>
+                            <h3 class="same-line-sub-heading alternate hidden-xs" ng-if="clan.name">{{clan.name}}</h3>
+                            <a href="/newmail/new" class="btn btn-emphasis btn-sm text-right pull-right">New Message</a>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-2">
+                    <div class="row mail-content">
+                        <div class="col-md-2 col-sm-3 hidden-xs">
                             <div class="row folder" ng-class="{'active-folder': folder=='inbox'}">
                                 <div class="col-sm-12">
                                     <a href="/mail?folder=inbox"><i class="icon-inbox"></i> Inbox <span ng-if="counts.inbox>0">({{counts.inbox}})</span></a>
@@ -34,13 +32,18 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-10">
+                        <div class="col-md-10 col-sm-9 col-xs-12">
                             <div class="widget">
                                 <div class="widget-body mail-detail-container">
                                     <div class="row md-subject">
-                                        <div class="col-sm-9">{{emailDetail.subject}}</div>
-                                        <div class="col-sm-3 text-right">
-                                            <div class="btn-group">
+                                        <div class="col-xs-12">
+                                            {{emailDetail.subject}} <br class="hidden-lg hidden-md hidden-sm" />
+                                            <div class="btn-group pull-right hidden-xs">
+                                                <a class="btn btn-default btn-xs" href="/newmail/{{emailDetail._id}}?hint=reply&folder={{folder}}"><i class="icon-reply" title="Reply"></i></a>
+                                                <a class="btn btn-default btn-xs" href="/newmail/{{emailDetail._id}}?hint=forward&folder={{folder}}"><i class="icon-forward" title="Forward"></i></a>
+                                                <a class="btn btn-default btn-xs" href ng-click="deleteMessage()" ng-if="folder!='trash'"><i class="icon-trash" title="Delete"></i></a>
+                                            </div>
+                                            <div class="btn-group hidden-lg hidden-md hidden-sm">
                                                 <a class="btn btn-default btn-xs" href="/newmail/{{emailDetail._id}}?hint=reply&folder={{folder}}"><i class="icon-reply" title="Reply"></i></a>
                                                 <a class="btn btn-default btn-xs" href="/newmail/{{emailDetail._id}}?hint=forward&folder={{folder}}"><i class="icon-forward" title="Forward"></i></a>
                                                 <a class="btn btn-default btn-xs" href ng-click="deleteMessage()" ng-if="folder!='trash'"><i class="icon-trash" title="Delete"></i></a>
@@ -61,6 +64,11 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row hidden-lg hidden-md hidden-sm">
+                        <div class="col-xs-12 mail-back-button">
+                            <a class="btn btn-primary btn-sm" href="/mail?folder={{folder}}"> <i class="icon-back"></i> {{folder}}</a>
                         </div>
                     </div>
                 </div>
