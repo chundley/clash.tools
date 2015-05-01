@@ -20,9 +20,6 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
             errorService.save(err, function() {});
         }
         else {
-            $scope.ign = meta.ign;
-            $scope.clan = meta.current_clan;
-
             var actionType = $routeParams.id;
 
             if (actionType == 'confirm') {

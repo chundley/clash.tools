@@ -38,13 +38,11 @@ function ($rootScope, $scope, $routeParams, $window, $modal, authService, sessio
     }
 
     $scope.joinClan = function (clan) {
-
-        // make the dialog better
         var cssClass = 'center';
         if ($window.innerWidth < 500) {
             cssClass = 'mobile';
         }
-        console.log($window.innerWidth);
+
         $scope.modalOptions = {
             title: 'Join ' + clan.name + '?',
             message: 'Please confirm you want to join "' + clan.name + '". The leaders of the clan will be contacted for approval.',
@@ -65,7 +63,6 @@ function ($rootScope, $scope, $routeParams, $window, $modal, authService, sessio
 
                     var emailMsg = {
                         subject: $scope.ign + ' would like to join the clan',
-                        //message: 'There has just been a request to join the clan from ' + $scope.ign,
                         message: CLAN_EMAILS.joinRequest.replace(/\[1\]/g, $scope.ign).replace(/\[2\]/g, authService.user.id),
                         from_user: {
                             user_id: authService.user.id,

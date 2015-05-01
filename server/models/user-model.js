@@ -6,8 +6,9 @@ var LocalStrategy = require('passport-local').Strategy,
     ObjectID      = require('mongodb').ObjectID;
 
 
-var config = require('../../config/config'),
-    util   = require('../../app/shared/util');
+var config    = require('../../config/config'),
+    util      = require('../../app/shared/util'),
+    userRoles = require('../../app/shared/role-config').userRoles;
 
 exports.addUser = function(user, callback) {
     var now = new Date();
@@ -64,6 +65,85 @@ exports.addUser = function(user, callback) {
 }
 
 /*
+*   Updates a user's role - promotions and demotions
+*/
+exports.updateRole = function (userId, role, callback) {
+    if (role == 'leader') {
+        // if promoting a new leader, need to set the old leader as co-leader first
+        db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'user', function (err, collection) {
+            if (err) {
+                callback(err, null);
+            }
+            else {
+                collection.findOne( { 'role.title': 'leader' }, function (err, leader) {
+                    if (err) {
+                        callback(err, null);
+                    }
+                    else {
+                        changeRole(leader._id, 'coleader', function (err, co) {
+                            if (err) {
+                                callback(err, null);
+                            }
+                            else {
+                                changeRole(userId, role, function (err, l) {
+                                    if (err) {
+                                        callback(err, null);
+                                    }      
+                                    else {
+                                        callback(null, l);
+                                    }                              
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });        
+    }
+
+    else {
+        changeRole(userId, role, function (err, member) {
+            if (err) {
+                    callback(err, null);
+            }      
+            else {
+                callback(null, member);
+            }                              
+        });
+    }
+}
+
+function changeRole(userId, role, callback) {
+    if (_.isString(userId)) {
+        userId = new ObjectID.createFromHexString(userId);
+    }    
+
+    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'user', function (err, collection) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            collection.update(
+                { _id: userId },
+                { $set: { role: userRoles[role] } },
+                { upsert: false },
+                function (err, result) {
+                    if (err) {
+                        callback(err, null);
+                    }
+                    else {
+                        exports.findById(userId, function (err, u) {
+                            callback(null, u);
+                        });
+                        
+                    }
+                }
+            );
+        }
+    });       
+}
+
+/*
 *   Updates a user's clan. The "newClan" flag indicates a new clan was created. In that case
 *   the user needs to be set as leader
 */
@@ -72,23 +152,35 @@ exports.updateClan = function(userId, clan, newClan, callback) {
         userId = new ObjectID.createFromHexString(userId);
     }
 
+    // an empty clan object will e passed in if the member is being kicked
     var clanTrimmed = {
-        clan_id: clan._id,
-        name: clan.name,
-        clan_tag: clan.clan_tag,
-        joined: new Date()
     };
 
-    if (_.isString(clanTrimmed.clan_id)) {
-        clanTrimmed.clan_id = new ObjectID.createFromHexString(clanTrimmed.clan_id);
+    if (clan._id) {
+        clanTrimmed.clan_id = clan._id;
+        clanTrimmed.name = clan.name;
+        clanTrimmed.clan_tag = clan.clan_tag;
+        clanTrimmed.joined = new Date();
+
+        if (_.isString(clanTrimmed.clan_id)) {
+            clanTrimmed.clan_id = new ObjectID.createFromHexString(clanTrimmed.clan_id);
+        }        
     }
 
     var updateFields = {
         current_clan: clanTrimmed
     };
 
+    var pushClan = { clan_history: clanTrimmed };
+
     if (newClan) {
         updateFields.role = { bitMask: 16, title: 'leader' };
+    }
+
+    if (!clan._id) {
+        // anyone kicked goes back to member
+        updateFields.role = { bitMask: 2, title: 'member' };
+        pushClan = {};
     }
 
     db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'user', function (err, collection) {
@@ -137,7 +229,9 @@ exports.usersByClan = function(clanId, memberTypes, callback) {
             callback(err, null);
         }
         else {
-            collection.find( whereClause, { _id: 1, ign: 1, role: 1 } ).toArray(function (err, items) {
+            collection.find( whereClause, { _id: 1, ign: 1, role: 1, 'current_clan.joined': 1 } )
+            .sort( {ign: 1} )
+            .toArray(function (err, items) {
                 if (err) {
                     callback(err, null);
                 }
@@ -305,12 +399,16 @@ exports.disable = function(id, callback) {
 }
 
 exports.findById = function(id, callback) {
+    if (_.isString(id)) {
+        id = new ObjectID.createFromHexString(id);
+    }
+
     db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'user', function (err, collection) {
         if (err) {
             callback(err, null);
         }
         else {
-            collection.findOne( { _id: new ObjectID.createFromHexString(id) }, function (err, item) {
+            collection.findOne( { _id: id }, function (err, item) {
                 if (err) {
                     callback(err, null);
                 }

@@ -1,0 +1,63 @@
+<div id="wrapper">
+    <div sidebar></div>
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div top-nav></div>
+            <!-- page content -->
+            <div class="row content-body members-container">
+                <div class="col-sm-12">
+                    <div class="row margin-bottom-huge">
+                        <div class="col-sm-12">
+                            <h1>Members</h1>
+                            <h3 class="same-line-sub-heading alternate">{{clan.name}}</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="widget">
+                                <div class="widget-body members-table">
+                                    <div class="row t-row">
+                                        <div class="col-sm-3 col-xs-5 t-header">Member</div>
+                                        <div class="col-sm-3 col-xs-5 t-header">Role</div>
+                                        <div class="col-sm-4 hidden-xs t-header">Joined</div>
+                                        <div class="col-sm-2 col-xs-2 t-header"></div>
+                                    </div>
+                                    <div class="row row-underline-2"></div>
+                                    <div ng-repeat="member in members">
+                                        <div class="row t-row">
+                                            <div class="col-sm-3 col-xs-5">{{member.ign}}</div>
+                                            <div class="col-sm-3 col-xs-5 capitalize {{member.role.title}}">{{member.role.title}}</div>
+                                            <div class="col-sm-4 hidden-xs"><span am-time-ago="{{member.joined}}"></span></div>
+                                            <div class="col-sm-2 col-xs-2 text-right" ng-if="(meta.role=='member' || meta.role=='elder' || member.role.title=='leader')"></div>
+
+                                            <div class="col-sm-2 col-xs-2" ng-if="(meta.role=='leader' || meta.role=='coleader') && member.role.title!='leader' && member._id != userId">
+                                                <span class="dropdown pull-right" on-toggle="toggled(open)">
+                                                    <a href class="dropdown-toggle">
+                                                        <button class="btn btn-default btn-xs"><i class="icon-down-dir primary-30"></i></button>
+                                                    </a>
+                                                    <ul class="dropdown-menu">
+                                                        <li ng-if="(meta.role=='leader' || meta.role=='coleader') && member.role.title=='member'"><a href ng-click="changeRole(member, 'elder', 'promoted')">Promote to Elder</a></li>
+                                                        <li ng-if="(meta.role=='leader' || meta.role=='coleader') && (member.role.title=='member' || member.role.title=='elder')"><a href ng-click="changeRole(member, 'coleader', 'promoted')">Promote to Co-leader</a></li>
+                                                        <li ng-if="meta.role=='leader'"><a href ng-click="changeRole(member, 'leader', 'promoted')">Promote to Leader</a></li>
+                                                        <li ng-if="member.role.title=='elder' || member.role.title=='coleader'" class="divider"></li>
+                                                        <li ng-if="(meta.role=='leader' || meta.role=='coleader') && (member.role.title=='elder' || member.role.title=='coleader')"><a href ng-click="changeRole(member, 'member', 'demoted')">Demote to Member</a></li>
+                                                        <li ng-if="member.role.title=='coleader' && meta.role=='leader'"><a href ng-click="changeRole(member, 'elder', 'demoted')">Demote to Elder</a></li>
+                                                        <li class="divider"></li>
+                                                        <li ng-if="meta.role=='coleader' && (member.role.title=='member' || member.role.title=='elder')"><a href ng-click="kick(member)">Kick from clan</a></li>
+                                                        <li ng-if="meta.role=='leader' && (member.role.title!='leader')"><a href ng-click="kick(member)">Kick from clan</a></li>
+                                                    </ul>
+                                                </span>                                              
+                                            </div>                           
+                                        </div>
+                                        <div class="row row-underline-1" ng-if="$index<members.length-1"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- /page content -->
+        </div>
+    </div>  <!-- /#page-content-wrapper -->
+</div>  <!-- /#wrapper -->

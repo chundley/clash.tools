@@ -11,7 +11,7 @@
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-6 col-xs-6 text-right icon-notification">
-                            <A href="/chat"><i class="icon-chat"></i><span class="count-indicator alternate-bg">12</span></a>
+<!--                             <A href="/chat"><i class="icon-chat"></i><span class="count-indicator alternate-bg">0</span></a> -->
                             <a href="/mail"><i class="icon-mail"></i></a><span class="count-indicator alternate-bg">{{newMailCount}}</span>
 
                             <span class="dropdown pull-right" on-toggle="toggled(open)">
@@ -20,12 +20,12 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <p class="dropdown-header" ng-if="clanName.length>0">Clan</p>
-                                    <li ng-if="clanName.length>0"><a href="/home">Members</a></li>
-                                    <li ng-if="clanName.length>0"><a href="/stream">Wars</a></li>
+                                    <li ng-if="clanName.length>0"><a href="/members">Members</a></li>
+                                    <li ng-if="clanName.length>0"><a href="/wars">Wars</a></li>
                                     <li class="margin-bottom-medium" ng-if="clanName.length>0"><a href="/clan/{{clanId}}">Settings</a></li>
                                     <p class="dropdown-header">You</p>
-                                    <li><a href="/stream">Profile</a></li>
-                                    <li><a href="/settings">History</a></li>
+                                    <li><a href="/profile">Profile</a></li>
+                                    <li><a href="/history">History</a></li>
                                     <li class="divider"></li>
                                     <li><a href="/logout">Logout</a></li>
                                 </ul>

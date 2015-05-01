@@ -24,6 +24,7 @@ angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize',
         .when('/newmail/:id', { controller: 'NewMailCtrl', templateUrl: '/views/newMail.html', access: access.member } )
         .when('/clan/:id', { controller: 'ClanCtrl', templateUrl: '/views/clan.html', access: access.member } )
         .when('/clans/:query', { controller: 'ClansCtrl', templateUrl: '/views/clans.html', access: access.member } )
+        .when('/members', { controller: 'MembersCtrl', templateUrl: '/views/members.html', access: access.member } )
         .when('/chat', { controller: 'ChatCtrl', templateUrl: '/views/chat.html', access: access.member } )
         .when('/action/:id', { controller: 'ActionCtrl', templateUrl: '/views/action.html', access: access.member } )
 /*        .when('/messages', { controller: 'MessagesCtrl', templateUrl: '/views/messages.html', access: access.user } )
@@ -74,8 +75,8 @@ angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize',
     {
         joinRequest: 'There has just been a request to join the clan from <b>[1]</b>. Please confirm or decline the request by selecting from below:<br/><br/><a href="/action/confirm?id=[2]" class="btn btn-sm btn-emphasis">Confirm</a> <a href="/action/decline?id=[2]" class="btn btn-sm btn-alternate">Decline</a>',
         joinConfirmed: 'Your request to join the clan <b>[1]</b> has been approved by <b>[2]</b>. Refresh your browser if you don\'t see the clan name under your user name',
-        joinDeclined: 'Your request to join the clan <b>[1]</b> has been declined'
-
+        joinDeclined: 'Your request to join the clan <b>[1]</b> has been declined',
+        kicked: 'You have been kicked out of the clan by <b>[1]</b>'
     }
 );
 /*

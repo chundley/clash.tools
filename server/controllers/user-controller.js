@@ -59,12 +59,29 @@ exports.updateClan = function(req, res, next) {
             res.send(500, err);
         }
         else if (user) {
-            res.json(200, user);
+            res.json(200, { updateStatus: user} );
         }
         else {
             res.send(404, 'not found');
         }
     });    
+}
+
+/*
+*   Updates a user's role
+*/
+exports.updateRole = function(req, res, next) {
+    model.updateRole(req.params.id, req.query.role, function (err, user) {
+        if (err) {
+            res.send(500, err);
+        }
+        else if (user) {
+            res.json(200, user);
+        }
+        else {
+            res.send(404, 'not found');
+        }
+    });     
 }
 
 /*
@@ -148,7 +165,8 @@ exports.getMeta = function(req, res, next) {
             var ret = {
                 ign: user.ign,
                 email_address: user.email_address,
-                current_clan: user.current_clan
+                current_clan: user.current_clan,
+                role: user.role.title
             };
             res.json(200, ret);
         }

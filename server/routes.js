@@ -57,7 +57,13 @@ var routes = [
         accessLevel: accessLevels.member
     },
     {
-        path: '/crud/user/clan/:id',
+        path: '/crud/user/:id/role',
+        httpMethod: 'POST',
+        middleware: [userCtrl.updateRole],
+        accessLevel: accessLevels.member
+    },      
+    {
+        path: '/crud/user/:id/clan',
         httpMethod: 'POST',
         middleware: [userCtrl.updateClan],
         accessLevel: accessLevels.member

@@ -48,9 +48,21 @@ function ($http, errorService) {
                 callback(errorService.initMessage('user-service.js', 'setVerified', status), null);
             });
         },
+        updateRole: function (id, role, callback) {
+            $http({
+                url: '/crud/user/' + id + '/role?role=' + role,
+                method: "POST",
+                data: null,
+                headers: {'Content-Type': 'application/json'}
+            }).success(function (data, status, headers, config) {
+                callback(null, data);
+            }).error(function (data, status, headers, config) {
+                callback(errorService.initMessage('user-service.js', 'update', status), null);
+            });
+        },
         updateClan: function (id, clan, callback) {
             $http({
-                url: '/crud/user/clan/' + id,
+                url: '/crud/user/' + id + '/clan',
                 method: "POST",
                 data: clan,
                 headers: {'Content-Type': 'application/json'}
