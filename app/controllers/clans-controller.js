@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('ClansCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$modal', 'authService', 'cacheService', 'sessionService', 'errorService', 'messagelogService', 'clanService', 'emailMessageService', 'CLAN_EMAILS',
-function ($rootScope, $scope, $routeParams, $location, $modal, authService, cacheService, sessionService, errorService, messagelogService, clanService, emailMessageService, CLAN_EMAILS) {
+.controller('ClansCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$window', '$modal', 'authService', 'cacheService', 'sessionService', 'errorService', 'messagelogService', 'clanService', 'emailMessageService', 'CLAN_EMAILS',
+function ($rootScope, $scope, $routeParams, $location, $window, $modal, authService, cacheService, sessionService, errorService, messagelogService, clanService, emailMessageService, CLAN_EMAILS) {
 
     //$scope.helpLink = 'http://www.siftrock.com/help/dashboard/';
     $rootScope.title = 'Find a clan - clash.tools';
@@ -38,11 +38,19 @@ function ($rootScope, $scope, $routeParams, $location, $modal, authService, cach
     }
 
     $scope.joinClan = function (clan) {
+
+        // make the dialog better
+        var cssClass = 'center';
+        if ($window.innerWidth < 500) {
+            cssClass = 'mobile';
+        }
+        console.log($window.innerWidth);
         $scope.modalOptions = {
             title: 'Join ' + clan.name + '?',
             message: 'Please confirm you want to join "' + clan.name + '". The leaders of the clan will be contacted for approval.',
             yesBtn: 'Join',
             noBtn: 'Cancel',
+            cssClass: cssClass,
             onYes: function() {
                 // need to send app emails to leaders and coleaders
                 clanService.getMembers(clan._id, 'coleader,leader', function (err, members) {
