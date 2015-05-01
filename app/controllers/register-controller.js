@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('RegisterCtrl', ['$rootScope', '$scope', '$location', 'md5', 'accountService', 'authService', 'sessionService', 'mailService', 'errorService',
-function ($rootScope, $scope, $location, md5, accountService, authService, sessionService, mailService, errorService) {
+.controller('RegisterCtrl', ['$rootScope', '$scope', '$location', 'md5', 'authService', 'sessionService', 'mailService', 'errorService',
+function ($rootScope, $scope, $location, md5, authService, sessionService, mailService, errorService) {
 
     if (authService.isLoggedIn()) {
         $location.path('/home').replace();

@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('ClansCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$window', '$modal', 'authService', 'cacheService', 'sessionService', 'errorService', 'messagelogService', 'clanService', 'emailMessageService', 'CLAN_EMAILS',
-function ($rootScope, $scope, $routeParams, $location, $window, $modal, authService, cacheService, sessionService, errorService, messagelogService, clanService, emailMessageService, CLAN_EMAILS) {
+.controller('ClansCtrl', ['$rootScope', '$scope', '$routeParams', '$window', '$modal', 'authService', 'sessionService', 'errorService', 'messagelogService', 'clanService', 'emailMessageService', 'CLAN_EMAILS',
+function ($rootScope, $scope, $routeParams, $window, $modal, authService, sessionService, errorService, messagelogService, clanService, emailMessageService, CLAN_EMAILS) {
 
     //$scope.helpLink = 'http://www.siftrock.com/help/dashboard/';
     $rootScope.title = 'Find a clan - clash.tools';

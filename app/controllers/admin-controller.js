@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('AdminCtrl', ['$rootScope', '$scope', '$location', 'accountService', 'userService', 'nlpConfigService', 'authService', 'sessionService', 'errorService',
-function ($rootScope, $scope, $location, accountService, userService, nlpConfigService, authService, sessionService, errorService) {
+.controller('AdminCtrl', ['$rootScope', '$scope', '$location', 'userService', 'nlpConfigService', 'authService', 'sessionService', 'errorService',
+function ($rootScope, $scope, $location, userService, nlpConfigService, authService, sessionService, errorService) {
 
     $rootScope.title = "Siftrock - Admin";
     $scope.activeTab = 'accounts';

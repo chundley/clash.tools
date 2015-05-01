@@ -32,7 +32,7 @@ function ($rootScope, $scope, $routeParams, $location, $timeout, userService, er
                     $scope.success = true;
 
                     $timeout(function() {
-                        $location.path('/').replace();
+                        $location.path('/home').replace();
                     }, 4000);
                 }
             });

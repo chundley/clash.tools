@@ -10,7 +10,6 @@ var authCtrl            = require('./controllers/auth-controller'),
     userCtrl            = require('./controllers/user-controller'),
     clanCtrl            = require('./controllers/clan-controller'),
     emailMessageCtrl    = require('./controllers/emailmessage-controller'),
-    accountCtrl         = require('./controllers/account-controller'),
     pwResetCtrl         = require('./controllers/pwreset-controller'),
     mailCtrl            = require('./controllers/mail-controller'),
     errorCtrl           = require('./controllers/error-controller'),
@@ -35,36 +34,6 @@ var routes = [
         path: '/auth/login',
         httpMethod: 'POST',
         middleware: [authCtrl.login]
-    },
-    {
-        path: '/crud/account/:id',
-        httpMethod: 'GET',
-        middleware: [accountCtrl.findById],
-        accessLevel: accessLevels.member
-    },
-    {
-        path: '/crud/account',
-        httpMethod: 'POST',
-        middleware: [accountCtrl.save]
-        // New user BUG
-    },
-    {
-        path: '/crud/account/user/:id',
-        httpMethod: 'GET',
-        middleware: [accountCtrl.findByUserId],
-        accessLevel: accessLevels.member
-    },
-    {
-        path: '/crud/account/:id/users',
-        httpMethod: 'GET',
-        middleware: [userCtrl.getByAccount],
-        accessLevel: accessLevels.member
-    },
-    {
-        path: '/crud/account/:id/users',
-        httpMethod: 'POST',
-        middleware: [accountCtrl.addUser],
-        accessLevel: accessLevels.member
     },
     /*
     *   User endpoints
@@ -254,11 +223,6 @@ var routes = [
         httpMethod: 'POST',
         middleware: [errorCtrl.save]
     },
-/*    {
-        path: '/crud/admin/account',
-        httpMethod: 'GET',
-        middleware: [accountCtrl.adminAllAccounts]
-    },*/
     // AngularJS handles all other routes client-side
     {
         path: '/*',

@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('HomeCtrl', ['$rootScope', '$scope', '$modal', 'moment', 'authService', 'cacheService', 'sessionService', 'accountService', 'errorService', 'messagelogService',
-function ($rootScope, $scope, $modal, moment, authService, cacheService, sessionService, accountService, errorService, messagelogService) {
+.controller('HomeCtrl', ['$rootScope', '$scope', 'moment', 'authService', 'cacheService', 'sessionService', 'errorService', 'messagelogService',
+function ($rootScope, $scope, moment, authService, cacheService, sessionService, errorService, messagelogService) {
     // initialize
     $rootScope.title = 'Dashboard - clash.tools';
 

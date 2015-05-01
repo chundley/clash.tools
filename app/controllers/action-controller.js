@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('ActionCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$modal', 'moment', 'authService', 'cacheService', 'sessionService', 'userService', 'errorService', 'messagelogService', 'emailMessageService', 'CLAN_EMAILS',
-function ($rootScope, $scope, $routeParams, $location, $modal, moment, authService, cacheService, sessionService, userService, errorService, messagelogService, emailMessageService, CLAN_EMAILS) {
+.controller('ActionCtrl', ['$rootScope', '$scope', '$routeParams', '$location', 'authService', 'sessionService', 'userService', 'errorService', 'messagelogService', 'emailMessageService', 'CLAN_EMAILS',
+function ($rootScope, $scope, $routeParams, $location, authService, sessionService, userService, errorService, messagelogService, emailMessageService, CLAN_EMAILS) {
     // initialize
     $rootScope.title = 'Actions - clash.tools';
 

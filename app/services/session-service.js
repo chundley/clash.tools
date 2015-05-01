@@ -5,33 +5,14 @@
 */
 
 angular.module('Clashtools.services')
-.factory('sessionService', ['$http', 'cacheService', 'userService', 'accountService',
-function ($http, cacheService, userService, accountService) {
+.factory('sessionService', ['$http', 'cacheService', 'userService',
+function ($http, cacheService, userService) {
 
-    var currentAccount = null;
     var userSession = null;
     var userMeta = null;
     var realUser = null; // used for unspoofing
 
     return {
-        getCurrentAccount: function(userid, callback) {
-            if (currentAccount) {
-                callback(null, currentAccount);
-            }
-            else {
-                accountService.getByUserId(userid, function (err, account) {
-                    if (err) {
-                        err.stack_trace.unshift( { file: 'session-service.js', func: 'getCurrentAccount', message: 'Error getting user' } );
-                        callback(err, null);
-                    }
-                    else {
-                        currentAccount = account;
-                        callback(null, currentAccount);
-                    }
-
-                });
-            }
-        },
         getUserMeta: function(userid, callback) {
             if (userMeta) {
                 callback(null, userMeta);
@@ -95,7 +76,6 @@ function ($http, cacheService, userService, accountService) {
         },
         clearSession: function() {
             // clear session data (on logout for example). Doesn't clear the database
-            currentAccount = null;
             userSession = null;
             userMeta = null;
             cacheService.removeAll();

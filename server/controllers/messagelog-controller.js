@@ -2,12 +2,7 @@
 *   Message log endpoints
 */
 
-var async = require('async'),
-    _     = require('underscore');
-
-var messagelogModel = require('../models/messagelog-model'),
-    accountModel    = require('../models/account-model'),
-    userModel       = require('../models/user-model');
+var messagelogModel = require('../models/messagelog-model');
 
 /*
 *   Save an message
@@ -36,14 +31,3 @@ exports.get = function(req, res, next) {
         }
     });
 };
-
-exports.dismiss = function(req, res, next) {
-    messagelogModel.dismiss(req.params.user_id, req.params.message_id, function (err, message) {
-        if (err) {
-            res.send(500, err);
-        }
-        else {
-            res.send(200, 'ok');
-        }
-    });
-}

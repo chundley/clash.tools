@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.services')
-.factory('authService', ['$http', '$rootScope', '$cookieStore', 'md5', 'accountService', 'sessionService', 'cacheService', 'errorService',
-function ($http, $rootScope, $cookieStore, md5, accountService, sessionService, cacheService, errorService) {
+.factory('authService', ['$http', '$rootScope', '$cookieStore', 'md5', 'sessionService', 'cacheService', 'errorService',
+function ($http, $rootScope, $cookieStore, md5, sessionService, cacheService, errorService) {
     var accessLevels = roleConfig.accessLevels;
     var userRoles = roleConfig.userRoles;
     var currentUser = $cookieStore.get('clashtools_user') || { id: null, email: null, role: userRoles.public };
