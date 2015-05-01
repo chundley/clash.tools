@@ -39,7 +39,7 @@ function ($rootScope, $scope, $routeParams, $location, $modal, authService, cach
 
     $scope.joinClan = function (clan) {
         $scope.modalOptions = {
-            title: 'Join a Clan',
+            title: 'Join ' + clan.name + '?',
             message: 'Please confirm you want to join "' + clan.name + '". The leaders of the clan will be contacted for approval.',
             yesBtn: 'Join',
             noBtn: 'Cancel',

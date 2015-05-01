@@ -15,10 +15,4 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
     });
 */
 
-    $scope.tags = [
-        {text: 'Tag 1'},
-        {text: 'Tag 2'},
-        {text: 'Blah'}
-    ];
-
 }]);

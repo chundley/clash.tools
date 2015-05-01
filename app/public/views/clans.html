@@ -37,7 +37,7 @@
                                             <div class="col-sm-2 col-xs-4">{{c.clan_tag}}</div>
                                             <div class="col-sm-2 hidden-xs">{{c.metrics.leader}}</div>
                                             <div class="col-sm-2 col-xs-2 text-center">{{c.metrics.totalMembers}}</div>
-                                            <div class="col-sm-2 text-right" ng-if="clan.name==undefined"><button class="btn btn-alternate btn-xs" ng-click="joinClan(c)">Join</button></div>
+                                            <div class="col-sm-2 text-right" ng-if="clan.name==undefined"><button class="btn btn-emphasis btn-xs" ng-click="joinClan(c)">Join</button></div>
                                             <div class="col-sm-2 text-right" ng-if="clan.name!==undefined"><button class="btn btn-emphasis btn-xs" popover-placement="left" popover="You can't join another clan until you leave your current one" popover-append-to-body="true" popover-trigger="mouseenter" readonly>Join</button></div>
                                         </div>
                                     </div>
