@@ -51,6 +51,23 @@ exports.getByVerifyToken = function(req, res, next) {
 }
 
 /*
+*   Updates a user's clan. Note this is ONLY for joining an existing clan
+*/
+exports.updateClan = function(req, res, next) {
+    model.updateClan(req.params.id, req.body, false, function (err, user) {
+        if (err) {
+            res.send(500, err);
+        }
+        else if (user) {
+            res.json(200, user);
+        }
+        else {
+            res.send(404, 'not found');
+        }
+    });    
+}
+
+/*
 *   Save a user model. Note this should be used for update only. New users are always
 *   created through the auth workflow
 */

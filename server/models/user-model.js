@@ -79,6 +79,10 @@ exports.updateClan = function(userId, clan, newClan, callback) {
         joined: new Date()
     };
 
+    if (_.isString(clanTrimmed.clan_id)) {
+        clanTrimmed.clan_id = new ObjectID.createFromHexString(clanTrimmed.clan_id);
+    }
+
     var updateFields = {
         current_clan: clanTrimmed
     };
