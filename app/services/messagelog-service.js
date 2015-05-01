@@ -15,7 +15,7 @@ function ($http, $rootScope, authService, errorService) {
                 created_at: new Date(),
                 message: message,
                 ign: ign,
-                type: type /* person, target (called), target (attacked), special (start war) */
+                type: type /* member, target (called), target (attacked), special (start war) */
             };
 
             $http({

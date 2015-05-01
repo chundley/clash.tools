@@ -25,6 +25,7 @@ angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize',
         .when('/clan/:id', { controller: 'ClanCtrl', templateUrl: '/views/clan.html', access: access.member } )
         .when('/clans/:query', { controller: 'ClansCtrl', templateUrl: '/views/clans.html', access: access.member } )
         .when('/chat', { controller: 'ChatCtrl', templateUrl: '/views/chat.html', access: access.member } )
+        .when('/action/:id', { controller: 'ActionCtrl', templateUrl: '/views/action.html', access: access.member } )
 /*        .when('/messages', { controller: 'MessagesCtrl', templateUrl: '/views/messages.html', access: access.user } )
         .when('/admin', { controller: 'AdminCtrl', templateUrl: '/views/admin/home.html', access: access.sadmin } )
         .when('/admin/unspoof', { controller: 'AdminCtrl', templateUrl: '/views/admin/home.html', access: access.admin } )
@@ -71,7 +72,8 @@ angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize',
 
 .constant('CLAN_EMAILS',
     {
-        joinRequest: 'There has just been a request to join the clan from <b>[1]</b>. Please confirm or decline the request by selecting from below:<br/><br/><a href="/action/confirm?id=[2]" class="btn btn-sm btn-emphasis">Confirm</a> <a href="/action/decline?id=[2]" class="btn btn-sm btn-alternate">Decline</a>'
+        joinRequest: 'There has just been a request to join the clan from <b>[1]</b>. Please confirm or decline the request by selecting from below:<br/><br/><a href="/action/confirm?id=[2]" class="btn btn-sm btn-emphasis">Confirm</a> <a href="/action/decline?id=[2]" class="btn btn-sm btn-alternate">Decline</a>',
+        joinConfirmed: 'Your request to join the clan <b>[1]</b> has been approved by <b>[2]</b>. Refresh your browser if you don\'t see the clan name under your user name'
     }
 );
 /*
