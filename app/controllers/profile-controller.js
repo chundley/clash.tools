@@ -21,6 +21,7 @@ function ($rootScope, $scope, moment, authService, cacheService, sessionService,
     });
 
     $scope.saveUser = function() {
+        console.log('here');
         userService.update($scope.user._id, $scope.user, function (err, newUser) {
             if (err) {
                 err.stack_trace.unshift( { file: 'profile-controller.js', func: '$scope.saveUser', message: 'Error saving user' } );

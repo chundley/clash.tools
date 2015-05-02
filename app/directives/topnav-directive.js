@@ -37,7 +37,11 @@ function ($location, $interval, moment, authService, sessionService, emailMessag
             updateUICounters();
 
             // and then every 60 seconds
-            $interval(updateUICounters, 60000);
+            var promise = $interval(updateUICounters, 60000);
+
+            scope.$on('$destroy', function() {
+                $interval.cancel(promise);
+            }); 
         }
     }
 }]);
