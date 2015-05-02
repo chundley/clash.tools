@@ -259,12 +259,11 @@ exports.saveModel = function(model, callback) {
     if (!model._id) {
         callback('invalid model', null);
     }
-
-    if (_.isString(model._id)) {
-        model._id = new ObjectID.createFromHexString(model._id);
-    }
-
     else {
+        if (_.isString(model._id)) {
+            model._id = new ObjectID.createFromHexString(model._id);
+        }       
+         
         model.created_at = new Date(model.created_at);
         model.last_updated_at = new Date();
 

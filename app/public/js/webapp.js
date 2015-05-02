@@ -79,7 +79,14 @@ angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize',
         joinDeclined: 'Your request to join the clan <b>[1]</b> has been declined',
         kicked: 'You have been kicked out of the clan by <b>[1]</b>'
     }
+)
+
+.constant('TROOP_IMAGES',
+    {
+        barbarian: ['barbarian-0.png', 'barbarian-1.png', 'barbarian-1.png']
+    }
 );
+
 /*
 *   Response types supported by Siftrock
 */
