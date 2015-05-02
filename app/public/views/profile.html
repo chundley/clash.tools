@@ -1,0 +1,93 @@
+<div id="wrapper">
+    <div sidebar></div>
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div top-nav></div>
+            <!-- page content -->
+            <div class="row content-body">
+                <div class="col-xs-12">
+                    <div class="row margin-bottom-huge">
+                        <div class="col-xs-12">
+                            <h1>Profile</h1>
+                            <h3 class="same-line-sub-heading alternate">{{user.ign}}</h3>
+                        </div>
+                    </div>
+                    <div class="row margin-bottom-huge">
+                        <div class="col-xs-12">
+                            <div class="widget">
+                                <div class="widget-header">Elixer Troops</div>
+                                <div class="widget-body">
+                                    <div class="row margin-bottom-huge">
+                                        <div class="col-xs-2">
+                                            <img src="/img/troops/barbarian-{{user.profile.troops.barbarian}}.png" class="img-responsive object-center">
+                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.troops.barbarian}}</span>
+                                            <span class="troop-level-big hidden-xs">{{user.profile.troops.barbarian}}</span>
+                                            <input type="range" min="0" max="7" ng-model="user.profile.troops.barbarian" ng-change="saveUser()">
+                                        </div>
+                                        <div class="col-xs-2">
+                                            <img src="/img/troops/archer-{{user.profile.troops.archer}}.png" class="img-responsive object-center">
+                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.troops.archer}}</span>
+                                            <span class="troop-level-big hidden-xs">{{user.profile.troops.archer}}</span>
+                                            <input type="range" min="0" max="7" ng-model="user.profile.troops.archer" ng-change="saveUser()">
+                                        </div>    
+                                        <div class="col-xs-2">
+                                            <img src="/img/troops/goblin-{{user.profile.troops.goblin}}.png" class="img-responsive object-center">
+                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.troops.goblin}}</span>
+                                            <span class="troop-level-big hidden-xs">{{user.profile.troops.goblin}}</span>
+                                            <input type="range" min="0" max="6" ng-model="user.profile.troops.goblin" ng-change="saveUser()">
+                                        </div>                                             
+                                        <div class="col-xs-2">
+                                            <img src="/img/troops/giant-{{user.profile.troops.giant}}.png" class="img-responsive object-center">
+                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.troops.giant}}</span>
+                                            <span class="troop-level-big hidden-xs">{{user.profile.troops.giant}}</span>
+                                            <input type="range" min="0" max="7" ng-model="user.profile.troops.giant" ng-change="saveUser()">
+                                        </div>                                             
+                                        <div class="col-xs-2">
+                                            <img src="/img/troops/wallbreaker-{{user.profile.troops.wallbreaker}}.png" class="img-responsive object-center">
+                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.troops.wallbreaker}}</span>
+                                            <span class="troop-level-big hidden-xs">{{user.profile.troops.wallbreaker}}</span>
+                                            <input type="range" min="0" max="6" ng-model="user.profile.troops.wallbreaker" ng-change="saveUser()">
+                                        </div>                                             
+                                        <div class="col-xs-2">
+                                            <img src="/img/troops/balloon-{{user.profile.troops.balloon}}.png" class="img-responsive object-center">
+                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.troops.balloon}}</span>
+                                            <span class="troop-level-big hidden-xs">{{user.profile.troops.balloon}}</span>
+                                            <input type="range" min="0" max="6" ng-model="user.profile.troops.balloon" ng-change="saveUser()">
+                                        </div>                           
+                                    </div>
+                                    <div class="row margin-bottom-huge">
+                                        <div class="col-xs-2">
+                                            <img src="/img/troops/wizard-{{user.profile.troops.wizard}}.png" class="img-responsive object-center">
+                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.troops.wizard}}</span>
+                                            <span class="troop-level-big hidden-xs">{{user.profile.troops.wizard}}</span>
+                                            <input type="range" min="0" max="6" ng-model="user.profile.troops.wizard" ng-change="saveUser()">
+                                        </div>  
+                                        <div class="col-xs-2">
+                                            <img src="/img/troops/healer-{{user.profile.troops.healer}}.png" class="img-responsive object-center">
+                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.troops.healer}}</span>
+                                            <span class="troop-level-big hidden-xs">{{user.profile.troops.healer}}</span>
+                                            <input type="range" min="0" max="4" ng-model="user.profile.troops.healer" ng-change="saveUser()">
+                                        </div>                                             
+                                        <div class="col-xs-2">
+                                            <img src="/img/troops/dragon-{{user.profile.troops.dragon}}.png" class="img-responsive object-center">
+                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.troops.dragon}}</span>
+                                            <span class="troop-level-big hidden-xs">{{user.profile.troops.dragon}}</span>
+                                            <input type="range" min="0" max="4" ng-model="user.profile.troops.dragon" ng-change="saveUser()">
+                                        </div>                                             
+                                        <div class="col-xs-2">
+                                            <img src="/img/troops/pekka-{{user.profile.troops.pekka}}.png" class="img-responsive object-center">
+                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.troops.pekka}}</span>
+                                            <span class="troop-level-big hidden-xs">{{user.profile.troops.pekka}}</span>
+                                            <input type="range" min="0" max="5" ng-model="user.profile.troops.pekka" ng-change="saveUser()">
+                                        </div>                                                                           
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- /page content -->
+        </div>
+    </div>  <!-- /#page-content-wrapper -->
+</div>  <!-- /#wrapper -->

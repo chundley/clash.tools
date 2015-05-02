@@ -15,11 +15,14 @@ exports.addUser = function(user, callback) {
     var user = {
         email_address: user.email_address,
         ign: user.ign,
+        player_tag: user.player_tag,
         password: user.password,
         role: user.role,
         enabled: true,
+        verified: false,
         current_clan: {},
         clan_history: [],
+        profile: user.profile,
         verified: user.verified,
         verify_token: util.createGUID(),
         session_data: {
@@ -257,8 +260,11 @@ exports.saveModel = function(model, callback) {
         callback('invalid model', null);
     }
 
-    else {
+    if (_.isString(model._id)) {
         model._id = new ObjectID.createFromHexString(model._id);
+    }
+
+    else {
         model.created_at = new Date(model.created_at);
         model.last_updated_at = new Date();
 

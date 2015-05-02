@@ -134,7 +134,7 @@
                                                 <div class="form-group">
                                                     <label for="firstTargetTime" class="col-sm-5 col-xs-12 control-label">First target calls last <i class="icon-help-circled" popover-placement="right" popover="How many hours will you give members to do their first attack?" popover-append-to-body="true" popover-trigger="mouseenter"></i></label>
                                                     <div class="col-md-2 col-sm-3 col-xs-5">
-                                                        <select class="form-control" ng-model="clan.war_config.first_attack_time">
+                                                        <select class="form-control" ng-model="clan.war_config.first_attack_time" access-level-disable="coleader">
                                                             <option value="12">12 hours</option>
                                                             <option value="11">11 hours</option>
                                                             <option value="10">10 hours</option>
@@ -153,7 +153,7 @@
                                                 <div class="form-group">
                                                     <label for="cleanupTargetTime" class="col-sm-5 col-xs-12 control-label">Cleanup calls last <i class="icon-help-circled" popover-placement="right" popover="How many hours will you give members to do their cleanup attack?" popover-append-to-body="true" popover-trigger="mouseenter"></i></label>
                                                     <div class="col-md-2 col-sm-3 col-xs-5">
-                                                        <select class="form-control" ng-model="clan.war_config.cleanup_attack_time">
+                                                        <select class="form-control" ng-model="clan.war_config.cleanup_attack_time" access-level-disable="coleader">
                                                             <option value="12">12 hours</option>
                                                             <option value="11">11 hours</option>
                                                             <option value="10">10 hours</option>
@@ -172,7 +172,7 @@
                                                 <div class="form-group">
                                                     <label for="freeForAllTime" class="col-sm-5 col-xs-12 control-label">Free for all period <i class="icon-help-circled" popover-placement="right" popover="When this much time is left in the war, allow anyone to attack without waiting (pick zero hours if you don't allow this)" popover-append-to-body="true" popover-trigger="mouseenter"></i></label>
                                                     <div class="col-md-2 col-sm-3 col-xs-5">
-                                                        <select class="form-control" ng-model="clan.war_config.free_for_all_time">
+                                                        <select class="form-control" ng-model="clan.war_config.free_for_all_time" access-level-disable="coleader">
                                                             <option value="8">8 hours</option>
                                                             <option value="7">7 hours</option>
                                                             <option value="6">6 hours</option>

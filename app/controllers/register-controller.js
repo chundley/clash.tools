@@ -18,11 +18,49 @@ function ($rootScope, $scope, $location, md5, authService, sessionService, mailS
 
         var newUser = {
             ign: $scope.ign,
+            player_tag: $scope.playerTag,
             email_address: $scope.emailAddress,
             password: md5.createHash($scope.password),
             role: authService.userRoles.member,
-            verified: false,
-            clan: {},
+            profile: {
+                public: true,
+                buildings: {
+                    th: 1,
+                    cc: 0
+                },
+                troops: {
+                    barbarian: 1,
+                    archer: 0,
+                    giant: 0,
+                    goblin: 0,
+                    wallbreaker: 0,
+                    balloon: 0,
+                    wizard: 0,
+                    healer: 0,
+                    dragon: 0,
+                    pekka: 0
+                },
+                dark_troops: {
+                    minion: 0,
+                    hogrider: 0,
+                    valkyrie: 0,
+                    golem: 0,
+                    witch: 0,
+                    lavahound: 0
+                },
+                spells: {
+                    lightning: 0,
+                    heal: 0,
+                    rage: 0,
+                    jump: 0,
+                    freeze: 0
+                },
+                heroes: {
+                    bk: 0,
+                    aq: 0
+                },
+                walls: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            },
             last_login: new Date()
         };
 
