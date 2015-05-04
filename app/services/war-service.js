@@ -8,27 +8,21 @@ angular.module('Clashtools.services')
 .factory('warService', ['$http', 'errorService',
 function ($http, errorService) {
     return {
-/*        save: function(clan, callback) {
+        save: function(war, callback) {
             $http({
-                url: '/crud/clan',
+                url: '/crud/war',
                 method: 'POST',
-                data: clan,
+                data: war,
                 headers: {'Content-Type': 'application/json'}
             }).success(function (data, status, headers, config) {
                 callback(null, data);
             }).error(function (data, status, headers, config) {
-                if (status == 403) {
-                    console.log(data);
-                    callback(null, null);
-                }
-                else {
-                    callback(errorService.initMessage('clan-service.js', 'save', data), null);
-                }
+                callback(errorService.initMessage('clan-service.js', 'save', data), null);
             });
-        },*/
+        },
         getById: function(id, callback) {
             $http({
-                url: '/crud/clan/' + id,
+                url: '/crud/war/' + id,
                 method: 'GET'
             }).success(function (data, status, headers, config) {
                 callback(null, data);
@@ -38,16 +32,16 @@ function ($http, errorService) {
         },
         getActive: function(clanId, callback) {
             $http({
-                url: '/war/' + clanId,
+                url: '/crud/war/' + clanId + '/active',
                 method: 'GET'
             }).success(function (data, status, headers, config) {
                 callback(null, data);
             }).error(function (data, status, headers, config) {
                 if (status==404) {
                     callback(null, null);
-                }                
+                }
                 callback(errorService.initMessage('war-service.js', 'get', status), null);
-            });            
+            });
         }
 /*        allClans: function(query, callback) {
             $http({

@@ -33,9 +33,72 @@ exports.activeWar = function(clanId, callback) {
                 }
             });
         }
-    });    
+    });
 }
 
+/*
+* Upserts a record and returns the record
+*/
+exports.save = function(model, callback) {
+
+    if (model._id && _.isString(model._id)) {
+        model._id = new ObjectID.createFromHexString(model._id);
+    }
+
+    if (_.isString(model.clan_id)) {
+        model.clan_id = new ObjectID.createFromHexString(model.clan_id);
+    }
+
+    if (_.isString(model.created_by)) {
+        model.created_by = new ObjectID.createFromHexString(model.created_by);
+    }
+
+    model.last_updated_at = new Date();
+    model.created_at = new Date(model.created_at);
+
+    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'war', function (err, collection) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            collection.save(model, function (err, war) {
+                if (err) {
+                    callback(err, null);
+                }
+                else {
+                    logger.warn(war);
+                    callback(null, war);
+                }
+            });
+        }
+    });
+
+}
+
+/*
+*   Find war by id
+*/
+exports.findById = function(id, callback) {
+    if (_.isString(id)) {
+        id = new ObjectID.createFromHexString(id);
+    }
+
+    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'war', function (err, collection) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            collection.findOne( { _id: id }, function (err, item) {
+                if (err) {
+                    callback(err, null);
+                }
+                else {
+                    callback(null, item);
+                }
+            });
+        }
+    });
+}
 
 /*
 * Upserts a record and returns the resulting record
@@ -191,27 +254,4 @@ exports.activeWar = function(clanId, callback) {
     });
 }*/
 
-/*
-*   Find war by id
-*/
-exports.findById = function(id, callback) {
-    if (_.isString(id)) {
-        id = new ObjectID.createFromHexString(id);
-    }
 
-    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'war', function (err, collection) {
-        if (err) {
-            callback(err, null);
-        }
-        else {
-            collection.findOne( { _id: id }, function (err, item) {
-                if (err) {
-                    callback(err, null);
-                }
-                else {
-                    callback(null, item);
-                }
-            });
-        }
-    });
-}

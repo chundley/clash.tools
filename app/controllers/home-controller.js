@@ -10,25 +10,31 @@ function ($rootScope, $scope, moment, authService, cacheService, sessionService,
     // initialize
     $rootScope.title = 'Dashboard - clash.tools';
 
-    $scope.nullState = false;
+    $scope.nullState = true;
 
 
     sessionService.getUserMeta(authService.user.id, function (err, meta) {
-        $scope.ign = meta.ign;
-        $scope.clan = meta.current_clan;
+        $scope.meta = meta;
 
-        if ($scope.clan.clan_id) {
-            messagelogService.get($scope.clan.clan_id, 10, function (err, messages) {
-                angular.forEach(messages, function (message) {
-                    message.created_at = new moment(message.created_at);
-                    message.message = message.message.replace('[ign]', '<b class="emphasis">' + message.ign + '</b>');
-                });
-                $scope.clanMessages = messages;
+        if ($scope.meta.current_clan.clan_id) {
+            $scope.nullState = false;
+            messagelogService.get($scope.meta.current_clan.clan_id, 10, function (err, messages) {
+                if (err) {
+                    err.stack_trace.unshift( { file: 'home-controller.js', func: 'init', message: 'Error getting message log' } );
+                    errorService.save(err, function() {});
+                }
+                else {
+                    angular.forEach(messages, function (message) {
+                        message.created_at = new moment(message.created_at);
+                        message.message = message.message.replace('[ign]', '<b class="emphasis">' + message.ign + '</b>');
+                    });
+                    $scope.clanMessages = messages;
+                }
             });
 
-            warService.getActive($scope.clan.clan_id, function (err, war) {
+            warService.getActive($scope.meta.current_clan.clan_id, function (err, war) {
                 if (err) {
-                    err.stack_trace.unshift( { file: 'war-controller.js', func: 'init', message: 'Error getting current war' } );
+                    err.stack_trace.unshift( { file: 'home-controller.js', func: 'init', message: 'Error getting current war' } );
                     errorService.save(err, function() {});
                 }
                 else {

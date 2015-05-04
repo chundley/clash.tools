@@ -1,0 +1,136 @@
+<div id="wrapper">
+    <div sidebar></div>
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div top-nav></div>
+            <!-- new war -->
+            <div class="row content-body">
+                <div class="col-xs-12">
+                    <div class="row margin-bottom-huge">
+                        <div class="col-md-12 col-sm-6 hidden-xs">
+                            <h1>Start a war</h1>
+                            <h3 class="same-line-sub-heading alternate">{{meta.current_clan.name}}</h3>
+                        </div>
+                    </div>
+                    <!-- war settings -->
+                    <div class="row margin-bottom-huge war-container" access-level="coleader">
+                        <div class="col-sm-12">
+                            <div class="widget">
+                                <div class="widget-header">War setup</div>
+                                <div class="widget-body">
+                                    <form name="warSettingsForm" class="form-horizontal" ng-submit="saveWar()" novalidate>
+                                        <div class="form-group">
+                                            <label for="opponentName" class="col-sm-5 col-xs-12 control-label">Opponent name</label>
+                                            <div class="col-md-4 col-sm-5 col-xs-6">
+                                                <input type="text" class="form-control req-field" id="opponentName" ng-model="war.opponent_name" placeholder="Opponent's name" required ng-minlength="1">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="opponentTag" class="col-sm-5 col-xs-12 control-label">Opponent tag</label>
+                                            <div class="col-md-4 col-sm-5 col-xs-6">
+                                                <input type="text" class="form-control req-field" id="opponentName" ng-model="war.opponent_tag" placeholder="Opponent's clan tag" required ng-minlength="1">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="playerCount" class="col-sm-5 col-xs-12 control-label">Player count</label>
+                                            <div class="col-md-2 col-sm-3 col-xs-5">
+                                                <select class="form-control" ng-model="war.player_count" integer>
+                                                    <option value="10">10</option>
+                                                    <option value="15">15</option>
+                                                    <option value="20">20</option>
+                                                    <option value="25">25</option>
+                                                    <option value="30">30</option>
+                                                    <option value="35">35</option>
+                                                    <option value="40">40</option>
+                                                    <option value="45">45</option>
+                                                    <option value="50">50</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="starts" class="col-sm-5 col-xs-12 control-label">War starts in</label>
+                                            <div class="col-md-1 col-sm-2 col-xs-3">
+                                                <input type="text" class="form-control req-field" id="startHours" ng-model="startsHours" placeholder="Hours" required integer>
+                                            </div>
+                                            <div class="col-sm-1 col-xs-2">hours</div>
+                                            <div class="col-md-2 col-sm-3 col-xs-4">
+                                                <input type="text" class="form-control req-field" id="startMinutes" ng-model="startsMinutes" placeholder="Minutes" required integer>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="visible" class="col-sm-5 col-xs-12 control-label">Visible to clan</label>
+                                            <div class="col-md-4 col-sm-5 col-xs-6">
+                                                <input type="checkbox" id="visible" ng-model="war.visible">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-xs-12 text-right">
+                                                <button class="btn btn-emphasis btn-sm" ng-disabled="warSettingsForm.$invalid">Save</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- /war settings -->
+
+                    <!-- opponent settings -->
+                    <div class="row war-container" ng-if="war._id" access-level="coleader">
+                        <div class="col-sm-12">
+                            <div class="widget">
+                                <div class="widget-header">Opponent bases (changes are auto-saved)</div>
+                                <div class="widget-body war-table">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div class="well well-sm">
+                                            <p>Other than assignments, these settings are not required. However, if you fill out TH levels your member metrics will be more accurate. For example, a TH9 attacking a TH10 will get more credit.</p>
+                                            Note that you don't have to do assignments here - they can be done in the normal war interface the clan uses.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <form name="opponentSettingsForm" class="form-horizontal" ng-submit="saveWar()" novalidate>
+                                        <div class="row">
+                                            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-3 t-header text-center">Base</div>
+                                            <div class="col-lg-1 col-md-2 col-sm-2 col-xs-4 t-header">Town hall</div>
+                                            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-5 t-header">Assign to</div>
+                                        </div>
+                                        <div class="row row-underline-2"></div>
+                                        <div class="row" ng-repeat="base in numBases() track by $index">
+                                            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-3 t-row text-center">{{$index + 1}}</div>
+                                            <div class="col-lg-1 col-md-2 col-sm-2 col-xs-4">
+                                                <select class="form-control-small" ng-model="war.bases[$index+1].th">
+                                                    <option>10</option>
+                                                    <option>9.5</option>
+                                                    <option>9</option>
+                                                    <option>8.5</option>
+                                                    <option>8</option>
+                                                    <option>7</option>
+                                                    <option>6</option>
+                                                    <option>5</option>
+                                                    <option>4</option>
+                                                    <option>3</option>
+                                                    <option>2</option>
+                                                    <option>1</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-5">
+                                               <select class="form-control-small" ng-model="war.bases[$index+1].assignments[0].user_id" ng-options="member._id as member.ign for member in members" ng-change="assignBase($index+1, war.bases[$index+1].assignments[0].user_id)">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-xs-12 text-right">
+                                                <button class="btn btn-emphasis btn-sm" ng-disabled="opponentSettingsForm.$invalid">Save</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- /opponent settings -->
+                </div>
+            </div> <!-- /new war -->
+        </div>
+    </div>  <!-- /#page-content-wrapper -->
+</div>  <!-- /#wrapper -->

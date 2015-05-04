@@ -9,7 +9,7 @@ var warModel  = require('../models/war-model'),
 *   Gets active war for a clan
 */
 exports.activeWar = function(req, res, next) {
-    warModel.findById(req.params.clanId, function (err, clan) {
+    warModel.activeWar(req.params.clanId, function (err, clan) {
         if (err) {
             res.send(500, err);
         }
@@ -24,21 +24,35 @@ exports.activeWar = function(req, res, next) {
 
 
 /*
-*   Save a clan
+*   Save a war
 */
-/*exports.save = function(req, res, next) {
-    clanModel.save(req.body, function (err, clan) {
+exports.save = function(req, res, next) {
+    warModel.save(req.body, function (err, war) {
         if (err) {
-            if (err.indexOf('exists')) {
-                res.json(403, clan);
-            }
             res.send(500, err);
         }
         else {
-            res.json(200, clan);
+            res.json(200, war);
         }
     });
-};*/
+};
+
+/*
+*   Gets a war by id
+*/
+exports.getById = function(req, res, next) {
+    warModel.findById(req.params.id, function (err, war) {
+        if (err) {
+            res.send(500, err);
+        }
+        else if (war) {
+            res.json(200, war);
+        }
+        else {
+            res.send(404, 'not found');
+        }
+    });
+}
 
 /*exports.allClans = function(req, res, next) {
     clanModel.allClans(req.params.query, function (err, clans) {
@@ -54,19 +68,7 @@ exports.activeWar = function(req, res, next) {
     });
 }*/
 
-/*exports.getById = function(req, res, next) {
-    clanModel.findById(req.params.id, function (err, clan) {
-        if (err) {
-            res.send(500, err);
-        }
-        else if (clan) {
-            res.json(200, clan);
-        }
-        else {
-            res.send(404, 'not found');
-        }
-    });
-}*/
+
 
 /*
 *   Gets users by clan, optionally specify levels (member, elder, coleader, leader) comma separated

@@ -62,13 +62,13 @@ var routes = [
         httpMethod: 'POST',
         middleware: [userCtrl.updateRole],
         accessLevel: accessLevels.member
-    },      
+    },
     {
         path: '/crud/user/:id/clan',
         httpMethod: 'POST',
         middleware: [userCtrl.updateClan],
         accessLevel: accessLevels.member
-    },    
+    },
     {
         path: '/crud/user/:id/pw',
         httpMethod: 'POST',
@@ -127,13 +127,25 @@ var routes = [
     },
     /*
     *   War endpoints
-    */    
+    */
     {
-        path: '/war/:clanId',
+        path: '/crud/war/:id',
+        httpMethod: 'GET',
+        middleware: [warCtrl.getById],
+        accessLevel: accessLevels.member
+    },
+    {
+        path: '/crud/war/:clanId/active',
         httpMethod: 'GET',
         middleware: [warCtrl.activeWar],
         accessLevel: accessLevels.member
-    },    
+    },
+    {
+        path: '/crud/war',
+        httpMethod: 'POST',
+        middleware: [warCtrl.save],
+        accessLevel: accessLevels.member
+    },
     /*
     *   App email endpoints
     */
@@ -172,7 +184,7 @@ var routes = [
         httpMethod: 'GET',
         middleware: [emailMessageCtrl.countNew],
         accessLevel: accessLevels.member
-    },    
+    },
     /*
     *   User account management endpoints
     */

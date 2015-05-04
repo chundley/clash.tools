@@ -25,7 +25,7 @@ angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize',
         .when('/newmail/:id', { controller: 'NewMailCtrl', templateUrl: '/views/newMail.html', access: access.member } )
         .when('/clan/:id', { controller: 'ClanCtrl', templateUrl: '/views/clan.html', access: access.member } )
         .when('/clans/:query', { controller: 'ClansCtrl', templateUrl: '/views/clans.html', access: access.member } )
-        .when('/war/:id', { controller: 'WarCtrl', templateUrl: '/views/war.html', access: access.member } )
+        .when('/startwar/:id', { controller: 'StartWarCtrl', templateUrl: '/views/startWar.html', access: access.coleader } )
         .when('/members', { controller: 'MembersCtrl', templateUrl: '/views/members.html', access: access.member } )
         .when('/chat', { controller: 'ChatCtrl', templateUrl: '/views/chat.html', access: access.member } )
         .when('/action/:id', { controller: 'ActionCtrl', templateUrl: '/views/action.html', access: access.member } )
@@ -79,12 +79,6 @@ angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize',
         joinConfirmed: 'Your request to join the clan <b>[1]</b> has been approved by <b>[2]</b>. Refresh your browser if you don\'t see the clan name under your user name',
         joinDeclined: 'Your request to join the clan <b>[1]</b> has been declined',
         kicked: 'You have been kicked out of the clan by <b>[1]</b>'
-    }
-)
-
-.constant('TROOP_IMAGES',
-    {
-        barbarian: ['barbarian-0.png', 'barbarian-1.png', 'barbarian-1.png']
     }
 );
 
