@@ -25,6 +25,7 @@ angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize',
         .when('/newmail/:id', { controller: 'NewMailCtrl', templateUrl: '/views/newMail.html', access: access.member } )
         .when('/clan/:id', { controller: 'ClanCtrl', templateUrl: '/views/clan.html', access: access.member } )
         .when('/clans/:query', { controller: 'ClansCtrl', templateUrl: '/views/clans.html', access: access.member } )
+        .when('/war/:id', { controller: 'WarCtrl', templateUrl: '/views/war.html', access: access.member } )
         .when('/members', { controller: 'MembersCtrl', templateUrl: '/views/members.html', access: access.member } )
         .when('/chat', { controller: 'ChatCtrl', templateUrl: '/views/chat.html', access: access.member } )
         .when('/action/:id', { controller: 'ActionCtrl', templateUrl: '/views/action.html', access: access.member } )

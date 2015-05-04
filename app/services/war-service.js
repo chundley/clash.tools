@@ -1,14 +1,14 @@
 'use strict';
 
 /*
-*  Service for clans
+*  Service for wars
 */
 
 angular.module('Clashtools.services')
-.factory('clanService', ['$http', 'errorService',
+.factory('warService', ['$http', 'errorService',
 function ($http, errorService) {
     return {
-        save: function(clan, callback) {
+/*        save: function(clan, callback) {
             $http({
                 url: '/crud/clan',
                 method: 'POST',
@@ -18,13 +18,14 @@ function ($http, errorService) {
                 callback(null, data);
             }).error(function (data, status, headers, config) {
                 if (status == 403) {
+                    console.log(data);
                     callback(null, null);
                 }
                 else {
                     callback(errorService.initMessage('clan-service.js', 'save', data), null);
                 }
             });
-        },
+        },*/
         getById: function(id, callback) {
             $http({
                 url: '/crud/clan/' + id,
@@ -32,10 +33,23 @@ function ($http, errorService) {
             }).success(function (data, status, headers, config) {
                 callback(null, data);
             }).error(function (data, status, headers, config) {
-                callback(errorService.initMessage('clan-service.js', 'get', status), null);
+                callback(errorService.initMessage('war-service.js', 'get', status), null);
             });
         },
-        allClans: function(query, callback) {
+        getActive: function(clanId, callback) {
+            $http({
+                url: '/war/' + clanId,
+                method: 'GET'
+            }).success(function (data, status, headers, config) {
+                callback(null, data);
+            }).error(function (data, status, headers, config) {
+                if (status==404) {
+                    callback(null, null);
+                }                
+                callback(errorService.initMessage('war-service.js', 'get', status), null);
+            });            
+        }
+/*        allClans: function(query, callback) {
             $http({
                 url: '/crud/clans/' + query,
                 method: 'GET'
@@ -54,6 +68,6 @@ function ($http, errorService) {
             }).error(function (data, status, headers, config) {
                 callback(errorService.initMessage('clan-service.js', 'get', status), null);
             });
-        }
+        }*/
     }
 }]);

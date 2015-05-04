@@ -5,12 +5,10 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('HomeCtrl', ['$rootScope', '$scope', 'moment', 'authService', 'cacheService', 'sessionService', 'errorService', 'messagelogService',
-function ($rootScope, $scope, moment, authService, cacheService, sessionService, errorService, messagelogService) {
+.controller('HomeCtrl', ['$rootScope', '$scope', 'moment', 'authService', 'cacheService', 'sessionService', 'errorService', 'messagelogService', 'warService',
+function ($rootScope, $scope, moment, authService, cacheService, sessionService, errorService, messagelogService, warService) {
     // initialize
     $rootScope.title = 'Dashboard - clash.tools';
-
-    //$scope.helpLink = 'http://www.siftrock.com/help/dashboard/';
 
     $scope.nullState = false;
 
@@ -26,6 +24,17 @@ function ($rootScope, $scope, moment, authService, cacheService, sessionService,
                     message.message = message.message.replace('[ign]', '<b class="emphasis">' + message.ign + '</b>');
                 });
                 $scope.clanMessages = messages;
+            });
+
+            warService.getActive($scope.clan.clan_id, function (err, war) {
+                if (err) {
+                    err.stack_trace.unshift( { file: 'war-controller.js', func: 'init', message: 'Error getting current war' } );
+                    errorService.save(err, function() {});
+                }
+                else {
+                    $scope.war = war;
+                    console.log(war);
+                }
             });
         }
     });

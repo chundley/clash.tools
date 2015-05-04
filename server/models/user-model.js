@@ -3,7 +3,8 @@
 */
 
 var LocalStrategy = require('passport-local').Strategy,
-    ObjectID      = require('mongodb').ObjectID;
+    ObjectID      = require('mongodb').ObjectID,
+    _             = require('underscore');
 
 
 var config    = require('../../config/config'),
@@ -263,7 +264,17 @@ exports.saveModel = function(model, callback) {
         if (_.isString(model._id)) {
             model._id = new ObjectID.createFromHexString(model._id);
         }       
-         
+        
+        if (model.current_clan.clan_id && _.isString(model.current_clan.clan_id)) {
+            model.current_clan.clan_id = new ObjectID.createFromHexString(model.current_clan.clan_id);
+        }
+
+        _.each(model.clan_history, function (clan) {
+            if (clan.clan_id && _.isString(clan.clan_id)) {
+                clan.clan_id = new ObjectID.createFromHexString(clan.clan_id);
+            } 
+        });
+
         model.created_at = new Date(model.created_at);
         model.last_updated_at = new Date();
 

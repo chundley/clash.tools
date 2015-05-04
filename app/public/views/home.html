@@ -16,13 +16,14 @@
                         </div>
                     </div>
                     <div class="row margin-bottom-huge">
-                        <div class="col-sm-12">
+                        <div class="col-sm-12 war-summary-container">
                             <div class="widget">
                                 <div class="widget-header">War status</div>
                                 <div class="widget-body">
-                                    <div class="row">
+                                    <div class="row" ng-if="!war">
                                         <div class="col-sm-12">
-                                            Bunch of cool shit about the current war is going here
+                                            <h3>No war currently active</h3><br/>
+                                            <a href="/war/new" access-level="coleader" class="btn btn-emphasis btn-sm start-war">Start war</a>
                                         </div>
                                     </div>
                                 </div>
