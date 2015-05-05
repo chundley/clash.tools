@@ -36,6 +36,13 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
                             }
                             else {
                                 $scope.war = war;
+                                $scope.newWar = false;
+
+                                // start the countdown timer to show it's working
+                                var start = new Date(war.start);
+                                $scope.warStartTime = start.getTime();
+                                $scope.$broadcast('timer-start');
+                                
                                 $rootScope.title = 'Clan war vs: ' + war.opponent_name + ' - clash.tools';
                             }
                         });
@@ -49,7 +56,7 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
                             opponent_name: '',
                             opponent_tag: '',
                             player_count: 30,
-                            ends: new Date(),
+                            start: new Date(),
                             bases: {},
                             created_at: new Date(),
                             created_by: authService.user.id
@@ -79,6 +86,7 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
                 $scope.war.bases[baseNum].assignments[0] = {
                     user_id: $scope.members[idx]._id,
                     ign: $scope.members[idx].ign,
+                    created_at: new Date(),
                     expires: new Date()
                 };
                 break;
@@ -93,13 +101,14 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
 
     function saveWarInternal() {
         var now = new Date();
+        $scope.war.start = new Date(now.getTime() + (($scope.hours*60 + $scope.minutes)*60000));
+        $scope.warStartTime = $scope.war.start.getTime();
+/*        $scope.warStartTime = $scope.war.start.getTime();
 
-        var start = new Date(now.getTime() + (($scope.startsHours*60 + $scope.startsMinutes)*60000));
-        console.log(now);
-        console.log(start);
-
+        $scope.$broadcast('timer-start');*/
         warService.save($scope.war, function (err, war) {
             if (err) {
+                console.log(err);
                 err.stack_trace.unshift( { file: 'war-controller.js', func: 'saveWarInternal', message: 'Error saving war' } );
                 errorService.save(err, function() {});
             }
@@ -108,59 +117,19 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
                 if ($scope.newWar) {
                     $location.url('/startwar/' + war._id).replace();
                 }
+                else {
+                    // start the timer back up after saving
+                    $scope.$broadcast('timer-start');
+                }
             }
         });
     }
 
-
-/*
-    $scope.saveNewClan = function() {
-        clanService.save($scope.clan, function (err, result) {
-            if (err) {
-                err.stack_trace.unshift( { file: 'clan-controller.js', func: '$scope.saveNewClan', message: 'Error saving new clan' } );
-                errorService.save(err, function() {});
-            }
-            else if (!result) {
-                // clan tag already exists
-                $scope.errorMsg = 'A clan with that tag already exists';
-            }
-            else {
-                // Log this activity
-                messagelogService.save(result._id, 'Clan "' + $scope.clan.name + '" created by [ign]', $scope.ign, 'special', function (err, msg) {
-                    if (err) {
-                        err.stack_trace.unshift( { file: 'clan-controller.js', func: '$scope.saveNewClan', message: 'Error saving new clan message in the log' } );
-                        errorService.save(err, function() {});
-                    }
-                });
-
-                // In every case with a new clan, the creator becomes the leader. Need to reset role for UI permissions. The back-end
-                // takes care of changing the values in the database
-                var newUser = authService.user;
-                newUser.role = { bitMask: 16, title: 'leader' };
-                authService.changeUser(newUser, function () {
-                    sessionService.clearUserMeta(); // clear session data so clan gets reset in user meta data
-                    $location.url('/clan/' + result._id).replace();
-                });
-            }
-        });
+    /*
+    *   Disables the timer when editing war start
+    */
+    $scope.stopTimer = function() {
+        $scope.$broadcast('timer-stop');
     }
-
-    $scope.saveClan = function() {
-        clanService.save($scope.clan, function (err, result) {
-            if (err) {
-                err.stack_trace.unshift( { file: 'clan-controller.js', func: '$scope.saveClan', message: 'Error saving clan' } );
-                errorService.save(err, function() {});
-            }
-            else {
-                // Log this activity
-                messagelogService.save(result._id, 'Clan settings changed by [ign]', $scope.ign, 'special', function (err, msg) {
-                    if (err) {
-                        err.stack_trace.unshift( { file: 'clan-controller.js', func: '$scope.saveClan', message: 'Error saving new clan message in the log' } );
-                        errorService.save(err, function() {});
-                    }
-                });
-            }
-        });
-    }*/
 
 }]);

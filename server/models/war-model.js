@@ -66,8 +66,12 @@ exports.save = function(model, callback) {
                     callback(err, null);
                 }
                 else {
-                    logger.warn(war);
-                    callback(null, war);
+                    if (war == 1) { // successful update
+                        callback(null, model);
+                    }
+                    else {  // successful save new
+                        callback(null, war);
+                    }
                 }
             });
         }

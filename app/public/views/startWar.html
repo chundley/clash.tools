@@ -19,21 +19,21 @@
                             <div class="widget">
                                 <div class="widget-header">War setup</div>
                                 <div class="widget-body">
-                                    <form name="warSettingsForm" class="form-horizontal" ng-submit="saveWar()" novalidate>
+                                    <form name="warSettingsForm" class="form-horizontal form-inline" ng-submit="saveWar()" novalidate>
                                         <div class="form-group">
-                                            <label for="opponentName" class="col-sm-5 col-xs-12 control-label">Opponent name</label>
-                                            <div class="col-md-4 col-sm-5 col-xs-6">
+                                            <label for="opponentName" class="col-sm-4 col-xs-12 control-label">Opponent name</label>
+                                            <div class="col-md-4 col-sm-5 col-xs-10">
                                                 <input type="text" class="form-control req-field" id="opponentName" ng-model="war.opponent_name" placeholder="Opponent's name" required ng-minlength="1">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="opponentTag" class="col-sm-5 col-xs-12 control-label">Opponent tag</label>
-                                            <div class="col-md-4 col-sm-5 col-xs-6">
+                                            <label for="opponentTag" class="col-sm-4 col-xs-12 control-label">Opponent tag</label>
+                                            <div class="col-md-4 col-sm-5 col-xs-10">
                                                 <input type="text" class="form-control req-field" id="opponentName" ng-model="war.opponent_tag" placeholder="Opponent's clan tag" required ng-minlength="1">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="playerCount" class="col-sm-5 col-xs-12 control-label">Player count</label>
+                                            <label for="playerCount" class="col-sm-4 col-xs-12 control-label">Player count</label>
                                             <div class="col-md-2 col-sm-3 col-xs-5">
                                                 <select class="form-control" ng-model="war.player_count" integer>
                                                     <option value="10">10</option>
@@ -48,18 +48,34 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="starts" class="col-sm-5 col-xs-12 control-label">War starts in</label>
-                                            <div class="col-md-1 col-sm-2 col-xs-3">
-                                                <input type="text" class="form-control req-field" id="startHours" ng-model="startsHours" placeholder="Hours" required integer>
-                                            </div>
-                                            <div class="col-sm-1 col-xs-2">hours</div>
-                                            <div class="col-md-2 col-sm-3 col-xs-4">
-                                                <input type="text" class="form-control req-field" id="startMinutes" ng-model="startsMinutes" placeholder="Minutes" required integer>
+
+                                        <timer interval="1000" autostart="false" language="en" ng-attr-end-time="warStartTime">
+                                        <div class="row">
+                                            <div class="col-sm-4 col-xs-12 control-label">War starts in</div>
+                                            <div class="col-sm-8 col-xs-12">
+                                                <input type="text" class="form-control req-field col-sm-2" id="startHours" ng-model="hours" ng-change="stopTimer()" required integer>
                                             </div>
                                         </div>
+                                        </timer>                                        
+<!--                                         <timer interval="1000" autostart="false" language="en" ng-attr-end-time="warStartTime">
                                         <div class="form-group">
-                                            <label for="visible" class="col-sm-5 col-xs-12 control-label">Visible to clan</label>
+                                            <label for="starts" class="col-sm-4 col-xs-12 control-label">War starts in</label>
+                                            <div class="col-md-1 col-sm-2 col-xs-3">
+                                                <input type="text" class="form-control req-field" id="startHours" ng-model="hours" ng-change="stopTimer()" required integer> 
+                                            </div>
+                                            <div class="col-sm-1 col-xs-1 time-label">h</div>
+                                            <div class="col-md-1 col-sm-2 col-xs-3">
+                                                <input type="text" class="form-control req-field" id="startMinutes" ng-model="minutes" ng-change="stopTimer()" required integer>
+                                            </div>
+                                            <div class="col-sm-1 col-xs-1 time-label">m</div>
+                                            <div class="col-md-1 col-sm-2 col-xs-3">
+                                                <input type="text" class="form-control req-field" id="startSeconds" ng-model="seconds" readonly>
+                                            </div>
+                                            <div class="col-sm-1 col-xs-1 time-label">s</div>
+                                        </div>
+                                        </timer> -->
+                                        <div class="form-group">
+                                            <label for="visible" class="col-sm-4 col-xs-12 control-label">Visible to clan</label>
                                             <div class="col-md-4 col-sm-5 col-xs-6">
                                                 <input type="checkbox" id="visible" ng-model="war.visible">
                                             </div>
