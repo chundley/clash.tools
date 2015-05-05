@@ -12,7 +12,7 @@ function ($rootScope, $scope, $location, $modal, md5, authService, mailService, 
         $location.path('/home').replace();
     }
 
-    $rootScope.title = 'Siftrock - Log in to your account';
+    $rootScope.title = 'clash.tools - Log in to your account';
 
     $scope.login = function() {
 

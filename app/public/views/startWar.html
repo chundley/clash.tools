@@ -49,14 +49,15 @@
                                             </div>
                                         </div>
                                      
-                                        <timer interval="1000" autostart="false" language="en" ng-attr-end-time="warStartTime">            
+                                                    
                                         <div class="form-group">
                                             <label for="starts" class="col-sm-3 col-xs-12 control-label">War starts in</label>
                                             <div class="col-sm-9 col-xs-12 time-label">
-                                                <b>{{hours}}</b> hour{{hoursS}}, <b>{{minutes}}</b> minute{{minutesS}}, <b>{{seconds}}</b> second{{secondsS}}</h3> <a href class="btn btn-emphasis btn-xs set-btn" ng-click="setStartTime()">Set</a>
+                                                <timer interval="1000" autostart="false" language="en" ng-attr-end-time="warStartTime">
+                                                <b>{{hours}}</b> hour{{hoursS}}, <b>{{minutes}}</b> minute{{minutesS}}, <b>{{seconds}}</b> second{{secondsS}}</h3></timer> <a href class="btn btn-emphasis btn-xs set-btn" ng-click="setStartTime()">Set</a>
                                             </div>
                                         </div>
-                                        </timer>
+                                        
                                         <div class="form-group">
                                             <label for="visible" class="col-sm-3 col-xs-12 control-label">Visible to clan</label>
                                             <div class="col-md-4 col-sm-5 col-xs-6">
