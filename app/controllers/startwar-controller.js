@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('StartWarCtrl', ['$rootScope', '$scope', '$routeParams', '$location', 'authService', 'sessionService', 'errorService', 'messagelogService', 'clanService', 'warService',
-function ($rootScope, $scope, $routeParams, $location, authService, sessionService, errorService, messagelogService, clanService, warService) {
+.controller('StartWarCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$window', '$modal', 'authService', 'sessionService', 'errorService', 'messagelogService', 'clanService', 'warService',
+function ($rootScope, $scope, $routeParams, $location, $window, $modal, authService, sessionService, errorService, messagelogService, clanService, warService) {
     //$scope.helpLink = 'http://www.siftrock.com/help/dashboard/';
 
     var warId = $routeParams.id;
@@ -85,10 +85,39 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
         }
     });
 
-    $scope.$watch($scope.hours, function (newVal, oldVal) {
-        console.log(oldVal);
-        console.log(newVal);
-    });
+    $scope.setStartTime = function() {
+        var cssClass = 'center';
+        if ($window.innerWidth < 500) {
+            cssClass = 'mobile';
+        }
+        
+        $scope.modalOptions = {
+            yesBtn: 'Set',
+            noBtn: 'Cancel',
+            cssClass: cssClass,
+            formData: {},
+            onYes: function(formData) {
+                var now = new Date();
+                $scope.war.start = new Date(now.getTime() + ((formData.startsHours*60 + formData.startsMinutes)*60000));
+                $scope.warStartTime = $scope.war.start.getTime();    
+                saveWarInternal();            
+            }
+        };
+
+        var modalInstance = $modal(
+            {
+                scope: $scope,
+                animation: 'am-fade-and-slide-top',
+                placement: 'center',
+                template: "/views/partials/warStartDialog.html",
+                show: false
+            }
+        );
+
+        modalInstance.$promise.then(function() {
+            modalInstance.show();
+        });        
+    }
 
     $scope.numBases = function() {
         return new Array($scope.war.player_count);
@@ -109,6 +138,38 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
         saveWarInternal();
     }
 
+    $scope.assignRoster = function(baseNum, userId) {
+        for (var idx=0; idx<$scope.members.length; idx++) {
+            if ($scope.members[idx]._id == userId) {
+                $scope.war.team[baseNum].user_id = $scope.members[idx]._id;
+                $scope.war.team[baseNum].ign = $scope.members[idx].ign;
+                $scope.war.team[baseNum].th = $scope.members[idx].profile.buildings.th > 1 ? $scope.members[idx].profile.buildings.th : 
+                    $scope.war.team[baseNum].th > 1 ? $scope.war.team[baseNum].th : 1;
+            }
+        }
+        // check for duplicates
+/*        var sorted = $scope.war.team.sort(function (a, b) {
+            if (a.user_id < b.user_id) {
+                return -1;
+            }
+            else if (a.user_id > b.user_id) {
+                return 1;
+            }
+            else {
+                return 0;
+            }
+        });
+
+        $scope.rosterError = [];
+        for (var idx=0; idx<sorted.length-1; idx++) {
+            if (sorted[idx].user_id && (sorted[idx].user_id == sorted[idx+1].user_id)) {
+
+            }
+        }*/
+
+        saveWarInternal();
+    }
+
     $scope.saveWar = function() {
         saveWarInternal();
     }
@@ -121,10 +182,9 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
     }
 
     function saveWarInternal() {
-        $scope.$broadcast('timer-stop');
-        var now = new Date();
-        $scope.war.start = new Date(now.getTime() + (($scope.hours*60 + $scope.minutes)*60000));
-        $scope.warStartTime = $scope.war.start.getTime();
+        //var now = new Date();
+        //$scope.war.start = new Date(now.getTime() + (($scope.hours*60 + $scope.minutes)*60000));
+        //$scope.warStartTime = $scope.war.start.getTime();
         warService.save($scope.war, function (err, war) {
             if (err) {
                 err.stack_trace.unshift( { file: 'war-controller.js', func: 'saveWarInternal', message: 'Error saving war' } );
@@ -136,7 +196,7 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
                     $location.url('/startwar/' + war._id).replace();
                 }
                 else {
-                    $scope.$broadcast('timer-start');
+                    //$scope.$broadcast('timer-start');
                 }
             }
         });

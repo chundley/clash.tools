@@ -233,7 +233,7 @@ exports.usersByClan = function(clanId, memberTypes, callback) {
             callback(err, null);
         }
         else {
-            collection.find( whereClause, { _id: 1, ign: 1, role: 1, 'current_clan.joined': 1 } )
+            collection.find( whereClause, { _id: 1, ign: 1, role: 1, profile: 1, 'current_clan.joined': 1 } )
             .sort( {ign: 1} )
             .toArray(function (err, items) {
                 if (err) {
