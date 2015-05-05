@@ -1,0 +1,33 @@
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Set war start
+            </div>
+            <div class="modal-body">
+                <div class="row margin-bottom-big">
+                    <div class="col-sm-12">
+                        Check the war and enter the number of hours and minutes until the start. This will be used for call reservations after the war starts.
+                    </div>
+                </div>
+                <form class="form-horizontal" name="warStartForm">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label">War starts in</label>
+                        <div class="col-md-2 col-sm-2 col-xs-3">
+                            <input type="number" class="form-control req-field" ng-model="startsHours" min="0" max="23" required integer>
+                        </div>
+                        <div class="col-sm-1 col-xs-2 time-label">hour(s)</div>
+                        <div class="col-md-2 col-sm-2 col-xs-3">
+                            <input type="number" class="form-control req-field" ng-model="startsMinutes" min="0" max="59" required integer>
+                        </div>
+                        <div class="col-sm-1 col-xs-2 time-label">minute(s)</div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+            <button class="btn btn-emphasis btn-sm" ng-disabled="warStartForm.$invalid" ng-click="modalOptions.onYes(modalOptions.formData);">{{modalOptions.yesBtn}}</button>
+            <button class="btn btn-default btn-sm" ng-click="$hide();">{{modalOptions.noBtn}}</button>
+            </div>
+        </div>
+    </div>
+</div>

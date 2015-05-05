@@ -45,9 +45,7 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
                                 // start the countdown timer to show it's working
                                 var start = new Date(war.start);
                                 $scope.warStartTime = start.getTime();
-                                console.log($scope.warStartTime);
                                 $scope.$broadcast('timer-start');
-                                
                                 $rootScope.title = 'Clan war vs: ' + war.opponent_name + ' - clash.tools';
                             }
                         });
@@ -81,11 +79,15 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
                             };
                         }
                         $rootScope.title = 'New war - clash.tools';
-                        console.log($scope.war);
                     }
                 }
             });
         }
+    });
+
+    $scope.$watch($scope.hours, function (newVal, oldVal) {
+        console.log(oldVal);
+        console.log(newVal);
     });
 
     $scope.numBases = function() {
@@ -111,15 +113,20 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
         saveWarInternal();
     }
 
+    /*
+    *   Disables the timer when editing war start
+    */
+    $scope.stopTimer = function() {
+        $scope.$broadcast('timer-stop');
+    }
+
     function saveWarInternal() {
         $scope.$broadcast('timer-stop');
-        console.log($scope.hours);
         var now = new Date();
         $scope.war.start = new Date(now.getTime() + (($scope.hours*60 + $scope.minutes)*60000));
         $scope.warStartTime = $scope.war.start.getTime();
         warService.save($scope.war, function (err, war) {
             if (err) {
-                console.log(err);
                 err.stack_trace.unshift( { file: 'war-controller.js', func: 'saveWarInternal', message: 'Error saving war' } );
                 errorService.save(err, function() {});
             }
@@ -129,21 +136,10 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
                     $location.url('/startwar/' + war._id).replace();
                 }
                 else {
-                    // start the timer back up after saving
-                    console.log($scope.warStartTime);
-
-                    //$scope.$broadcast('timer-stop');
                     $scope.$broadcast('timer-start');
                 }
             }
         });
-    }
-
-    /*
-    *   Disables the timer when editing war start
-    */
-    $scope.stopTimer = function() {
-        $scope.$broadcast('timer-stop');
     }
 
 }]);
