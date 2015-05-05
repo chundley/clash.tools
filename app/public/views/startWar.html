@@ -19,21 +19,21 @@
                             <div class="widget">
                                 <div class="widget-header">War setup</div>
                                 <div class="widget-body">
-                                    <form name="warSettingsForm" class="form-horizontal form-inline" ng-submit="saveWar()" novalidate>
+                                    <form name="warSettingsForm" class="form-horizontal" ng-submit="saveWar()" novalidate>
                                         <div class="form-group">
-                                            <label for="opponentName" class="col-sm-4 col-xs-12 control-label">Opponent name</label>
-                                            <div class="col-md-4 col-sm-5 col-xs-10">
+                                            <label for="opponentName" class="col-sm-3 col-xs-12 control-label">Opponent name</label>
+                                            <div class="col-md-5 col-sm-6 col-xs-10">
                                                 <input type="text" class="form-control req-field" id="opponentName" ng-model="war.opponent_name" placeholder="Opponent's name" required ng-minlength="1">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="opponentTag" class="col-sm-4 col-xs-12 control-label">Opponent tag</label>
-                                            <div class="col-md-4 col-sm-5 col-xs-10">
+                                            <label for="opponentTag" class="col-sm-3 col-xs-12 control-label">Opponent tag</label>
+                                            <div class="col-md-5 col-sm-6 col-xs-10">
                                                 <input type="text" class="form-control req-field" id="opponentName" ng-model="war.opponent_tag" placeholder="Opponent's clan tag" required ng-minlength="1">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="playerCount" class="col-sm-4 col-xs-12 control-label">Player count</label>
+                                            <label for="playerCount" class="col-sm-3 col-xs-12 control-label">Player count</label>
                                             <div class="col-md-2 col-sm-3 col-xs-5">
                                                 <select class="form-control" ng-model="war.player_count" integer>
                                                     <option value="10">10</option>
@@ -48,34 +48,26 @@
                                                 </select>
                                             </div>
                                         </div>
-
-                                        <timer interval="1000" autostart="false" language="en" ng-attr-end-time="warStartTime">
-                                        <div class="row">
-                                            <div class="col-sm-4 col-xs-12 control-label">War starts in</div>
-                                            <div class="col-sm-8 col-xs-12">
-                                                <input type="text" class="form-control req-field col-sm-2" id="startHours" ng-model="hours" ng-change="stopTimer()" required integer>
-                                            </div>
-                                        </div>
-                                        </timer>                                        
-<!--                                         <timer interval="1000" autostart="false" language="en" ng-attr-end-time="warStartTime">
+                                     
+                                        <timer interval="1000" autostart="false" language="en" ng-attr-end-time="warStartTime">            
                                         <div class="form-group">
-                                            <label for="starts" class="col-sm-4 col-xs-12 control-label">War starts in</label>
-                                            <div class="col-md-1 col-sm-2 col-xs-3">
-                                                <input type="text" class="form-control req-field" id="startHours" ng-model="hours" ng-change="stopTimer()" required integer> 
+                                            <label for="starts" class="col-sm-3 col-xs-12 control-label">War starts in</label>
+                                            <div class="col-md-2 col-sm-2 col-xs-3">
+                                                <input type="number" class="form-control req-field" ng-model="hours" min="0" max="23" ng-change="stopTimer()" required integer>
                                             </div>
-                                            <div class="col-sm-1 col-xs-1 time-label">h</div>
-                                            <div class="col-md-1 col-sm-2 col-xs-3">
-                                                <input type="text" class="form-control req-field" id="startMinutes" ng-model="minutes" ng-change="stopTimer()" required integer>
+                                            <div class="col-sm-1 col-xs-2 time-label">hour{{hoursS}}</div>
+                                            <div class="col-md-2 col-sm-2 col-xs-3">
+                                                <input type="number" class="form-control req-field" ng-model="minutes" min="0" max="59" ng-change="stopTimer()" required integer>
                                             </div>
-                                            <div class="col-sm-1 col-xs-1 time-label">m</div>
-                                            <div class="col-md-1 col-sm-2 col-xs-3">
+                                            <div class="col-sm-1 col-xs-2 time-label">minute{{minutesS}}</div>
+                                            <div class="col-md-2 hidden-sm hidden-xs">
                                                 <input type="text" class="form-control req-field" id="startSeconds" ng-model="seconds" readonly>
                                             </div>
-                                            <div class="col-sm-1 col-xs-1 time-label">s</div>
+                                            <div class="col-md-1 hidden-sm hidden-xs time-label">second{{secondsS}}</div>
                                         </div>
-                                        </timer> -->
+                                        </timer>
                                         <div class="form-group">
-                                            <label for="visible" class="col-sm-4 col-xs-12 control-label">Visible to clan</label>
+                                            <label for="visible" class="col-sm-3 col-xs-12 control-label">Visible to clan</label>
                                             <div class="col-md-4 col-sm-5 col-xs-6">
                                                 <input type="checkbox" id="visible" ng-model="war.visible">
                                             </div>
@@ -91,31 +83,31 @@
                         </div>
                     </div> <!-- /war settings -->
 
-                    <!-- opponent settings -->
-                    <div class="row war-container" ng-if="war._id" access-level="coleader">
+                    <!-- team bases -->
+                    <div class="row war-container margin-bottom-huge" ng-if="war._id" access-level="coleader">
                         <div class="col-sm-12">
                             <div class="widget">
-                                <div class="widget-header">Opponent bases (changes are auto-saved)</div>
+                                <div class="widget-header">Our roster (changes are auto-saved)</div>
                                 <div class="widget-body war-table">
                                     <div class="row">
                                         <div class="col-xs-12">
                                             <div class="well well-sm">
-                                            <p>Other than assignments, these settings are not required. However, if you fill out TH levels your member metrics will be more accurate. For example, a TH9 attacking a TH10 will get more credit.</p>
-                                            Note that you don't have to do assignments here - they can be done in the normal war interface the clan uses.
+                                            <p>You don't have to fill out town hall levels. It is highly recommended, however, for performance tracking. For example, a TH9 attacking a TH10 will get more credit.</p>
+                                            If a member of your team has filled out their profile, their TH level will be automatically filled</p>
                                             </div>
                                         </div>
                                     </div>
                                     <form name="opponentSettingsForm" class="form-horizontal" ng-submit="saveWar()" novalidate>
                                         <div class="row">
                                             <div class="col-lg-1 col-md-1 col-sm-2 col-xs-3 t-header text-center">Base</div>
-                                            <div class="col-lg-1 col-md-2 col-sm-2 col-xs-4 t-header">Town hall</div>
-                                            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-5 t-header">Assign to</div>
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4 t-header">Town hall</div>
+                                            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-5 t-header">Member</div>
                                         </div>
                                         <div class="row row-underline-2"></div>
                                         <div class="row" ng-repeat="base in numBases() track by $index">
                                             <div class="col-lg-1 col-md-1 col-sm-2 col-xs-3 t-row text-center">{{$index + 1}}</div>
-                                            <div class="col-lg-1 col-md-2 col-sm-2 col-xs-4">
-                                                <select class="form-control-small" ng-model="war.bases[$index+1].th">
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
+                                                <select class="form-control-small" ng-model="war.bases[$index+1].th" ng-change="saveWar()">
                                                     <option>10</option>
                                                     <option>9.5</option>
                                                     <option>9</option>
@@ -135,16 +127,61 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <div class="col-xs-12 text-right">
-                                                <button class="btn btn-emphasis btn-sm" ng-disabled="opponentSettingsForm.$invalid">Save</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- /team bases -->
+
+                    <!-- opponent bases -->
+                    <div class="row war-container" ng-if="war._id" access-level="coleader">
+                        <div class="col-sm-12">
+                            <div class="widget">
+                                <div class="widget-header">Opponent bases and assigmnets (changes are auto-saved)</div>
+                                <div class="widget-body war-table">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div class="well well-sm">
+                                            <p>As with the roster, you aren't required to fill in town hall levels but it's highly recommended</p>
+                                            Note that you don't have to do assignments here - they can be done in the normal war interface the clan uses.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <form name="opponentSettingsForm" class="form-horizontal" ng-submit="saveWar()" novalidate>
+                                        <div class="row">
+                                            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-3 t-header text-center">Base</div>
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4 t-header">Town hall</div>
+                                            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-5 t-header">Assign to</div>
+                                        </div>
+                                        <div class="row row-underline-2"></div>
+                                        <div class="row" ng-repeat="base in numBases() track by $index">
+                                            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-3 t-row text-center">{{$index + 1}}</div>
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
+                                                <select class="form-control-small" ng-model="war.bases[$index+1].th" ng-change="saveWar()">
+                                                    <option>10</option>
+                                                    <option>9.5</option>
+                                                    <option>9</option>
+                                                    <option>8.5</option>
+                                                    <option>8</option>
+                                                    <option>7</option>
+                                                    <option>6</option>
+                                                    <option>5</option>
+                                                    <option>4</option>
+                                                    <option>3</option>
+                                                    <option>2</option>
+                                                    <option>1</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-5">
+                                               <select class="form-control-small" ng-model="war.bases[$index+1].assignments[0].user_id" ng-options="member._id as member.ign for member in members" ng-change="assignBase($index+1, war.bases[$index+1].assignments[0].user_id)">
+                                                </select>
                                             </div>
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
-                    </div> <!-- /opponent settings -->
+                    </div> <!-- /opponent bases -->
                 </div>
             </div> <!-- /new war -->
         </div>

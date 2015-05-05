@@ -13,6 +13,10 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
 
     $scope.newWar = true;
 
+    // set these to ensure form validation on load
+    $scope.hours = 0;
+    $scope.minutes = 0;
+
     sessionService.getUserMeta(authService.user.id, function (err, meta) {
         if (err) {
             err.stack_trace.unshift( { file: 'war-controller.js', func: 'init', message: 'Error getting user meta' } );
@@ -41,6 +45,7 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
                                 // start the countdown timer to show it's working
                                 var start = new Date(war.start);
                                 $scope.warStartTime = start.getTime();
+                                console.log($scope.warStartTime);
                                 $scope.$broadcast('timer-start');
                                 
                                 $rootScope.title = 'Clan war vs: ' + war.opponent_name + ' - clash.tools';
@@ -58,14 +63,21 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
                             player_count: 30,
                             start: new Date(),
                             bases: {},
+                            team: {},
                             created_at: new Date(),
                             created_by: authService.user.id
                         };
 
                         for (var b=0; b<50; b++) {
                             $scope.war.bases[b+1] = {
-                                th: 0,
+                                th: 1,
                                 assignments: []
+                            };
+
+                            $scope.war.team[b+1] = {
+                                th: 1,
+                                user_id: null,
+                                ign: ''
                             };
                         }
                         $rootScope.title = 'New war - clash.tools';
@@ -100,12 +112,11 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
     }
 
     function saveWarInternal() {
+        $scope.$broadcast('timer-stop');
+        console.log($scope.hours);
         var now = new Date();
         $scope.war.start = new Date(now.getTime() + (($scope.hours*60 + $scope.minutes)*60000));
         $scope.warStartTime = $scope.war.start.getTime();
-/*        $scope.warStartTime = $scope.war.start.getTime();
-
-        $scope.$broadcast('timer-start');*/
         warService.save($scope.war, function (err, war) {
             if (err) {
                 console.log(err);
@@ -119,6 +130,9 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
                 }
                 else {
                     // start the timer back up after saving
+                    console.log($scope.warStartTime);
+
+                    //$scope.$broadcast('timer-stop');
                     $scope.$broadcast('timer-start');
                 }
             }
