@@ -12,7 +12,27 @@
 
     .war-vs {
         font-family: 'Merriweather Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        margin-bottom: 12px;
+       // margin-bottom: 12px;
+
+        h2 {
+            margin-right: 20px;
+            line-height: 32px;
+        }
+
+        .war-vs-header {
+            float: left;
+            display: block;
+        }
+
+        .wc-inner {
+            float: left;
+            display: block;
+            margin-bottom: 10px;
+            border: 1px dotted @primary;
+            padding: 4px 6px;
+            background: @primary-60;
+            font-size: 14px;
+        }             
     }
 
     .war-countdown {
@@ -30,8 +50,9 @@
             display: block;
             float: left;            
             border: 1px solid @primary-20;
-            width: 120px;
+            width: 110px;
             margin-right: 20px;
+            margin-bottom: 10px;
             .tw-header {
                 color: #fff;
                 background: @emphasis;
@@ -59,6 +80,64 @@
                 font-size: 12px;
             }
         }
+
+        .target-widget.tw-none {
+            border: 1px solid @primary-50;
+
+            .tw-header {
+                background: lighten(@emphasis, 20%);
+                border-bottom: 1px solid @primary-50;
+            }
+
+            .tw-body {
+                color: @primary-50;
+            }
+
+            .tw-expire {
+                color: @primary-40;
+                background: lighten(@primary-60, 4%);
+                border-top: 1px solid @primary-50;
+            }
+        }
+    }
+
+    .open-targets {
+        display: block;
+        .ot-header {
+            margin-bottom: 4px;
+            font-size: 16px;
+        }
+
+        .target-widget {
+            float: left;
+            display: block;
+            border: 1px dotted @primary-40;
+            margin-right: 4px;
+            cursor: pointer;
+            width: 48px;
+            .tw-header {
+                padding: 2px 0px 2px 0px;
+                background: @emphasis;
+                color: #fff;
+            }
+
+            .tw-body {
+                font-size: 18px;
+                padding: 0px 6px;
+                font-weight: 600;
+                line-height: 12px;
+                margin-top: 4px;
+            }
+
+            tw-stars {
+                margin-bottom: 0px;
+            }
+        }
+    }
+
+    .open-targets-pre {
+        display: block;
+        padding-top: 20px;
     }
 }
 

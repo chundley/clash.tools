@@ -19,7 +19,7 @@
                                 <div class="widget-header">War status <span ng-if="war" access-level="coleader" class="pull-right"><a href="/startwar/{{war._id}}" class="btn btn-default btn-xs">Leader edit</a></span></div>
                                 <div class="widget-body">
                                     <div class="row" ng-show="!war">
-                                        <div class="col-sm-12">
+                                        <div class="col-xs-12">
                                             <h3>No war currently active</h3><br/>
                                             <a href="/startwar/new" access-level="coleader" class="btn btn-emphasis btn-sm start-war">Start war</a>
                                         </div>
@@ -27,19 +27,20 @@
                                     <div class="row" ng-show="war">
                                         <div class="col-xs-12">
                                             <div class="row">
-                                                <div class="col-xs-12 war-vs"><h2>War vs. <b>{{war.opponent_name}}</b></h2></div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-xs-12 war-countdown">
-                                                <span class="wc-inner">
-                                                {{started}} in
-                                                <timer interval="1000" autostart="false" language="en" ng-attr-end-time="warStartTime">
-                                                <b>{{hours}}</b> hour{{hoursS}}, <b>{{minutes}}</b> minute{{minutesS}}, <b>{{seconds}}</b> second{{secondsS}}</h3>
-                                                </timer>
-                                                </span>
+                                                <div class="col-xs-12 war-vs">
+                                                    <div class="war-vs-header">
+                                                        <h2><a href="/war/{{war._id}}">War vs. <b>{{war.opponent_name}}</b></a></h2>
+                                                    </div>
+                                                    <!-- <br class="hidden-lg hidden-md hidden-sm" /> -->
+                                                    <div class="wc-inner">
+                                                    <span ng-if="warStarted">Ends</span><span ng-if="!warStarted">Starts</span> in
+                                                    <timer interval="1000" autostart="false" language="en" ng-attr-end-time="warStartTime">
+                                                    <b>{{hours}}</b> hour{{hoursS}}, <b>{{minutes}}</b> minute{{minutesS}}<span class="hidden-xs">, <b>{{seconds}}</b> second{{secondsS}}</span></h3>
+                                                    </timer>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <!-- <div class="row row-underline-2"></div> -->
+                                            
                                             <div class="row">
                                                 <div class="col-xs-12 war-target">
                                                     <div class="target-widget" ng-repeat="target in playerTargets">
@@ -52,13 +53,17 @@
                                                         <div class="tw-stars text-center">
                                                             <span class="dropdown" on-toggle="toggled(open)">
                                                                 <a href class="dropdown-toggle">
-                                                                    <img src="/img/icons/stars.png" ng-if="target.stars==null">
+                                                                    <img src="/img/icons/stars.png" ng-if="!warStarted" popover-placement="right" popover="You can only change stars for an attack after the war starts" popover-append-to-body="true" popover-trigger="mouseenter">
+                                                                    <img src="/img/icons/stars.png" ng-if="target.stars==null && warStarted">
                                                                     <img src="/img/icons/stars-0.png" ng-if="target.stars==0">
                                                                     <img src="/img/icons/stars-1.png" ng-if="target.stars==1">
                                                                     <img src="/img/icons/stars-2.png" ng-if="target.stars==2">
                                                                     <img src="/img/icons/stars-3.png" ng-if="target.stars==3">
+
+                                                                    
+                                                                    
                                                                 </a>
-                                                                <ul class="dropdown-menu">
+                                                                <ul class="dropdown-menu" ng-if="warStarted">
                                                                     <li><a href ng-click="changeStars($index, target.base_num, 0)"><img src="/img/icons/stars-0.png"></a></li>
                                                                     <li><a href ng-click="changeStars($index, target.base_num, 1)"><img src="/img/icons/stars-1.png"></a></li>
                                                                     <li><a href ng-click="changeStars($index, target.base_num, 2)"><img src="/img/icons/stars-2.png"></a></li>
@@ -68,12 +73,59 @@
                                                             
                                                         </div>
                                                         <div class="tw-expire text-center" ng-if="target.stars==null">
-                                                            Expires <b>{{target.hours}}</b>:<b>{{target.minutes}}</b>
+                                                            Expires <b>{{target.hours}}h</b> <b>{{target.minutes}}m</b>
                                                         </div>
                                                         <div class="tw-expire text-center" ng-if="target.stars!=null">
                                                             Attack done
                                                         </div>                                                        
                                                     </div> 
+                                                    <div class="target-widget tw-none" ng-if="playerTargets.length<1">
+                                                        <div class="tw-header text-center">
+                                                            Target 1
+                                                        </div>
+                                                        <div class="tw-body text-center">
+                                                            none
+                                                        </div>
+                                                        <div class="tw-stars text-center">
+                                                            <img src="/img/icons/stars-blank.png">
+                                                        </div>
+                                                        <div class="tw-expire text-center">
+                                                            n/a
+                                                        </div>                                                      
+                                                    </div>
+                                                    <div class="target-widget tw-none" ng-if="playerTargets.length<2">
+                                                        <div class="tw-header text-center">
+                                                            Target 2
+                                                        </div>
+                                                        <div class="tw-body text-center">
+                                                            none
+                                                        </div>
+                                                        <div class="tw-stars text-center">
+                                                            <img src="/img/icons/stars-blank.png">
+                                                        </div>
+                                                        <div class="tw-expire text-center">
+                                                            n/a
+                                                        </div>                                                      
+                                                    </div>                                                                                         
+                                                    <div class="open-targets" ng-if="warStarted">
+                                                        <div class="ot-header">
+                                                            <b>Open bases</b> <span class="tiny">(click to reserve)</span>
+                                                        </div>
+                                                        <div class="target-widget" ng-repeat="base in openBases" ng-click="assignBase(base.base_num)">
+                                                            <div class="tw-header text-center">
+                                                                TH{{base.th}}
+                                                            </div>
+                                                            <div class="tw-body text-center">
+                                                                #{{base.base_num}}
+                                                            </div>
+                                                            <div class="tw-stars text-center">
+                                                                <img src="/img/icons/stars-tiny-{{base.stars}}.png">
+                                                            </div>
+                                                        </div>                                                  
+                                                    </div> 
+                                                    <div class="open-targets-pre text-center" ng-if="!warStarted">
+                                                        <h4 class="primary-40"><p>Open targets will be available after the war starts</p></h4>
+                                                    </div>                                                              
                                                 </div>
                                             </div>
                                         </div>
@@ -87,7 +139,7 @@
                             <div class="widget">
                                 <div class="widget-header">Your status</div>
                                 <div class="widget-body">
-                                    Hello
+                                    Coming soon...
                                 </div>
                             </div>
                         </div>

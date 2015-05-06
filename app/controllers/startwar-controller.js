@@ -15,7 +15,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
 
     sessionService.getUserMeta(authService.user.id, function (err, meta) {
         if (err) {
-            err.stack_trace.unshift( { file: 'war-controller.js', func: 'init', message: 'Error getting user meta' } );
+            err.stack_trace.unshift( { file: 'startwar-controller.js', func: 'init', message: 'Error getting user meta' } );
             errorService.save(err, function() {});
         }
         else {
@@ -24,14 +24,14 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
             clanService.getMembers($scope.meta.current_clan.clan_id, 'all', function (err, members) {
                 $scope.members = members;
                 if (err) {
-                    err.stack_trace.unshift( { file: 'war-controller.js', func: 'init', message: 'Error getting clan members' } );
+                    err.stack_trace.unshift( { file: 'startwar-controller.js', func: 'init', message: 'Error getting clan members' } );
                     errorService.save(err, function() {});
                 }
                 else {
                     if (warId !== 'new') {
                         warService.getById(warId, function (err, war) {
                             if (err) {
-                                err.stack_trace.unshift( { file: 'war-controller.js', func: 'init', message: 'Error getting user meta' } );
+                                err.stack_trace.unshift( { file: 'startwar-controller.js', func: 'init', message: 'Error getting user meta' } );
                                 errorService.save(err, function() {});
                             }
                             else {
@@ -64,15 +64,15 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
 
                         for (var b=0; b<50; b++) {
                             $scope.war.bases[b+1] = {
-                                base_num: b+1,
-                                th: 1,
-                                assignments: []
+                                b: b+1,
+                                t: 1,
+                                a: []
                             };
 
                             $scope.war.team[b+1] = {
-                                th: 1,
-                                user_id: null,
-                                ign: ''
+                                t: 1,
+                                u: null,
+                                i: ''
                             };
                         }
                         $rootScope.title = 'New war - clash.tools';
@@ -82,7 +82,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
 
             clanService.getById($scope.meta.current_clan.clan_id, function (err, clan) {
                 if (err) {
-                    err.stack_trace.unshift( { file: 'war-controller.js', func: 'init', message: 'Error getting clan' } );
+                    err.stack_trace.unshift( { file: 'startwar-controller.js', func: 'init', message: 'Error getting clan' } );
                     errorService.save(err, function() {});
                 }
                 else {
@@ -111,7 +111,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
 
                 // need to re-set any assignment expirations
                 angular.forEach($scope.war.bases, function (base) {
-                    angular.forEach(base.assignments, function (assignment) {
+                    angular.forEach(base.a, function (assignment) {
                         assignment.expires = new Date($scope.war.start.getTime() + ($scope.clan.war_config.first_attack_time * 60 * 60 * 1000));
                     });
                 });          
@@ -142,12 +142,12 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
         var expires = new Date(startTime.getTime() + ($scope.clan.war_config.first_attack_time * 60 * 60 * 1000));
         for (var idx=0; idx<$scope.members.length; idx++) {
             if ($scope.members[idx]._id == userId) {
-                $scope.war.bases[baseNum].assignments[0] = {
-                    user_id: $scope.members[idx]._id,
-                    ign: $scope.members[idx].ign,
-                    created_at: new Date(),
-                    expires: expires,
-                    stars: null,
+                $scope.war.bases[baseNum].a[0] = {
+                    u: $scope.members[idx]._id,
+                    i: $scope.members[idx].ign,
+                    c: new Date(),
+                    e: expires,
+                    s: null,
                 };
                 break;
             }
@@ -158,10 +158,10 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
     $scope.assignRoster = function(baseNum, userId) {
         for (var idx=0; idx<$scope.members.length; idx++) {
             if ($scope.members[idx]._id == userId) {
-                $scope.war.team[baseNum].user_id = $scope.members[idx]._id;
-                $scope.war.team[baseNum].ign = $scope.members[idx].ign;
-                $scope.war.team[baseNum].th = $scope.members[idx].profile.buildings.th > 1 ? $scope.members[idx].profile.buildings.th : 
-                    $scope.war.team[baseNum].th > 1 ? $scope.war.team[baseNum].th : 1;
+                $scope.war.team[baseNum].u = $scope.members[idx]._id;
+                $scope.war.team[baseNum].i = $scope.members[idx].ign;
+                $scope.war.team[baseNum].t = $scope.members[idx].profile.buildings.th > 1 ? $scope.members[idx].profile.buildings.th : 
+                    $scope.war.team[baseNum].t > 1 ? $scope.war.team[baseNum].t : 1;
             }
         }
         // check for duplicates
@@ -201,7 +201,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
     function saveWarInternal() {
         warService.save($scope.war, function (err, war) {
             if (err) {
-                err.stack_trace.unshift( { file: 'war-controller.js', func: 'saveWarInternal', message: 'Error saving war' } );
+                err.stack_trace.unshift( { file: 'startwar-controller.js', func: 'saveWarInternal', message: 'Error saving war' } );
                 errorService.save(err, function() {});
             }
             else {

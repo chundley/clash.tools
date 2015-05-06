@@ -99,11 +99,11 @@
                                         <div class="row" ng-repeat="base in numBases() track by $index">
                                             <div class="col-lg-1 col-md-1 col-sm-2 col-xs-3 t-row text-center">{{$index + 1}}</div>
                                             <div class="col-lg-2 col-md-3 col-sm-3 col-xs-5">
-                                               <select class="form-control-small" ng-model="war.team[$index+1].user_id" ng-options="member._id as member.ign for member in members" ng-change="assignRoster($index+1, war.team[$index+1].user_id)">
+                                               <select class="form-control-small" ng-model="war.team[$index+1].u" ng-options="member._id as member.ign for member in members" ng-change="assignRoster($index+1, war.team[$index+1].u)">
                                                 </select>
                                             </div>                                            
                                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
-                                                <select class="form-control-small" ng-model="war.team[$index+1].th" ng-change="saveWar()">
+                                                <select class="form-control-small" ng-model="war.team[$index+1].t" ng-change="saveWar()">
                                                     <option>10</option>
                                                     <option>9.5</option>
                                                     <option>9</option>
@@ -149,7 +149,7 @@
                                         <div class="row" ng-repeat="base in numBases() track by $index">
                                             <div class="col-lg-1 col-md-1 col-sm-2 col-xs-3 t-row text-center">{{$index + 1}}</div>
                                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
-                                                <select class="form-control-small" ng-model="war.bases[$index+1].th" ng-change="saveWar()">
+                                                <select class="form-control-small" ng-model="war.bases[$index+1].t" ng-change="saveWar()">
                                                     <option>10</option>
                                                     <option>9.5</option>
                                                     <option>9</option>
@@ -165,7 +165,7 @@
                                                 </select>
                                             </div>
                                             <div class="col-lg-2 col-md-3 col-sm-3 col-xs-5">
-                                               <select class="form-control-small" ng-model="war.bases[$index+1].assignments[0].user_id" ng-options="member._id as member.ign for member in members" ng-change="assignBase($index+1, war.bases[$index+1].assignments[0].user_id)">
+                                               <select class="form-control-small" ng-model="war.bases[$index+1].assignments[0].u" ng-options="member._id as member.ign for member in members" ng-change="assignBase($index+1, war.bases[$index+1].assignments[0].u)">
                                                 </select>
                                             </div>
                                         </div>
