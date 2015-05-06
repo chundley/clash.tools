@@ -13,10 +13,6 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
 
     $scope.newWar = true;
 
-    // set these to ensure form validation on load
-    $scope.hours = 0;
-    $scope.minutes = 0;
-
     sessionService.getUserMeta(authService.user.id, function (err, meta) {
         if (err) {
             err.stack_trace.unshift( { file: 'war-controller.js', func: 'init', message: 'Error getting user meta' } );
@@ -68,6 +64,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
 
                         for (var b=0; b<50; b++) {
                             $scope.war.bases[b+1] = {
+                                base_num: b+1,
                                 th: 1,
                                 assignments: []
                             };
@@ -99,8 +96,9 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
             onYes: function(formData) {
                 var now = new Date();
                 $scope.war.start = new Date(now.getTime() + ((formData.startsHours*60 + formData.startsMinutes)*60000));
-                $scope.warStartTime = $scope.war.start.getTime();    
-                saveWarInternal();            
+                $scope.warStartTime = $scope.war.start.getTime();
+                $scope.$broadcast('timer-start');    
+                //saveWarInternal();            
             }
         };
 
@@ -130,7 +128,8 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                     user_id: $scope.members[idx]._id,
                     ign: $scope.members[idx].ign,
                     created_at: new Date(),
-                    expires: new Date()
+                    expires: new Date(),
+                    stars: null,
                 };
                 break;
             }
@@ -182,9 +181,6 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
     }
 
     function saveWarInternal() {
-        //var now = new Date();
-        //$scope.war.start = new Date(now.getTime() + (($scope.hours*60 + $scope.minutes)*60000));
-        //$scope.warStartTime = $scope.war.start.getTime();
         warService.save($scope.war, function (err, war) {
             if (err) {
                 err.stack_trace.unshift( { file: 'war-controller.js', func: 'saveWarInternal', message: 'Error saving war' } );
@@ -196,7 +192,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                     $location.url('/startwar/' + war._id).replace();
                 }
                 else {
-                    //$scope.$broadcast('timer-start');
+
                 }
             }
         });

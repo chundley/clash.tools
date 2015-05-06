@@ -79,12 +79,11 @@ var timerModule = angular.module('timer', [])
           $scope.clear();
         });
 
-        $scope.$on('timer-reset', function () {
+        $scope.$on('timer-reset', function () {       
           $scope.reset();
         });
 
         $scope.$on('timer-set-countdown', function (e, countdown) {
-          console.log(countdown);
           $scope.countdown = countdown;
         });
 
@@ -100,7 +99,7 @@ var timerModule = angular.module('timer', [])
           }
         });
 
-        $scope.$watch('endTimeAttr', function(newValue, oldValue) {
+        $scope.$watch('endTimeAttr', function(newValue, oldValue) {          
           if (newValue !== oldValue && $scope.isRunning) {
             $scope.start();
           }
