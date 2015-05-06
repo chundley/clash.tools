@@ -85,7 +85,7 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
                         });
 
                         // Log this activity
-                        messagelogService.save(userMeta.current_clan.clan_id, '[ign] was accepted to the clan by ' + userMeta.ign, user.ign, 'member', function (err, msg) {
+                        messagelogService.save(userMeta.current_clan.clan_id, '[ign] accepted to the clan by ' + userMeta.ign, user.ign, 'member', function (err, msg) {
                             if (err) {
                                 err.stack_trace.unshift( { file: 'clan-controller.js', func: 'confirmNewMember', message: 'Error saving new member message in the log' } );
                                 errorService.save(err, function() {});

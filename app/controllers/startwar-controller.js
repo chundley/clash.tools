@@ -79,6 +79,16 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                     }
                 }
             });
+
+            clanService.getById($scope.meta.current_clan.clan_id, function (err, clan) {
+                if (err) {
+                    err.stack_trace.unshift( { file: 'war-controller.js', func: 'init', message: 'Error getting clan' } );
+                    errorService.save(err, function() {});
+                }
+                else {
+                    $scope.clan = clan;
+                }
+            });
         }
     });
 
@@ -97,8 +107,14 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                 var now = new Date();
                 $scope.war.start = new Date(now.getTime() + ((formData.startsHours*60 + formData.startsMinutes)*60000));
                 $scope.warStartTime = $scope.war.start.getTime();
-                $scope.$broadcast('timer-start');    
-                //saveWarInternal();            
+                $scope.$broadcast('timer-start');
+
+                // need to re-set any assignment expirations
+                angular.forEach($scope.war.bases, function (base) {
+                    angular.forEach(base.assignments, function (assignment) {
+                        assignment.expires = new Date($scope.war.start.getTime() + ($scope.clan.war_config.first_attack_time * 60 * 60 * 1000));
+                    });
+                });          
             }
         };
 
@@ -122,13 +138,15 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
     }
 
     $scope.assignBase = function(baseNum, userId) {
+        var startTime = new Date($scope.war.start);
+        var expires = new Date(startTime.getTime() + ($scope.clan.war_config.first_attack_time * 60 * 60 * 1000));
         for (var idx=0; idx<$scope.members.length; idx++) {
             if ($scope.members[idx]._id == userId) {
                 $scope.war.bases[baseNum].assignments[0] = {
                     user_id: $scope.members[idx]._id,
                     ign: $scope.members[idx].ign,
                     created_at: new Date(),
-                    expires: new Date(),
+                    expires: expires,
                     stars: null,
                 };
                 break;

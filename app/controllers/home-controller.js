@@ -52,11 +52,12 @@ function ($rootScope, $scope, $interval, moment, authService, cacheService, sess
                         angular.forEach(war.bases, function (base) {
                             angular.forEach(base.assignments, function (assignment) {
                                 if (assignment.user_id == authService.user.id) {
+                                    var expireTime = new Date(assignment.expires);
                                     $scope.playerTargets.push(
                                         {
                                             base_num: base.base_num,
                                             stars: assignment.stars,
-                                            expires: $scope.warStartTime + 600000,
+                                            expires: expireTime.getTime(),
                                             hours: 0,
                                             minutes: 0
                                         }

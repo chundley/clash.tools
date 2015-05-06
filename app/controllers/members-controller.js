@@ -40,7 +40,7 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, 
                 errorService.save(err, function() {});
             }
             else {
-                messagelogService.save($scope.clan.clan_id, '[ign] was ' + pd + ' to ' + role +' by ' + $scope.meta.ign, member.ign, 'member', function (err, msg) {
+                messagelogService.save($scope.clan.clan_id, '[ign] ' + pd + ' to ' + role +' by ' + $scope.meta.ign, member.ign, 'member', function (err, msg) {
                     if (err) {
                         err.stack_trace.unshift( { file: 'members-controller.js', func: '$scope.kick', message: 'Error saving new clan message in the log' } );
                         errorService.save(err, function() {});

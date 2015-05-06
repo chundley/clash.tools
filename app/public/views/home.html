@@ -52,7 +52,7 @@
                                                         <div class="tw-stars text-center">
                                                             <span class="dropdown" on-toggle="toggled(open)">
                                                                 <a href class="dropdown-toggle">
-                                                                    <img src="/img/icons/stars.png" ng-if="!target.stars">
+                                                                    <img src="/img/icons/stars.png" ng-if="target.stars==null">
                                                                     <img src="/img/icons/stars-0.png" ng-if="target.stars==0">
                                                                     <img src="/img/icons/stars-1.png" ng-if="target.stars==1">
                                                                     <img src="/img/icons/stars-2.png" ng-if="target.stars==2">
@@ -87,25 +87,24 @@
                             <div class="widget">
                                 <div class="widget-header">Your status</div>
                                 <div class="widget-body">
+                                    Hello
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-8 xs-12 margin-bottom-huge">
+                        <div class="col-sm-8 col-xs-12 margin-bottom-huge">
                             <div class="widget">
                                 <div class="widget-header">Recent clan activity</div>
                                 <div class="widget-body">
                                     <div class="row margin-bottom-medium" ng-repeat="cm in clanMessages">
-                                        <div class="col-sm-9 tiny">
+                                        <div class="col-sm-12 col-xs-12 tiny">
                                             <i class="icon-user primary-20" ng-if="cm.type=='member'"></i>
                                             <i class="icon-award primary-20" ng-if="cm.type=='special'"></i>
                                             <i class="icon-star-empty primary-20" ng-if="cm.type=='attack'"></i>
                                             <span ng-bind-html="cm.message">
-                                            {{cm.message}}
-                                        </span>
-                                        </div>
-                                        <div class="col-sm-3 tiny text-right">
-                                            <span am-time-ago="{{cm.created_at}}"></span>
-                                        </div>
+                                            {{cm.message}}  
+                                            </span>
+                                            <span am-time-ago="{{cm.created_at}}" class="alternate"></span>
+                                        </div>                                   
                                     </div>
                                 </div>
                             </div>
@@ -117,7 +116,7 @@
 
             <!-- null state -->
             <div class="row content-body" ng-if="nullState">
-                <div class="col-sm-12">
+                <div class="col-xs-12">
                     <div class="row margin-bottom-huge">
                         <div class="col-sm-12">
                             <h1>{{meta.ign}}</h1>
@@ -126,12 +125,12 @@
                         </div>
                     </div>
                     <div class="row margin-bottom-huge">
-                        <div class="col-sm-12 war-summary-container">
+                        <div class="col-xs-12 war-summary-container">
                             <div class="widget">
                                 <div class="widget-header">Welcome to clash.tools!</div>
                                 <div class="widget-body">
                                     <div class="row">
-                                        <div class="col-sm-12">
+                                        <div class="col-xs-12">
                                             <h4>Looks like you're new here. Welcome to clash.tools - the easiest way to manage and track clan wars. <br/><br/>
                                             First, get started by <a href="/profile">completing your profile</a>. Your profile information will be available to clan leaders when you send a join request.<br/><br/>
                                             <b>Clan leaders</b> - if you haven't added your clan to clash.tools yet, add it now by selecting "Create a clan" at the top of this page.</h4>
