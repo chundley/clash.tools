@@ -51,7 +51,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                         $scope.war = {
                             clan_id: $scope.meta.current_clan.clan_id,
                             active: true,
-                            visible: false,
+                            visible: false, // not used currently
                             opponent_name: '',
                             opponent_tag: '',
                             player_count: 30,
@@ -62,7 +62,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                             created_by: authService.user.id
                         };
 
-                        for (var b=0; b<50; b++) {
+                        for (var b=0; b<30; b++) {
                             $scope.war.bases[b+1] = {
                                 b: b+1,
                                 t: 1,
@@ -92,6 +92,37 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
         }
     });
 
+    /*
+    *   When changing player count, salvage any possible work that's already been done
+    */
+    $scope.changePlayerCount = function() {
+        var oldBases = $scope.war.bases;
+        var oldTeam = $scope.war.team;
+
+        $scope.war.bases = {};
+        $scope.war.team = {};
+
+        for (var b=0; b<$scope.war.player_count; b++) {
+            if (oldBases[b+1]) {
+                $scope.war.bases[b+1] = oldBases[b+1];
+                $scope.war.team[b+1] = oldTeam[b+1];
+            }
+            else {
+                $scope.war.bases[b+1] = {
+                    b: b+1,
+                    t: 1,
+                    a: []
+                };
+
+                $scope.war.team[b+1] = {
+                    t: 1,
+                    u: null,
+                    i: ''
+                };                
+            }
+        }        
+    }
+
     $scope.setStartTime = function() {
         var cssClass = 'center';
         if ($window.innerWidth < 500) {
@@ -114,7 +145,9 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                     angular.forEach(base.a, function (assignment) {
                         assignment.expires = new Date($scope.war.start.getTime() + ($scope.clan.war_config.first_attack_time * 60 * 60 * 1000));
                     });
-                });          
+                });
+
+                $scope.warSettingsForm.$setDirty();          
             }
         };
 
@@ -210,7 +243,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                     $location.url('/startwar/' + war._id).replace();
                 }
                 else {
-
+                    $scope.warSettingsForm.$setPristine();
                 }
             }
         });

@@ -44,8 +44,6 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, c
                     });                                        
                 }
             });
-
-
         }
     });
 
@@ -254,7 +252,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, c
     function refreshInterface() {
         var now = new Date();
         var start = new Date($scope.war.start);
-        if (start <= now.getTime()) {
+        if (start.getTime() <= now.getTime()) {
             // war has started, set the end time to +24 hours from start
             $scope.warStartTime = start.getTime() + 24*60*60*1000;
             $scope.warStarted = true;
@@ -263,7 +261,6 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, c
             $scope.warStartTime = start.getTime(); 
             $scope.warStarted = false;
         }
-
         $scope.$broadcast('timer-start'); 
 
         $scope.playerTargets = [];
