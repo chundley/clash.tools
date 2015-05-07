@@ -5,49 +5,17 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('WarCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$window', '$modal', 'authService', 'sessionService', 'errorService', 'messagelogService', 'clanService', 'warService',
-function ($rootScope, $scope, $routeParams, $location, $window, $modal, authService, sessionService, errorService, messagelogService, clanService, warService) {
-    //$scope.helpLink = 'http://www.siftrock.com/help/dashboard/';
+.controller('WarCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$interval', '$window', '$modal', 'authService', 'sessionService', 'errorService', 'messagelogService', 'clanService', 'warService',
+function ($rootScope, $scope, $routeParams, $location, $interval, $window, $modal, authService, sessionService, errorService, messagelogService, clanService, warService) {
 
-    var warId = $routeParams.id;
+    $scope.warId = $routeParams.id;
     $scope.activeWar = false;
+    $scope.numBases = 0;
 
     sessionService.getUserMeta(authService.user.id, function (err, meta) {
-        if (err) {
-            err.stack_trace.unshift( { file: 'war-controller.js', func: 'init', message: 'Error getting user meta' } );
-            errorService.save(err, function() {});
-        }
-        else {
-            $scope.meta = meta;
+        $scope.meta = meta;
 
-            clanService.getMembers($scope.meta.current_clan.clan_id, 'all', function (err, members) {
-                $scope.members = members;
-                if (err) {
-                    err.stack_trace.unshift( { file: 'war-controller.js', func: 'init', message: 'Error getting clan members' } );
-                    errorService.save(err, function() {});
-                }
-                else {
-                    warService.getById(warId, function (err, war) {
-                        if (err) {
-                            err.stack_trace.unshift( { file: 'war-controller.js', func: 'init', message: 'Error getting user meta' } );
-                            errorService.save(err, function() {});
-                        }
-                        else {
-                            $scope.war = war;
-                            if (war.active) {
-                                $scope.activeWar = true;
-
-                                // start the countdown timer
-                                var start = new Date(war.start);
-                                $scope.warStartTime = start.getTime();
-                                $scope.$broadcast('timer-start');
-                            }
-                            $rootScope.title = 'Clan war vs: ' + war.opponent_name + ' - clash.tools';
-                        }
-                    });
-                }
-            });
-
+        if ($scope.meta.current_clan.clan_id) {
             clanService.getById($scope.meta.current_clan.clan_id, function (err, clan) {
                 if (err) {
                     err.stack_trace.unshift( { file: 'war-controller.js', func: 'init', message: 'Error getting clan' } );
@@ -55,95 +23,106 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                 }
                 else {
                     $scope.clan = clan;
+
+                    // load war once, then every 60 seconds to keep open targets up to date
+                    loadWar(function(){});
+                    var promiseWar = $interval(function() {
+                        loadWar(function(){});
+                    }, 60000);
+
+                    $scope.$on('$destroy', function() {
+                        $interval.cancel(promiseWar);
+                    });                                        
                 }
             });
         }
     });
-/*
-    $scope.setStartTime = function() {
-        var cssClass = 'center';
-        if ($window.innerWidth < 500) {
-            cssClass = 'mobile';
-        }
-        
-        $scope.modalOptions = {
-            yesBtn: 'Set',
-            noBtn: 'Cancel',
-            cssClass: cssClass,
-            formData: {},
-            onYes: function(formData) {
-                var now = new Date();
-                $scope.war.start = new Date(now.getTime() + ((formData.startsHours*60 + formData.startsMinutes)*60000));
-                $scope.warStartTime = $scope.war.start.getTime();
-                $scope.$broadcast('timer-start');
-
-                // need to re-set any assignment expirations
-                angular.forEach($scope.war.bases, function (base) {
-                    angular.forEach(base.assignments, function (assignment) {
-                        assignment.expires = new Date($scope.war.start.getTime() + ($scope.clan.war_config.first_attack_time * 60 * 60 * 1000));
-                    });
-                });          
-            }
-        };
-
-        var modalInstance = $modal(
-            {
-                scope: $scope,
-                animation: 'am-fade-and-slide-top',
-                placement: 'center',
-                template: "/views/partials/warStartDialog.html",
-                show: false
-            }
-        );
-
-        modalInstance.$promise.then(function() {
-            modalInstance.show();
-        });        
-    }*/
 
     $scope.numBases = function() {
-        return new Array($scope.war.player_count);
+        return $scope.numBases;
     }
 
-    $scope.assignBase = function(baseNum, userId) {
-        var startTime = new Date($scope.war.start);
-        var expires = new Date(startTime.getTime() + ($scope.clan.war_config.first_attack_time * 60 * 60 * 1000));
-        for (var idx=0; idx<$scope.members.length; idx++) {
-            if ($scope.members[idx]._id == userId) {
-                $scope.war.bases[baseNum].a[0] = {
-                    u: $scope.members[idx]._id,
-                    i: $scope.members[idx].ign,
-                    c: new Date(),
-                    e: expires,
-                    s: null,
-                };
-                break;
-            }
-        }
-        saveWarInternal();
-    }
-
-    $scope.saveWar = function() {
-        saveWarInternal();
-    }
-
-    /*
-    *   Disables the timer when editing war start
-    */
-    $scope.stopTimer = function() {
-        $scope.$broadcast('timer-stop');
-    }
-
-    function saveWarInternal() {
-        warService.save($scope.war, function (err, war) {
+    function loadWar(callback) {
+        warService.getById($scope.warId, function (err, war) {
             if (err) {
-                err.stack_trace.unshift( { file: 'war-controller.js', func: 'saveWarInternal', message: 'Error saving war' } );
+                err.stack_trace.unshift( { file: 'war-controller.js', func: 'loadWar', message: 'Error getting current war' } );
                 errorService.save(err, function() {});
+                callback();
             }
             else {
-                $scope.war = war;
+                if (war) {
+                    $scope.war = war;
+                    $scope.numBases = war.num_bases;
+                    if (war.active) {
+                        $scope.activeWar = true;
+                    }
+                    refreshInterface();
+                    callback();                    
+                }
+                else {
+                    callback();
+                }
             }
         });
+    }
+
+    function refreshInterface() {
+        var now = new Date();
+        var start = new Date($scope.war.start);
+        if (start.getTime() <= now.getTime()) {
+            // war has started, set the end time to +24 hours from start
+            $scope.warStartTime = start.getTime() + 24*60*60*1000;
+            $scope.warStarted = true;
+        }   
+        else {
+            $scope.warStartTime = start.getTime(); 
+            $scope.warStarted = false;
+        }
+        $scope.$broadcast('timer-start'); 
+
+/*        $scope.playerTargets = [];
+        angular.forEach($scope.war.bases, function (base) {
+            angular.forEach(base.a, function (assignment) {
+                if (assignment.u == authService.user.id) {
+                    // if we've passed free for all time there is no expiration
+                    var expires = 0;
+                    if (assignment.e != null) {
+                        var expireTime = new Date(assignment.e);
+                        expires = expireTime.getTime();
+                    }
+                    $scope.playerTargets.push(
+                        {
+                            base_num: base.b,
+                            stars: assignment.s,
+                            expires: expires,
+                            hours: 0,
+                            minutes: 0
+                        }
+                    );
+                }
+            })
+        });*/
+
+        // set countdown for targets, and set it to refresh every 30 seconds 
+/*        if ($scope.playerTargets.length > 0) {
+            setCountdownTimers();
+            var promise = $interval(setCountdownTimers, 30000);
+            $scope.$on('$destroy', function() {
+                $interval.cancel(promise);
+            });
+        }
+        findOpenTargets();*/
+    }
+
+    function setCountdownTimers() {
+/*        var now = new Date();
+        angular.forEach($scope.playerTargets, function (target) {
+            if (target.expires > 0) {
+                var minutesLeft = parseInt((target.expires - now.getTime())/1000/60);
+                target.hours = parseInt(minutesLeft / 60);
+                target.minutes = parseInt(minutesLeft % 60);
+            }
+        });*/
     }
 
 }]);

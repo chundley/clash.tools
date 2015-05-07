@@ -53,15 +53,12 @@
                                                         <div class="tw-stars text-center">
                                                             <span class="dropdown" on-toggle="toggled(open)">
                                                                 <a href class="dropdown-toggle">
-                                                                    <img src="/img/icons/stars.png" ng-if="!warStarted" popover-placement="right" popover="You can only change stars for an attack after the war starts" popover-append-to-body="true" popover-trigger="mouseenter">
+                                                                    <img src="/img/icons/stars.png" ng-if="!warStarted" popover-placement="right" popover="You can set attack stars after the war starts" popover-append-to-body="true" popover-trigger="mouseenter">
                                                                     <img src="/img/icons/stars.png" ng-if="target.stars==null && warStarted">
                                                                     <img src="/img/icons/stars-0.png" ng-if="target.stars==0">
                                                                     <img src="/img/icons/stars-1.png" ng-if="target.stars==1">
                                                                     <img src="/img/icons/stars-2.png" ng-if="target.stars==2">
                                                                     <img src="/img/icons/stars-3.png" ng-if="target.stars==3">
-
-                                                                    
-                                                                    
                                                                 </a>
                                                                 <ul class="dropdown-menu" ng-if="warStarted">
                                                                     <li><a href ng-click="changeStars($index, target.base_num, 0)"><img src="/img/icons/stars-0.png"></a></li>
@@ -152,7 +149,7 @@
                         <div class="col-sm-8 col-xs-12 margin-bottom-huge">
                             <div class="widget">
                                 <div class="widget-header">Recent clan activity</div>
-                                <div class="widget-body">
+                                <div class="widget-body messages-widget">
                                     <div class="row margin-bottom-medium" ng-repeat="cm in clanMessages">
                                         <div class="col-sm-12 col-xs-12 tiny">
                                             <i class="icon-user primary-20" ng-if="cm.type=='member'"></i>

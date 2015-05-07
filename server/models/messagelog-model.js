@@ -28,6 +28,7 @@ exports.save = function(message, callback) {
 }
 
 exports.get = function(clanId, count, callback) {
+    count = parseInt(count);
     db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'message_log', function (err, collection) {
         if (err) {
             callback(err, null);
@@ -38,6 +39,7 @@ exports.get = function(clanId, count, callback) {
                     clan_id: clanId
                 },
                 {} )
+                .limit(count)
                 .sort({created_at: -1}).toArray(function (err, items) {
                 if (err) {
                     callback(err, null);

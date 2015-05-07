@@ -214,9 +214,9 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, c
     }
 
     function loadClanMessages() {
-        messagelogService.get($scope.meta.current_clan.clan_id, 10, function (err, messages) {
+        messagelogService.get($scope.meta.current_clan.clan_id, 40, function (err, messages) {
             if (err) {
-                err.stack_trace.unshift( { file: 'home-controller.js', func: 'init', message: 'Error getting message log' } );
+                err.stack_trace.unshift( { file: 'home-controller.js', func: 'loadClanMessages', message: 'Error getting message log' } );
                 errorService.save(err, function() {});
             }
             else {
@@ -232,7 +232,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, c
     function loadWar(callback) {
         warService.getActive($scope.meta.current_clan.clan_id, function (err, war) {
             if (err) {
-                err.stack_trace.unshift( { file: 'home-controller.js', func: 'init', message: 'Error getting current war' } );
+                err.stack_trace.unshift( { file: 'home-controller.js', func: 'loadWar', message: 'Error getting current war' } );
                 errorService.save(err, function() {});
                 callback();
             }
