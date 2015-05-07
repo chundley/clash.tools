@@ -33,7 +33,7 @@ function ($rootScope, $scope, $routeParams, $location, $timeout, userService, er
 
                     $timeout(function() {
                         $location.path('/home').replace();
-                    }, 4000);
+                    }, 3000);
                 }
             });
         }
