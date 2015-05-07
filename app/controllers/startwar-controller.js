@@ -56,24 +56,29 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                             opponent_tag: '',
                             player_count: 30,
                             start: new Date(),
-                            bases: {},
-                            team: {},
+                            bases: [],
+                            team: [],
                             created_at: new Date(),
                             created_by: authService.user.id
                         };
 
                         for (var b=0; b<30; b++) {
-                            $scope.war.bases[b+1] = {
-                                b: b+1,
-                                t: 1,
-                                a: []
-                            };
+                            $scope.war.bases.push(
+                                {
+                                    b: b+1,
+                                    t: 1,
+                                    a: []
+                                }
+                            );
 
-                            $scope.war.team[b+1] = {
-                                t: 1,
-                                u: null,
-                                i: ''
-                            };
+                            $scope.war.team.push(
+                                {
+                                    b: b+1,
+                                    t: 1,
+                                    u: null,
+                                    i: ''
+                                }
+                            );
                         }
                         $rootScope.title = 'New war - clash.tools';
                     }
@@ -99,28 +104,29 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
         var oldBases = $scope.war.bases;
         var oldTeam = $scope.war.team;
 
-        $scope.war.bases = {};
-        $scope.war.team = {};
+        $scope.war.bases = [];
+        $scope.war.team = [];
 
         for (var b=0; b<$scope.war.player_count; b++) {
-            if (oldBases[b+1]) {
-                $scope.war.bases[b+1] = oldBases[b+1];
-                $scope.war.team[b+1] = oldTeam[b+1];
+            if (oldBases[b]) {
+                $scope.war.bases[b] = oldBases[b];
+                $scope.war.team[b] = oldTeam[b];
             }
             else {
-                $scope.war.bases[b+1] = {
+                $scope.war.bases[b] = {
                     b: b+1,
                     t: 1,
                     a: []
                 };
 
-                $scope.war.team[b+1] = {
+                $scope.war.team[b] = {
+                    b: b+1,
                     t: 1,
                     u: null,
                     i: ''
-                };                
+                };
             }
-        }        
+        }
     }
 
     $scope.setStartTime = function() {
@@ -128,7 +134,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
         if ($window.innerWidth < 500) {
             cssClass = 'mobile';
         }
-        
+
         $scope.modalOptions = {
             yesBtn: 'Set',
             noBtn: 'Cancel',
@@ -147,7 +153,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                     });
                 });
 
-                $scope.warSettingsForm.$setDirty();          
+                $scope.warSettingsForm.$setDirty();
             }
         };
 
@@ -163,7 +169,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
 
         modalInstance.$promise.then(function() {
             modalInstance.show();
-        });        
+        });
     }
 
     $scope.numBases = function() {
@@ -193,7 +199,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
             if ($scope.members[idx]._id == userId) {
                 $scope.war.team[baseNum].u = $scope.members[idx]._id;
                 $scope.war.team[baseNum].i = $scope.members[idx].ign;
-                $scope.war.team[baseNum].t = $scope.members[idx].profile.buildings.th > 1 ? $scope.members[idx].profile.buildings.th : 
+                $scope.war.team[baseNum].t = $scope.members[idx].profile.buildings.th > 1 ? $scope.members[idx].profile.buildings.th :
                     $scope.war.team[baseNum].t > 1 ? $scope.war.team[baseNum].t : 1;
             }
         }

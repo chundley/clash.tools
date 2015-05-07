@@ -48,8 +48,8 @@
                                                 </select>
                                             </div>
                                         </div>
-                                     
-                                                    
+
+
                                         <div class="form-group">
                                             <label for="starts" class="col-sm-3 col-xs-12 control-label">War starts in</label>
                                             <div class="col-sm-9 col-xs-12 time-label">
@@ -57,7 +57,7 @@
                                                 <b>{{hours}}</b> hour{{hoursS}}, <b>{{minutes}}</b> minute{{minutesS}}, <b>{{seconds}}</b> second{{secondsS}}</h3></timer> <a href class="btn btn-emphasis btn-xs set-btn" ng-click="setStartTime()">Set</a>
                                             </div>
                                         </div>
-                                        
+
 <!--                                         <div class="form-group">
                                             <label for="visible" class="col-sm-3 col-xs-12 control-label">Visible to clan</label>
                                             <div class="col-md-4 col-sm-5 col-xs-6">
@@ -96,18 +96,16 @@
                                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4 t-header">Town hall</div>
                                         </div>
                                         <div class="row row-underline-2"></div>
-                                        <div class="row" ng-repeat="base in numBases() track by $index">
-                                            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-3 t-row text-center">{{$index + 1}}</div>
+                                        <div class="row" ng-repeat="tm in war.team">
+                                            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-3 t-row text-center">{{tm.b}}</div>
                                             <div class="col-lg-2 col-md-3 col-sm-3 col-xs-5">
-                                               <select class="form-control-small" ng-model="war.team[$index+1].u" ng-options="member._id as member.ign for member in members" ng-change="assignRoster($index+1, war.team[$index+1].u)">
+                                               <select class="form-control-small" ng-model="tm.u" ng-options="member._id as member.ign for member in members" ng-change="assignRoster($index, tm.u)">
                                                 </select>
-                                            </div>                                            
+                                            </div>
                                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
-                                                <select class="form-control-small" ng-model="war.team[$index+1].t" ng-change="saveWar()">
+                                                <select class="form-control-small" ng-model="tm.t" ng-change="saveWar()">
                                                     <option>10</option>
-                                                    <option>9.5</option>
                                                     <option>9</option>
-                                                    <option>8.5</option>
                                                     <option>8</option>
                                                     <option>7</option>
                                                     <option>6</option>
@@ -146,10 +144,10 @@
                                             <div class="col-lg-2 col-md-3 col-sm-3 col-xs-5 t-header">Assign to</div>
                                         </div>
                                         <div class="row row-underline-2"></div>
-                                        <div class="row" ng-repeat="base in numBases() track by $index">
-                                            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-3 t-row text-center">{{$index + 1}}</div>
+                                        <div class="row" ng-repeat="base in war.bases">
+                                            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-3 t-row text-center">{{base.b}}</div>
                                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
-                                                <select class="form-control-small" ng-model="war.bases[$index+1].t" ng-change="saveWar()">
+                                                <select class="form-control-small" ng-model="base.t" ng-change="saveWar()">
                                                     <option>10</option>
                                                     <option>9.5</option>
                                                     <option>9</option>
@@ -165,7 +163,7 @@
                                                 </select>
                                             </div>
                                             <div class="col-lg-2 col-md-3 col-sm-3 col-xs-5">
-                                               <select class="form-control-small" ng-model="war.bases[$index+1].a[0].u" ng-options="member._id as member.ign for member in members" ng-change="assignBase($index+1, war.bases[$index+1].a[0].u)">
+                                               <select class="form-control-small" ng-model="base.a[0].u" ng-options="member._id as member.ign for member in members" ng-change="assignBase($index, base.a[0].u)">
                                                 </select>
                                             </div>
                                         </div>

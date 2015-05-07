@@ -17,7 +17,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, c
 
         if ($scope.meta.current_clan.clan_id) {
             $scope.nullState = false;
-            
+
             // load clan messages initially, and every 60 seconds after that
             loadClanMessages();
             var promise = $interval(loadClanMessages, 60000);
@@ -37,17 +37,18 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, c
                     loadWar(function(){});
                     var promiseWar = $interval(function() {
                         loadWar(function(){});
-                    }, 60000);
+                    }, 20000);
 
                     $scope.$on('$destroy', function() {
                         $interval.cancel(promiseWar);
-                    });                                        
+                    });
                 }
             });
         }
     });
 
     $scope.changeStars = function(targetNum, baseNum, numStars) {
+        console.log(baseNum);
         $scope.playerTargets[targetNum].stars = numStars;
         angular.forEach($scope.war.bases[baseNum].a, function (assignment) {
             if (assignment.u == authService.user.id) {
@@ -74,7 +75,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, c
             starsText = 'star';
         }
 
-        messagelogService.save($scope.meta.current_clan.clan_id, '[ign] attacked base ' + baseNum + ' for ' + numStars + ' ' + starsText, $scope.meta.ign, 'attack', function (err, msg) {
+        messagelogService.save($scope.meta.current_clan.clan_id, '[ign] attacked base ' + (baseNum+1) + ' for ' + numStars + ' ' + starsText, $scope.meta.ign, 'attack', function (err, msg) {
             if (err) {
                 err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.changeStars', message: 'Error saving attack message in the log' } );
                 errorService.save(err, function() {});
@@ -108,7 +109,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, c
             else {
                 // no overcalls allowed and not in free for all period, make sure the base is still open to avoid double reservations
                 angular.forEach($scope.openBases, function (base) {
-                    if (base.base_num == baseNum) {
+                    if (base.base_num == baseNum+1) {
                         open = true;
                     }
                 });
@@ -119,10 +120,10 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, c
                 if ($window.innerWidth < 500) {
                     cssClass = 'mobile';
                 }
-                
+
                 $scope.modalOptions = {
                     title: 'Confirm reservation',
-                    message: 'Please confirm you want to reserve base ' + baseNum,
+                    message: 'Please confirm you want to reserve base ' + (baseNum + 1),
                     yesBtn: 'Reserve',
                     noBtn: 'Cancel',
                     cssClass: cssClass,
@@ -131,7 +132,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, c
                         // calculate when this call expires. this is based on a lot of factors, including the configured cleanup time allowed, free for all
                         // time allowed, and whether the reservation time crosses the end of the war
                         var expireDate = null;
-                        
+
 
                         if (now.getTime() >= freeForAllDate.getTime()) {
                             // already passed the free for all time
@@ -152,8 +153,8 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, c
                                 i: $scope.meta.ign,
                                 c: new Date(),
                                 e: expireDate,
-                                s: null,                                
-                            }  
+                                s: null,
+                            }
                         );
 
                         warService.save($scope.war, function (err, war) {
@@ -164,6 +165,16 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, c
                             else {
                                 $scope.war = war;
                                 refreshInterface();
+                            }
+                        });
+
+                        messagelogService.save($scope.meta.current_clan.clan_id, '[ign] called base ' + (baseNum+1), $scope.meta.ign, 'target', function (err, msg) {
+                            if (err) {
+                                err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.changeStars', message: 'Error saving attack message in the log' } );
+                                errorService.save(err, function() {});
+                            }
+                            else {
+                                loadClanMessages();
                             }
                         });
                     }
@@ -181,7 +192,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, c
 
                 modalInstance.$promise.then(function() {
                     modalInstance.show();
-                });        
+                });
             }
             else {
                 // notify user that the base is now reserved somehow
@@ -189,10 +200,10 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, c
                 if ($window.innerWidth < 500) {
                     cssClass = 'mobile';
                 }
-                
+
                 $scope.modalOptions = {
                     title: 'Base is reserved',
-                    message: 'Base ' + baseNum + ' was just reserved a few seconds ago by ' + $scope.war.bases[baseNum].a[$scope.war.bases[baseNum].a.length-1].i,
+                    message: 'Base ' + (baseNum+1) + ' was just reserved a few seconds ago by ' + $scope.war.bases[baseNum].a[$scope.war.bases[baseNum].a.length-1].i,
                     cssClass: cssClass
                 };
 
@@ -208,7 +219,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, c
 
                 modalInstance.$promise.then(function() {
                     modalInstance.show();
-                }); 
+                });
             }
         });
     }
@@ -226,7 +237,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, c
                 });
                 $scope.clanMessages = messages;
             }
-        });        
+        });
     }
 
     function loadWar(callback) {
@@ -240,7 +251,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, c
                 if (war) {
                     $scope.war = war;
                     refreshInterface();
-                    callback();                    
+                    callback();
                 }
                 else {
                     callback();
@@ -256,12 +267,12 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, c
             // war has started, set the end time to +24 hours from start
             $scope.warStartTime = start.getTime() + 24*60*60*1000;
             $scope.warStarted = true;
-        }   
+        }
         else {
-            $scope.warStartTime = start.getTime(); 
+            $scope.warStartTime = start.getTime();
             $scope.warStarted = false;
         }
-        $scope.$broadcast('timer-start'); 
+        $scope.$broadcast('timer-start');
 
         $scope.playerTargets = [];
         angular.forEach($scope.war.bases, function (base) {
@@ -286,7 +297,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, c
             })
         });
 
-        // set countdown for targets, and set it to refresh every 30 seconds 
+        // set countdown for targets, and set it to refresh every 30 seconds
         if ($scope.playerTargets.length > 0) {
             setCountdownTimers();
             var promise = $interval(setCountdownTimers, 30000);
@@ -370,7 +381,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, c
                 });
 
                 if (!alreadyAttacked && maxStars < 3) {
-                    $scope.openBases.push( 
+                    $scope.openBases.push(
                         {
                             th: base.t,
                             base_num: base.b,

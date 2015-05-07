@@ -10,7 +10,6 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
 
     $scope.warId = $routeParams.id;
     $scope.activeWar = false;
-    $scope.numBases = 0;
 
     sessionService.getUserMeta(authService.user.id, function (err, meta) {
         $scope.meta = meta;
@@ -28,18 +27,23 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                     loadWar(function(){});
                     var promiseWar = $interval(function() {
                         loadWar(function(){});
-                    }, 60000);
+                    }, 20000);
 
                     $scope.$on('$destroy', function() {
                         $interval.cancel(promiseWar);
-                    });                                        
+                    });
                 }
             });
         }
     });
 
     $scope.numBases = function() {
-        return $scope.numBases;
+        if ($scope.war) {
+            return $scope.war.player_count;
+        }
+        else {
+            return 0;
+        }
     }
 
     function loadWar(callback) {
@@ -52,12 +56,11 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
             else {
                 if (war) {
                     $scope.war = war;
-                    $scope.numBases = war.num_bases;
                     if (war.active) {
                         $scope.activeWar = true;
                     }
                     refreshInterface();
-                    callback();                    
+                    callback();
                 }
                 else {
                     callback();
@@ -73,56 +76,51 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
             // war has started, set the end time to +24 hours from start
             $scope.warStartTime = start.getTime() + 24*60*60*1000;
             $scope.warStarted = true;
-        }   
+        }
         else {
-            $scope.warStartTime = start.getTime(); 
+            $scope.warStartTime = start.getTime();
             $scope.warStarted = false;
         }
-        $scope.$broadcast('timer-start'); 
+        $scope.$broadcast('timer-start');
 
-/*        $scope.playerTargets = [];
         angular.forEach($scope.war.bases, function (base) {
+            var maxStars = null;
             angular.forEach(base.a, function (assignment) {
-                if (assignment.u == authService.user.id) {
-                    // if we've passed free for all time there is no expiration
-                    var expires = 0;
-                    if (assignment.e != null) {
-                        var expireTime = new Date(assignment.e);
-                        expires = expireTime.getTime();
-                    }
-                    $scope.playerTargets.push(
-                        {
-                            base_num: base.b,
-                            stars: assignment.s,
-                            expires: expires,
-                            hours: 0,
-                            minutes: 0
-                        }
-                    );
+                var expires = 0;
+                if (assignment.e != null) {
+                    var expireTime = new Date(assignment.e);
+                    expires = expireTime.getTime();
                 }
-            })
-        });*/
+                if (assignment.s != null && assignment.s > maxStars) {
+                    maxStars = assignment.s;
+                }
+                assignment.expires = expires;
+            });
+            base.maxStars = maxStars;
+        });
 
-        // set countdown for targets, and set it to refresh every 30 seconds 
-/*        if ($scope.playerTargets.length > 0) {
+        // set countdown for targets, and set it to refresh every 30 seconds
+        //if ($scope.playerTargets.length > 0) {
             setCountdownTimers();
             var promise = $interval(setCountdownTimers, 30000);
             $scope.$on('$destroy', function() {
                 $interval.cancel(promise);
             });
-        }
-        findOpenTargets();*/
+        //}
+        //findOpenTargets();
     }
 
     function setCountdownTimers() {
-/*        var now = new Date();
-        angular.forEach($scope.playerTargets, function (target) {
-            if (target.expires > 0) {
-                var minutesLeft = parseInt((target.expires - now.getTime())/1000/60);
-                target.hours = parseInt(minutesLeft / 60);
-                target.minutes = parseInt(minutesLeft % 60);
-            }
-        });*/
+        var now = new Date();
+        angular.forEach($scope.war.bases, function (base) {
+            angular.forEach(base.a, function (assignment) {
+                if (assignment.expires > 0) {
+                    var minutesLeft = parseInt((assignment.expires - now.getTime())/1000/60);
+                    assignment.hours = parseInt(minutesLeft / 60);
+                    assignment.minutes = parseInt(minutesLeft % 60);
+                }
+            });
+        });
     }
 
 }]);

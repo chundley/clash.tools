@@ -32,7 +32,7 @@
             padding: 4px 6px;
             background: @primary-60;
             font-size: 14px;
-        }             
+        }
     }
 
     .war-countdown {
@@ -48,7 +48,7 @@
     .war-target {
         .target-widget {
             display: block;
-            float: left;            
+            float: left;
             border: 1px solid @primary-20;
             width: 110px;
             margin-right: 20px;
@@ -62,7 +62,7 @@
 
             .tw-body {
                 font-size: 32px;
-                font-weight: 600;  
+                font-weight: 600;
                 color: @primary-20;
                 line-height: 32px;
                 margin-top: 4px;
@@ -370,7 +370,7 @@
 
     .time-label {
         margin-top: 7px;
-    }      
+    }
 
     .set-btn {
         margin-left: 10px;
@@ -385,7 +385,7 @@
     margin-top: 10px;
     font-size: 11px;
     margin-bottom: 20px;
-}  
+}
 
 /*
 *   War page
@@ -395,11 +395,11 @@
         float: left;
         display: block;
         margin-bottom: 10px;
-        border: 1px dotted @primary;
+        border: 1px solid @emphasis;
         padding: 4px 6px;
-        background: @primary-60;
+        background: lighten(@emphasis, 40%);
         font-size: 14px;
-    }  
+    }
 }
 
 .war-table {
@@ -409,13 +409,29 @@
 }
 
 .assignment-widget {
+    float: left;
+    margin-right: 6px;
     border: 1px solid @primary-50;
-    width: 70px;
+    width: 80px;
+    margin-bottom: 5px;
     .aw-name {
         font-size: 10px;
+        white-space: nowrap;
         background: @emphasis;
         color: #fff;
+        padding: 2px 2px;
+        border-bottom: 1px solid @primary-50;
+    }
+
+    .aw-stars {
+        border-bottom: 1px solid @primary-50;
+        padding-bottom: 2px;
+    }
+
+    .aw-expire {
         padding: 2px 0px;
+        font-size: 10px;
+        background: @primary-60;
     }
 }
 

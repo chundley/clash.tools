@@ -13,7 +13,7 @@
                             <h3 class="visible-xs">{{meta.current_clan.name}} vs. {{war.opponent_name}}</h3>
                         </div>
                         <div class="col-sm-6 col-xs-12 war-countdown">
-                            <div class="wc-inner">   
+                            <div class="wc-inner">
                                 <span ng-if="warStarted">Ends</span><span ng-if="!warStarted">Starts</span> in
                                 <timer interval="1000" autostart="false" language="en" ng-attr-end-time="warStartTime">
                                 <b>{{hours}}</b> hour{{hoursS}}, <b>{{minutes}}</b> minute{{minutesS}}<span class="hidden-xs">, <b>{{seconds}}</b> second{{secondsS}}</span></h3>
@@ -33,12 +33,17 @@
                                         <div class="col-sm-9 col-xs-8 t-header">Assignments</div>
                                     </div>
                                     <div class="row row-underline-2"></div>
-                                    <div ng-repeat="base in war.bases | orderBy: parseInt(base.b)">
-                                    <!-- <div ng-repeat="base in numBases() track by $index"> -->
+                                    <div ng-repeat="base in war.bases">
                                         <div class="row t-row">
-                                            <div class="col-xs-1">{{$index + 1}}</div>
+                                            <div class="col-xs-1">{{base.b}}</div>
                                             <div class="col-xs-1">{{base.t}}</div>
-                                            <div class="col-sm-1 col-xs-2"><img src="/img/icons/stars-tiny-1.png"></div>
+                                            <div class="col-sm-1 col-xs-2">
+                                                <img src="/img/icons/stars-tiny.png" ng-if="base.maxStars==null">
+                                                <img src="/img/icons/stars-tiny-0.png" ng-if="base.maxStars==0">
+                                                <img src="/img/icons/stars-tiny-1.png" ng-if="base.maxStars==1">
+                                                <img src="/img/icons/stars-tiny-2.png" ng-if="base.maxStars==2">
+                                                <img src="/img/icons/stars-tiny-3.png" ng-if="base.maxStars==3">
+                                            </div>
                                             <div class="col-xs-8">
                                                 <div ng-repeat="a in base.a">
                                                     <div class="assignment-widget">
@@ -51,6 +56,15 @@
                                                             <img src="/img/icons/stars-tiny-1.png" ng-if="a.s==1">
                                                             <img src="/img/icons/stars-tiny-2.png" ng-if="a.s==2">
                                                             <img src="/img/icons/stars-tiny-3.png" ng-if="a.s==3">
+                                                        </div>
+                                                        <div class="aw-expire text-center" ng-if="a.s==null && a.expires > 0">
+                                                            <b>{{a.hours}}h {{a.minutes}}m</b>
+                                                        </div>
+                                                        <div class="aw-expire text-center" ng-if="a.s!=null">
+                                                            Done
+                                                        </div>
+                                                        <div class="aw-expire text-center" ng-if="a.expires==0 && a.s==null">
+                                                            <b>free for all</b>
                                                         </div>
                                                     </div>
                                                 </div>
