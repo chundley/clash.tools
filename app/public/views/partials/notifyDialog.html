@@ -1,0 +1,13 @@
+<div class="modal {{modalOptions.cssClass}}" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                 {{modalOptions.title}}
+            </div>
+            <div class="modal-body" ng-bind="modalOptions.message"></div>
+            <div class="modal-footer">
+                <button class="btn btn-emphasis" ng-click="modalOptions.onYes(modalOptions.model); $hide();">OK</button>
+            </div>
+        </div>
+    </div>
+</div>

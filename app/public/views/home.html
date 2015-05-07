@@ -72,11 +72,14 @@
                                                             </span>                                                               
                                                             
                                                         </div>
-                                                        <div class="tw-expire text-center" ng-if="target.stars==null">
+                                                        <div class="tw-expire text-center" ng-if="target.stars==null && target.expires > 0">
                                                             Expires <b>{{target.hours}}h</b> <b>{{target.minutes}}m</b>
                                                         </div>
                                                         <div class="tw-expire text-center" ng-if="target.stars!=null">
                                                             Attack done
+                                                        </div>                                                           
+                                                        <div class="tw-expire text-center" ng-if="target.expires==0 && target.stars==null">
+                                                            <b>free for all</b>
                                                         </div>                                                        
                                                     </div> 
                                                     <div class="target-widget tw-none" ng-if="playerTargets.length<1">
@@ -107,11 +110,11 @@
                                                             n/a
                                                         </div>                                                      
                                                     </div>                                                                                         
-                                                    <div class="open-targets" ng-if="warStarted">
+                                                    <div class="open-targets" ng-if="warStarted && playerTargets.length < 2">
                                                         <div class="ot-header">
                                                             <b>Open bases</b> <span class="tiny">(click to reserve)</span>
                                                         </div>
-                                                        <div class="target-widget" ng-repeat="base in openBases" ng-click="assignBase(base.base_num)">
+                                                        <div class="target-widget" ng-repeat="base in openBases" ng-click="reserveBase(base.base_num)">
                                                             <div class="tw-header text-center">
                                                                 TH{{base.th}}
                                                             </div>
@@ -125,7 +128,10 @@
                                                     </div> 
                                                     <div class="open-targets-pre text-center" ng-if="!warStarted">
                                                         <h4 class="primary-40"><p>Open targets will be available after the war starts</p></h4>
-                                                    </div>                                                              
+                                                    </div>  
+                                                    <div class="open-targets-pre text-center" ng-if="warStarted && playerTargets.length==2">
+                                                        <h4 class="primary-40"><p>You already have two assigned bases, open targets unavailable</p></h4>
+                                                    </div>                                                                                                                  
                                                 </div>
                                             </div>
                                         </div>
