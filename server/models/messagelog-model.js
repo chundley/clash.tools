@@ -10,6 +10,7 @@ var config = require('../../config/config');
 * Saves a record and returns the resulting record
 */
 exports.save = function(message, callback) {
+    message.created_at = new Date();
     db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'message_log', function (err, collection) {
         if (err) {
             callback(err, null);

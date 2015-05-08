@@ -12,7 +12,6 @@ function ($http, $rootScope, authService, errorService) {
             var newMsg = {
                 clan_id: clanId,
                 user_id: authService.user.id,
-                created_at: new Date(),
                 message: message,
                 ign: ign,
                 type: type /* member, target (called), target (attacked), special (start war) */
