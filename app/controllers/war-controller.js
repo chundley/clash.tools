@@ -120,7 +120,7 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                 // if we are in the free for all period, overcalls are allowed no matter what
                 base.isOpen = true;
             }
-            else if (!$scope.clan.war_config.overcalls) {
+            else if (!$scope.clan.war_config.overcalls && base.a.length > 0) {
                 // determine if the current call has expired
                 if (now.getTime() > base.a[base.a.length-1].e) {
                     base.isOpen = true;
