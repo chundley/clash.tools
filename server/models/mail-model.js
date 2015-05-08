@@ -39,7 +39,7 @@ exports.pwReset = function(email, callback) {
 
                         msg.setHtml(pwResetTemplate(requestUrl, true));
                         msg.setText(pwResetTemplate(requestUrl, false));
-                        msg.setSubject('Siftrock password reset request');
+                        msg.setSubject('clash.tools password reset request');
                         msg.addRecipient(u.email_address, u.email_address, 'to');
                         msg.addTags(['pw-reset', appVersion]);
 

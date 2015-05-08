@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div top-nav></div>
             <!-- page content -->
-            <div class="row content-body members-container">
+            <div class="row content-body members-container margin-bottom-huge">
                 <div class="col-sm-12">
                     <div class="row margin-bottom-huge">
                         <div class="col-sm-12">
@@ -47,8 +47,8 @@
                                                         <li ng-if="meta.role=='coleader' && (member.role.title=='member' || member.role.title=='elder')"><a href ng-click="kick(member)">Kick from clan</a></li>
                                                         <li ng-if="meta.role=='leader' && (member.role.title!='leader')"><a href ng-click="kick(member)">Kick from clan</a></li>
                                                     </ul>
-                                                </span>                                              
-                                            </div>                           
+                                                </span>
+                                            </div>
                                         </div>
                                         <div class="row row-underline-1" ng-if="$index<members.length-1"></div>
                                     </div>

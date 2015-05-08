@@ -1,11 +1,8 @@
 <div class="container margin-top-big" ng-hide="badToken || success">
     <form name="pwResetForm" ng-submit="reset()">
-    <div class="row brand-header">
-        <div class="col-sm-6">
-            <img src="/img/logo-small.png" class="pull-right">
-        </div>
-        <div class="col-sm-6">
-            <h2>siftrock</h2>
+    <div class="row margin-bottom-huge">
+        <div class="col-sm-12">
+            <img src="/img/logo-small.png" class="img-responsive object-center">
         </div>
     </div>
     <div class="row">
@@ -30,7 +27,7 @@
             </div>
 
             <div class="form-group">
-                <button track="PW reset - submit" type="submit" ng-disabled="pwResetForm.$invalid" class="btn btn-primary">Reset Password</button>
+                <button type="submit" ng-disabled="pwResetForm.$invalid" class="btn btn-emphasis">Reset Password</button>
             </div>
             <div class="form-group" ng-show="pwResetForm.pw2.$error.match">
                 <strong class="error-red">Passwords don't match</strong>
@@ -41,12 +38,9 @@
 </div>
 
 <div class="container margin-top-big" ng-show="success">
-    <div class="row brand-header">
-        <div class="col-sm-6">
-            <img src="/img/logo-small.png" class="pull-right">
-        </div>
-        <div class="col-sm-6">
-            <h2>siftrock</h2>
+    <div class="row margin-bottom-huge">
+        <div class="col-sm-12">
+            <img src="/img/logo-small.png" class="img-responsive object-center">
         </div>
     </div>
     <div class="row margin-bottom-huge text-center">
@@ -62,12 +56,9 @@
 </div>
 
 <div class="container margin-top-big" ng-show="badToken">
-    <div class="row brand-header">
-        <div class="col-sm-6">
-            <img src="/img/logo-small.png" class="pull-right">
-        </div>
-        <div class="col-sm-6">
-            <h2>siftrock</h2>
+    <div class="row margin-bottom-huge">
+        <div class="col-sm-12">
+            <img src="/img/logo-small.png" class="img-responsive object-center">
         </div>
     </div>
     <div class="row margin-bottom-huge">
