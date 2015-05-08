@@ -122,7 +122,7 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
             }
             else if (!$scope.clan.war_config.overcalls) {
                 // determine if the current call has expired
-                if (now.getTime() > base.a[base.a.length-1].expires) {
+                if (now.getTime() > base.a[base.a.length-1].e) {
                     base.isOpen = true;
                 }
                 // determine if the latest attack has been done
