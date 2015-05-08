@@ -326,6 +326,11 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, c
                 var minutesLeft = parseInt((target.expires - now.getTime())/1000/60);
                 target.hours = parseInt(minutesLeft / 60);
                 target.minutes = parseInt(minutesLeft % 60);
+
+                if (minutesLeft < 0) {
+                    //expired!
+                    target.expires = -target.expires;
+                }
             }
         });
     }
@@ -363,8 +368,8 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, c
                 else if (base.a.length > 0) {
                     // check for expired assignments
                     //var now2 = new Date();
-                    var expireDate = new Date(base.a[base.a.length-1]);
-                    var minutesLeft = parseInt((expireDate - now.getTime())/1000/60);
+                    var expireDate = new Date(base.a[base.a.length-1].e);
+                    var minutesLeft = parseInt((expireDate.getTime() - now.getTime())/1000/60);
                     if (minutesLeft <= 0) {
                         // call is expired
                         open = true;

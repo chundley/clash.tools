@@ -70,15 +70,23 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
     }
 
     function refreshInterface() {
+
+
         var now = new Date();
-        var start = new Date($scope.war.start);
-        if (start.getTime() <= now.getTime()) {
+        var warStart = new Date($scope.war.start);
+        var possibleExpireDate = new Date(now.getTime() + ($scope.clan.war_config.cleanup_attack_time*60*60*1000));
+        var freeForAllDate = new Date(warStart.getTime() + ((24 - $scope.clan.war_config.free_for_all_time)*60*60*1000));
+        var warEnd = new Date(warStart.getTime() + (24*60*60*1000));
+
+        var now = new Date();
+
+        if (warStart.getTime() <= now.getTime()) {
             // war has started, set the end time to +24 hours from start
-            $scope.warStartTime = start.getTime() + 24*60*60*1000;
+            $scope.warStartTime = warStart.getTime() + 24*60*60*1000;
             $scope.warStarted = true;
         }
         else {
-            $scope.warStartTime = start.getTime();
+            $scope.warStartTime = warStart.getTime();
             $scope.warStarted = false;
         }
         $scope.$broadcast('timer-start');
@@ -97,6 +105,31 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                 assignment.expires = expires;
             });
             base.maxStars = maxStars;
+            base.isOpen = false;
+
+            // determine if the base is open
+            if ($scope.clan.war_config.overcalls) {
+                // if overcalls are allowed we don't care if the base has already been reserved
+                base.isOpen = true;
+            }
+            else if ($scope.warStarted && base.a.length == 0) {
+                // war has started and this base is uncalled
+                base.isOpen = true;
+            }
+            else if (now.getTime() >= freeForAllDate.getTime()) {
+                // if we are in the free for all period, overcalls are allowed no matter what
+                base.isOpen = true;
+            }
+            else if (!$scope.clan.war_config.overcalls) {
+                // determine if the current call has expired
+                if (now.getTime() > base.a[base.a.length-1].expires) {
+                    base.isOpen = true;
+                }
+                // determine if the latest attack has been done
+                if (base.a[base.a.length-1].s != null) {
+                    base.isOpen = true;
+                }
+            }
         });
 
 
@@ -119,6 +152,11 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                     var minutesLeft = parseInt((assignment.expires - now.getTime())/1000/60);
                     assignment.hours = parseInt(minutesLeft / 60);
                     assignment.minutes = parseInt(minutesLeft % 60);
+
+                    if (minutesLeft < 0) {
+                        //expired!
+                        assignment.expires = -assignment.expires;
+                    }
                 }
             });
         });

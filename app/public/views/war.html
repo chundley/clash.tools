@@ -26,25 +26,30 @@
                             <div class="widget">
                                 <div class="widget-body war-table">
                                     <div class="row t-row">
-                                        <div class="col-sm-1 col-xs-1 t-header">Base</div>
-                                        <div class="col-sm-1 col-xs-1 t-header">TH</div>
+                                        <div class="col-sm-1 col-xs-2 t-header text-center">Base</div>
+                                        <div class="col-sm-1 hidden-xs t-header">TH</div>
                                         <div class="col-sm-1 col-xs-2 t-header">Best</div>
-
                                         <div class="col-sm-9 col-xs-8 t-header">Assignments</div>
                                     </div>
                                     <div class="row row-underline-2"></div>
                                     <div ng-repeat="base in war.bases">
                                         <div class="row t-row">
-                                            <div class="col-xs-1">{{base.b}}</div>
-                                            <div class="col-xs-1">{{base.t}}</div>
-                                            <div class="col-sm-1 col-xs-2">
+                                            <div class="col-sm-1 col-xs-2 text-center base-num">
+                                                <h2 ng-if="base.isOpen" class="primary-dark"><strong>{{base.b}}</strong></h2>
+                                                <h2 ng-if="!base.isOpen" class="primary-30"><strong>{{base.b}}</strong></h2>
+                                                <br/>
+                                                <a href ng-if="base.isOpen"><img src="/img/icons/swords-on.png"></a>
+                                                <img src="/img/icons/swords-off.png" ng-if="!base.isOpen">
+                                            </div>
+                                            <div class="col-sm-1 hidden-xs th-icon"><img src="/img/icons/th-{{base.t}}.png"></div>
+                                            <div class="col-sm-1 col-xs-2 best-icon">
                                                 <img src="/img/icons/stars-tiny.png" ng-if="base.maxStars==null">
                                                 <img src="/img/icons/stars-tiny-0.png" ng-if="base.maxStars==0">
                                                 <img src="/img/icons/stars-tiny-1.png" ng-if="base.maxStars==1">
                                                 <img src="/img/icons/stars-tiny-2.png" ng-if="base.maxStars==2">
                                                 <img src="/img/icons/stars-tiny-3.png" ng-if="base.maxStars==3">
                                             </div>
-                                            <div class="col-xs-8">
+                                            <div class="col-sm-9 col-xs-8">
                                                 <div ng-repeat="a in base.a">
                                                     <div class="assignment-widget">
                                                         <div class="aw-name text-center">
@@ -60,14 +65,18 @@
                                                         <div class="aw-expire text-center" ng-if="a.s==null && a.expires > 0">
                                                             <b>{{a.hours}}h {{a.minutes}}m</b>
                                                         </div>
+                                                        <div class="aw-expire text-center" ng-if="a.expires < 0">
+                                                            <b class="error-red">expired!</b>
+                                                        </div>
                                                         <div class="aw-expire text-center" ng-if="a.s!=null">
-                                                            Done
+                                                            <b>done</b>
                                                         </div>
                                                         <div class="aw-expire text-center" ng-if="a.expires==0 && a.s==null">
                                                             <b>free for all</b>
                                                         </div>
                                                     </div>
                                                 </div>
+
                                             </div>
                                         </div>
                                         <div class="row row-underline-1" ng-if="$index<war.player_count-1"></div>
