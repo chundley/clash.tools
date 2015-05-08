@@ -65,7 +65,7 @@ function ($rootScope, $scope, $routeParams, $window, $modal, authService, sessio
                         subject: $scope.ign + ' would like to join the clan',
                         message: CLAN_EMAILS.joinRequest.replace(/\[1\]/g, $scope.ign).replace(/\[2\]/g, authService.user.id),
                         from_user: {
-                            user_id: authService.user.id,
+                            user_id: null, // in this case we really don't want the user getting this in their sent box
                             ign: $scope.ign,
                             deleted: false
                         },

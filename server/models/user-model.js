@@ -4,6 +4,7 @@
 
 var LocalStrategy = require('passport-local').Strategy,
     ObjectID      = require('mongodb').ObjectID,
+    async         = require('async'),
     _             = require('underscore');
 
 
@@ -150,13 +151,15 @@ function changeRole(userId, role, callback) {
 /*
 *   Updates a user's clan. The "newClan" flag indicates a new clan was created. In that case
 *   the user needs to be set as leader
+*
+*   An empty clan object will be passed in if the member is being kicked
 */
 exports.updateClan = function(userId, clan, newClan, callback) {
     if (_.isString(userId)) {
         userId = new ObjectID.createFromHexString(userId);
     }
 
-    // an empty clan object will e passed in if the member is being kicked
+    // create the new clan object (empty if someone left or booted)
     var clanTrimmed = {
     };
 
@@ -171,40 +174,103 @@ exports.updateClan = function(userId, clan, newClan, callback) {
         }
     }
 
-    var updateFields = {
-        current_clan: clanTrimmed
-    };
+    // check for user already in clan, if not then add them (or remove if that's the case)
+    async.waterfall([
+        function (callback_wf) {
+            if (clanTrimmed.clan_id) {
+                exports.findById(userId, function (err, user) {
+                    if (err) {
+                        callback_wf(err, null);
+                    }
+                    else {
+                        if (user.current_clan.clan_id
+                            && clanTrimmed.clan_id
+                            && user.current_clan.clan_id.toString() == clanTrimmed.clan_id.toString()) {
+                            logger.info('User ' + user.ign + ' already in clan ' + clanTrimmed.name);
+                            callback_wf(null, true);
+                        }
+                        else {
+                            callback_wf(null, false);
+                        }
+                    }
+                });
+            }
+            else {
+                callback_wf(null, false);
+            }
+        },
+        function (inClan, callback_wf) {
+            // only add to clan if they aren't already in it
+            if (!inClan) {
+                var updateFields = {
+                    current_clan: clanTrimmed
+                };
 
-    var pushClan = { clan_history: clanTrimmed };
+                if (newClan) {
+                    updateFields.role = { bitMask: 16, title: 'leader' };
+                }
 
-    if (newClan) {
-        updateFields.role = { bitMask: 16, title: 'leader' };
-    }
+                if (!clan._id) {
+                    // anyone kicked goes back to member
+                    updateFields.role = { bitMask: 2, title: 'member' };
 
-    if (!clan._id) {
-        // anyone kicked goes back to member
-        updateFields.role = { bitMask: 2, title: 'member' };
-        pushClan = {};
-    }
+                    // update clan to nothing
+                    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'user', function (err, collection) {
+                        if (err) {
+                            callback_wf(err, null);
+                        }
+                        else {
+                            collection.update(
+                                { _id: userId },
+                                { $set: updateFields },
+                                { upsert: false },
+                                function (err, result) {
+                                    if (err) {
+                                        callback_wf(err, null);
+                                    }
+                                    else {
+                                        callback_wf(null, result);
+                                    }
+                                }
+                            );
+                        }
+                    });
+                }
+                else {
+                    // different query because we need to push a record to clan_history
+                    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'user', function (err, collection) {
+                        if (err) {
+                            callback_wf(err, null);
+                        }
+                        else {
+                            collection.update(
+                                { _id: userId },
+                                { $set: updateFields, $push: { clan_history: clanTrimmed } },
+                                { upsert: false },
+                                function (err, result) {
+                                    if (err) {
+                                        callback_wf(err, null);
+                                    }
+                                    else {
+                                        callback_wf(null, result);
+                                    }
+                                }
+                            );
+                        }
+                    });
+                }
+            }
+            else {
+                callback(null, null);
+            }
+        }
 
-    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'user', function (err, collection) {
+    ], function (err, results) {
         if (err) {
             callback(err, null);
         }
         else {
-            collection.update(
-                { _id: userId },
-                { $set: updateFields, $push: { clan_history: clanTrimmed } },
-                { upsert: false },
-                function (err, result) {
-                    if (err) {
-                        callback(err, null);
-                    }
-                    else {
-                        callback(null, result);
-                    }
-                }
-            );
+            callback(null, results)
         }
     });
 }
