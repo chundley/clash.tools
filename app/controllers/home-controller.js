@@ -375,7 +375,13 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, c
                         open = true;
                     }
                 }
+                else if ($scope.warStarted && base.a.length == 0) {
+                    // war has started and this base is uncalled
+                    open = true;
+                }
             }
+
+
 
             // if we're in the free-for-all period, all bases not 3-starred should be open
             if (now.getTime() >= freeForAllDate.getTime()) {
