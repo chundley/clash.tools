@@ -14,7 +14,9 @@ function ($http, cacheService, userService) {
 
     return {
         getUserMeta: function(userid, callback) {
-            if (userMeta) {
+            if (userMeta && userMeta.current_clan.clan_id) {
+                // not caching meta data if the person isn't in a clan - this forces a refresh of user meta when someone joins
+                // a clan which is the most confusing time
                 callback(null, userMeta);
             }
             else {
