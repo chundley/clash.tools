@@ -28,7 +28,7 @@ config.env = {
         url: {
             host: '0.0.0.0',
             port: '80',
-            base: 'https://clash.tools'
+            base: 'http://clash.tools'
         },
         mongoDb: {
             dbName: 'clashtools',
