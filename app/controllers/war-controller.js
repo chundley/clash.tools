@@ -99,6 +99,7 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
             base.maxStars = maxStars;
         });
 
+
         // set countdown for targets, and set it to refresh every 30 seconds
         //if ($scope.playerTargets.length > 0) {
             setCountdownTimers();

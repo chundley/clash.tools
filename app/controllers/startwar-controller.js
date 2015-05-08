@@ -226,6 +226,11 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
         saveWarInternal();
     }
 
+    $scope.deleteAssignment = function(baseNum) {
+        $scope.war.bases[baseNum].a = [];
+        saveWarInternal();
+    }
+
     $scope.saveWar = function() {
         saveWarInternal();
     }

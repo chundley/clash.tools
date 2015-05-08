@@ -92,27 +92,27 @@ exports.updateRole = function (userId, role, callback) {
                                 changeRole(userId, role, function (err, l) {
                                     if (err) {
                                         callback(err, null);
-                                    }      
+                                    }
                                     else {
                                         callback(null, l);
-                                    }                              
+                                    }
                                 });
                             }
                         });
                     }
                 });
             }
-        });        
+        });
     }
 
     else {
         changeRole(userId, role, function (err, member) {
             if (err) {
                     callback(err, null);
-            }      
+            }
             else {
                 callback(null, member);
-            }                              
+            }
         });
     }
 }
@@ -120,7 +120,7 @@ exports.updateRole = function (userId, role, callback) {
 function changeRole(userId, role, callback) {
     if (_.isString(userId)) {
         userId = new ObjectID.createFromHexString(userId);
-    }    
+    }
 
     db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'user', function (err, collection) {
         if (err) {
@@ -139,12 +139,12 @@ function changeRole(userId, role, callback) {
                         exports.findById(userId, function (err, u) {
                             callback(null, u);
                         });
-                        
+
                     }
                 }
             );
         }
-    });       
+    });
 }
 
 /*
@@ -168,7 +168,7 @@ exports.updateClan = function(userId, clan, newClan, callback) {
 
         if (_.isString(clanTrimmed.clan_id)) {
             clanTrimmed.clan_id = new ObjectID.createFromHexString(clanTrimmed.clan_id);
-        }        
+        }
     }
 
     var updateFields = {
@@ -241,6 +241,18 @@ exports.usersByClan = function(clanId, memberTypes, callback) {
                 }
                 else {
                     if (items) {
+                        items.sort(function (a, b) {
+                            if (a.ign.toLowerCase() < b.ign.toLowerCase()) {
+                                return -1
+                            }
+                            else if (a.ign.toLowerCase() > b.ign.toLowerCase()) {
+                                return 1;
+                            }
+                            else {
+                                return 0;
+                            }
+                        });
+
                         callback(null, items);
                     }
                     else {
@@ -263,8 +275,8 @@ exports.saveModel = function(model, callback) {
     else {
         if (_.isString(model._id)) {
             model._id = new ObjectID.createFromHexString(model._id);
-        }       
-        
+        }
+
         if (model.current_clan.clan_id && _.isString(model.current_clan.clan_id)) {
             model.current_clan.clan_id = new ObjectID.createFromHexString(model.current_clan.clan_id);
         }
@@ -272,7 +284,7 @@ exports.saveModel = function(model, callback) {
         _.each(model.clan_history, function (clan) {
             if (clan.clan_id && _.isString(clan.clan_id)) {
                 clan.clan_id = new ObjectID.createFromHexString(clan.clan_id);
-            } 
+            }
         });
 
         model.created_at = new Date(model.created_at);

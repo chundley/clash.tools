@@ -162,9 +162,12 @@
                                                     <option>1</option>
                                                 </select>
                                             </div>
-                                            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-5">
+                                            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4">
                                                <select class="form-control-small" ng-model="base.a[0].u" ng-options="member._id as member.ign for member in members" ng-change="assignBase($index, base.a[0].u)">
                                                 </select>
+                                            </div>
+                                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 icon-remove">
+                                                <a href ng-click="deleteAssignment($index)" ng-if="base.a.length>0"><i class="icon-cancel error-red" title="Remove assignment"></i></a>
                                             </div>
                                         </div>
                                     </form>

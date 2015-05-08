@@ -123,11 +123,14 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="open-targets-pre text-center" ng-if="!warStarted">
+                                                    <div class="open-targets-pre text-center" ng-if="!warStarted && isInWar">
                                                         <h4 class="primary-40"><p>Open targets will be available after the war starts</p></h4>
                                                     </div>
-                                                    <div class="open-targets-pre text-center" ng-if="warStarted && playerTargets.length==2">
+                                                    <div class="open-targets-pre text-center" ng-if="warStarted && playerTargets.length==2 && isInWar">
                                                         <h4 class="primary-40"><p>You already have two assigned bases, open targets unavailable</p></h4>
+                                                    </div>
+                                                    <div class="open-targets-pre text-center" ng-if="!isInWar">
+                                                        <h4 class="primary-40"><p>You are not in this war, no targets can be reserved</p></h4>
                                                     </div>
                                                 </div>
                                             </div>

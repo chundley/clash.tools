@@ -48,7 +48,6 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, c
     });
 
     $scope.changeStars = function(targetNum, baseNum, numStars) {
-        console.log(baseNum);
         $scope.playerTargets[targetNum].stars = numStars;
         angular.forEach($scope.war.bases[baseNum].a, function (assignment) {
             if (assignment.u == authService.user.id) {
@@ -274,38 +273,50 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, c
         }
         $scope.$broadcast('timer-start');
 
-        $scope.playerTargets = [];
-        angular.forEach($scope.war.bases, function (base) {
-            angular.forEach(base.a, function (assignment) {
-                if (assignment.u == authService.user.id) {
-                    // if we've passed free for all time there is no expiration
-                    var expires = 0;
-                    if (assignment.e != null) {
-                        var expireTime = new Date(assignment.e);
-                        expires = expireTime.getTime();
-                    }
-                    $scope.playerTargets.push(
-                        {
-                            base_num: base.b,
-                            stars: assignment.s,
-                            expires: expires,
-                            hours: 0,
-                            minutes: 0
-                        }
-                    );
-                }
-            })
+
+        // make sure this person is in the war
+        $scope.isInWar = false;
+        angular.forEach($scope.war.team, function (member) {
+            if (member.u == authService.user.id) {
+                $scope.isInWar = true;
+            }
         });
 
-        // set countdown for targets, and set it to refresh every 30 seconds
-        if ($scope.playerTargets.length > 0) {
-            setCountdownTimers();
-            var promise = $interval(setCountdownTimers, 30000);
-            $scope.$on('$destroy', function() {
-                $interval.cancel(promise);
+        $scope.playerTargets = [];
+
+        if ($scope.isInWar) {
+            angular.forEach($scope.war.bases, function (base) {
+                angular.forEach(base.a, function (assignment) {
+                    if (assignment.u == authService.user.id) {
+                        // if we've passed free for all time there is no expiration
+                        var expires = 0;
+                        if (assignment.e != null) {
+                            var expireTime = new Date(assignment.e);
+                            expires = expireTime.getTime();
+                        }
+                        $scope.playerTargets.push(
+                            {
+                                base_num: base.b,
+                                stars: assignment.s,
+                                expires: expires,
+                                hours: 0,
+                                minutes: 0
+                            }
+                        );
+                    }
+                })
             });
+
+            // set countdown for targets, and set it to refresh every 30 seconds
+            if ($scope.playerTargets.length > 0) {
+                setCountdownTimers();
+                var promise = $interval(setCountdownTimers, 30000);
+                $scope.$on('$destroy', function() {
+                    $interval.cancel(promise);
+                });
+            }
+            findOpenTargets();
         }
-        findOpenTargets();
     }
 
     function setCountdownTimers() {
