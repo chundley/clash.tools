@@ -72,7 +72,7 @@
                                                         <div class="tw-expire text-center" ng-if="target.stars==null && target.expires > 0">
                                                             Expires <b>{{target.hours}}h {{target.minutes}}m</b>
                                                         </div>
-                                                        <div class="tw-expire text-center" ng-if="target.expires < 0">
+                                                        <div class="tw-expire text-center" ng-if="target.stars==null && target.expires < 0">
                                                             <b class="error-red">expired!</b>
                                                         </div>
                                                         <div class="tw-expire text-center" ng-if="target.stars!=null">

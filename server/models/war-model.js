@@ -80,6 +80,40 @@ exports.save = function(model, callback) {
 }
 
 /*
+*   Update stars on a specific base assignment
+*/
+exports.updateStars = function(warId, model, callback) {
+    if (_.isString(warId)) {
+        warId = new ObjectID.createFromHexString(warId);
+    }
+
+    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'war', function (err, collection) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            // bases.0.a.0.s (array indexing to base 0, assignment 0, stars)
+            var update = {};
+            update['bases.' + model.bIndex + '.a.' + model.aIndex + '.s'] = model.stars;
+            collection.update(
+                { _id: warId },
+                { $set: update },
+                { upsert: false },
+                function (err, result) {
+                    if (err) {
+                        callback(err, null);
+                    }
+                    else {
+                        callback(null, result);
+                    }
+                }
+            );
+        }
+    });
+}
+
+
+/*
 *   Find war by id
 */
 exports.findById = function(id, callback) {

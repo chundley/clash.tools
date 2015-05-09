@@ -146,6 +146,12 @@ var routes = [
         middleware: [warCtrl.save],
         accessLevel: accessLevels.member
     },
+    {
+        path: '/crud/war/stars/:warId',
+        httpMethod: 'POST',
+        middleware: [warCtrl.updateStars],
+        accessLevel: accessLevels.member
+    },
     /*
     *   App email endpoints
     */

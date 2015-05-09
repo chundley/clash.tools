@@ -20,6 +20,18 @@ function ($http, errorService) {
                 callback(errorService.initMessage('clan-service.js', 'save', data), null);
             });
         },
+        updateStars: function(warId, model, callback) {
+            $http({
+                url: '/crud/war/stars/' + warId,
+                method: 'POST',
+                data: model,
+                headers: {'Content-Type': 'application/json'}
+            }).success(function (data, status, headers, config) {
+                callback(null, data);
+            }).error(function (data, status, headers, config) {
+                callback(errorService.initMessage('clan-service.js', 'save', data), null);
+            });
+        },
         getById: function(id, callback) {
             $http({
                 url: '/crud/war/' + id,

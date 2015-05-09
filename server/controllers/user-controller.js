@@ -64,7 +64,7 @@ exports.updateClan = function(req, res, next) {
         else {
             res.send(404, 'not found');
         }
-    });    
+    });
 }
 
 /*
@@ -81,7 +81,7 @@ exports.updateRole = function(req, res, next) {
         else {
             res.send(404, 'not found');
         }
-    });     
+    });
 }
 
 /*
@@ -163,6 +163,7 @@ exports.getMeta = function(req, res, next) {
         }
         else if (user) {
             var ret = {
+                _id: user._id,
                 ign: user.ign,
                 email_address: user.email_address,
                 current_clan: user.current_clan,

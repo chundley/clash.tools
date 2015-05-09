@@ -38,6 +38,20 @@ exports.save = function(req, res, next) {
 };
 
 /*
+*   Save a war
+*/
+exports.updateStars = function(req, res, next) {
+    warModel.updateStars(req.params.warId, req.body, function (err, result) {
+        if (err) {
+            res.send(500, err);
+        }
+        else {
+            res.json(200, 'Success');
+        }
+    });
+};
+
+/*
 *   Gets a war by id
 */
 exports.getById = function(req, res, next) {

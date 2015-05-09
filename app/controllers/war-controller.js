@@ -46,6 +46,40 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
         }
     }
 
+    $scope.changeStars = function(assignmentIndex, baseNum, ign, numStars) {
+        var update = {
+            aIndex: assignmentIndex,
+            bIndex: baseNum - 1,
+            stars: numStars
+        };
+
+        warService.updateStars($scope.war._id, update, function (err, result) {
+            if (err) {
+                err.stack_trace.unshift( { file: 'war-controller.js', func: '$scope.changeStars', message: 'Error updating stars' } );
+                errorService.save(err, function() {});
+            }
+            else {
+                // update UI
+                $scope.war.bases[baseNum-1].a[assignmentIndex].s = numStars;
+
+                // Log this activity
+                var starsText = 'stars';
+                if (numStars == 1) {
+                    starsText = 'star';
+                }
+                messagelogService.save($scope.meta.current_clan.clan_id, '[ign] attacked base ' + (baseNum) + ' for ' + numStars + ' ' + starsText, ign, 'attack', function (err, msg) {
+                    if (err) {
+                        err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.changeStars', message: 'Error saving attack message in the log' } );
+                        errorService.save(err, function() {});
+                    }
+                    else {
+                        // nothing to do here
+                    }
+                });
+            }
+        });
+    }
+
     function loadWar(callback) {
         warService.getById($scope.warId, function (err, war) {
             if (err) {
@@ -70,8 +104,6 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
     }
 
     function refreshInterface() {
-
-
         var now = new Date();
         var warStart = new Date($scope.war.start);
         var possibleExpireDate = new Date(now.getTime() + ($scope.clan.war_config.cleanup_attack_time*60*60*1000));
@@ -102,8 +134,15 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                 if (assignment.s != null && assignment.s > maxStars) {
                     maxStars = assignment.s;
                 }
+
+                // need this case for zero stars since the above comparison won't pick it up
+                if (maxStars == null && assignment.s==0) {
+                    maxStars = 0;
+                }
+
                 assignment.expires = expires;
             });
+
             base.maxStars = maxStars;
             base.isOpen = false;
 
