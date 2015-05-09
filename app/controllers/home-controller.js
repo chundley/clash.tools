@@ -48,39 +48,44 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, c
     });
 
     $scope.changeStars = function(targetNum, baseNum, numStars) {
-        $scope.playerTargets[targetNum].stars = numStars;
-        angular.forEach($scope.war.bases[baseNum].a, function (assignment) {
-            if (assignment.u == authService.user.id) {
-                assignment.s = numStars;
-            }
-            else {
-                // TODO: something if someone else was also signed up?
-            }
-        });
+        var assignmentIndex = -1;
 
-        warService.save($scope.war, function (err, war) {
-            if (err) {
-                err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.changeStars', message: 'Error setting stars' } );
-                errorService.save(err, function() {});
+        for (var idx=0; idx<$scope.war.bases[baseNum-1].a.length; idx++) {
+            if ($scope.war.bases[baseNum-1].a[idx].u == authService.user.id) {
+                assignmentIndex = idx;
             }
-            else {
-                $scope.war = war;
-            }
-        });
-
-        // Log this activity
-        var starsText = 'stars';
-        if (numStars == 1) {
-            starsText = 'star';
         }
 
-        messagelogService.save($scope.meta.current_clan.clan_id, '[ign] attacked base ' + (baseNum+1) + ' for ' + numStars + ' ' + starsText, $scope.meta.ign, 'attack', function (err, msg) {
+        var update = {
+            aIndex: assignmentIndex,
+            bIndex: baseNum-1,
+            stars: numStars
+        };
+
+        warService.updateStars($scope.war._id, update, function (err, result) {
             if (err) {
-                err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.changeStars', message: 'Error saving attack message in the log' } );
+                err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.changeStars', message: 'Error updating stars' } );
                 errorService.save(err, function() {});
             }
             else {
-                loadClanMessages();
+                // update UI
+                $scope.war.bases[baseNum-1].a[assignmentIndex].s = numStars;
+                $scope.playerTargets[targetNum].stars = numStars;
+
+                // Log this activity
+                var starsText = 'stars';
+                if (numStars == 1) {
+                    starsText = 'star';
+                }
+                messagelogService.save($scope.meta.current_clan.clan_id, '[ign] attacked base ' + (baseNum) + ' for ' + numStars + ' ' + starsText, $scope.meta.ign, 'attack', function (err, msg) {
+                    if (err) {
+                        err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.changeStars', message: 'Error saving attack message in the log' } );
+                        errorService.save(err, function() {});
+                    }
+                    else {
+                        loadClanMessages();
+                    }
+                });
             }
         });
     }
@@ -221,6 +226,48 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, c
                 });
             }
         });
+    }
+
+    $scope.deleteCall = function(targetNum, baseNum) {
+        // delete works differently because removing an item from an array in
+        // MongoDb requires a value (in this case, userId)
+
+        var assignmentIndex = -1;
+
+        for (var idx=0; idx<$scope.war.bases[baseNum-1].a.length; idx++) {
+            if ($scope.war.bases[baseNum-1].a[idx].u == authService.user.id) {
+                assignmentIndex = idx;
+            }
+        }
+
+        var update = {
+            userId: authService.user.id,
+            bIndex: baseNum - 1,
+            stars: -1
+        };
+
+        warService.updateStars($scope.war._id, update, function (err, result) {
+            if (err) {
+                err.stack_trace.unshift( { file: 'war-controller.js', func: '$scope.deleteCall', message: 'Error deleting call' } );
+                errorService.save(err, function() {});
+            }
+            else {
+                // update UI
+                $scope.war.bases[baseNum-1].a.splice(assignmentIndex, 1);
+                $scope.playerTargets.splice(targetNum, 1);
+
+                messagelogService.save($scope.meta.current_clan.clan_id, '[ign] deleted call on base ' + baseNum, $scope.meta.ign, 'delete', function (err, msg) {
+                    if (err) {
+                        err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.deleteCall', message: 'Error saving delete call message in the log' } );
+                        errorService.save(err, function() {});
+                    }
+                    else {
+                        loadClanMessages();
+                    }
+                });
+            }
+        });
+
     }
 
     function loadClanMessages() {

@@ -93,29 +93,57 @@ exports.updateStars = function(warId, model, callback) {
         warId = new ObjectID.createFromHexString(warId);
     }
 
-    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'war', function (err, collection) {
-        if (err) {
-            callback(err, null);
-        }
-        else {
-            // bases.0.a.0.s (array indexing to base 0, assignment 0, stars)
-            var update = {};
-            update['bases.' + model.bIndex + '.a.' + model.aIndex + '.s'] = model.stars;
-            collection.update(
-                { _id: warId },
-                { $set: update },
-                { upsert: false },
-                function (err, result) {
-                    if (err) {
-                        callback(err, null);
+    if (model.stars < 0) {
+        // negative stars means delete the call
+        db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'war', function (err, collection) {
+            if (err) {
+                callback(err, null);
+            }
+            else {
+                // bases.0.a.ign (pull out of base array where base is zero and assignment is ign)
+                var pull = {};
+                pull['bases.' + model.bIndex + '.a'] = { u: model.userId };
+                collection.update(
+                    { _id: warId,  },
+                    { $pull: pull },
+                    { upsert: false },
+                    function (err, result) {
+                        if (err) {
+                            callback(err, null);
+                        }
+                        else {
+                            callback(null, result);
+                        }
                     }
-                    else {
-                        callback(null, result);
+                );
+            }
+        });        
+    }
+    else {
+        db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'war', function (err, collection) {
+            if (err) {
+                callback(err, null);
+            }
+            else {
+                // bases.0.a.0.s (array indexing to base 0, assignment 0, stars)
+                var update = {};
+                update['bases.' + model.bIndex + '.a.' + model.aIndex + '.s'] = model.stars;
+                collection.update(
+                    { _id: warId },
+                    { $set: update },
+                    { upsert: false },
+                    function (err, result) {
+                        if (err) {
+                            callback(err, null);
+                        }
+                        else {
+                            callback(null, result);
+                        }
                     }
-                }
-            );
-        }
-    });
+                );
+            }
+        });
+    }
 }
 
 

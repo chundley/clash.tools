@@ -80,6 +80,42 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
         });
     }
 
+    $scope.deleteCall = function(assignmentIndex, baseNum, userId, ign) {
+        // delete works differently because removing an item from an array in
+        // MongoDb requires a value (in this case, userId)
+        var update = {
+            userId: userId,
+            bIndex: baseNum - 1,
+            stars: -1
+        };
+
+        warService.updateStars($scope.war._id, update, function (err, result) {
+            if (err) {
+                err.stack_trace.unshift( { file: 'war-controller.js', func: '$scope.deleteCall', message: 'Error deleting call' } );
+                errorService.save(err, function() {});
+            }
+            else {
+                // update UI
+                $scope.war.bases[baseNum-1].a.splice(assignmentIndex, 1);
+
+                var msgText = '[ign]\'s call deleted on base ' + baseNum + ' by ' + $scope.meta.ign;
+                if ($scope.meta.ign == ign) {
+                    msgText = '[ign] deleted call on base ' + baseNum;
+                }
+                messagelogService.save($scope.meta.current_clan.clan_id, msgText, ign, 'delete', function (err, msg) {
+                    if (err) {
+                        err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.changeStars', message: 'Error saving attack message in the log' } );
+                        errorService.save(err, function() {});
+                    }
+                    else {
+                        // nothing to do here
+                    }
+                });
+            }
+        });
+
+    }
+
     function loadWar(callback) {
         warService.getById($scope.warId, function (err, war) {
             if (err) {

@@ -14,7 +14,7 @@ function ($http, $rootScope, authService, errorService) {
                 user_id: authService.user.id,
                 message: message,
                 ign: ign,
-                type: type /* member, target (called), target (attacked), special (start war) */
+                type: type /* member, target (called), target (attacked), delete (deleted call), special (start war) */
             };
 
             $http({
