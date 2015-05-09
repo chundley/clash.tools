@@ -84,8 +84,7 @@ function ($rootScope, $scope, $routeParams, $location, moment, authService, sess
                 ign: $scope.ign,
                 deleted: false
             },
-            to_users: [],
-            created_at: new Date()
+            to_users: []
         };
 
         angular.forEach($scope.recipients, function (recipient) {

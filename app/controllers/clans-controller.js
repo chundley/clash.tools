@@ -69,8 +69,7 @@ function ($rootScope, $scope, $routeParams, $window, $modal, authService, sessio
                             ign: $scope.ign,
                             deleted: false
                         },
-                        to_users: [],
-                        created_at: new Date()
+                        to_users: []
                     };
 
                     angular.forEach(members, function (member) {

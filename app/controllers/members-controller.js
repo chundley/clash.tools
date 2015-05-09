@@ -106,8 +106,7 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, 
                                     read: false,
                                     deleted: false                                    
                                 }
-                            ],
-                            created_at: new Date()
+                            ]
                         };
 
                         emailMessageService.save(emailMsg, function (err, msg) {

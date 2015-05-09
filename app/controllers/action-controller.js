@@ -71,8 +71,7 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
                                     read: false,
                                     deleted: false
                                 }
-                            ],
-                            created_at: new Date()
+                            ]
                         };
 
                         emailMessageService.save(emailMsg, function (err, msg) {

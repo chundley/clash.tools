@@ -21,6 +21,8 @@ exports.save = function(message, callback) {
         }
     });
 
+    message.created_at = new Date();
+    
     db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'email_message', function (err, collection) {
         if (err) {
             callback(err, null);

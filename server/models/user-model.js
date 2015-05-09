@@ -75,34 +75,43 @@ exports.addUser = function(user, callback) {
 exports.updateRole = function (userId, role, callback) {
     if (role == 'leader') {
         // if promoting a new leader, need to set the old leader as co-leader first
-        db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'user', function (err, collection) {
+
+        // need their current clan in order to set the right value
+        exports.findById(userId, function (err, user) {
             if (err) {
                 callback(err, null);
             }
             else {
-                collection.findOne( { 'role.title': 'leader' }, function (err, leader) {
+                db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'user', function (err, collection) {
                     if (err) {
                         callback(err, null);
                     }
                     else {
-                        changeRole(leader._id, 'coleader', function (err, co) {
+                        collection.findOne( {'current_clan.clan_id': user.current_clan.clan_id, 'role.title': 'leader' }, function (err, leader) {
                             if (err) {
                                 callback(err, null);
                             }
                             else {
-                                changeRole(userId, role, function (err, l) {
+                                changeRole(leader._id, 'coleader', function (err, co) {
                                     if (err) {
                                         callback(err, null);
                                     }
                                     else {
-                                        callback(null, l);
+                                        changeRole(userId, role, function (err, l) {
+                                            if (err) {
+                                                callback(err, null);
+                                            }
+                                            else {
+                                                callback(null, l);
+                                            }
+                                        });
                                     }
                                 });
                             }
                         });
                     }
                 });
-            }
+            }            
         });
     }
 

@@ -54,7 +54,13 @@ exports.save = function(model, callback) {
     }
 
     model.last_updated_at = new Date();
-    model.created_at = new Date(model.created_at);
+
+    if (model.created_at) {
+        model.created_at = new Date(model.created_at);
+    }
+    else {
+        model.created_at = model.last_updated_at;
+    }
 
     db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'war', function (err, collection) {
         if (err) {

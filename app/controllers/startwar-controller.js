@@ -58,7 +58,6 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                             start: new Date(),
                             bases: [],
                             team: [],
-                            created_at: new Date(),
                             created_by: authService.user.id
                         };
 
