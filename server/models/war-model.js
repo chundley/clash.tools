@@ -85,6 +85,36 @@ exports.save = function(model, callback) {
 
 }
 
+exports.assignBase = function(warId, model, callback) {
+    if (_.isString(warId)) {
+        warId = new ObjectID.createFromHexString(warId);
+    }
+
+    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'war', function (err, collection) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            // bases.0.a.ign (pull out of base array where base is zero and assignment is ign)
+            var pull = {};
+            push['bases.' + model.bIndex + '.a'] = { u: model.userId };
+            collection.update(
+                { _id: warId,  },
+                { $pull: pull },
+                { upsert: false },
+                function (err, result) {
+                    if (err) {
+                        callback(err, null);
+                    }
+                    else {
+                        callback(null, result);
+                    }
+                }
+            );
+        }
+    });     
+}
+
 /*
 *   Update stars on a specific base assignment
 */

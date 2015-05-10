@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div top-nav></div>
             <!-- page content -->
-            <div class="row content-body">
+            <div class="row content-body war-container">
                 <div class="col-xs-12">
                     <div class="row">
                         <div class="col-sm-6 col-xs-12 margin-bottom-medium">
@@ -38,7 +38,17 @@
                                                 <h2 ng-if="base.isOpen" class="primary-dark"><strong>{{base.b}}</strong></h2>
                                                 <h2 ng-if="!base.isOpen" class="primary-30"><strong>{{base.b}}</strong></h2>
                                                 <br/>
-                                                <a href ng-if="base.isOpen"><img src="/img/icons/swords-on.png"></a>
+                                                <span class="dropdown" on-toggle="toggled(open)" ng-if="base.isOpen && ((meta.role=='leader' || meta.role=='coleader') || (a.u==meta._id))">
+                                                    <a href class="dropdown-toggle">
+                                                        <img src="/img/icons/swords-on.png">
+                                                    </a>
+                                                    <ul class="dropdown-menu" ng-if="warStarted">
+                                                        <p class="dropdown-header">Assign base to</p>
+                                                        <li ng-repeat="tm in war.team" ng-if="tm.i"><a href ng-click="assignBase(base.b, tm.u, tm.i)">{{tm.i}}</a></li>
+                                                    </ul>
+                                                </span>
+
+
                                                 <img src="/img/icons/swords-off.png" ng-if="!base.isOpen">
                                             </div>
                                             <div class="col-sm-1 hidden-xs th-icon"><img src="/img/icons/th-{{base.t}}.png"></div>
@@ -77,7 +87,6 @@
                                                                     <li><a href ng-click="changeStars($index, base.b, a.i, 2)"><img src="/img/icons/stars-2.png"></a></li>
                                                                     <li><a href ng-click="changeStars($index, base.b, a.i, 3)"><img src="/img/icons/stars-3.png"></a></li>
                                                                     <li><a href ng-click="deleteCall($index, base.b, a.u, a.i)"><img src="/img/icons/delete-call.png"></a></li>
-
                                                                 </ul>
                                                             </span>
                                                         </div>

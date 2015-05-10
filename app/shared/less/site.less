@@ -395,63 +395,77 @@
 /*
 *   War page
 */
-.war-countdown {
-    .wc-inner {
+.war-container {
+    .war-countdown {
+        .wc-inner {
+            float: left;
+            display: block;
+            margin-bottom: 10px;
+            border: 1px solid @emphasis;
+            padding: 4px 6px;
+            background: lighten(@emphasis, 40%);
+            font-size: 14px;
+        }
+    }
+
+    .war-table {
+        .t-row {
+            height: 30px;
+        }
+
+        .base-num {
+            margin-bottom: 6px;
+        }
+
+        .th-icon {
+            margin-top: 10px;
+        }
+
+        .best-icon {
+            margin-top: 16px;
+        }
+    }
+
+    .assignment-widget {
         float: left;
-        display: block;
-        margin-bottom: 10px;
-        border: 1px solid @emphasis;
-        padding: 4px 6px;
-        background: lighten(@emphasis, 40%);
-        font-size: 14px;
+        margin-right: 6px;
+        border: 1px solid @primary-50;
+        width: 80px;
+        margin-bottom: 5px;
+        .aw-name {
+            font-size: 10px;
+            white-space: nowrap;
+            background: @emphasis;
+            color: #fff;
+            padding: 2px 2px;
+            border-bottom: 1px solid @primary-50;
+        }
+
+        .aw-stars {
+            border-bottom: 1px solid @primary-50;
+            padding-bottom: 2px;
+        }
+
+        .aw-expire {
+            padding: 2px 0px;
+            font-size: 10px;
+            background: @primary-60;
+        }
     }
+
+    .dropdown-menu {
+        a {
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .dropdown-header {
+            font-size: 14px;
+            font-weight: 600;
+            padding-left: 12px;
+        }
+    }    
 }
-
-.war-table {
-    .t-row {
-        height: 30px;
-    }
-
-    .base-num {
-        margin-bottom: 6px;
-    }
-
-    .th-icon {
-        margin-top: 10px;
-    }
-
-    .best-icon {
-        margin-top: 16px;
-    }
-}
-
-.assignment-widget {
-    float: left;
-    margin-right: 6px;
-    border: 1px solid @primary-50;
-    width: 80px;
-    margin-bottom: 5px;
-    .aw-name {
-        font-size: 10px;
-        white-space: nowrap;
-        background: @emphasis;
-        color: #fff;
-        padding: 2px 2px;
-        border-bottom: 1px solid @primary-50;
-    }
-
-    .aw-stars {
-        border-bottom: 1px solid @primary-50;
-        padding-bottom: 2px;
-    }
-
-    .aw-expire {
-        padding: 2px 0px;
-        font-size: 10px;
-        background: @primary-60;
-    }
-}
-
 
 
 

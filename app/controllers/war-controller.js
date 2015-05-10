@@ -116,6 +116,38 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
 
     }
 
+    $scope.assignBase = function(baseNum, userId, ign) {
+        loadWar(function() {
+            var open = false;
+
+            var now = new Date();
+            var warStart = new Date($scope.war.start);
+            var possibleExpireDate = new Date(now.getTime() + ($scope.clan.war_config.cleanup_attack_time*60*60*1000));
+            var freeForAllDate = new Date(warStart.getTime() + ((24 - $scope.clan.war_config.free_for_all_time)*60*60*1000));
+            var warEnd = new Date(warStart.getTime() + (24*60*60*1000));
+
+            if ($scope.clan.war_config.overcalls) {
+                // if overcalls are allowed we don't care if the base has already been reserved
+                open = true;
+            }
+            else if (now.getTime() >= freeForAllDate.getTime()) {
+                // if we are in the free for all period, overcalls are allowed no matter what
+                open = true;
+            }
+            else {
+                if ($scope.war.bases[baseNum-1].a.length == 0) {
+                    // not called yet
+                    open = true;
+                }
+                else if ($scope.war.bases[baseNum-1].a[$scope.war.bases[baseNum-1].a.length-1].s != null) {
+                    // called, but attacks done
+                    open = true;
+                }
+            }
+        }        
+
+    }
+
     function loadWar(callback) {
         warService.getById($scope.warId, function (err, war) {
             if (err) {
