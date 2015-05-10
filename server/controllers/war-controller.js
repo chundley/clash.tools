@@ -38,7 +38,21 @@ exports.save = function(req, res, next) {
 };
 
 /*
-*   Save a war
+*   Assign a base
+*/
+exports.assignBase = function(req, res, next) {
+    warModel.assignBase(req.params.warId, req.body, function (err, result) {
+        if (err) {
+            res.send(500, err);
+        }
+        else {
+            res.json(200, 'Success');
+        }
+    });
+};
+
+/*
+*   Update stars
 */
 exports.updateStars = function(req, res, next) {
     warModel.updateStars(req.params.warId, req.body, function (err, result) {

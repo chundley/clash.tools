@@ -117,9 +117,9 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
     }
 
     $scope.assignBase = function(baseNum, userId, ign) {
+        // re-load the war to reduce chances of a double assign
         loadWar(function() {
             var open = false;
-
             var now = new Date();
             var warStart = new Date($scope.war.start);
             var possibleExpireDate = new Date(now.getTime() + ($scope.clan.war_config.cleanup_attack_time*60*60*1000));
@@ -144,8 +144,60 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                     open = true;
                 }
             }
-        }        
 
+            if (open) {
+
+                // calculate when this call expires. this is based on a lot of factors, including the configured cleanup time allowed, free for all
+                // time allowed, and whether the reservation time crosses the end of the war
+                var expireDate = null;
+
+                if (now.getTime() >= freeForAllDate.getTime()) {
+                    // already passed the free for all time
+                    expireDate = null;
+                }
+
+                else if (possibleExpireDate.getTime() >= warEnd) {
+                    // possible expire date is already greater than war end
+                    expireDate = warEnd;
+                }
+                else {
+                    expireDate = possibleExpireDate;
+                }
+
+                var model =
+                {
+                    bIndex: baseNum -1,
+                    assignment: {
+                        u: userId,
+                        i: ign,
+                        c: new Date(),
+                        e: expireDate,
+                        s: null
+                    }
+                }
+
+                warService.assignBase($scope.war._id, model, function (err, result) {
+                    if (err) {
+                        err.stack_trace.unshift( { file: 'war-controller.js', func: '$scope.assignBase', message: 'Error assigning base' } );
+                        errorService.save(err, function() {});
+                    }
+                    else {
+                        $scope.war.bases[baseNum-1].a.push(model.assignment);
+                        refreshInterface();
+
+                        messagelogService.save($scope.meta.current_clan.clan_id, '[ign] was assigned base ' + baseNum + ' by ' + $scope.meta.ign, ign, 'target', function (err, msg) {
+                            if (err) {
+                                err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.changeStars', message: 'Error saving attack message in the log' } );
+                                errorService.save(err, function() {});
+                            }
+                            else {
+                                // nothing to do here
+                            }
+                        });
+                    }
+                });
+            }
+        });
     }
 
     function loadWar(callback) {
@@ -240,19 +292,16 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
         });
 
 
-        // set countdown for targets, and set it to refresh every 30 seconds
-        //if ($scope.playerTargets.length > 0) {
-            setCountdownTimers();
-            var promise = $interval(setCountdownTimers, 30000);
-            $scope.$on('$destroy', function() {
-                $interval.cancel(promise);
-            });
-        //}
-        //findOpenTargets();
+        setCountdownTimers();
+        var promise = $interval(setCountdownTimers, 30000);
+        $scope.$on('$destroy', function() {
+            $interval.cancel(promise);
+        });
     }
 
     function setCountdownTimers() {
         var now = new Date();
+        var openMembers = {};
         angular.forEach($scope.war.bases, function (base) {
             angular.forEach(base.a, function (assignment) {
                 if (assignment.expires > 0) {

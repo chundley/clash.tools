@@ -96,11 +96,11 @@ exports.assignBase = function(warId, model, callback) {
         }
         else {
             // bases.0.a.ign (pull out of base array where base is zero and assignment is ign)
-            var pull = {};
-            push['bases.' + model.bIndex + '.a'] = { u: model.userId };
+            var push = {};
+            push['bases.' + model.bIndex + '.a'] = model.assignment;
             collection.update(
                 { _id: warId,  },
-                { $pull: pull },
+                { $push: push },
                 { upsert: false },
                 function (err, result) {
                     if (err) {
@@ -112,7 +112,7 @@ exports.assignBase = function(warId, model, callback) {
                 }
             );
         }
-    });     
+    });
 }
 
 /*
@@ -147,7 +147,7 @@ exports.updateStars = function(warId, model, callback) {
                     }
                 );
             }
-        });        
+        });
     }
     else {
         db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'war', function (err, collection) {

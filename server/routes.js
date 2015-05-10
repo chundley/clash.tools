@@ -147,6 +147,12 @@ var routes = [
         accessLevel: accessLevels.member
     },
     {
+        path: '/crud/war/assign/:warId',
+        httpMethod: 'POST',
+        middleware: [warCtrl.assignBase],
+        accessLevel: accessLevels.member
+    },
+    {
         path: '/crud/war/stars/:warId',
         httpMethod: 'POST',
         middleware: [warCtrl.updateStars],
