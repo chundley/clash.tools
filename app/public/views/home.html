@@ -149,7 +149,9 @@
                             <div class="widget">
                                 <div class="widget-header">Your status</div>
                                 <div class="widget-body">
-                                    Coming soon...
+                                    <a ng-if="meta.role!='leader'" href class="btn btn-xs btn-emphasis" ng-click="leaveClan()">Leave clan</a>
+                                    <a ng-if="meta.role=='leader'" href class="btn btn-xs btn-emphasis" popover-placement="right" popover="You must promote another member to leader before leaving the clan" popover-append-to-body="true" popover-trigger="click">Leave clan</a>
+
                                 </div>
                             </div>
                         </div>

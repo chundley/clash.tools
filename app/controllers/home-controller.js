@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('HomeCtrl', ['$rootScope', '$scope', '$window', '$interval', '$modal', 'moment', 'authService', 'cacheService', 'sessionService', 'errorService', 'messagelogService', 'warService', 'clanService',
-function ($rootScope, $scope, $window, $interval, $modal, moment, authService, cacheService, sessionService, errorService, messagelogService, warService, clanService) {
+.controller('HomeCtrl', ['$rootScope', '$scope', '$window', '$interval', '$modal', 'moment', 'authService', 'userService', 'sessionService', 'errorService', 'messagelogService', 'warService', 'clanService',
+function ($rootScope, $scope, $window, $interval, $modal, moment, authService, userService, sessionService, errorService, messagelogService, warService, clanService) {
     // initialize
     $rootScope.title = 'Dashboard - clash.tools';
 
@@ -268,6 +268,68 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, c
             }
         });
 
+    }
+
+    $scope.leaveClan = function() {
+        var cssClass = 'center';
+        if ($window.innerWidth < 500) {
+            cssClass = 'mobile';
+        }
+
+        $scope.modalOptions = {
+            title: 'Leave clan?',
+            message: 'Please confirm you want to leave the clan "' + $scope.meta.current_clan.name + '"',
+            yesBtn: 'Leave',
+            noBtn: 'Cancel',
+            cssClass: cssClass,
+            onYes: function() {
+                userService.updateClan(authService.user.id, {}, function (err, m) {
+                    if (err) {
+                        err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.leaveClan', message: 'Error leaving clan' } );
+                        errorService.save(err, function() {});
+                    }
+                    else {
+                        messagelogService.save($scope.meta.current_clan.clan_id, '[ign] left the clan', $scope.meta.ign, 'member', function (err, msg) {
+                            if (err) {
+                                err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.leaveClan', message: 'Error saving left clan message' } );
+                                errorService.save(err, function() {});
+                            }
+                            else {
+                                // nothing to do
+                            }
+                        });
+
+                        // clear meta data so the clan gets refreshed
+                        sessionService.clearUserMeta();
+
+                        sessionService.getUserMeta(authService.user.id, function (err, meta) {
+                            if (err) {
+                                err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.leaveClan', message: 'Error loading user meta' } );
+                                errorService.save(err, function() {});
+                            }
+                            else {
+                                $scope.meta = meta;
+                            }
+                        });
+                        $scope.nullState = true;
+                    }
+                });
+            }
+        };
+
+        var modalInstance = $modal(
+            {
+                scope: $scope,
+                animation: 'am-fade-and-slide-top',
+                placement: 'center',
+                template: "/views/partials/confirmDialog.html",
+                show: false
+            }
+        );
+
+        modalInstance.$promise.then(function() {
+            modalInstance.show();
+        });
     }
 
     function loadClanMessages() {
