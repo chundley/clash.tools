@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('ClansCtrl', ['$rootScope', '$scope', '$routeParams', '$window', '$modal', 'authService', 'sessionService', 'errorService', 'messagelogService', 'clanService', 'emailMessageService', 'CLAN_EMAILS',
-function ($rootScope, $scope, $routeParams, $window, $modal, authService, sessionService, errorService, messagelogService, clanService, emailMessageService, CLAN_EMAILS) {
+.controller('ClansCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$window', '$modal', 'authService', 'sessionService', 'errorService', 'messagelogService', 'clanService', 'emailMessageService', 'CLAN_EMAILS',
+function ($rootScope, $scope, $routeParams, $location, $window, $modal, authService, sessionService, errorService, messagelogService, clanService, emailMessageService, CLAN_EMAILS) {
 
     //$scope.helpLink = 'http://www.siftrock.com/help/dashboard/';
     $rootScope.title = 'Find a clan - clash.tools';
@@ -45,7 +45,7 @@ function ($rootScope, $scope, $routeParams, $window, $modal, authService, sessio
 
         $scope.modalOptions = {
             title: 'Join ' + clan.name + '?',
-            message: 'Please confirm you want to join "' + clan.name + '". The leaders of the clan will be contacted for approval.',
+            message: 'Please confirm you want to join "' + clan.name + '". The leaders of the clan will be contacted for approval and you will be notified in your inbox when you have either been approved or declined.',
             yesBtn: 'Join',
             noBtn: 'Cancel',
             cssClass: cssClass,
@@ -91,6 +91,8 @@ function ($rootScope, $scope, $routeParams, $window, $modal, authService, sessio
                             // do something yeah?
                         }
                     });
+
+                    $location.url('/mail').replace();
                 });
 
             }

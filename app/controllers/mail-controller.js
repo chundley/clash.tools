@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('MailCtrl', ['$rootScope', '$scope', '$routeParams', '$location', 'authService', 'sessionService', 'errorService', 'emailMessageService',
-function ($rootScope, $scope, $routeParams, $location, authService, sessionService, errorService, emailMessageService) {
+.controller('MailCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$interval', 'authService', 'sessionService', 'errorService', 'emailMessageService',
+function ($rootScope, $scope, $routeParams, $location, $interval, authService, sessionService, errorService, emailMessageService) {
 
     $scope.folder = $location.search().folder ? $location.search().folder : 'inbox';
     $scope.counts = {
@@ -21,17 +21,16 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
         $scope.clan = meta.current_clan;
     });
 
-    emailMessageService.get(authService.user.id, 20, function (err, mailMessages) {
-        if (err) {
-            err.stack_trace.unshift( { file: 'mail-controller.js', func: 'init', message: 'Error getting email messages' } );
-            errorService.save(err, function() {});
-        }
-        else {
-            $scope.allMessages = mailMessages;
-            setCounts();
-            setActiveMessages();
-        }
+    // run once on UI load
+    refreshMail();
+
+    // and then every 60 seconds
+    var promise = $interval(refreshMail, 30000);
+
+    $scope.$on('$destroy', function() {
+        $interval.cancel(promise);
     });
+
 
     $scope.changeFolder = function(folder) {
         $scope.folder = folder;
@@ -59,6 +58,20 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
                         }
                     }
                 });
+                setCounts();
+                setActiveMessages();
+            }
+        });
+    }
+
+    function refreshMail() {
+        emailMessageService.get(authService.user.id, 20, function (err, mailMessages) {
+            if (err) {
+                err.stack_trace.unshift( { file: 'mail-controller.js', func: 'refreshMail', message: 'Error getting email messages' } );
+                errorService.save(err, function() {});
+            }
+            else {
+                $scope.allMessages = mailMessages;
                 setCounts();
                 setActiveMessages();
             }
