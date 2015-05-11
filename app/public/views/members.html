@@ -22,19 +22,21 @@
                                 <div class="widget-body members-table">
                                     <div class="row t-row">
                                         <div class="col-sm-3 col-xs-5 t-header">Member</div>
-                                        <div class="col-sm-3 col-xs-5 t-header">Role</div>
-                                        <div class="col-sm-4 hidden-xs t-header">Joined</div>
+                                        <div class="col-sm-1 col-xs-2 t-header">TH</div>
+                                        <div class="col-sm-3 col-xs-3 t-header">Role</div>
+                                        <div class="col-sm-3 hidden-xs t-header">Joined</div>
                                         <div class="col-sm-2 col-xs-2 t-header"></div>
                                     </div>
                                     <div class="row row-underline-2"></div>
                                     <div ng-repeat="member in members">
                                         <div class="row t-row">
-                                            <div class="col-sm-3 col-xs-5">{{member.ign}}</div>
-                                            <div class="col-sm-3 col-xs-5 capitalize {{member.role.title}}">{{member.role.title}}</div>
-                                            <div class="col-sm-4 hidden-xs"><span am-time-ago="{{member.joined}}"></span></div>
-                                            <div class="col-sm-2 col-xs-2 text-right" ng-if="(meta.role=='member' || meta.role=='elder' || member.role.title=='leader')"></div>
+                                            <div class="col-sm-3 col-xs-5 t-col-center">{{member.ign}}</div>
+                                            <div class="col-sm-1 col-xs-2"><img src="/img/icons/th-{{member.profile.buildings.th}}.png"></div>
+                                            <div class="col-sm-3 col-xs-3 t-col-center capitalize {{member.role.title}}">{{member.role.title}}</div>
+                                            <div class="col-sm-3 hidden-xs t-col-center"><span am-time-ago="{{member.joined}}"></span></div>
+                                            <div class="col-sm-2 col-xs-2 t-col-center text-right" ng-if="(meta.role=='member' || meta.role=='elder' || member.role.title=='leader')"></div>
 
-                                            <div class="col-sm-2 col-xs-2" ng-if="(meta.role=='leader' || meta.role=='coleader') && member.role.title!='leader' && member._id != userId">
+                                            <div class="col-sm-2 col-xs-2 t-col-center" ng-if="(meta.role=='leader' || meta.role=='coleader') && member.role.title!='leader' && member._id != userId">
                                                 <span class="dropdown pull-right" on-toggle="toggled(open)">
                                                     <a href class="dropdown-toggle">
                                                         <button class="btn btn-default btn-xs"><i class="icon-down-dir primary-30"></i></button>

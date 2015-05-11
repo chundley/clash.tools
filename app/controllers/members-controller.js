@@ -17,7 +17,7 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, 
             $scope.meta = meta;
             $scope.clan = meta.current_clan;
             $scope.userId = authService.user.id;
-            $rootScope.title = meta.current_clan.name + ' clan members';   
+            $rootScope.title = meta.current_clan.name + ' clan members';
             clanService.getMembers($scope.clan.clan_id, 'all', function (err, members) {
                 if (err) {
                     err.stack_trace.unshift( { file: 'members-controller.js', func: 'init', message: 'Error getting clan members' } );
@@ -28,9 +28,10 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, 
                         member.joined = new moment(member.current_clan.joined);
                     });
                     $scope.members = members;
+                    console.log(members);
                 }
             });
-        }        
+        }
     });
 
     $scope.changeRole = function(member, role, pd) {
@@ -45,8 +46,8 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, 
                         err.stack_trace.unshift( { file: 'members-controller.js', func: '$scope.kick', message: 'Error saving new clan message in the log' } );
                         errorService.save(err, function() {});
                     }
-                }); 
-                               
+                });
+
                 angular.forEach($scope.members, function (m) {
                     if (role=='leader') {
                         // promoting a new leader, demote existing leader
@@ -68,7 +69,7 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, 
         if ($window.innerWidth < 500) {
             cssClass = 'mobile';
         }
-        
+
         $scope.modalOptions = {
             title: 'Kick ' + member.ign + '?',
             message: 'Please confirm you want to kick "' + member.ign + '" from ' + $scope.clan.name,
@@ -104,7 +105,7 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, 
                                     user_id: member._id,
                                     ign: member.ign,
                                     read: false,
-                                    deleted: false                                    
+                                    deleted: false
                                 }
                             ]
                         };
@@ -118,7 +119,7 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, 
                         });
                     }
                 });
-                
+
                 // remove the user from the clan in the UI
                 var removeIndex = -1;
                 for (var idx=0; idx<$scope.members.length; idx++) {
