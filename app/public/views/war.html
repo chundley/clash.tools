@@ -10,15 +10,24 @@
                     <div class="row">
                         <div class="col-sm-6 col-xs-12 margin-bottom-medium">
                             <h2 class="hidden-xs">{{meta.current_clan.name}} vs. <b>{{war.opponent_name}}</b></h2>
-                            <h3 class="visible-xs">{{meta.current_clan.name}} vs. {{war.opponent_name}}</h3>
+                            <h3 class="visible-xs">{{meta.current_clan.name}} vs. <b>{{war.opponent_name}}</b></h3>
                         </div>
                         <div class="col-sm-6 col-xs-12 war-countdown">
-                            <div class="wc-inner">
+                            <div class="wc-inner" ng-show="!warEnded">
                                 <span ng-if="warStarted">Ends</span><span ng-if="!warStarted">Starts</span> in
                                 <timer interval="1000" autostart="false" language="en" ng-attr-end-time="warStartTime">
                                 <b>{{hours}}</b> hour{{hoursS}}, <b>{{minutes}}</b> minute{{minutesS}}<span class="hidden-xs">, <b>{{seconds}}</b> second{{secondsS}}</span></h3>
                                 </timer>
-                            </div>
+                            </div>                           
+                        </div>
+                    </div>
+                    <div class="row margin-bottom-medium">
+                        <div class="col-xs-12">
+                            <ul class="war-sub-nav">
+                                <li><a href="/war/{{war._id}}" class="active">Bases</a></li>
+                                <li><a href="/war/team/{{war._id}}">Team</a></li>
+                                <li><a href="/war/summary/{{war._id}}">Summary</li>
+                            </ul>
                         </div>
                     </div>
                     <div class="row margin-bottom-huge">

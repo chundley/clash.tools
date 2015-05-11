@@ -380,6 +380,12 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, u
             $scope.warStartTime = start.getTime();
             $scope.warStarted = false;
         }
+
+        $scope.warEnded = false;
+        if (warEnd.getTime() <= now.getTime()) {
+            $scope.warEnded = true;
+        }
+                
         $scope.$broadcast('timer-start');
 
 

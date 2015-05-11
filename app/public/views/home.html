@@ -32,12 +32,12 @@
                                                         <h2><a href="/war/{{war._id}}">War vs. <b>{{war.opponent_name}}</b></a></h2>
                                                     </div>
                                                     <!-- <br class="hidden-lg hidden-md hidden-sm" /> -->
-                                                    <div class="wc-inner">
+                                                    <div class="wc-inner" ng-show="!warEnded">
                                                     <span ng-if="warStarted">Ends</span><span ng-if="!warStarted">Starts</span> in
                                                     <timer interval="1000" autostart="false" language="en" ng-attr-end-time="warStartTime">
-                                                    <b>{{hours}}</b> hour{{hoursS}}, <b>{{minutes}}</b> minute{{minutesS}}<span class="hidden-xs">, <b>{{seconds}}</b> second{{secondsS}}</span></h3>
+                                                    <b>{{hours}}</b> hour{{hoursS}}, <b>{{minutes}}</b> minute{{minutesS}}<span class="hidden-xs">, <b>{{seconds}}</b> second{{secondsS}}</span>
                                                     </timer>
-                                                    </div>
+                                                    </div>                                                 
                                                 </div>
                                             </div>
 

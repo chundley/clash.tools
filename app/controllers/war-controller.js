@@ -24,7 +24,9 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                     $scope.clan = clan;
 
                     // load war once, then every 60 seconds to keep open targets up to date
-                    loadWar(function(){});
+                    loadWar(function(){
+                        $rootScope.title = 'War vs. ' + $scope.war.opponent_name + ' - clash.tools';
+                    });
                     var promiseWar = $interval(function() {
                         loadWar(function(){});
                     }, 20000);
@@ -113,7 +115,6 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                 });
             }
         });
-
     }
 
     $scope.assignBase = function(baseNum, userId, ign) {
@@ -241,6 +242,12 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
             $scope.warStartTime = warStart.getTime();
             $scope.warStarted = false;
         }
+
+        $scope.warEnded = false;
+        if (warEnd.getTime() <= now.getTime()) {
+            $scope.warEnded = true;
+        }
+        
         $scope.$broadcast('timer-start');
 
         angular.forEach($scope.war.bases, function (base) {
