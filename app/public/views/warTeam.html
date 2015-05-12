@@ -36,43 +36,25 @@
                                 <div class="widget-body war-table">
                                     <div class="row t-row">
                                         <div class="col-sm-1 col-xs-2 t-header text-center">Base</div>
+                                        <div class="col-sm-2 col-xs-3 t-header">Member</div>
                                         <div class="col-sm-1 hidden-xs t-header">TH</div>
-                                        <div class="col-sm-1 col-xs-2 t-header">Best</div>
-                                        <div class="col-sm-9 col-xs-8 t-header">Assignments</div>
+                                        <div class="col-sm-8 col-xs-7 t-header">Assignments</div>
                                     </div>
                                     <div class="row row-underline-2"></div>
-                                    <div ng-repeat="base in war.bases">
+                                    <div ng-repeat="member in basesByPlayer">
                                         <div class="row t-row">
-                                            <div class="col-sm-1 col-xs-2 text-center base-num">
-                                                <h2 ng-if="base.isOpen" class="primary-dark"><strong>{{base.b}}</strong></h2>
-                                                <h2 ng-if="!base.isOpen" class="primary-30"><strong>{{base.b}}</strong></h2>
-                                                <br/>
-                                                <span class="dropdown" on-toggle="toggled(open)" ng-if="base.isOpen && ((meta.role=='leader' || meta.role=='coleader') || (a.u==meta._id))">
-                                                    <a href class="dropdown-toggle">
-                                                        <img src="/img/icons/swords-on.png">
-                                                    </a>
-                                                    <ul class="dropdown-menu" ng-if="warStarted">
-                                                        <p class="dropdown-header">Assign base to</p>
-                                                        <li ng-repeat="tm in war.team" ng-if="tm.i"><a href ng-click="assignBase(base.b, tm.u, tm.i)">{{tm.i}}</a></li>
-                                                    </ul>
-                                                </span>
-
-
-                                                <img src="/img/icons/swords-off.png" ng-if="!base.isOpen">
+                                            <div class="col-sm-1 col-xs-2 text-center base-num-team">
+                                                <h2 class="primary-dark"><strong>{{member.b}}</strong></h2>
                                             </div>
-                                            <div class="col-sm-1 hidden-xs th-icon"><img src="/img/icons/th-{{base.t}}.png"></div>
-                                            <div class="col-sm-1 col-xs-2 best-icon">
-                                                <img src="/img/icons/stars-tiny.png" ng-if="base.maxStars==null">
-                                                <img src="/img/icons/stars-tiny-0.png" ng-if="base.maxStars==0">
-                                                <img src="/img/icons/stars-tiny-1.png" ng-if="base.maxStars==1">
-                                                <img src="/img/icons/stars-tiny-2.png" ng-if="base.maxStars==2">
-                                                <img src="/img/icons/stars-tiny-3.png" ng-if="base.maxStars==3">
+                                            <div class="col-sm-2 col-xs-3 member-name-team">
+                                                {{member.i}}
                                             </div>
-                                            <div class="col-sm-9 col-xs-8">
-                                                <div ng-repeat="a in base.a">
+                                            <div class="col-sm-1 hidden-xs th-icon"><img src="/img/icons/th-{{member.t}}.png"></div>                                            
+                                            <div class="col-sm-8 col-xs-7">
+                                                <div ng-repeat="a in member.a">
                                                     <div class="assignment-widget">
-                                                        <div class="aw-name text-center">
-                                                        {{a.i}}
+                                                        <div class="aw-num text-center">
+                                                        #{{a.b}}
                                                         </div>
                                                         <div class="aw-stars text-center">
                                                             <span ng-if="(meta.role=='member' || meta.role=='elder') && (a.u!=meta._id)">
@@ -91,11 +73,11 @@
                                                                     <img src="/img/icons/stars-tiny-3.png" ng-if="a.s==3">
                                                                 </a>
                                                                 <ul class="dropdown-menu" ng-if="warStarted">
-                                                                    <li><a href ng-click="changeStars($index, base.b, a.i, 0)"><img src="/img/icons/stars-0.png"></a></li>
-                                                                    <li><a href ng-click="changeStars($index, base.b, a.i, 1)"><img src="/img/icons/stars-1.png"></a></li>
-                                                                    <li><a href ng-click="changeStars($index, base.b, a.i, 2)"><img src="/img/icons/stars-2.png"></a></li>
-                                                                    <li><a href ng-click="changeStars($index, base.b, a.i, 3)"><img src="/img/icons/stars-3.png"></a></li>
-                                                                    <li><a href ng-click="deleteCall($index, base.b, a.u, a.i)"><img src="/img/icons/delete-call.png"></a></li>
+                                                                    <li><a href ng-click="changeStars(a.ai, a.b, a.i, 0)"><img src="/img/icons/stars-0.png"></a></li>
+                                                                    <li><a href ng-click="changeStars(a.ai, a.b, a.i, 1)"><img src="/img/icons/stars-1.png"></a></li>
+                                                                    <li><a href ng-click="changeStars(a.ai, a.b, a.i, 2)"><img src="/img/icons/stars-2.png"></a></li>
+                                                                    <li><a href ng-click="changeStars(a.ai, a.b, a.i, 3)"><img src="/img/icons/stars-3.png"></a></li>
+                                                                    <li><a href ng-click="deleteCall(a.ai, a.b, a.u, a.i)"><img src="/img/icons/delete-call.png"></a></li>
                                                                 </ul>
                                                             </span>
                                                         </div>

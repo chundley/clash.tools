@@ -55,6 +55,7 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
             stars: numStars
         };
 
+        console.log(update);
         warService.updateStars($scope.war._id, update, function (err, result) {
             if (err) {
                 err.stack_trace.unshift( { file: 'war-controller.js', func: '$scope.changeStars', message: 'Error updating stars' } );
@@ -113,6 +114,7 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                         // nothing to do here
                     }
                 });
+                refreshInterface();
             }
         });
     }
@@ -250,56 +252,38 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
 
         $scope.$broadcast('timer-start');
 
-        angular.forEach($scope.war.bases, function (base) {
-            var maxStars = null;
-            angular.forEach(base.a, function (assignment) {
-                var expires = 0;
-                if (assignment.e != null) {
-                    var expireTime = new Date(assignment.e);
-                    expires = expireTime.getTime();
-                }
-                if (assignment.s != null && assignment.s > maxStars) {
-                    maxStars = assignment.s;
-                }
+        $scope.basesByPlayer = [];
 
-                // need this case for zero stars since the above comparison won't pick it up
-                if (maxStars == null && assignment.s==0) {
-                    maxStars = 0;
-                }
-
-                assignment.expires = expires;
+        angular.forEach($scope.war.team, function (tm) {
+            var member = {
+                b: tm.b,
+                u: tm.u,
+                i: tm.i,
+                t: tm.t,
+                a: []
+            };
+            angular.forEach($scope.war.bases, function (base) {
+                var assignmentIndex = 0;
+                angular.forEach(base.a, function (assignment) {
+                    if (assignment.u == tm.u) {
+                        var expires = 0;
+                        if (assignment.e != null) {
+                            var expireTime = new Date(assignment.e);
+                            expires = expireTime.getTime();
+                        }
+                        assignment.expires = expires;   
+                        assignment.b = base.b;
+                        assignment.ai = assignmentIndex; // needed for updating stars                     
+                        member.a.push(assignment);
+                    }
+                    assignmentIndex++;
+                });
             });
-
-            base.maxStars = maxStars;
-            base.isOpen = false;
-
-            // determine if the base is open
-            if ($scope.clan.war_config.overcalls) {
-                // if overcalls are allowed we don't care if the base has already been reserved
-                base.isOpen = true;
-            }
-            else if ($scope.warStarted && base.a.length == 0) {
-                // war has started and this base is uncalled
-                base.isOpen = true;
-            }
-            else if (now.getTime() >= freeForAllDate.getTime()) {
-                // if we are in the free for all period, overcalls are allowed no matter what
-                base.isOpen = true;
-            }
-            else if (!$scope.clan.war_config.overcalls && base.a.length > 0) {
-                // determine if the current call has expired
-                if (now.getTime() > base.a[base.a.length-1].e) {
-                    base.isOpen = true;
-                }
-                // determine if the latest attack has been done
-                if (base.a[base.a.length-1].s != null) {
-                    base.isOpen = true;
-                }
-            }
+            $scope.basesByPlayer.push(member);
         });
 
-
         setCountdownTimers();
+        //console.log($scope.basesByPlayer);
         var promise = $interval(setCountdownTimers, 30000);
         $scope.$on('$destroy', function() {
             $interval.cancel(promise);
@@ -309,13 +293,12 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
     function setCountdownTimers() {
         var now = new Date();
         var openMembers = {};
-        angular.forEach($scope.war.bases, function (base) {
+        angular.forEach($scope.basesByPlayer, function (base) {
             angular.forEach(base.a, function (assignment) {
                 if (assignment.expires > 0) {
                     var minutesLeft = parseInt((assignment.expires - now.getTime())/1000/60);
                     assignment.hours = parseInt(minutesLeft / 60);
                     assignment.minutes = parseInt(minutesLeft % 60);
-
                     if (minutesLeft < 0) {
                         //expired!
                         assignment.expires = -assignment.expires;
