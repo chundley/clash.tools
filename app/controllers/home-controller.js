@@ -371,6 +371,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, u
     function refreshInterface() {
         var now = new Date();
         var start = new Date($scope.war.start);
+        var warEnd = new Date(start.getTime() + (24*60*60*1000));
         if (start.getTime() <= now.getTime()) {
             // war has started, set the end time to +24 hours from start
             $scope.warStartTime = start.getTime() + 24*60*60*1000;
@@ -385,7 +386,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, u
         if (warEnd.getTime() <= now.getTime()) {
             $scope.warEnded = true;
         }
-                
+
         $scope.$broadcast('timer-start');
 
 

@@ -27,6 +27,8 @@ angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize',
         .when('/clans/:query', { controller: 'ClansCtrl', templateUrl: '/views/clans.html', access: access.member } )
         .when('/startwar/:id', { controller: 'StartWarCtrl', templateUrl: '/views/startWar.html', access: access.coleader } )
         .when('/war/:id', { controller: 'WarCtrl', templateUrl: '/views/war.html', access: access.member } )
+        .when('/war/team/:id', { controller: 'WarTeamCtrl', templateUrl: '/views/warTeam.html', access: access.member } )
+        .when('/war/summary/:id', { controller: 'WarSummaryCtrl', templateUrl: '/views/warSummary.html', access: access.member } )
         .when('/members', { controller: 'MembersCtrl', templateUrl: '/views/members.html', access: access.member } )
         .when('/chat', { controller: 'ChatCtrl', templateUrl: '/views/chat.html', access: access.member } )
         .when('/action/:id', { controller: 'ActionCtrl', templateUrl: '/views/action.html', access: access.member } )

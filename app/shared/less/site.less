@@ -469,33 +469,41 @@
 
     .war-sub-nav {
         list-style: none;
-        padding-left: 2px;
-        margin-bottom: 0px; 
-        &:extend(.clearfix all);    
+        padding-left: 14px;
+        padding-top: 8px;
+        margin-bottom: 0px;
+        border-bottom: 1px solid @primary-40;
+        &:extend(.clearfix all);
         > li {
             float: left;
-            display: block;            
+            display: block;
             font-size: 12px;
-            margin-right: 16px;
-            margin-bottom: -1px;
-            border: 1px solid @primary-40;
-            a {
+            margin-bottom: 2px;
+            > a {
                 color: @primary;
-
-                &.active {
-                    font-weight: 600;
-                    color: @emphasis;
-                } 
-
+                border: 1px solid transparent;
+                border-radius: 4px 4px 0px 0px;
+                padding: 2px 12px 2px 12px;
                 &:hover {
                     text-decoration: none;
-                    color: @emphasis;
-                }                 
+                    background: lighten(@primary-50, 10%);
+                    border-bottom: 1px solid @primary-40;
+                }
             }
-            
-          
-        }   
-    }                     
+
+            &.active > a {
+                border: 1px solid @primary-40;
+                border-bottom-color: @primary-60;
+
+                &:hover {
+                    background: transparent;
+                    cursor: default;
+                }
+            }
+
+
+        }
+    }
 }
 
 
