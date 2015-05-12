@@ -31,10 +31,52 @@
                         </div>
                     </div>
                     <div class="row margin-bottom-huge">
-                        <div class="col-xs-12 war-summary-container">
+                        <div class="col-md-4 col-sm-5 col-xs-6 star-summary-container">
                             <div class="widget">
+                                <div class="widget-header">
+                                    Star Summary
+                                </div>
                                 <div class="widget-body">
-                                    Coming soon
+                                    <div class="row">
+                                        <div class="col-xs-9">
+                                            Total stars
+                                        </div>
+                                        <div class="col-xs-3 text-right">
+                                            <strong>{{summaryStats.totalStars}}</strong>
+                                        </div>
+                                    </div>                                    
+                                    <div class="row">
+                                        <div class="col-xs-9">
+                                            <img src="/img/icons/stars-tiny-3.png">
+                                        </div>
+                                        <div class="col-xs-3 text-right">
+                                            {{summaryStats.threeStars}}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-9">
+                                            <img src="/img/icons/stars-tiny-2.png">
+                                        </div>
+                                        <div class="col-xs-3 text-right">
+                                            {{summaryStats.twoStars}}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-9">
+                                            <img src="/img/icons/stars-tiny-1.png">
+                                        </div>
+                                        <div class="col-xs-3 text-right">
+                                            {{summaryStats.oneStars}}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-9">
+                                            <img src="/img/icons/stars-tiny-0.png">
+                                        </div>
+                                        <div class="col-xs-3 text-right">
+                                            {{summaryStats.zeroStars}}
+                                        </div>
+                                    </div>                                             
                                 </div>
                             </div>
                         </div>

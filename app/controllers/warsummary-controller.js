@@ -250,14 +250,17 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
 
         $scope.$broadcast('timer-start');
 
+        $scope.summaryStats = {
+            totalStars: 0,
+            threeStars: 0,
+            twoStars: 0,
+            oneStars: 0,
+            zeroStars: 0,
+        };
+
         angular.forEach($scope.war.bases, function (base) {
             var maxStars = null;
             angular.forEach(base.a, function (assignment) {
-                var expires = 0;
-                if (assignment.e != null) {
-                    var expireTime = new Date(assignment.e);
-                    expires = expireTime.getTime();
-                }
                 if (assignment.s != null && assignment.s > maxStars) {
                     maxStars = assignment.s;
                 }
@@ -266,63 +269,9 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                 if (maxStars == null && assignment.s==0) {
                     maxStars = 0;
                 }
-
-                assignment.expires = expires;
             });
 
-            base.maxStars = maxStars;
-            base.isOpen = false;
-
-            // determine if the base is open
-            if ($scope.clan.war_config.overcalls) {
-                // if overcalls are allowed we don't care if the base has already been reserved
-                base.isOpen = true;
-            }
-            else if ($scope.warStarted && base.a.length == 0) {
-                // war has started and this base is uncalled
-                base.isOpen = true;
-            }
-            else if (now.getTime() >= freeForAllDate.getTime()) {
-                // if we are in the free for all period, overcalls are allowed no matter what
-                base.isOpen = true;
-            }
-            else if (!$scope.clan.war_config.overcalls && base.a.length > 0) {
-                // determine if the current call has expired
-                if (now.getTime() > base.a[base.a.length-1].e) {
-                    base.isOpen = true;
-                }
-                // determine if the latest attack has been done
-                if (base.a[base.a.length-1].s != null) {
-                    base.isOpen = true;
-                }
-            }
-        });
-
-
-        setCountdownTimers();
-        var promise = $interval(setCountdownTimers, 30000);
-        $scope.$on('$destroy', function() {
-            $interval.cancel(promise);
+            $scope.summaryStats.totalStars += maxStars;
         });
     }
-
-    function setCountdownTimers() {
-        var now = new Date();
-        var openMembers = {};
-        angular.forEach($scope.war.bases, function (base) {
-            angular.forEach(base.a, function (assignment) {
-                if (assignment.expires > 0) {
-                    var minutesLeft = parseInt((assignment.expires - now.getTime())/1000/60);
-                    assignment.hours = parseInt(minutesLeft / 60);
-                    assignment.minutes = parseInt(minutesLeft % 60);
-
-                    if (minutesLeft < 0) {
-                        //expired!
-                        assignment.expires = -assignment.expires;
-                    }
-                }
-            });
-        });
-    }
-
 }]);
