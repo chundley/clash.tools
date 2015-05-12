@@ -252,10 +252,10 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
 
         $scope.summaryStats = {
             totalStars: 0,
-            threeStars: 0,
-            twoStars: 0,
-            oneStars: 0,
-            zeroStars: 0,
+            3: 0,
+            2: 0,
+            1: 0,
+            0: 0,
         };
 
         angular.forEach($scope.war.bases, function (base) {
@@ -271,6 +271,7 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                 }
             });
 
+            $scope.summaryStats[maxStars]++;
             $scope.summaryStats.totalStars += maxStars;
         });
     }
