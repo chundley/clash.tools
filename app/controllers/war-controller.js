@@ -69,7 +69,14 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                 if (numStars == 1) {
                     starsText = 'star';
                 }
-                messagelogService.save($scope.meta.current_clan.clan_id, '[ign] attacked base ' + (baseNum) + ' for ' + numStars + ' ' + starsText, ign, 'attack', function (err, msg) {
+
+                var msgText = '[ign] attacked base ' + (baseNum) + ' for ' + numStars + ' ' + starsText;
+                if (ign != $scope.meta.ign) {
+                    // someone is updating someone else's stars
+                    msgText = '[ign] attacked base ' + (baseNum) + ' for ' + numStars + ' ' + starsText + ' (' + $scope.meta.ign + ' updated)';
+                }
+
+                messagelogService.save($scope.meta.current_clan.clan_id, msgText, ign, 'attack', function (err, msg) {
                     if (err) {
                         err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.changeStars', message: 'Error saving attack message in the log' } );
                         errorService.save(err, function() {});
