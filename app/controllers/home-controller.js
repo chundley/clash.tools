@@ -163,7 +163,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, u
 
                         warService.save($scope.war, function (err, war) {
                             if (err) {
-                                err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.reserveBase', message: 'Error setting stars' } );
+                                err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.reserveBase', message: 'Error reserving base' } );
                                 errorService.save(err, function() {});
                             }
                             else {
@@ -174,7 +174,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, u
 
                         messagelogService.save($scope.meta.current_clan.clan_id, '[ign] called base ' + (baseNum+1), $scope.meta.ign, 'target', function (err, msg) {
                             if (err) {
-                                err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.changeStars', message: 'Error saving attack message in the log' } );
+                                err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.reserveBase', message: 'Error saving reservation message in the log' } );
                                 errorService.save(err, function() {});
                             }
                             else {

@@ -123,9 +123,15 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
             var open = false;
             var now = new Date();
             var warStart = new Date($scope.war.start);
-            var possibleExpireDate = new Date(now.getTime() + ($scope.clan.war_config.cleanup_attack_time*60*60*1000));
             var freeForAllDate = new Date(warStart.getTime() + ((24 - $scope.clan.war_config.free_for_all_time)*60*60*1000));
             var warEnd = new Date(warStart.getTime() + (24*60*60*1000));
+
+            // possible expire date is either the cleanup time, or first attack time depending on whether the war has started
+            var possibleExpireDate = new Date(now.getTime() + ($scope.clan.war_config.cleanup_attack_time*60*60*1000));
+            if (now.getTime() < warStart.getTime()
+                || $scope.war.bases[baseNum-1].a.length == 0) { // if not called yet, use first attack timer
+                possibleExpireDate = new Date(warStart.getTime() + ($scope.clan.war_config.first_attack_time*60*60*1000));
+            }
 
             if ($scope.clan.war_config.overcalls) {
                 // if overcalls are allowed we don't care if the base has already been reserved
@@ -146,7 +152,17 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                 }
             }
 
-            if (open) {
+            // determine if this person already has two bases before allowing another reservation
+            var numReserved = 0;
+            angular.forEach($scope.war.bases, function (base) {
+                angular.forEach(base.a, function (assignment) {
+                    if (assignment.u == userId) {
+                        numReserved++;
+                    }
+                });
+            });
+
+            if (open && numReserved < 2) {
 
                 // calculate when this call expires. this is based on a lot of factors, including the configured cleanup time allowed, free for all
                 // time allowed, and whether the reservation time crosses the end of the war
@@ -198,6 +214,220 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                     }
                 });
             }
+
+            else if (numReserved == 2) {
+                // notify that this user can't have another assignment, they already have 2
+                var cssClass = 'center';
+                if ($window.innerWidth < 500) {
+                    cssClass = 'mobile';
+                }
+
+                $scope.modalOptions = {
+                    title: ign + ' already has two bases assigned',
+                    message: 'Players can\'t have more than two bases in a war. You need to cancel another reservation for this player before assigning this base.',
+                    cssClass: cssClass
+                };
+
+                var modalInstance = $modal(
+                    {
+                        scope: $scope,
+                        animation: 'am-fade-and-slide-top',
+                        placement: 'center',
+                        template: "/views/partials/notifyDialog.html",
+                        show: false
+                    }
+                );
+
+                modalInstance.$promise.then(function() {
+                    modalInstance.show();
+                });
+            }
+        });
+    }
+
+    $scope.reserveBase = function(baseNum) {
+        // first double-check that someone else hasn't reserved the target - load war and verify to reduce
+        // the changes that two people sign up for the same target
+        loadWar(function() {
+            var open = false;
+
+            var now = new Date();
+            var warStart = new Date($scope.war.start);
+            var possibleExpireDate = new Date(now.getTime() + ($scope.clan.war_config.cleanup_attack_time*60*60*1000));
+            var freeForAllDate = new Date(warStart.getTime() + ((24 - $scope.clan.war_config.free_for_all_time)*60*60*1000));
+            var warEnd = new Date(warStart.getTime() + (24*60*60*1000));
+
+            // possible expire date is either the cleanup time, or first attack time depending on whether the war has started
+            var possibleExpireDate = new Date(now.getTime() + ($scope.clan.war_config.cleanup_attack_time*60*60*1000));
+            if (now.getTime() < warStart.getTime()
+                || $scope.war.bases[baseNum-1].a.length == 0) { // if not called yet, use first attack timer
+                possibleExpireDate = new Date(warStart.getTime() + ($scope.clan.war_config.first_attack_time*60*60*1000));
+            }
+
+            if ($scope.clan.war_config.overcalls) {
+                // if overcalls are allowed we don't care if the base has already been reserved
+                open = true;
+            }
+            else if (now.getTime() >= freeForAllDate.getTime()) {
+                // if we are in the free for all period, overcalls are allowed no matter what
+                open = true;
+            }
+            else {
+                if ($scope.war.bases[baseNum-1].a.length == 0) {
+                    // not called yet
+                    open = true;
+                }
+                else if ($scope.war.bases[baseNum-1].a[$scope.war.bases[baseNum-1].a.length-1].s != null) {
+                    // called, but attacks done
+                    open = true;
+                }
+            }
+
+            // determine if this person already has two bases before allowing another reservation
+            var numReserved = 0;
+            angular.forEach($scope.war.bases, function (base) {
+                angular.forEach(base.a, function (assignment) {
+                    if (assignment.u == authService.user.id) {
+                        numReserved++;
+                    }
+                });
+            });
+
+            if (open && numReserved < 2) {
+                var cssClass = 'center';
+                if ($window.innerWidth < 500) {
+                    cssClass = 'mobile';
+                }
+
+                $scope.modalOptions = {
+                    title: 'Confirm reservation',
+                    message: 'Please confirm you want to reserve base ' + (baseNum),
+                    yesBtn: 'Reserve',
+                    noBtn: 'Cancel',
+                    cssClass: cssClass,
+                    onYes: function(formData) {
+
+                        // calculate when this call expires. this is based on a lot of factors, including the configured cleanup time allowed, free for all
+                        // time allowed, and whether the reservation time crosses the end of the war
+                        var expireDate = null;
+
+
+                        if (now.getTime() >= freeForAllDate.getTime()) {
+                            // already passed the free for all time
+                            expireDate = null;
+                        }
+
+                        else if (possibleExpireDate.getTime() >= warEnd) {
+                            // possible expire date is already greater than war end
+                            expireDate = warEnd;
+                        }
+                        else {
+                            expireDate = possibleExpireDate;
+                        }
+
+                        var model =
+                        {
+                            bIndex: baseNum -1,
+                            assignment: {
+                                u: authService.user.id,
+                                i: $scope.meta.ign,
+                                c: new Date(),
+                                e: expireDate,
+                                s: null,
+                            }
+                        }
+
+                        warService.assignBase($scope.war._id, model, function (err, war) {
+                            if (err) {
+                                err.stack_trace.unshift( { file: 'war-controller.js', func: '$scope.reserveBase', message: 'Error reserving base' } );
+                                errorService.save(err, function() {});
+                            }
+                            else {
+                                $scope.war.bases[baseNum-1].a.push(model.assignment);
+                                refreshInterface();
+                            }
+                        });
+
+                        messagelogService.save($scope.meta.current_clan.clan_id, '[ign] called base ' + (baseNum), $scope.meta.ign, 'target', function (err, msg) {
+                            if (err) {
+                                err.stack_trace.unshift( { file: 'war-controller.js', func: '$scope.reserveBase', message: 'Error saving attack message in the log' } );
+                                errorService.save(err, function() {});
+                            }
+                            else {
+                                // nothing
+                            }
+                        });
+                    }
+                };
+
+                var modalInstance = $modal(
+                    {
+                        scope: $scope,
+                        animation: 'am-fade-and-slide-top',
+                        placement: 'center',
+                        template: "/views/partials/confirmDialog.html",
+                        show: false
+                    }
+                );
+
+                modalInstance.$promise.then(function() {
+                    modalInstance.show();
+                });
+            }
+            else if (numReserved == 2) {
+                // notify user that they already have two reservations
+                var cssClass = 'center';
+                if ($window.innerWidth < 500) {
+                    cssClass = 'mobile';
+                }
+
+                $scope.modalOptions = {
+                    title: 'You already have two bases assigned',
+                    message: 'You can\'t reserve more than two bases in a war. You need to cancel another reservation before signing up for this base.',
+                    cssClass: cssClass
+                };
+
+                var modalInstance = $modal(
+                    {
+                        scope: $scope,
+                        animation: 'am-fade-and-slide-top',
+                        placement: 'center',
+                        template: "/views/partials/notifyDialog.html",
+                        show: false
+                    }
+                );
+
+                modalInstance.$promise.then(function() {
+                    modalInstance.show();
+                });
+            }
+            else {
+                // notify user that the base is now reserved somehow
+                var cssClass = 'center';
+                if ($window.innerWidth < 500) {
+                    cssClass = 'mobile';
+                }
+
+                $scope.modalOptions = {
+                    title: 'Base is reserved',
+                    message: 'Base ' + (baseNum+1) + ' was just reserved a few seconds ago by ' + $scope.war.bases[baseNum].a[$scope.war.bases[baseNum].a.length-1].i,
+                    cssClass: cssClass
+                };
+
+                var modalInstance = $modal(
+                    {
+                        scope: $scope,
+                        animation: 'am-fade-and-slide-top',
+                        placement: 'center',
+                        template: "/views/partials/notifyDialog.html",
+                        show: false
+                    }
+                );
+
+                modalInstance.$promise.then(function() {
+                    modalInstance.show();
+                });
+            }
         });
     }
 
@@ -247,7 +477,7 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
         if (warEnd.getTime() <= now.getTime()) {
             $scope.warEnded = true;
         }
-        
+
         $scope.$broadcast('timer-start');
 
         angular.forEach($scope.war.bases, function (base) {
@@ -282,6 +512,12 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                 // war has started and this base is uncalled
                 base.isOpen = true;
             }
+            else if (!$scope.warStarted
+                     && base.a.length == 0
+                     && ($scope.meta.role == 'coleader' || $scope.meta.role =="leader")) {
+                // leaders can assign any time
+                base.isOpen = true;
+            }
             else if (now.getTime() >= freeForAllDate.getTime()) {
                 // if we are in the free for all period, overcalls are allowed no matter what
                 base.isOpen = true;
@@ -296,6 +532,14 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                     base.isOpen = true;
                 }
             }
+
+            // overrides for leaders
+/*            if ($scope.meta.role == 'coleader' || $scope.meta.role =="leader") {
+                // leaders and coleaders can assign before and after war for organization
+                if (!$)
+                base.isOpen = true;
+            }*/
+
         });
 
 

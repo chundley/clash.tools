@@ -47,17 +47,18 @@
                                                 <h2 ng-if="base.isOpen" class="primary-dark"><strong>{{base.b}}</strong></h2>
                                                 <h2 ng-if="!base.isOpen" class="primary-30"><strong>{{base.b}}</strong></h2>
                                                 <br/>
-                                                <span class="dropdown" on-toggle="toggled(open)" ng-if="base.isOpen && ((meta.role=='leader' || meta.role=='coleader') || (a.u==meta._id))">
+                                                <span class="dropdown" on-toggle="toggled(open)" ng-if="base.isOpen && (meta.role=='coleader' || meta.role=='leader')">
                                                     <a href class="dropdown-toggle">
                                                         <img src="/img/icons/swords-on.png">
                                                     </a>
-                                                    <ul class="dropdown-menu" ng-if="warStarted">
+                                                    <ul class="dropdown-menu">
                                                         <p class="dropdown-header">Assign base to</p>
-                                                        <li ng-repeat="tm in war.team" ng-if="tm.i"><a href ng-click="assignBase(base.b, tm.u, tm.i)">{{tm.i}}</a></li>
+                                                        <li ng-repeat="tm in war.team | orderBy:'i'" ng-if="tm.i"><a href ng-click="assignBase(base.b, tm.u, tm.i)">{{tm.i}}</a></li>
                                                     </ul>
                                                 </span>
-
-
+                                                <span ng-if="base.isOpen && (meta.role=='member' || meta.role=='elder')">
+                                                    <a href ng-click="reserveBase(base.b)"><img src="/img/icons/swords-on.png"></a>
+                                                </span>
                                                 <img src="/img/icons/swords-off.png" ng-if="!base.isOpen">
                                             </div>
                                             <div class="col-sm-1 hidden-xs th-icon"><img src="/img/icons/th-{{base.t}}.png"></div>
