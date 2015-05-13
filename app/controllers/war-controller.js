@@ -130,7 +130,12 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
             var possibleExpireDate = new Date(now.getTime() + ($scope.clan.war_config.cleanup_attack_time*60*60*1000));
             if (now.getTime() < warStart.getTime()
                 || $scope.war.bases[baseNum-1].a.length == 0) { // if not called yet, use first attack timer
-                possibleExpireDate = new Date(warStart.getTime() + ($scope.clan.war_config.first_attack_time*60*60*1000));
+                var firstAttackTime = new Date(warStart.getTime() + ($scope.clan.war_config.first_attack_time*60*60*1000));
+
+                // make sure first attack timer is greater than cleanup timer (for cases when assignment happens in hour 11, for example)
+                if (firstAttackTime.getTime() > possibleExpireDate.getTime()) {
+                    possibleExpireDate = firstAttackTime;
+                }
             }
 
             if ($scope.clan.war_config.overcalls) {
@@ -518,6 +523,11 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                 // leaders can assign any time
                 base.isOpen = true;
             }
+            else if (base.a.length > 0
+                     && base.a[base.a.length-1].expires < now.getTime()) {
+                // latest has expired
+                base.isOpen = true;
+            }
             else if (now.getTime() >= freeForAllDate.getTime()) {
                 // if we are in the free for all period, overcalls are allowed no matter what
                 base.isOpen = true;
@@ -532,14 +542,6 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                     base.isOpen = true;
                 }
             }
-
-            // overrides for leaders
-/*            if ($scope.meta.role == 'coleader' || $scope.meta.role =="leader") {
-                // leaders and coleaders can assign before and after war for organization
-                if (!$)
-                base.isOpen = true;
-            }*/
-
         });
 
 
