@@ -349,7 +349,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, u
     }
 
     function loadWar(callback) {
-        warService.getActive($scope.meta.current_clan.clan_id, function (err, war) {
+        warService.getActive($scope.meta.current_clan.clan_id, $scope.meta.role, function (err, war) {
             if (err) {
                 err.stack_trace.unshift( { file: 'home-controller.js', func: 'loadWar', message: 'Error getting current war' } );
                 errorService.save(err, function() {});

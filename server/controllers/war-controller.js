@@ -9,7 +9,7 @@ var warModel  = require('../models/war-model'),
 *   Gets active war for a clan
 */
 exports.activeWar = function(req, res, next) {
-    warModel.activeWar(req.params.clanId, function (err, clan) {
+    warModel.activeWar(req.params.clanId, true, function (err, clan) {
         if (err) {
             res.send(500, err);
         }
@@ -22,6 +22,22 @@ exports.activeWar = function(req, res, next) {
     });
 }
 
+/*
+*   Gets active war for a clan
+*/
+exports.activeWarAdmin = function(req, res, next) {
+    warModel.activeWar(req.params.clanId, false, function (err, clan) {
+        if (err) {
+            res.send(500, err);
+        }
+        else if (clan) {
+            res.json(200, clan);
+        }
+        else {
+            res.send(404, 'not found');
+        }
+    });
+}
 
 /*
 *   Save a war

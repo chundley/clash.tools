@@ -141,6 +141,12 @@ var routes = [
         accessLevel: accessLevels.member
     },
     {
+        path: '/crud/war/:clanId/active/admin',
+        httpMethod: 'GET',
+        middleware: [warCtrl.activeWarAdmin],
+        accessLevel: accessLevels.member
+    },
+    {
         path: '/crud/war',
         httpMethod: 'POST',
         middleware: [warCtrl.save],

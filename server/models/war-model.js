@@ -13,8 +13,10 @@ var config    = require('../../config/config');
 *   Get active war by clan id
 *
 *   Only one war can be active at once
+*
+*   visibleRequired tells the system whether to filter by visible
 */
-exports.activeWar = function(clanId, callback) {
+exports.activeWar = function(clanId, visibleRequired, callback) {
     if (_.isString(clanId)) {
         clanId = new ObjectID.createFromHexString(clanId);
     }
@@ -24,7 +26,15 @@ exports.activeWar = function(clanId, callback) {
             callback(err, null);
         }
         else {
-            collection.findOne( { clan_id: clanId, active: true }, function (err, war) {
+            var whereClause = {
+                clan_id: clanId
+            };
+
+            if (visibleRequired) {
+                whereClause.visible = true;
+            }
+
+            collection.findOne( whereClause , function (err, war) {
                 if (err) {
                     callback(err, null);
                 }

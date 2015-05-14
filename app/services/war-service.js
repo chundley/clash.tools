@@ -54,9 +54,13 @@ function ($http, errorService) {
                 callback(errorService.initMessage('war-service.js', 'get', status), null);
             });
         },
-        getActive: function(clanId, callback) {
+        getActive: function(clanId, role, callback) {
+            var url = '/crud/war/' + clanId + '/active';
+            if (role == 'leader' || role == 'coleader') {
+                url +='/admin';
+            }
             $http({
-                url: '/crud/war/' + clanId + '/active',
+                url: url,
                 method: 'GET'
             }).success(function (data, status, headers, config) {
                 callback(null, data);

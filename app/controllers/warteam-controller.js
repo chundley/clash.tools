@@ -55,7 +55,6 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
             stars: numStars
         };
 
-        console.log(update);
         warService.updateStars($scope.war._id, update, function (err, result) {
             if (err) {
                 err.stack_trace.unshift( { file: 'war-controller.js', func: '$scope.changeStars', message: 'Error updating stars' } );
