@@ -58,12 +58,12 @@
                                             </div>
                                         </div>
 
-<!--                                         <div class="form-group">
+                                        <div class="form-group">
                                             <label for="visible" class="col-sm-3 col-xs-12 control-label">Visible to clan</label>
                                             <div class="col-md-4 col-sm-5 col-xs-6">
                                                 <input type="checkbox" id="visible" ng-model="war.visible">
                                             </div>
-                                        </div> -->
+                                        </div>
                                         <div class="form-group">
                                             <div class="col-xs-12 text-right">
                                                 <span ng-show="warSettingsForm.$dirty" class="error-red"><b>Changes not saved!</b></span><button class="btn btn-emphasis btn-sm save-btn" ng-disabled="warSettingsForm.$invalid">Save</button>
@@ -133,7 +133,8 @@
                                         <div class="col-xs-12">
                                             <div class="well well-sm">
                                             <p>As with the roster, you aren't required to fill in town hall levels but it's highly recommended</p>
-                                            Note that you don't have to do assignments here - they can be done in the normal war interface the clan uses.
+                                            <p>Note that you don't have to do assignments here - they can be done in the <a href="/war/{{war._id}}">normal war interface the clan uses</a>.</p>
+                                            Once the war starts you will only be able to change TH level - all other assignments will be done through the link above.
                                             </div>
                                         </div>
                                     </div>
@@ -163,11 +164,11 @@
                                                 </select>
                                             </div>
                                             <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4">
-                                               <select class="form-control-small" ng-model="base.a[0].u" ng-options="member._id as member.ign for member in members" ng-change="assignBase($index, base.a[0].u)">
+                                               <select class="form-control-small" ng-model="base.a[0].u" ng-options="member._id as member.ign for member in members" ng-change="assignBase($index, base.a[0].u)" ng-disabled="warStarted">
                                                 </select>
                                             </div>
                                             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 icon-remove">
-                                                <a href ng-click="deleteAssignment($index)" ng-if="base.a.length>0"><i class="icon-cancel error-red" title="Remove assignment"></i></a>
+                                                <a href ng-click="deleteAssignment($index)" ng-if="base.a.length>0 && !warStarted"><i class="icon-cancel error-red" title="Remove assignment"></i></a>
                                             </div>
                                         </div>
                                     </form>

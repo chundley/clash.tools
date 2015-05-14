@@ -12,6 +12,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
     var warId = $routeParams.id;
 
     $scope.newWar = true;
+    $scope.warStarted = false;
 
     sessionService.getUserMeta(authService.user.id, function (err, meta) {
         if (err) {
@@ -39,10 +40,15 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                                 $scope.newWar = false;
 
                                 // start the countdown timer to show it's working
+                                var now = new Date();
                                 var start = new Date(war.start);
                                 $scope.warStartTime = start.getTime();
                                 $scope.$broadcast('timer-start');
                                 $rootScope.title = 'Clan war vs: ' + war.opponent_name + ' - clash.tools';
+
+                                if (now.getTime() > start.getTime()) {
+                                    $scope.warStarted = true;
+                                }
                             }
                         });
                     }
@@ -58,6 +64,11 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                             start: new Date(),
                             bases: [],
                             team: [],
+                            result: {
+                                stars: 0,
+                                opponentStars: 0,
+                                win: true
+                            },
                             created_by: authService.user.id
                         };
 
@@ -254,6 +265,12 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                 }
                 else {
                     $scope.warSettingsForm.$setPristine();
+                    var now = new Date();
+                    var warStart = new Date($scope.war.start);
+                    $scope.warStarted = false;
+                    if (now.getTime() > warStart.getTime()) {
+                        $scope.warStarted = true;
+                    }
                 }
             }
         });
