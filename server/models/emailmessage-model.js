@@ -22,7 +22,7 @@ exports.save = function(message, callback) {
     });
 
     message.created_at = new Date();
-    
+
     db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'email_message', function (err, collection) {
         if (err) {
             callback(err, null);
@@ -175,7 +175,7 @@ exports.deleteEmail = function(emailMessageId, userId, callback) {
                         callback(null, doc);
                     }
                 }
-            );            
+            );
         }
     });
 }
@@ -225,18 +225,15 @@ exports.countNew = function(userId, callback) {
         if (err) {
             callback(err, null);
         }
-        else {  
-            collection.find( { 'to_users.user_id': userId, 
-                               'to_users.read': false, 
-                               'to_users.deleted': false } 
-                            ).count(function (err, count) {
+        else {
+            collection.find( { to_users: { $elemMatch: { user_id: userId, read: false, deleted: false } } } ).count(function (err, count) {
                 if (err) {
                     callback(err, null);
                 }
                 else {
                     callback(null, count);
                 }
-            });                  
+            });
         }
     });
 }
