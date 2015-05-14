@@ -27,7 +27,8 @@ exports.activeWar = function(clanId, visibleRequired, callback) {
         }
         else {
             var whereClause = {
-                clan_id: clanId
+                clan_id: clanId,
+                active: true
             };
 
             if (visibleRequired) {
