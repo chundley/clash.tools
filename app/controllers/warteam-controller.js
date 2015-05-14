@@ -107,9 +107,9 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                 // update UI
                 $scope.war.bases[baseNum-1].a.splice(assignmentIndex, 1);
 
-                var msgText = '[ign]\'s call deleted on base ' + baseNum + ' by ' + $scope.meta.ign;
+                var msgText = '[ign]\'s call on base ' + baseNum + ' removed by ' + $scope.meta.ign;
                 if ($scope.meta.ign == ign) {
-                    msgText = '[ign] deleted call on base ' + baseNum;
+                    msgText = '[ign] removed call on base ' + baseNum;
                 }
                 messagelogService.save($scope.meta.current_clan.clan_id, msgText, ign, 'delete', function (err, msg) {
                     if (err) {

@@ -37,7 +37,8 @@
                                                     <timer interval="1000" autostart="false" language="en" ng-attr-end-time="warStartTime">
                                                     <b>{{hours}}</b> hour{{hoursS}}, <b>{{minutes}}</b> minute{{minutesS}}<span class="hidden-xs">, <b>{{seconds}}</b> second{{secondsS}}</span>
                                                     </timer>
-                                                    </div>                                                 
+                                                    </div>
+                                                    <div ng-if="warEnded" access-level="coleader"><a href class="btn btn-alternate btn-sm pull-right" ng-click="endWar()">End War</a></div>
                                                 </div>
                                             </div>
 

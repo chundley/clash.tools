@@ -11,7 +11,6 @@
     }
 
     .war-vs {
-        font-family: 'Merriweather Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
        // margin-bottom: 12px;
 
         h2 {
@@ -20,6 +19,7 @@
         }
 
         .war-vs-header {
+            font-family: 'Merriweather Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             float: left;
             display: block;
         }
@@ -28,17 +28,7 @@
             float: left;
             display: block;
             margin-bottom: 10px;
-            border: 1px dotted @primary;
-            padding: 4px 6px;
-            background: @primary-60;
-            font-size: 14px;
-        }
-    }
-
-    .war-countdown {
-        margin-bottom: 20px;
-        .wc-inner {
-            border: 1px dotted @primary;
+            border: 1px solid @primary;
             padding: 4px 6px;
             background: @primary-60;
             font-size: 14px;
@@ -144,6 +134,10 @@
 .messages-widget {
     height: 340px;
     overflow: auto;
+}
+
+.war-end-dialog-no-form {
+    margin-top: 7px;
 }
 
 /*
@@ -458,7 +452,7 @@
             background: @emphasis;
             color: #fff;
             padding: 2px 2px;
-            border-bottom: 1px solid @primary-50;            
+            border-bottom: 1px solid @primary-50;
         }
 
         .aw-stars {

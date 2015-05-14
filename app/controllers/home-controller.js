@@ -332,6 +332,111 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, u
         });
     }
 
+    $scope.endWar = function() {
+        var totStars = 0;
+        var totAttacks = 0;
+        var missingAttacks = {};
+
+        var possibleAttacks = $scope.war.bases.length * 2;
+
+        angular.forEach($scope.war.team, function (tm) {
+            if (tm.u != null) {
+                missingAttacks[tm.u] = {
+                    i: tm.i,
+                    u: tm.u,
+                    missing: 2
+                };
+            }
+        });
+
+        angular.forEach($scope.war.bases, function (base) {
+            var maxStars = 0;
+            angular.forEach(base.a, function (assignment) {
+                if (assignment.s != null) {
+                    totAttacks++;
+                    missingAttacks[assignment.u].missing--;
+                    if (assignment.s > maxStars) {
+                        maxStars = assignment.s;
+                    }
+                }
+            });
+            totStars += maxStars;
+        });
+
+        var cssClass = 'center';
+        if ($window.innerWidth < 500) {
+            cssClass = 'mobile';
+        }
+
+        $scope.modalOptions = {
+            yesBtn: 'End War',
+            noBtn: 'Cancel',
+            cssClass: cssClass,
+            formData: {
+                opponentName: $scope.war.opponent_name,
+                totalAttacks: totAttacks,
+                possibleAttacks: possibleAttacks,
+                totalStars: totStars,
+                missingAttacks: missingAttacks
+            },
+            onYes: function(formData) {
+                var resultCode = 0;
+                if (formData.totalStars > formData.enemyStars) {
+                    resultCode = 1;
+                }
+                else if (formData.totalStars == formData.enemyStars) {
+                    resultCode = 2;
+                }
+
+                $scope.war.result = {
+                    stars: formData.totalStars,
+                    opponentStars: formData.enemyStars,
+                    result: resultCode
+                };
+
+                $scope.war.active = false;
+                $scope.war.visible = true;
+
+                var opponentName = $scope.war.opponent_name;
+
+                warService.save($scope.war, function (err, war) {
+                    if (err) {
+                        err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.endWar', message: 'Error ending war' } );
+                        errorService.save(err, function() {});
+                    }
+                    else {
+                        $scope.war = null;
+                        messagelogService.save($scope.meta.current_clan.clan_id, '[ign] ended the war against ' + opponentName, $scope.meta.ign, 'special', function (err, msg) {
+                            if (err) {
+                                err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.endWar', message: 'Error saving end war message' } );
+                                errorService.save(err, function() {});
+                            }
+                            else {
+                                loadClanMessages();
+                            }
+                        });
+                    }
+                });
+            }
+        };
+
+        var modalInstance = $modal(
+            {
+                scope: $scope,
+                animation: 'am-fade-and-slide-top',
+                placement: 'center',
+                template: "/views/partials/warEndDialog.html",
+                show: false
+            }
+        );
+
+        modalInstance.$promise.then(function() {
+            modalInstance.show();
+        });
+
+
+    }
+
     function loadClanMessages() {
         messagelogService.get($scope.meta.current_clan.clan_id, 40, function (err, messages) {
             if (err) {

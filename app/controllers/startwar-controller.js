@@ -67,7 +67,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                             result: {
                                 stars: 0,
                                 opponentStars: 0,
-                                win: true
+                                result: 1 // 0 = loss, 1 = win, 2 = tie
                             },
                             created_by: authService.user.id
                         };
