@@ -39,7 +39,7 @@
                                             <div class="col-sm-2 col-xs-2 t-col-center" ng-if="(meta.role=='leader' || meta.role=='coleader') && member.role.title!='leader' && member._id != userId">
                                                 <span class="dropdown pull-right" on-toggle="toggled(open)">
                                                     <a href class="dropdown-toggle">
-                                                        <button class="btn btn-default btn-xs"><i class="icon-down-dir primary-30"></i></button>
+                                                        <button class="btn btn-default btn-member-dd btn-xs"><i class="icon-down-dir primary-30"></i></button>
                                                     </a>
                                                     <ul class="dropdown-menu">
                                                         <li ng-if="(meta.role=='leader' || meta.role=='coleader') && member.role.title=='member'"><a href ng-click="changeRole(member, 'elder', 'promoted')">Promote to Elder</a></li>

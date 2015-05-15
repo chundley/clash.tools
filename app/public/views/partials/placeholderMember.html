@@ -1,0 +1,30 @@
+<div class="modal {{modalOptions.cssClass}}" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Add placeholder member
+            </div>
+            <div class="modal-body">
+                <div class="row margin-bottom-big">
+                    <div class="col-sm-12">
+                        <p>You are adding a placeholder member to this war. You should consider this a option a <b>last resort</b>.</p>
+                        <p>You'll be able to track attacks for this war but this member will have no statistics stored for future reference.</p>
+                        <p>It is <b>highly recommended</b> that you have all of your clan members sign up for a clash.tools account before including them in a war</p>
+                    </div>
+                </div>
+                <form class="form-horizontal" name="placeholderForm">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label">In game name</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control req-field" ng-model="modalOptions.formData.ign" placeholder="In game name" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+            <button class="btn btn-emphasis btn-sm" ng-disabled="placeholderForm.$invalid" ng-click="modalOptions.onYes(modalOptions.formData); $hide();">{{modalOptions.yesBtn}}</button>
+            <button class="btn btn-default btn-sm" ng-click="$hide();">{{modalOptions.noBtn}}</button>
+            </div>
+        </div>
+    </div>
+</div>

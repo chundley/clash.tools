@@ -2,12 +2,13 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <strong>Siftrock</strong> - Add a new user to your account
+                {{modalOptions.title}}
             </div>
             <div class="modal-body">
                 <div class="row margin-bottom-big">
                     <div class="col-sm-12">
-                        New users will be issued a temporary password and notified via email, using the address you provide in this form.
+                        <p>Use this form to add a user to clash.tools who has not currently signed up. This feature is for emergency situations when you need to add a member to your roster who hasn't taken the time to create an account and join your clan.</p>
+                        <p>Their account will not be complete, however, until the leader of the clan sets a correct email address for them to enable them to log in and set attacks
                     </div>
                 </div>
                 <form class="form-horizontal" name="userForm">
@@ -16,7 +17,7 @@
                         <div class="col-sm-9">
                             <input type="text" class="form-control req-field" ng-model="modalOptions.formData.name" placeholder="John Doe" required>
                         </div>
-                    </div>                    
+                    </div>
                     <div class="form-group">
                         <label for="email" class="col-sm-3 control-label">Email Address</label>
                         <div class="col-sm-9">
@@ -36,7 +37,7 @@
                         <div class="col-sm-12 error-red text-center">
                         <strong>{{modalOptions.formData.error}}</strong>
                         </div>
-                    </div>                    
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">

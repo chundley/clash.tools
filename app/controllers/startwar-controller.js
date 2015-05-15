@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('StartWarCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$window', '$modal', 'authService', 'sessionService', 'errorService', 'messagelogService', 'clanService', 'warService',
-function ($rootScope, $scope, $routeParams, $location, $window, $modal, authService, sessionService, errorService, messagelogService, clanService, warService) {
+.controller('StartWarCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$window', '$modal', 'authService', 'sessionService', 'errorService', 'messagelogService', 'clanService', 'warService', 'utils',
+function ($rootScope, $scope, $routeParams, $location, $window, $modal, authService, sessionService, errorService, messagelogService, clanService, warService, utils) {
     //$scope.helpLink = 'http://www.siftrock.com/help/dashboard/';
 
     var warId = $routeParams.id;
@@ -24,6 +24,15 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
 
             clanService.getMembers($scope.meta.current_clan.clan_id, 'all', function (err, members) {
                 $scope.members = members;
+
+
+                $scope.members.push(
+                    {
+                        id: null,
+                        ign: '<< Placeholder >>'
+                    }
+                );
+
                 if (err) {
                     err.stack_trace.unshift( { file: 'startwar-controller.js', func: 'init', message: 'Error getting clan members' } );
                     errorService.save(err, function() {});
@@ -49,6 +58,24 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                                 if (now.getTime() > start.getTime()) {
                                     $scope.warStarted = true;
                                 }
+
+                                // add placeholder members so the dropdowns work
+                                // little big of a hack, but user id's from placeholders have a '-' in them
+                                angular.forEach($scope.war.team, function (tm) {
+                                    if (tm.u != null && tm.u.indexOf('-') >= 0) {
+                                        $scope.members.push(
+                                            {
+                                                _id: tm.u,
+                                                ign: tm.i,
+                                                profile: {
+                                                    buildings: {
+                                                        th: tm.t
+                                                    }
+                                                }
+                                            }
+                                        );
+                                    }
+                                });
                             }
                         });
                     }
@@ -205,13 +232,63 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
     }
 
     $scope.assignRoster = function(baseNum, userId) {
-        for (var idx=0; idx<$scope.members.length; idx++) {
-            if ($scope.members[idx]._id == userId) {
-                $scope.war.team[baseNum].u = $scope.members[idx]._id;
-                $scope.war.team[baseNum].i = $scope.members[idx].ign;
-                $scope.war.team[baseNum].t = $scope.members[idx].profile.buildings.th > 1 ? $scope.members[idx].profile.buildings.th :
-                    $scope.war.team[baseNum].t > 1 ? $scope.war.team[baseNum].t : 1;
+        if (userId) {
+            for (var idx=0; idx<$scope.members.length; idx++) {
+                if ($scope.members[idx]._id == userId) {
+                    $scope.war.team[baseNum].u = $scope.members[idx]._id;
+                    $scope.war.team[baseNum].i = $scope.members[idx].ign;
+                    $scope.war.team[baseNum].t = $scope.members[idx].profile.buildings.th > 1 ? $scope.members[idx].profile.buildings.th :
+                        $scope.war.team[baseNum].t > 1 ? $scope.war.team[baseNum].t : 1;
+                }
             }
+            saveWarInternal();
+        }
+        else {
+            // placeholder team member
+            var cssClass = 'center';
+            if ($window.innerWidth < 500) {
+                cssClass = 'mobile';
+            }
+
+            $scope.modalOptions = {
+                yesBtn: 'Set',
+                noBtn: 'Cancel',
+                cssClass: cssClass,
+                formData: {},
+                onYes: function(formData) {
+                    $scope.war.team[baseNum].u = utils.createGUID();
+                    $scope.war.team[baseNum].i = formData.ign;
+                    $scope.war.team[baseNum].t = 1;
+
+                    // also need to add to members for the dropdowns to function
+                    $scope.members.push(
+                        {
+                            _id: $scope.war.team[baseNum].u,
+                            ign: $scope.war.team[baseNum].i,
+                            profile: {
+                                buildings: {
+                                    th: 1
+                                }
+                            }
+                        }
+                    );
+                    saveWarInternal();
+                }
+            };
+
+            var modalInstance = $modal(
+                {
+                    scope: $scope,
+                    animation: 'am-fade-and-slide-top',
+                    placement: 'center',
+                    template: "/views/partials/placeholderMember.html",
+                    show: false
+                }
+            );
+
+            modalInstance.$promise.then(function() {
+                modalInstance.show();
+            });
         }
         // check for duplicates
 /*        var sorted = $scope.war.team.sort(function (a, b) {
@@ -233,7 +310,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
             }
         }*/
 
-        saveWarInternal();
+
     }
 
     $scope.deleteAssignment = function(baseNum) {
@@ -250,6 +327,15 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
     */
     $scope.stopTimer = function() {
         $scope.$broadcast('timer-stop');
+    }
+
+    $scope.filterTeam = function(tm) {
+        if (tm && tm.i.length > 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     function saveWarInternal() {

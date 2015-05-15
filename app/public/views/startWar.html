@@ -85,7 +85,8 @@
                                         <div class="col-xs-12">
                                             <div class="well well-sm">
                                             <p>You don't have to fill out town hall levels. It is highly recommended, however, for performance tracking. For example, a TH9 attacking a TH10 will get more credit.</p>
-                                            If a member of your team has filled out their profile, their TH level will be automatically selected.</p>
+                                            <p>If a member of your team has filled out their profile, their TH level will be automatically selected.</p>
+                                            If a member hasn't joined the clan yet, you can still add a name to the roster as a placeholder. Note that <b>stats will not be tracked</b> for this placeholder user once the war ends.
                                             </div>
                                         </div>
                                     </div>
@@ -101,6 +102,9 @@
                                             <div class="col-lg-2 col-md-3 col-sm-3 col-xs-5">
                                                <select class="form-control-small" ng-model="tm.u" ng-options="member._id as member.ign for member in members" ng-change="assignRoster($index, tm.u)">
                                                 </select>
+<!--                                                 <select class="form-control-small" ng-model="tm.u" ng-change="assignRoster($index, tm.u)">
+                                                    <option ng-repeat="member in members" value="{{member._id}}">{{member.ign}}</option>
+                                                </select> -->
                                             </div>
                                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
                                                 <select class="form-control-small" ng-model="tm.t" ng-change="saveWar()">
@@ -164,7 +168,7 @@
                                                 </select>
                                             </div>
                                             <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4">
-                                               <select class="form-control-small" ng-model="base.a[0].u" ng-options="member._id as member.ign for member in members" ng-change="assignBase($index, base.a[0].u)" ng-disabled="warStarted">
+                                               <select class="form-control-small" ng-model="base.a[0].u" ng-options="tm.u as tm.i for tm in war.team | filter: filterTeam" ng-change="assignBase($index, base.a[0].u)" ng-disabled="warStarted">
                                                 </select>
                                             </div>
                                             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 icon-remove">
