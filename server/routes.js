@@ -164,6 +164,12 @@ var routes = [
         middleware: [warCtrl.updateStars],
         accessLevel: accessLevels.member
     },
+    {
+        path: '/crud/wars/:clanId',
+        httpMethod: 'GET',
+        middleware: [warCtrl.getHistory],
+        accessLevel: accessLevels.member
+    },
     /*
     *   App email endpoints
     */

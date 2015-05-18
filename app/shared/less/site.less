@@ -22,16 +22,25 @@
             font-family: 'Merriweather Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             float: left;
             display: block;
+
+            .btn {
+                margin-right: 10px;
+                margin-bottom: 4px;
+                min-width: 240px;
+            }
         }
 
         .wc-inner {
             float: left;
             display: block;
-            margin-bottom: 10px;
-            border: 1px solid @primary;
+            min-width: 240px;
+            margin-bottom: 4px;
+            border: 1px solid @primary-30;
             padding: 4px 6px;
             background: @primary-60;
             font-size: 14px;
+            line-height: 24px;
+            text-align: center;
         }
     }
 
@@ -530,9 +539,17 @@
 }
 
 
+/*
+*   War history page
+*/
 
+.wh-row {
+    cursor: pointer;
 
-
+    &:hover {
+        background: @primary-60;
+    }
+}
 
 
 

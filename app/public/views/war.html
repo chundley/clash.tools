@@ -44,10 +44,10 @@
                                     <div ng-repeat="base in war.bases">
                                         <div class="row t-row">
                                             <div class="col-sm-1 col-xs-2 text-center base-num">
-                                                <h2 ng-if="base.isOpen" class="primary-dark"><strong>{{base.b}}</strong></h2>
-                                                <h2 ng-if="!base.isOpen" class="primary-30"><strong>{{base.b}}</strong></h2>
+                                                <h2 ng-if="base.isOpen && activeWar" class="primary-dark"><strong>{{base.b}}</strong></h2>
+                                                <h2 ng-if="!base.isOpen || !activeWar" class="primary-30"><strong>{{base.b}}</strong></h2>
                                                 <br/>
-                                                <span class="dropdown" on-toggle="toggled(open)" ng-if="base.isOpen && (meta.role=='coleader' || meta.role=='leader')">
+                                                <span class="dropdown" on-toggle="toggled(open)" ng-if="base.isOpen && (meta.role=='coleader' || meta.role=='leader') && activeWar">
                                                     <a href class="dropdown-toggle">
                                                         <img src="/img/icons/swords-on.png">
                                                     </a>
@@ -56,10 +56,10 @@
                                                         <li ng-repeat="tm in war.team | orderBy:'i'" ng-if="tm.i"><a href ng-click="assignBase(base.b, tm.u, tm.i)">{{tm.i}}</a></li>
                                                     </ul>
                                                 </span>
-                                                <span ng-if="base.isOpen && (meta.role=='member' || meta.role=='elder')">
+                                                <span ng-if="base.isOpen && (meta.role=='member' || meta.role=='elder') && activeWar">
                                                     <a href ng-click="reserveBase(base.b)"><img src="/img/icons/swords-on.png"></a>
                                                 </span>
-                                                <img src="/img/icons/swords-off.png" ng-if="!base.isOpen">
+                                                <img src="/img/icons/swords-off.png" ng-if="!base.isOpen || !activeWar">
                                             </div>
                                             <div class="col-sm-1 hidden-xs th-icon"><img src="/img/icons/th-{{base.t}}.png"></div>
                                             <div class="col-sm-1 col-xs-2 best-icon">
@@ -76,14 +76,14 @@
                                                         {{a.i}}
                                                         </div>
                                                         <div class="aw-stars text-center">
-                                                            <span ng-if="(meta.role=='member' || meta.role=='elder') && (a.u!=meta._id)">
+                                                            <span ng-if="(meta.role=='member' || meta.role=='elder') && (a.u!=meta._id) || !activeWar">
                                                                 <img src="/img/icons/stars-tiny.png" ng-if="a.s==null">
                                                                 <img src="/img/icons/stars-tiny-0.png" ng-if="a.s==0">
                                                                 <img src="/img/icons/stars-tiny-1.png" ng-if="a.s==1">
                                                                 <img src="/img/icons/stars-tiny-2.png" ng-if="a.s==2">
                                                                 <img src="/img/icons/stars-tiny-3.png" ng-if="a.s==3">
                                                             </span>
-                                                            <span class="dropdown" on-toggle="toggled(open)" ng-if="(meta.role=='leader' || meta.role=='coleader') || (a.u==meta._id)">
+                                                            <span class="dropdown" on-toggle="toggled(open)" ng-if="((meta.role=='leader' || meta.role=='coleader') || (a.u==meta._id)) && activeWar">
                                                                 <a href class="dropdown-toggle">
                                                                     <img src="/img/icons/stars-tiny.png" ng-if="a.s==null">
                                                                     <img src="/img/icons/stars-tiny-0.png" ng-if="a.s==0">

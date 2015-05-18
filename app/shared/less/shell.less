@@ -145,6 +145,26 @@ input.ng-valid, textarea.ng-valid {
     color: @error-red;
 }
 
+.good-green {
+    color: @good-green;
+}
+
+.neutral-yellow {
+    color: @neutral-yellow;
+}
+
+.error-red-bg {
+    background: lighten(@error-red, 50%);
+}
+
+.good-green-bg {
+    background: lighten(@good-green, 50%);
+}
+
+.neutral-yellow-bg {
+    background: @neutral-yellow;
+}
+
 /*
 *   Buttons
 */
@@ -353,8 +373,8 @@ a.external-link {
         color: #fff;
         background: @primary;
         font-size: 14px;
-        font-family: 'Merriweather Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        padding: 8px 12px 8px 12px;
+        //font-family: 'Merriweather Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        padding: 6px 10px 6px 10px;
         border-left: 1px solid @primary;
         border-right: 1px solid @primary;
         border-top: 1px solid @primary;
@@ -509,7 +529,7 @@ a.external-link {
             width: 70%;
             //transform: translateX(-50%) translateY(-50%);
         }
-    }    
+    }
 
 }
 
@@ -523,7 +543,7 @@ a.external-link {
 
 .t-row {
     padding: 4px 0px 4px 0px;
-    color: @primary-10;
+    //color: @primary-10;
 }
 
 /*

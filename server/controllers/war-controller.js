@@ -98,6 +98,17 @@ exports.getById = function(req, res, next) {
     });
 }
 
+exports.getHistory = function(req, res, next) {
+    warModel.getHistory(req.params.clanId, function (err, history) {
+        if (err) {
+            res.send(500, err);
+        }
+        else {
+            res.json(200, history);
+        }
+    });
+}
+
 /*exports.allClans = function(req, res, next) {
     clanModel.allClans(req.params.query, function (err, clans) {
         if (err) {

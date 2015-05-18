@@ -16,7 +16,7 @@
                     <div class="row margin-bottom-huge">
                         <div class="col-sm-12 war-summary-container">
                             <div class="widget">
-                                <div class="widget-header">War status <span ng-if="war" access-level="coleader" class="pull-right"><a href="/startwar/{{war._id}}" class="btn btn-default btn-xs">Leader edit</a></span></div>
+                                <div class="widget-header">Current war status <span ng-if="war" access-level="coleader" class="pull-right"><a href="/startwar/{{war._id}}" class="btn btn-default btn-xs">Leader edit</a></span></div>
                                 <div class="widget-body">
                                     <div class="row" ng-show="!war">
                                         <div class="col-xs-12">
@@ -29,7 +29,8 @@
                                             <div class="row">
                                                 <div class="col-xs-12 war-vs">
                                                     <div class="war-vs-header">
-                                                        <h2><a href="/war/{{war._id}}">War vs. <b>{{war.opponent_name}}</b></a></h2>
+                                                        <!-- <h2><a href="/war/{{war._id}}">War vs. <b>{{war.opponent_name}}</b></a></h2> -->
+                                                        <a href="/war/{{war._id}}" class="btn btn-alternate">War vs. {{war.opponent_name}}</a>
                                                     </div>
                                                     <!-- <br class="hidden-lg hidden-md hidden-sm" /> -->
                                                     <div class="wc-inner" ng-show="!warEnded">

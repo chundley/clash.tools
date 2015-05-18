@@ -70,6 +70,16 @@ function ($http, errorService) {
                 }
                 callback(errorService.initMessage('war-service.js', 'get', status), null);
             });
+        },
+        getHistory: function(clanId, callback) {
+            $http({
+                url: '/crud/wars/' + clanId,
+                method: 'GET'
+            }).success(function (data, status, headers, config) {
+                callback(null, data);
+            }).error(function (data, status, headers, config) {
+                callback(errorService.initMessage('war-service.js', 'get', status), null);
+            });
         }
 /*        allClans: function(query, callback) {
             $http({

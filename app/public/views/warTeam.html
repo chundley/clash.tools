@@ -49,7 +49,7 @@
                                             <div class="col-sm-2 col-xs-3 member-name-team">
                                                 {{member.i}}
                                             </div>
-                                            <div class="col-sm-1 hidden-xs th-icon"><img src="/img/icons/th-{{member.t}}.png"></div>                                            
+                                            <div class="col-sm-1 hidden-xs th-icon"><img src="/img/icons/th-{{member.t}}.png"></div>
                                             <div class="col-sm-8 col-xs-7">
                                                 <div ng-repeat="a in member.a">
                                                     <div class="assignment-widget">
@@ -57,14 +57,14 @@
                                                         #{{a.b}}
                                                         </div>
                                                         <div class="aw-stars text-center">
-                                                            <span ng-if="(meta.role=='member' || meta.role=='elder') && (a.u!=meta._id)">
+                                                            <span ng-if="((meta.role=='member' || meta.role=='elder') && (a.u!=meta._id)) || !activeWar">
                                                                 <img src="/img/icons/stars-tiny.png" ng-if="a.s==null">
                                                                 <img src="/img/icons/stars-tiny-0.png" ng-if="a.s==0">
                                                                 <img src="/img/icons/stars-tiny-1.png" ng-if="a.s==1">
                                                                 <img src="/img/icons/stars-tiny-2.png" ng-if="a.s==2">
                                                                 <img src="/img/icons/stars-tiny-3.png" ng-if="a.s==3">
                                                             </span>
-                                                            <span class="dropdown" on-toggle="toggled(open)" ng-if="(meta.role=='leader' || meta.role=='coleader') || (a.u==meta._id)">
+                                                            <span class="dropdown" on-toggle="toggled(open)" ng-if="((meta.role=='leader' || meta.role=='coleader') || (a.u==meta._id)) && activeWar">
                                                                 <a href class="dropdown-toggle">
                                                                     <img src="/img/icons/stars-tiny.png" ng-if="a.s==null">
                                                                     <img src="/img/icons/stars-tiny-0.png" ng-if="a.s==0">

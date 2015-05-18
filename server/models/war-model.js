@@ -213,6 +213,48 @@ exports.findById = function(id, callback) {
     });
 }
 
+exports.getHistory = function(clanId, callback) {
+    if (_.isString(clanId)) {
+        clanId = new ObjectID.createFromHexString(clanId);
+    }
+
+    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'war', function (err, collection) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            collection.find( { clan_id: clanId, active: false }, {  } )
+            .sort( {created_at: -1} )
+            .toArray(function (err, wars) {
+                if (err) {
+                    callback(err, null);
+                }
+                else {
+                    if (wars) {
+                        var retWars = [];
+                        _.each(wars, function (war) {
+                            var w = {
+                                _id: war._id,
+                                opponent_name: war.opponent_name,
+                                player_count: war.player_count,
+                                stars: war.result.stars,
+                                opponent_stars: war.result.opponentStars,
+                                result: war.result.result,
+                                start: war.start
+                            };
+                            retWars.push(w);
+                        });
+                        callback(null, retWars);
+                    }
+                    else {
+                        callback(null, null);
+                    }
+                }
+            });
+        }
+    });
+}
+
 /*
 * Upserts a record and returns the resulting record
 */
