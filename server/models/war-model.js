@@ -6,7 +6,8 @@ var ObjectID = require('mongodb').ObjectID,
     async    = require('async'),
     _        = require('underscore');
 
-var config    = require('../../config/config');
+var config            = require('../../config/config'),
+    attackResultModel = require('./attackresult-model');
 
 
 /*
@@ -178,7 +179,14 @@ exports.updateStars = function(warId, model, callback) {
                             callback(err, null);
                         }
                         else {
-                            callback(null, result);
+                            attackResultModel.save(warId, model, function (err, res) {
+                                if (err) {
+                                    callback(err, null);
+                                }
+                                else {
+                                    callback(null, result);
+                                }
+                            });
                         }
                     }
                 );

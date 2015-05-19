@@ -49,17 +49,37 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, u
 
     $scope.changeStars = function(targetNum, baseNum, numStars) {
         var assignmentIndex = -1;
-
+        var playerIndex = -1;
         for (var idx=0; idx<$scope.war.bases[baseNum-1].a.length; idx++) {
             if ($scope.war.bases[baseNum-1].a[idx].u == authService.user.id) {
                 assignmentIndex = idx;
+                break;
             }
         }
 
+        for (var idx=0; idx<$scope.war.team.length; idx++) {
+            if ($scope.war.team[idx].u == authService.user.id) {
+                playerIndex = idx;
+            }
+        }
+
+        var endDate = new Date($scope.war.start);
+        endDate = new Date(endDate.getTime() + 24*60*60*1000);
+        //console.log($scope.war);
+
+        // much of this meta data is for the attack history collection
         var update = {
             aIndex: assignmentIndex,
             bIndex: baseNum-1,
-            stars: numStars
+            pIndex: playerIndex,
+            stars: numStars,
+            c: $scope.meta.current_clan.clan_id,
+            u: authService.user.id,
+            i: $scope.meta.ign,
+            cn: $scope.meta.current_clan.name,
+            t: $scope.war.team[playerIndex].t,
+            ot: parseInt($scope.war.bases[baseNum-1].t),
+            we: endDate
         };
 
         warService.updateStars($scope.war._id, update, function (err, result) {

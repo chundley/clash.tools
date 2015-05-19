@@ -107,7 +107,7 @@
                                                 </select> -->
                                             </div>
                                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
-                                                <select class="form-control-small" ng-model="tm.t" ng-change="saveWar()">
+                                                <select class="form-control-small" ng-model="tm.t" ng-change="saveWar()" integer>
                                                     <option>10</option>
                                                     <option>9</option>
                                                     <option>8</option>
@@ -152,7 +152,7 @@
                                         <div class="row" ng-repeat="base in war.bases">
                                             <div class="col-lg-1 col-md-1 col-sm-2 col-xs-3 t-row text-center">{{base.b}}</div>
                                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
-                                                <select class="form-control-small" ng-model="base.t" ng-change="saveWar()">
+                                                <select class="form-control-small" ng-model="base.t" ng-change="saveWar()" integer>
                                                     <option>10</option>
                                                     <option>9.5</option>
                                                     <option>9</option>
