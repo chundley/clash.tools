@@ -70,3 +70,20 @@ exports.getByClan = function(req, res, next) {
         }
     });
 }
+
+/*
+*   Get the clan roster data
+*/
+exports.getRoster = function(req, res, next) {
+    clanModel.getRoster(req.params.clanId, function (err, roster) {
+        if (err) {
+            res.send(500, err);
+        }
+        else if (roster) {
+            res.json(200, roster);
+        }
+        else {
+            res.send(404, 'not found');
+        }
+    });
+}

@@ -255,6 +255,35 @@ exports.getHistory = function(clanId, callback) {
     });
 }
 
+exports.getFullHistory = function(clanId, callback) {
+    if (_.isString(clanId)) {
+        clanId = new ObjectID.createFromHexString(clanId);
+    }
+
+    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'war', function (err, collection) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            collection.find( { clan_id: clanId, active: false }, {  } )
+            .sort( {created_at: -1} )
+            .toArray(function (err, wars) {
+                if (err) {
+                    callback(err, null);
+                }
+                else {
+                    if (wars) {
+                        callback(null, wars);
+                    }
+                    else {
+                        callback(null, null);
+                    }
+                }
+            });
+        }
+    });
+}
+
 /*
 * Upserts a record and returns the resulting record
 */

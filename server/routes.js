@@ -120,6 +120,12 @@ var routes = [
         accessLevel: accessLevels.member
     },
     {
+        path: '/crud/clan/:clanId/roster',
+        httpMethod: 'GET',
+        middleware: [clanCtrl.getRoster],
+        accessLevel: accessLevels.coleader
+    },
+    {
         path: '/crud/clans/:query',
         httpMethod: 'GET',
         middleware: [clanCtrl.allClans],

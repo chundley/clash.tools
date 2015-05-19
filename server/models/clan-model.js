@@ -7,7 +7,8 @@ var ObjectID = require('mongodb').ObjectID,
     _        = require('underscore');
 
 var config    = require('../../config/config'),
-    userModel = require('./user-model');
+    userModel = require('./user-model'),
+    warModel  = require('./war-model');
 
 /*
 * Upserts a record and returns the resulting record
@@ -210,6 +211,56 @@ exports.findByTag = function(tag, callback) {
     });
 }
 
+/*
+*   Gets the clan roster detail
+*
+*   This pulls all members who've ever warred with the clan and their results
+*/
+exports.getRoster = function(clanId, callback) {
+    if (_.isString(clanId)) {
+        clanId = new ObjectID.createFromHexString(clanId);
+    }
+
+    var roster = {};
+
+    warModel.getFullHistory(clanId, function (err, wars) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            _.each(wars, function (war) {
+                _.each(war.bases, function (base) {
+                    _.each(base.a, function (assignment) {
+                        if (!roster[assignment.u]) {
+                            var member = {
+                                u: assignment.u,
+                                i: assignment.i,
+                                r: {
+                                    3: 0,
+                                    2: 0,
+                                    1: 0,
+                                    0: 0
+                                }
+                            };
+
+                            roster[assignment.u] = member;
+                        }
+                        else {
+                            if (assignment.s != null) {
+                                roster[assignment.u].r[assignment.s]++;
+                            }
+                            else {
+                                roster[assignment.u].r[0]++;
+                            }
+                        }
+                    });
+                });
+            });
+            logger.warn(roster);
+            callback(null, roster);
+        }
+    });
+}
 
 /*
 *   Internal function for gathering clan metrics across all models

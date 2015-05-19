@@ -54,6 +54,16 @@ function ($http, errorService) {
             }).error(function (data, status, headers, config) {
                 callback(errorService.initMessage('clan-service.js', 'get', status), null);
             });
+        },
+        getRoster: function(clanId, callback) {
+            $http({
+                url: '/crud/clan/' + clanId + '/roster',
+                method: 'GET'
+            }).success(function (data, status, headers, config) {
+                callback(null, data);
+            }).error(function (data, status, headers, config) {
+                callback(errorService.initMessage('clan-service.js', 'get', status), null);
+            });
         }
     }
 }]);

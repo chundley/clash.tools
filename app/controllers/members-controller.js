@@ -28,7 +28,6 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, 
                         member.joined = new moment(member.current_clan.joined);
                     });
                     $scope.members = members;
-                    console.log(members);
                 }
             });
         }
