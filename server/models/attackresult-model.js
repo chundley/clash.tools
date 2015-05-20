@@ -198,3 +198,28 @@ exports.remove = function(warId, model, callback) {
         }
     });
 }
+
+/*
+*   Get war results by clan id
+*/
+exports.findByClanId = function(clanId, callback) {
+    if (_.isString(clanId)) {
+        clanId = new ObjectID.createFromHexString(clanId);
+    }
+
+    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'attack_result', function (err, collection) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            collection.find( { c: clanId }).toArray(function (err, items) {
+                if (err) {
+                    callback(err, null);
+                }
+                else {
+                    callback(null, items);
+                }
+            });
+        }
+    });
+}

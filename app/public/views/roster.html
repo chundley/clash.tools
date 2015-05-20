@@ -5,60 +5,48 @@
         <div class="container-fluid">
             <div top-nav></div>
             <!-- page content -->
-            <div class="row content-body members-container margin-bottom-huge">
+            <div class="row content-body roster-container margin-bottom-huge">
                 <div class="col-sm-12">
                     <div class="row margin-bottom-huge">
-                        <div class="col-sm-6 col-xs-12">
-                            <h1>Members</h1>
-                            <h3 class="same-line-sub-heading alternate">{{clan.name}}</h3>
-                        </div>
-                        <div class="col-sm-6 hidden-xs">
-                            <a href="/roster" class="btn btn-emphasis btn-sm pull-right" access-level="coleader">Leader Roster</a>
+                        <div class="col-sm-12 col-xs-12">
+                            <h1>Roster and Attack History</h1>
+                            <h3 class="same-line-sub-heading alternate">{{meta.current_clan.name}}</h3>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row margin-bottom-huge">
                         <div class="col-xs-12">
                             <div class="widget">
                                 <div class="widget-header">
-                                    Total members: {{members.length}}
+                                    Members:
+                                    <input type="radio" name="filter" ng-model="filter" value="current"> Current
+                                    <input type="radio" name="filter" ng-model="filter" value="past"> Past
+                                    <input type="radio" name="filter" ng-model="filter" value="all"> All
                                 </div>
-                                <div class="widget-body members-table">
+                                <div class="widget-body roster-table">
                                     <div class="row t-row">
-                                        <div class="col-sm-3 col-xs-5 t-header">IGN</div>
-                                        <div class="col-sm-1 col-xs-2 t-header">TH</div>
-                                        <div class="col-sm-3 col-xs-3 t-header">Role</div>
-                                        <div class="col-sm-3 hidden-xs t-header">Joined</div>
-                                        <div class="col-sm-2 col-xs-2 t-header"></div>
+                                        <div class="col-sm-3 col-xs-3 t-header" ng-class="{alternate: order=='i'}" ng-click="order='i'; reverse=!reverse">IGN</div>
+                                        <div class="col-sm-1 col-xs-1 t-header" ng-class="{alternate: order=='t'}" ng-click="order='t'; reverse=!reverse">TH</div>
+                                        <div class="col-sm-1 col-xs-1 t-header text-center" ng-class="{alternate: order=='stars[3]'}" ng-click="order='stars[3]'; reverse=!reverse">3*</div>
+                                        <div class="col-sm-1 col-xs-1 t-header text-center" ng-class="{alternate: order=='stars[2]'}" ng-click="order='stars[2]'; reverse=!reverse">2*</div>
+                                        <div class="col-sm-1 col-xs-1 t-header text-center" ng-class="{alternate: order=='stars[1]'}" ng-click="order='stars[1]'; reverse=!reverse">1*</div>
+                                        <div class="col-sm-1 col-xs-1 t-header text-center" ng-class="{alternate: order=='stars[0]'}" ng-click="order='stars[0]'; reverse=!reverse">0*</div>
+                                        <div class="col-sm-2 col-xs-2 t-header text-right" ng-class="{alternate: order=='threeRate'}" ng-click="order='threeRate'; reverse=!reverse">3* Rate</div>
+                                        <div class="col-sm-2 col-xs-2 t-header text-right" ng-class="{alternate: order=='avgAttackValue'}" ng-click="order='avgAttackValue'; reverse=!reverse"><i class="icon-help-circled" popover-placement="left" popover="AAV is Average Attack Value. This is a calculation based on number of stars, distance the target was from mirror, and TH level of target. The AAV range is 0 - 100" popover-append-to-body="true" popover-trigger="mouseenter"></i> AAV</div>
                                     </div>
                                     <div class="row row-underline-2"></div>
-                                    <div ng-repeat="member in members">
+                                    <div ng-repeat="member in memberResults | filter:filterTable | orderBy:order:reverse">
                                         <div class="row t-row">
-                                            <div class="col-sm-3 col-xs-5 t-col-center">{{member.ign}}</div>
-                                            <div class="col-sm-1 col-xs-2"><img src="/img/icons/th-{{member.profile.buildings.th}}.png"></div>
-                                            <div class="col-sm-3 col-xs-3 t-col-center capitalize {{member.role.title}}">{{member.role.title}}</div>
-                                            <div class="col-sm-3 hidden-xs t-col-center"><span am-time-ago="{{member.joined}}"></span></div>
-                                            <div class="col-sm-2 col-xs-2 t-col-center text-right" ng-if="(meta.role=='member' || meta.role=='elder' || member.role.title=='leader')"></div>
-
-                                            <div class="col-sm-2 col-xs-2 t-col-center" ng-if="(meta.role=='leader' || meta.role=='coleader') && member.role.title!='leader' && member._id != userId">
-                                                <span class="dropdown pull-right" on-toggle="toggled(open)">
-                                                    <a href class="dropdown-toggle">
-                                                        <button class="btn btn-default btn-member-dd btn-xs"><i class="icon-down-dir primary-30"></i></button>
-                                                    </a>
-                                                    <ul class="dropdown-menu">
-                                                        <li ng-if="(meta.role=='leader' || meta.role=='coleader') && member.role.title=='member'"><a href ng-click="changeRole(member, 'elder', 'promoted')">Promote to Elder</a></li>
-                                                        <li ng-if="(meta.role=='leader' || meta.role=='coleader') && (member.role.title=='member' || member.role.title=='elder')"><a href ng-click="changeRole(member, 'coleader', 'promoted')">Promote to Co-leader</a></li>
-                                                        <li ng-if="meta.role=='leader'"><a href ng-click="changeRole(member, 'leader', 'promoted')">Promote to Leader</a></li>
-                                                        <li ng-if="member.role.title=='elder' || member.role.title=='coleader'" class="divider"></li>
-                                                        <li ng-if="(meta.role=='leader' || meta.role=='coleader') && (member.role.title=='elder' || member.role.title=='coleader')"><a href ng-click="changeRole(member, 'member', 'demoted')">Demote to Member</a></li>
-                                                        <li ng-if="member.role.title=='coleader' && meta.role=='leader'"><a href ng-click="changeRole(member, 'elder', 'demoted')">Demote to Elder</a></li>
-                                                        <li class="divider"></li>
-                                                        <li ng-if="meta.role=='coleader' && (member.role.title=='member' || member.role.title=='elder')"><a href ng-click="kick(member)">Kick from clan</a></li>
-                                                        <li ng-if="meta.role=='leader' && (member.role.title!='leader')"><a href ng-click="kick(member)">Kick from clan</a></li>
-                                                    </ul>
-                                                </span>
-                                            </div>
+                                            <div class="col-sm-3 col-xs-3 t-col-center">{{member.i}}</div>
+                                            <div class="col-sm-1 hidden-xs"><img src="/img/icons/th-{{member.t}}.png"></div>
+                                            <div class="col-xs-1 t-col-center hidden-sm hidden-md hidden-lg">{{member.t}}</div>
+                                            <div class="col-sm-1 col-xs-1 t-col-center text-center">{{member.stars[3]}}</div>
+                                            <div class="col-sm-1 col-xs-1 t-col-center text-center">{{member.stars[2]}}</div>
+                                            <div class="col-sm-1 col-xs-1 t-col-center text-center">{{member.stars[1]}}</div>
+                                            <div class="col-sm-1 col-xs-1 t-col-center text-center">{{member.stars[0]}}</div>
+                                            <div class="col-sm-2 col-xs-2 t-col-center text-right">{{member.threeRate | number:2}}%</div>
+                                            <div class="col-sm-2 col-xs-2 t-col-center text-right">{{member.avgAttackValue | number:2}}</div>
                                         </div>
-                                        <div class="row row-underline-1" ng-if="$index<members.length-1"></div>
+                                        <div class="row row-underline-1" ng-if="$index<memberResults.length-1"></div>
                                     </div>
                                 </div>
                             </div>

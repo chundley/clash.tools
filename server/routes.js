@@ -10,6 +10,7 @@ var authCtrl            = require('./controllers/auth-controller'),
     userCtrl            = require('./controllers/user-controller'),
     clanCtrl            = require('./controllers/clan-controller'),
     warCtrl             = require('./controllers/war-controller'),
+    attackResultsCtrl   = require('./controllers/attackresult-controller'),
     emailMessageCtrl    = require('./controllers/emailmessage-controller'),
     pwResetCtrl         = require('./controllers/pwreset-controller'),
     mailCtrl            = require('./controllers/mail-controller'),
@@ -130,6 +131,15 @@ var routes = [
         httpMethod: 'GET',
         middleware: [clanCtrl.allClans],
         accessLevel: accessLevels.public
+    },
+    /*
+    *   Attack result endpoints
+    */
+    {
+        path: '/crud/ar/:clanId',
+        httpMethod: 'GET',
+        middleware: [attackResultsCtrl.findByClanId],
+        accessLevel: accessLevels.member
     },
     /*
     *   War endpoints
