@@ -17,7 +17,8 @@ var http    = require('http'),
 */
 var config       = require('./config/config'),
     mongoCache   = require('./app/shared/mongo-cache'),
-    App          = require('./app/app');
+    App          = require('./app/app'),
+    warModel     = require('./server/models/war-model');
 
 /*
  * Global logger
@@ -56,6 +57,14 @@ app.init(function(err) {
             logger.info('Server listening on ' +
                 config.env[process.env.NODE_ENV].url.host + ':'
                 + config.env[process.env.NODE_ENV].url.port);
+
+            /*
+            *   Used for backfilling attack results after a change to the scoring algorythm
+            *
+            *   Un-comment this line to run the backfill once on startup
+            */
+
+            //warModel.backfillAllWars(function(err, result){ logger.info('Attack result backfill finished')});
         }
     );
 });

@@ -7,6 +7,7 @@ var ObjectID = require('mongodb').ObjectID,
     _        = require('underscore');
 
 var config            = require('../../config/config'),
+    clanModel         = require('./clan-model'),
     attackResultModel = require('./attackresult-model');
 
 
@@ -289,6 +290,96 @@ exports.getFullHistory = function(clanId, callback) {
                 else {
                     if (wars) {
                         callback(null, wars);
+                    }
+                    else {
+                        callback(null, null);
+                    }
+                }
+            });
+        }
+    });
+}
+
+exports.backfillAttackResults = function(warId, callback) {
+    exports.findById(warId, function (err, war) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+
+            clanModel.findById(war.clan_id, function (err, clan) {
+                if (err) {
+                    callback(err, null);
+                }
+                else {
+                    var endDate = new Date(war.start);
+                    endDate = new Date(endDate.getTime() + 24*60*60*1000);
+                    _.each(war.bases, function (base) {
+                        _.each(base.a, function (assignment) {
+
+                            var playerIndex = -1;
+                            for (var idx=0; idx<war.team.length; idx++) {
+                                if (war.team[idx].u == assignment.u) {
+                                    playerIndex = idx;
+                                }
+                            }
+
+                            // make sure nothing strange happened to the team
+                            if (playerIndex >= 0) {
+                                var update = {
+                                    bIndex: base.b-1,
+                                    pIndex: playerIndex,
+                                    stars: assignment.s,
+                                    c: war.clan_id,
+                                    cn: clan.name,
+                                    u: assignment.u,
+                                    i: assignment.i,
+                                    t: war.team[playerIndex].t,
+                                    ot: parseInt(base.t),
+                                    we: endDate
+                                };
+
+                                attackResultModel.save(warId, update, function (err, result) {
+                                    if (err) {
+                                        logger.error(err);
+                                    }
+                                    else {
+
+                                    }
+                                });
+                            }
+                        });
+                    });
+
+                    callback(null, null);
+                }
+            });
+        }
+    });
+}
+
+exports.backfillAllWars = function(callback) {
+    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'war', function (err, collection) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            collection.find( { }, { _id: 1 } )
+            .sort( {created_at: -1} )
+            .toArray(function (err, wars) {
+                if (err) {
+                    callback(err, null);
+                }
+                else {
+                    if (wars) {
+                        _.each(wars, function (war) {
+                            exports.backfillAttackResults(war._id, function (err, result) {
+                                if (err) {
+                                    logger.error('Could not backfill war ' + war._id);
+                                }
+                            });
+                        });
+                        callback(null, null);
                     }
                     else {
                         callback(null, null);

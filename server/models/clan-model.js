@@ -193,7 +193,6 @@ exports.findById = function(id, callback) {
 *   Find Clan by clan tag
 */
 exports.findByTag = function(tag, callback) {
-
     db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'clan', function (err, collection) {
         if (err) {
             callback(err, null);
