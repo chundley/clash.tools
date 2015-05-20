@@ -48,11 +48,30 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
         }
     }
 
-    $scope.changeStars = function(assignmentIndex, baseNum, ign, numStars) {
+    $scope.changeStars = function(assignmentIndex, baseNum, userId, ign, numStars) {
+
+        var playerIndex = -1;
+        for (var idx=0; idx<$scope.war.team.length; idx++) {
+            if ($scope.war.team[idx].u == userId) {
+                playerIndex = idx;
+            }
+        }
+
+        var endDate = new Date($scope.war.start);
+        endDate = new Date(endDate.getTime() + 24*60*60*1000);
+
         var update = {
             aIndex: assignmentIndex,
             bIndex: baseNum - 1,
-            stars: numStars
+            pIndex: playerIndex,
+            stars: numStars,
+            c: $scope.meta.current_clan.clan_id,
+            u: userId,
+            i: ign,
+            cn: $scope.meta.current_clan.name,
+            t: $scope.war.team[playerIndex].t,
+            ot: parseInt($scope.war.bases[baseNum-1].t),
+            we: endDate
         };
 
         warService.updateStars($scope.war._id, update, function (err, result) {
@@ -93,7 +112,7 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
         // delete works differently because removing an item from an array in
         // MongoDb requires a value (in this case, userId)
         var update = {
-            userId: userId,
+            u: userId,
             bIndex: baseNum - 1,
             stars: -1
         };

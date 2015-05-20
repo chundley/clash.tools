@@ -261,7 +261,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, u
         }
 
         var update = {
-            userId: authService.user.id,
+            u: authService.user.id,
             bIndex: baseNum - 1,
             stars: -1
         };

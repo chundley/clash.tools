@@ -144,7 +144,7 @@ exports.updateStars = function(warId, model, callback) {
             else {
                 // bases.0.a.ign (pull out of base array where base is zero and assignment is ign)
                 var pull = {};
-                pull['bases.' + model.bIndex + '.a'] = { u: model.userId };
+                pull['bases.' + model.bIndex + '.a'] = { u: model.u };
                 collection.update(
                     { _id: warId,  },
                     { $pull: pull },
@@ -154,7 +154,14 @@ exports.updateStars = function(warId, model, callback) {
                             callback(err, null);
                         }
                         else {
-                            callback(null, result);
+                            attackResultModel.remove(warId, model, function (err, res) {
+                                if (err) {
+                                    callback(err, null);
+                                }
+                                else {
+                                    callback(null, result);
+                                }
+                            });
                         }
                     }
                 );

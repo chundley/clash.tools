@@ -8,7 +8,7 @@ var ObjectID = require('mongodb').ObjectID,
 
 var config    = require('../../config/config');
 
-var fib = [0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233];
+var fib = [0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987];
 var starVal = [0, 10, 30, 60];
 
 /*
@@ -32,10 +32,11 @@ exports.save = function(warId, model, callback) {
     model.we = new Date(model.we);
 
     var fibIdx = rank - opponentRank;
-    var fibVal = 377;
 
+    // baseline attack value is number of stars
     var attackValue = starVal[model.stars];
 
+    // added or subtracted value based on position of base attacked in lineup compared to attacker
     if (fibIdx >= 0) {
         if (fibIdx < 12) {
             attackValue += Math.sqrt(fib[fibIdx]) * 3;
@@ -46,19 +47,36 @@ exports.save = function(warId, model, callback) {
     }
     else {
         fibIdx = fibIdx * -1;
-        if (fibIdx < 8) {
-            attackValue -= Math.sqrt(fib[fibIdx]) * 2;
+        if (fibIdx < 16) {
+            attackValue -= Math.sqrt(fib[fibIdx]);
         }
         else {
-            // max attack deduction = 20
-            attackValue -= 20;
+            // max attack deduction = 30
+            attackValue -= 30;
         }
     }
 
-    //var attackValue = 
+    // added or subtracted value based on attacking a higher or lower TH level
+    if (model.t < model.ot) {
+        attackValue += starVal[model.stars] * .5;
+    }
+    else if (model.t > model.ot) {
+        attackValue -= starVal[model.stars] * .25;
+    }
 
-    logger.warn(model);
-    logger.error(attackValue);
+    // max is 100
+    if (attackValue > 100) {
+        attackValue = 100;
+    }
+    // min is 0
+    else if (attackValue < 0) {
+        attackValue = 0;
+    }
+
+    // final check - zero stars is always worth zero (the above factors could make a zero attack worth points)
+    if (model.stars == 0) {
+        attackValue = 0;
+    }
 
     // determine if this record exists already
 
@@ -83,9 +101,62 @@ exports.save = function(warId, model, callback) {
         function (attackResult, callback_wf) {
             if (attackResult == null) {
                 // not updating an existing attack result - add new
+                var newAR = {
+                    u: model.u,
+                    i: model.i,
+                    c: model.c,
+                    cn: model.cn,
+                    w: warId,
+                    we: model.we,
+                    r: rank,
+                    or: opponentRank,
+                    t: model.t,
+                    ot: model.ot,
+                    s: model.stars,
+                    v: parseInt(attackValue)
+                };
 
+                db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'attack_result', function (err, collection) {
+                    if (err) {
+                        callback_wf(err, null);
+                    }
+                    else {
+                        collection.save(newAR, function (err, ar) {
+                            if (err) {
+                                callback_wf(err, null);
+                            }
+                            else {
+                                callback_wf(null, ar);
+                            }
+                        });
+                    }
+                });
             }
-            logger.warn(attackResult);
+            else {
+                // update existing
+                var update = {
+                    $set: {
+                        s: model.stars,
+                        v: parseInt(attackValue)
+                    }
+                };
+
+                db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'attack_result', function (err, collection) {
+                    if (err) {
+                        callback_wf(err, null);
+                    }
+                    else {
+                        collection.update({ w: warId, u: model.u, or: opponentRank }, update, function (err, ar) {
+                            if (err) {
+                                callback_wf(err, null);
+                            }
+                            else {
+                                callback_wf(null, ar);
+                            }
+                        });
+                    }
+                });
+            }
         }
     ], function (err, result) {
         if (err) {
@@ -96,39 +167,34 @@ exports.save = function(warId, model, callback) {
         }
     });
 
-
-
-    callback(null, null);
+}
 
 /*
-    model.last_updated_at = new Date();
-
-    if (model.created_at) {
-        model.created_at = new Date(model.created_at);
-    }
-    else {
-        model.created_at = model.last_updated_at;
+*   Remove a row from attack_result - should rarely be needed
+*/
+exports.remove = function(warId, model, callback) {
+    if (_.isString(warId)) {
+        warId = new ObjectID.createFromHexString(warId);
     }
 
-    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'war', function (err, collection) {
+    if (_.isString(model.u)) {
+        model.u = new ObjectID.createFromHexString(model.u);
+    }
+
+    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'attack_result', function (err, collection) {
         if (err) {
             callback(err, null);
         }
         else {
-            collection.save(model, function (err, war) {
+            //var opponentRank = model.bIndex + 1;
+            collection.remove({ w: warId, u: model.u, or: model.bIndex + 1 }, {}, function (err, result) {
                 if (err) {
                     callback(err, null);
                 }
                 else {
-                    if (war == 1) { // successful update
-                        callback(null, model);
-                    }
-                    else {  // successful save new
-                        callback(null, war);
-                    }
+                    callback(null, result);
                 }
             });
         }
-    });*/
-
+    });
 }
