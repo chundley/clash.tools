@@ -543,6 +543,11 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                 // war has started and this base is uncalled
                 base.isOpen = true;
             }
+            else if ($scope.clan.war_config.first_assignment == 'all'
+                     && base.a.length == 0) {
+                // first assignment is open to all, so bases should be open if not assigned yet
+                base.isOpen = true;
+            }
             else if (!$scope.warStarted
                      && base.a.length == 0
                      && ($scope.meta.role == 'coleader' || $scope.meta.role =="leader")) {
@@ -569,7 +574,6 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                 }
             }
         });
-
 
         setCountdownTimers();
         var promise = $interval(setCountdownTimers, 30000);
