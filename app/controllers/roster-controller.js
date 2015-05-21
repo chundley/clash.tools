@@ -63,7 +63,12 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, 
                                     };
 
                                     newRow.stars[ar.s] = 1;
-                                    newRow.threeRate = 100 ? ar.s==3 : 0;
+                                    if (ar.s==3) {
+                                        newRow.threeRate = 100;
+                                    }
+                                    else {
+                                        newRow.threeRate = 0;
+                                    }
 
                                     angular.forEach($scope.members, function (member) {
                                         if (member._id == ar.u) {
