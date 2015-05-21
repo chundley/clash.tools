@@ -72,7 +72,13 @@ function ($rootScope, $scope, $routeParams, $location, moment, authService, sess
     });
 
     $scope.loadMembers = function(query) {
-        return $scope.recipientPool;
+        var filteredRecipients = [];
+        angular.forEach($scope.recipientPool, function (recipient) {
+            if (recipient.ign.toLowerCase().indexOf(query.toLowerCase()) >= 0) {
+                filteredRecipients.push(recipient);
+            }
+        });
+        return filteredRecipients;
     }
 
     $scope.sendMail = function() {
@@ -105,7 +111,7 @@ function ($rootScope, $scope, $routeParams, $location, moment, authService, sess
             else {
                 // do something yeah?
             }
-        });        
+        });
 
         $location.path('/mail').search('folder', $scope.folder).replace();
     }
