@@ -6,6 +6,11 @@
 *   Home page styles
 */
 .war-summary-container {
+
+    h2 {
+        color: #fff;
+    }
+
     .start-war {
         margin-top: 10px;
     }
@@ -22,12 +27,10 @@
             font-family: 'Merriweather Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             float: left;
             display: block;
+            margin-right: 10px;
+            margin-bottom: 4px;
+            min-width: 240px;
 
-            .btn {
-                margin-right: 10px;
-                margin-bottom: 4px;
-                min-width: 240px;
-            }
         }
 
         .wc-inner {
@@ -35,11 +38,11 @@
             display: block;
             min-width: 240px;
             margin-bottom: 4px;
-            border: 1px solid @primary-30;
+            border: 1px solid @emphasis;
             padding: 4px 6px;
-            background: @primary-60;
+            background: lighten(@emphasis, 40%);
             font-size: 14px;
-            line-height: 24px;
+            line-height: 21px;
             text-align: center;
         }
     }
@@ -49,8 +52,8 @@
             display: block;
             float: left;
             border: 1px solid @primary-20;
-            width: 110px;
-            margin-right: 20px;
+            width: 120px;
+            margin-right: 22px;
             margin-bottom: 10px;
             .tw-header {
                 color: #fff;
@@ -323,7 +326,7 @@
 }
 
 /*
-*   Members page styles
+*   Roster page styles
 */
 .roster-container {
     .roster-table {
