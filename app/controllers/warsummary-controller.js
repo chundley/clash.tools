@@ -97,6 +97,8 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
             $scope.warEnded = true;
         }
 
+        $scope.$broadcast('timer-start');
+
         $scope.summaryStats = {
             totalStars: 0,
             3: 0,
