@@ -6,10 +6,13 @@ var ObjectID = require('mongodb').ObjectID,
     async    = require('async'),
     _        = require('underscore');
 
-var config    = require('../../config/config');
+var config    = require('../../config/config'),
+    warModel  = require('./war-model');
 
-var fib = [0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987];
 var starVal = [0, 10, 30, 60];
+var fib = [0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987];
+var rankBands = [16, 12, 10, 8, 6, 4, 3, 2, 1, 0];
+var firstAttackBonus = [0, 1, 4, 10];
 
 /*
 * Upserts a record and returns the record
@@ -64,9 +67,9 @@ exports.save = function(warId, model, callback) {
         attackValue -= starVal[model.stars] * .25;
     }
 
-    // max is 100
-    if (attackValue > 100) {
-        attackValue = 100;
+    // max is 120
+    if (attackValue > 150) {
+        attackValue = 150;
     }
     // min is 0
     else if (attackValue < 0) {
@@ -82,9 +85,20 @@ exports.save = function(warId, model, callback) {
 
     async.waterfall([
         function (callback_wf) {
+            // need the war for some parts of scoring
+            warModel.findById(warId, function (err, war) {
+                if (err) {
+                    callback_wf(err, null);
+                }
+                else {
+                    callback_wf(null, war);
+                }
+            });
+        },
+        function (war, callback_wf) {
             db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'attack_result', function (err, collection) {
                 if (err) {
-                    callback(err, null);
+                    callback_wf(err, null);
                 }
                 else {
                     collection.findOne( { w: warId, u: model.u, r: rank, or: opponentRank }, function (err, item) {
@@ -92,13 +106,60 @@ exports.save = function(warId, model, callback) {
                             callback_wf(err, null);
                         }
                         else {
-                            callback_wf(null, item);
+                            callback_wf(null, war, item);
                         }
                     });
                 }
             });
         },
-        function (attackResult, callback_wf) {
+        function (war, attackResult, callback_wf) {
+
+            // before updating, use the war context for additional scoring value
+            
+            var bandSize = parseInt(war.player_count / 10);         
+
+            // figure out rankBonus based on banding 
+            var rankRange = opponentRank / bandSize;
+            var rankBonus = 0;
+
+            if (rankRange <= 1) {
+                rankBonus = rankBands[0];
+            }
+            else if (rankRange <= 2) {
+                rankBonus = rankBands[1];
+            }
+            else if (rankRange <= 3) {
+                rankBonus = rankBands[2];
+            }
+            else if (rankRange <= 4) {
+                rankBonus = rankBands[3];
+            }
+            else if (rankRange <= 5) {
+                rankBonus = rankBands[4];
+            }
+            else if (rankRange <= 6) {
+                rankBonus = rankBands[5];
+            } 
+            else if (rankRange <= 7) {
+                rankBonus = rankBands[6];
+            }  
+            else if (rankRange <= 8) {
+                rankBonus = rankBands[7];
+            }  
+            else if (rankRange <= 9) {
+                rankBonus = rankBands[8];
+            }
+
+            // apply star credit on rankBonus
+            rankBonus = parseInt(rankBonus*model.stars/3);
+            attackValue += rankBonus;
+
+            // apply first attack bonus
+            if (war.bases[opponentRank - 1].a[0].u == model.u) {
+                // if the first item in the attack array is this user, assume it was the first attack
+                attackValue += firstAttackBonus[model.stars];
+            }
+
             if (attackResult == null) {
                 // not updating an existing attack result - add new
                 var newAR = {
