@@ -141,6 +141,12 @@ var routes = [
         middleware: [attackResultsCtrl.findByClanId],
         accessLevel: accessLevels.member
     },
+    {
+        path: '/crud/ar/war/:warId',
+        httpMethod: 'GET',
+        middleware: [attackResultsCtrl.findByWarId],
+        accessLevel: accessLevels.member
+    },
     /*
     *   War endpoints
     */

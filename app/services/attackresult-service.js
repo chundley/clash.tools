@@ -18,6 +18,17 @@ function ($http, errorService) {
             }).error(function (data, status, headers, config) {
                 callback(errorService.initMessage('attackresult-service.js', 'save', getByClanId), null);
             });
+        },
+        getByWarId: function(warId, callback) {
+            $http({
+                url: '/crud/ar/war/' + warId,
+                method: 'GET',
+                headers: {'Content-Type': 'application/json'}
+            }).success(function (data, status, headers, config) {
+                callback(null, data);
+            }).error(function (data, status, headers, config) {
+                callback(errorService.initMessage('attackresult-service.js', 'save', getByClanId), null);
+            });
         }
     }
 }]);

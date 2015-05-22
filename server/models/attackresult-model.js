@@ -223,3 +223,28 @@ exports.findByClanId = function(clanId, callback) {
         }
     });
 }
+
+/*
+*   Get war results by war id
+*/
+exports.findByWarId = function(warId, callback) {
+    if (_.isString(warId)) {
+        warId = new ObjectID.createFromHexString(warId);
+    }
+
+    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'attack_result', function (err, collection) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            collection.find( { w: warId }).toArray(function (err, items) {
+                if (err) {
+                    callback(err, null);
+                }
+                else {
+                    callback(null, items);
+                }
+            });
+        }
+    });
+}

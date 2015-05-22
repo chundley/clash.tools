@@ -570,10 +570,58 @@
 */
 
 .star-summary-container {
-    font-size: 18px;
-    line-height: 24px;
+    .widget-body {
+        font-size: 18px;
+        line-height: 32px;
+    }
+
+    .row {
+        margin-bottom: 12px;
+    }
 }
 
+.top-attackers-container {
+    font-size: 16px;
+
+    .ta-row {
+        margin-bottom: 10px;
+        //border: 1px solid @primary-50;
+        border-radius: 6px;
+    }
+
+    .ta-col-rank {
+        margin-top: 12px;
+    }
+
+    .ta-col {
+        margin-top: 16px;
+    }
+
+    .ta-star-container {
+        .ta-sc-text {
+            font-size: 11px;
+            padding-top: 4px;
+            padding-left: 4px;
+        }
+    }
+
+    .aav-score {
+        background-image: url('/img/icons/level-icon.png');
+        background-repeat: no-repeat;
+        background-position: center center;
+        min-height: 38px;
+        margin: 10px 0px 0px 0px;
+        padding: 0;
+
+        .aav-score-value {
+            padding-top: 9px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+            text-shadow: 2px 2px 3px rgba(0, 0, 0, 1);
+        }
+    }
+}
 
 /*
 *   War history page

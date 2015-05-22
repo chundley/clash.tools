@@ -84,8 +84,6 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, 
                                     $scope.memberResults[addedIndex].totAttackValue += ar.v;
                                     $scope.memberResults[addedIndex].avgAttackValue = $scope.memberResults[addedIndex].totAttackValue / $scope.memberResults[addedIndex].totAttacks;
                                     $scope.memberResults[addedIndex].threeRate = $scope.memberResults[addedIndex].stars[3] / $scope.memberResults[addedIndex].totAttacks * 100;
-
-
                                 }
                             });
                         }
