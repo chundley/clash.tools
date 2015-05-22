@@ -61,7 +61,7 @@ exports.save = function(warId, model, callback) {
 
     // added or subtracted value based on attacking a higher or lower TH level
     if (model.t < model.ot) {
-        attackValue += starVal[model.stars] * .5;
+        attackValue += starVal[model.stars] * .25;
     }
     else if (model.t > model.ot) {
         attackValue -= starVal[model.stars] * .25;

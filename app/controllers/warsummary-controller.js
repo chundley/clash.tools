@@ -180,5 +180,17 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                 }
             }
         });
+
+        $scope.myIndex = -1;
+        for (var idx=0; idx< $scope.totAttackValue.length; idx++) {
+            if ($scope.totAttackValue[idx].u == authService.user.id) {
+                $scope.myIndex = idx;
+            }
+        }
+
+        if ($scope.myIndex > 4) {
+            // this user is in the war but not in the top 5
+            $scope.myRank = $scope.totAttackValue[$scope.myIndex];
+        }
     }
 }]);

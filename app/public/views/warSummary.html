@@ -83,13 +83,13 @@
                         <div class="col-md-8 col-sm-7 col-xs-12 top-attackers-container">
                             <div class="widget">
                                 <div class="widget-header">
-                                    Top Attackers <i class="icon-help-circled pull-right" popover-placement="left" popover="Total score is Attack Value for both attacks. This is a calculation based on number of stars, distance the target was from mirror, and TH level of target. The AAV range is 0 - 100 per attack. This list shows the top attackers by combined AV for both attacks in this war." popover-append-to-body="true" popover-trigger="mouseenter"></i>
+                                    Top Attackers <i class="icon-help-circled pull-right" popover-placement="left" popover="Total score is Attack Value for both attacks. This is a calculation based on number of stars, distance the target was from mirror, and TH level of target. The AV range is 0 - 150 per attack. This list shows the top attackers by combined AV for both attacks in this war." popover-append-to-body="true" popover-trigger="mouseenter"></i>
                                 </div>
                                 <div class="widget-body">
                                     <div ng-repeat="av in totAttackValue | limitTo:5">
                                     <div class="row ta-row">
                                         <div class="col-md-1 col-sm-3 col-xs-3 ta-col-rank">
-                                            <img src="/img/icons/top3-{{$index + 1}}.png">
+                                            <span class="rank-icon rank-icon-{{$index + 1}}"></span>
                                         </div>
                                         <div class="col-md-4 col-sm-5 col-xs-6 ta-col">
                                         {{av.i}}
@@ -118,6 +118,45 @@
                                         </div>
                                     </div>
                                     <div class="row row-underline-1" ng-if="$index<4"></div>
+                                    </div>
+                                    <div ng-if="myIndex > 4">
+                                        <div class="row row-underline-1"></div>
+                                        <div class="row">
+                                            <div class="col-xs-12 text-center ta-your-rank">
+                                                <b>Your rank</b>
+                                            </div>
+                                        </div>
+                                        <div class="row row-underline-1"></div>
+                                        <div class="row">
+                                            <div class="col-md-1 col-sm-3 col-xs-3 ta-col-rank">
+                                                <span class="rank-icon rank-icon-{{myIndex + 1}}"></span>
+                                            </div>
+                                            <div class="col-md-4 col-sm-5 col-xs-6 ta-col">
+                                            {{myRank.i}}
+                                            </div>
+                                            <div class="col-md-6 hidden-sm hidden-xs ta-star-container">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                    <span class="ta-stars" ng-if="myRank.a.length > 0">
+                                                        <img src="/img/icons/stars-tiny-{{myRank.a[0].s}}.png">
+                                                        <span class="ta-sc-text"><b>Base:</b> {{myRank.a[0].or}}</span>
+                                                        <span class="ta-sc-text"><b>AV:</b> {{myRank.a[0].v}}</span>
+                                                    </span>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                    <span class="ta-stars" ng-if="myRank.a.length > 1"><img src="/img/icons/stars-tiny-{{myRank.a[1].s}}.png"></span>
+                                                    <span class="ta-sc-text" ng-if="myRank.a.length > 1"><b>Base:</b> {{myRank.a[1].or}}</span>
+                                                    <span class="ta-sc-text" ng-if="myRank.a.length > 1"><b>AV:</b> {{myRank.a[1].v}}</span>
+                                                    <span class="ta-stars" ng-if="myRank.a.length == 1"><img src="/img/icons/stars-tiny.png"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1 col-sm-3 col-xs-3 ta-col text-center aav-score">
+                                                <div class="aav-score-value">{{myRank.totV}}</div>
+                                            </div>                                            
+                                        </div>
                                     </div>
                                 </div>
                             </div>
