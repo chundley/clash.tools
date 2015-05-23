@@ -9,6 +9,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 var http    = require('http'),
     https   = require('https'),
     fs      = require('fs'),
+    io      = require('socket.io'),
     log4js  = require('log4js'),
     cronJob = require('cron').CronJob;
 
@@ -50,7 +51,12 @@ app.init(function(err) {
     require('./server/routes.js')(app.theApp());
 
     // fire it up
-    http.createServer(app.theApp()).listen(
+    var server = http.createServer(app.theApp());
+
+    // global socket object
+    socket = io.listen(server);
+
+    server.listen(
         config.env[process.env.NODE_ENV].url.port,
         config.env[process.env.NODE_ENV].url.host,
         function() {

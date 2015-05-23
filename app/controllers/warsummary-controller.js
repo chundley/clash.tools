@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('WarSummaryCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$interval', '$window', '$modal', 'authService', 'sessionService', 'errorService', 'messagelogService', 'clanService', 'warService', 'attackResultService',
-function ($rootScope, $scope, $routeParams, $location, $interval, $window, $modal, authService, sessionService, errorService, messagelogService, clanService, warService, attackResultService) {
+.controller('WarSummaryCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$interval', '$window', '$modal', 'socket', 'authService', 'sessionService', 'errorService', 'messagelogService', 'clanService', 'warService', 'attackResultService',
+function ($rootScope, $scope, $routeParams, $location, $interval, $window, $modal, socket, authService, sessionService, errorService, messagelogService, clanService, warService, attackResultService) {
 
     $scope.warId = $routeParams.id;
     $scope.activeWar = false;
@@ -27,12 +27,11 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                     loadWar(function(){
                         $rootScope.title = 'War vs. ' + $scope.war.opponent_name + ' - clash.tools';
                     });
-                    var promiseWar = $interval(function() {
-                        loadWar(function(){});
-                    }, 20000);
-
-                    $scope.$on('$destroy', function() {
-                        $interval.cancel(promiseWar);
+                    // and after that any time a change is broadcast by socket.io
+                    socket.on('war:change', function (data) {
+                        if ($scope.activeWar) {
+                            loadWar(function(){});
+                        }
                     });
                 }
             });

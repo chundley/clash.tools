@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('HomeCtrl', ['$rootScope', '$scope', '$window', '$interval', '$modal', 'moment', 'authService', 'userService', 'sessionService', 'errorService', 'messagelogService', 'warService', 'clanService',
-function ($rootScope, $scope, $window, $interval, $modal, moment, authService, userService, sessionService, errorService, messagelogService, warService, clanService) {
+.controller('HomeCtrl', ['$rootScope', '$scope', '$window', '$interval', '$modal', 'moment', 'socket', 'authService', 'userService', 'sessionService', 'errorService', 'messagelogService', 'warService', 'clanService',
+function ($rootScope, $scope, $window, $interval, $modal, moment, socket, authService, userService, sessionService, errorService, messagelogService, warService, clanService) {
     // initialize
     $rootScope.title = 'Dashboard - clash.tools';
 
@@ -20,9 +20,10 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, u
 
             // load clan messages initially, and every 60 seconds after that
             loadClanMessages();
-            var promise = $interval(loadClanMessages, 60000);
-            $scope.$on('$destroy', function() {
-                $interval.cancel(promise);
+
+            // and after that any time a change is broadcast by socket.io
+            socket.on('messagelog:change', function (data) {
+                loadClanMessages();
             });
 
             clanService.getById($scope.meta.current_clan.clan_id, function (err, clan) {
@@ -33,14 +34,12 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, u
                 else {
                     $scope.clan = clan;
 
-                    // load war once, then every 60 seconds to keep open targets up to date
+                    // load war initially
                     loadWar(function(){});
-                    var promiseWar = $interval(function() {
-                        loadWar(function(){});
-                    }, 20000);
 
-                    $scope.$on('$destroy', function() {
-                        $interval.cancel(promiseWar);
+                    // and after that any time a change is broadcast by socket.io
+                    socket.on('war:change', function (data) {
+                        loadWar(function(){});
                     });
                 }
             });
@@ -65,7 +64,6 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, authService, u
 
         var endDate = new Date($scope.war.start);
         endDate = new Date(endDate.getTime() + 24*60*60*1000);
-        //console.log($scope.war);
 
         // much of this meta data is for the attack history collection
         var update = {

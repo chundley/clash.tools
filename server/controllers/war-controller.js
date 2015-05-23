@@ -48,6 +48,7 @@ exports.save = function(req, res, next) {
             res.send(500, err);
         }
         else {
+            socket.emit('war:change', null);
             res.json(200, war);
         }
     });
@@ -62,6 +63,7 @@ exports.assignBase = function(req, res, next) {
             res.send(500, err);
         }
         else {
+            socket.emit('war:change', null);
             res.json(200, 'Success');
         }
     });
@@ -76,6 +78,7 @@ exports.updateStars = function(req, res, next) {
             res.send(500, err);
         }
         else {
+            socket.emit('war:change', null);
             res.json(200, 'Success');
         }
     });
