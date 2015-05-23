@@ -1,4 +1,4 @@
 angular.module('Clashtools.services')
-.factory('socket', function (socketFactory) {
+.factory('ctSocket', function (socketFactory) {
     return socketFactory();
 });

@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('HomeCtrl', ['$rootScope', '$scope', '$window', '$interval', '$modal', 'moment', 'socket', 'authService', 'userService', 'sessionService', 'errorService', 'messagelogService', 'warService', 'clanService',
-function ($rootScope, $scope, $window, $interval, $modal, moment, socket, authService, userService, sessionService, errorService, messagelogService, warService, clanService) {
+.controller('HomeCtrl', ['$rootScope', '$scope', '$window', '$interval', '$modal', 'moment', 'ctSocket', 'authService', 'userService', 'sessionService', 'errorService', 'messagelogService', 'warService', 'clanService',
+function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, authService, userService, sessionService, errorService, messagelogService, warService, clanService) {
     // initialize
     $rootScope.title = 'Dashboard - clash.tools';
 
@@ -22,7 +22,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, socket, authSe
             loadClanMessages();
 
             // and after that any time a change is broadcast by socket.io
-            socket.on('messagelog:change', function (data) {
+            ctSocket.on('messagelog:change', function (data) {
                 loadClanMessages();
             });
 
@@ -38,7 +38,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, socket, authSe
                     loadWar(function(){});
 
                     // and after that any time a change is broadcast by socket.io
-                    socket.on('war:change', function (data) {
+                    ctSocket.on('war:change', function (data) {
                         loadWar(function(){});
                     });
                 }

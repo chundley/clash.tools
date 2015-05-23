@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('WarTeamCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$interval', '$window', '$modal', 'socket', 'authService', 'sessionService', 'errorService', 'messagelogService', 'clanService', 'warService',
-function ($rootScope, $scope, $routeParams, $location, $interval, $window, $modal, socket, authService, sessionService, errorService, messagelogService, clanService, warService) {
+.controller('WarTeamCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$interval', '$window', '$modal', 'ctSocket', 'authService', 'sessionService', 'errorService', 'messagelogService', 'clanService', 'warService',
+function ($rootScope, $scope, $routeParams, $location, $interval, $window, $modal, ctSocket, authService, sessionService, errorService, messagelogService, clanService, warService) {
 
     $scope.warId = $routeParams.id;
     $scope.activeWar = false;
@@ -28,7 +28,7 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                         $rootScope.title = 'War vs. ' + $scope.war.opponent_name + ' - clash.tools';
                     });
                     // and after that any time a change is broadcast by socket.io
-                    socket.on('war:change', function (data) {
+                    ctSocket.on('war:change', function (data) {
                         if ($scope.activeWar) {
                             loadWar(function(){});
                         }
