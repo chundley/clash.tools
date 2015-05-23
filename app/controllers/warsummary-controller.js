@@ -22,15 +22,14 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                 }
                 else {
                     $scope.clan = clan;
-
-                    // load war once, then every 60 seconds to keep open targets up to date
+                    // load war initially
                     loadWar(function(){
-                        $rootScope.title = 'War vs. ' + $scope.war.opponent_name + ' - clash.tools';
-                    });
-                    // and after that any time a change is broadcast by socket.io
-                    ctSocket.on('war:change', function (data) {
-                        if ($scope.activeWar) {
-                            loadWar(function(){});
+                        if ($scope.war) {
+                            $rootScope.title = 'War vs. ' + $scope.war.opponent_name + ' - clash.tools';
+                            // and after that any time a change is broadcast by socket.io
+                            ctSocket.on('war:' + $scope.war._id + ':change', function (data) {
+                                loadWar(function(){});
+                            });
                         }
                     });
                 }

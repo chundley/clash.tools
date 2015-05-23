@@ -13,7 +13,7 @@ exports.save = function(req, res, next) {
             res.send(500, err);
         }
         else {
-            socket.emit('messagelog:change', null);
+            socket.emit('messagelog:' + req.body.clan_id + ':change', null);
             res.json(200, message);
         }
     });

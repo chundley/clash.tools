@@ -22,7 +22,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
             loadClanMessages();
 
             // and after that any time a change is broadcast by socket.io
-            ctSocket.on('messagelog:change', function (data) {
+            ctSocket.on('messagelog:' + $scope.meta.current_clan.clan_id + ':change', function (data) {
                 loadClanMessages();
             });
 
@@ -36,12 +36,19 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
 
                     // load war initially
                     loadWar(function(){
-                    // and after that any time a change is broadcast by socket.io
+                        // and after that any time a change is broadcast by socket.io (if there is a war active)
                         if($scope.war) {
-                            ctSocket.on($scope.war._id + ':change', function (data) {
+                            ctSocket.on('war:' + $scope.war._id + ':change', function (data) {
                                 loadWar(function(){});
-                            });   
-                        }                     
+                            });
+                        }
+                    });
+
+                    // also watch for a new save because the visible state change needs a war refresh for members and elders
+                    ctSocket.on('clan:' + $scope.meta.current_clan.clan_id + ':warchange', function (data) {
+                        // in this case the war object is passed back so we don't to re-load it
+                        $scope.war = data;
+                        refreshInterface();
                     });
                 }
             });
@@ -88,10 +95,6 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
                 errorService.save(err, function() {});
             }
             else {
-                // update UI
-                $scope.war.bases[baseNum-1].a[assignmentIndex].s = numStars;
-                $scope.playerTargets[targetNum].stars = numStars;
-
                 // Log this activity
                 var starsText = 'stars';
                 if (numStars == 1) {
@@ -103,7 +106,6 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
                         errorService.save(err, function() {});
                     }
                     else {
-                        loadClanMessages();
                     }
                 });
             }
@@ -173,7 +175,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
 
                         var model =
                         {
-                            bIndex: baseNum -1,
+                            bIndex: baseNum,
                             assignment: {
                                 u: authService.user.id,
                                 i: $scope.meta.ign,
@@ -189,7 +191,6 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
                                 errorService.save(err, function() {});
                             }
                             else {
-                                refreshInterface();
                                 messagelogService.save($scope.meta.current_clan.clan_id, '[ign] called base ' + (baseNum+1), $scope.meta.ign, 'target', function (err, msg) {
                                     if (err) {
                                         err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.reserveBase', message: 'Error saving reservation message in the log' } );
@@ -197,7 +198,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
                                     }
                                     else {
                                     }
-                                });                                
+                                });
                             }
                         });
 
@@ -273,17 +274,13 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
                 errorService.save(err, function() {});
             }
             else {
-                // update UI
-                $scope.war.bases[baseNum-1].a.splice(assignmentIndex, 1);
-                $scope.playerTargets.splice(targetNum, 1);
-
-                messagelogService.save($scope.meta.current_clan.clan_id, '[ign] deleted call on base ' + baseNum, $scope.meta.ign, 'delete', function (err, msg) {
+                messagelogService.save($scope.meta.current_clan.clan_id, '[ign] removed call on base ' + baseNum, $scope.meta.ign, 'delete', function (err, msg) {
                     if (err) {
                         err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.deleteCall', message: 'Error saving delete call message in the log' } );
                         errorService.save(err, function() {});
                     }
                     else {
-                        loadClanMessages();
+                        // nothing
                     }
                 });
             }
@@ -433,7 +430,6 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
                                 errorService.save(err, function() {});
                             }
                             else {
-                                loadClanMessages();
                             }
                         });
                     }
@@ -475,7 +471,6 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
     }
 
     function loadWar(callback) {
-        console.log('here');
         warService.getActive($scope.meta.current_clan.clan_id, $scope.meta.role, function (err, war) {
             if (err) {
                 err.stack_trace.unshift( { file: 'home-controller.js', func: 'loadWar', message: 'Error getting current war' } );
@@ -489,6 +484,8 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
                     callback();
                 }
                 else {
+                    $scope.war = null;
+                    //refreshInterface();
                     callback();
                 }
             }

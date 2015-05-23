@@ -48,7 +48,9 @@ exports.save = function(req, res, next) {
             res.send(500, err);
         }
         else {
-            socket.emit('war:change', null);
+            socket.emit('war:' + war._id + ':change', null);
+            // need an additional notification in case the war wasn't visible yet
+            socket.emit('clan:' + war.clan_id + ':warchange', war);
             res.json(200, war);
         }
     });
@@ -63,7 +65,7 @@ exports.assignBase = function(req, res, next) {
             res.send(500, err);
         }
         else {
-            socket.emit(req.params.warId + ':change', null);
+            socket.emit('war:' + req.params.warId + ':change', null);
             res.json(200, 'Success');
         }
     });
@@ -78,7 +80,7 @@ exports.updateStars = function(req, res, next) {
             res.send(500, err);
         }
         else {
-            socket.emit(req.params.warId + ':change', null);
+            socket.emit('war:' + req.params.warId + ':change', null);
             res.json(200, 'Success');
         }
     });

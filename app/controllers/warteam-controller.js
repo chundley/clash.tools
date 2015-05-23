@@ -25,14 +25,15 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
 
                     // load war initially
                     loadWar(function(){
-                        $rootScope.title = 'War vs. ' + $scope.war.opponent_name + ' - clash.tools';
-                    });
-                    // and after that any time a change is broadcast by socket.io
-                    ctSocket.on('war:change', function (data) {
-                        if ($scope.activeWar) {
-                            loadWar(function(){});
+                        if ($scope.war) {
+                            $rootScope.title = 'War vs. ' + $scope.war.opponent_name + ' - clash.tools';
+                            // and after that any time a change is broadcast by socket.io
+                            ctSocket.on('war:' + $scope.war._id + ':change', function (data) {
+                                loadWar(function(){});
+                            });
                         }
                     });
+
                 }
             });
         }
@@ -48,7 +49,6 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
     }
 
     $scope.changeStars = function(assignmentIndex, baseNum, userId, ign, numStars) {
-
         var playerIndex = -1;
         for (var idx=0; idx<$scope.war.team.length; idx++) {
             if ($scope.war.team[idx].u == userId) {
@@ -79,9 +79,6 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                 errorService.save(err, function() {});
             }
             else {
-                // update UI
-                $scope.war.bases[baseNum-1].a[assignmentIndex].s = numStars;
-
                 // Log this activity
                 var starsText = 'stars';
                 if (numStars == 1) {
@@ -122,9 +119,6 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                 errorService.save(err, function() {});
             }
             else {
-                // update UI
-                $scope.war.bases[baseNum-1].a.splice(assignmentIndex, 1);
-
                 var msgText = '[ign]\'s call on base ' + baseNum + ' removed by ' + $scope.meta.ign;
                 if ($scope.meta.ign == ign) {
                     msgText = '[ign] removed call on base ' + baseNum;
@@ -209,9 +203,6 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                         errorService.save(err, function() {});
                     }
                     else {
-                        $scope.war.bases[baseNum-1].a.push(model.assignment);
-                        refreshInterface();
-
                         messagelogService.save($scope.meta.current_clan.clan_id, '[ign] was assigned base ' + baseNum + ' by ' + $scope.meta.ign, ign, 'target', function (err, msg) {
                             if (err) {
                                 err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.changeStars', message: 'Error saving attack message in the log' } );
