@@ -35,11 +35,13 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
                     $scope.clan = clan;
 
                     // load war initially
-                    loadWar(function(){});
-
+                    loadWar(function(){
                     // and after that any time a change is broadcast by socket.io
-                    ctSocket.on('war:change', function (data) {
-                        loadWar(function(){});
+                        if($scope.war) {
+                            ctSocket.on($scope.war._id + ':change', function (data) {
+                                loadWar(function(){});
+                            });   
+                        }                     
                     });
                 }
             });
@@ -169,36 +171,37 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
                             expireDate = possibleExpireDate;
                         }
 
-                        $scope.war.bases[baseNum].a.push(
-                            {
+                        var model =
+                        {
+                            bIndex: baseNum -1,
+                            assignment: {
                                 u: authService.user.id,
                                 i: $scope.meta.ign,
                                 c: new Date(),
                                 e: expireDate,
-                                s: null,
+                                s: null
                             }
-                        );
+                        }
 
-                        warService.save($scope.war, function (err, war) {
+                        warService.assignBase($scope.war._id, model, function (err, result) {
                             if (err) {
                                 err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.reserveBase', message: 'Error reserving base' } );
                                 errorService.save(err, function() {});
                             }
                             else {
-                                $scope.war = war;
                                 refreshInterface();
+                                messagelogService.save($scope.meta.current_clan.clan_id, '[ign] called base ' + (baseNum+1), $scope.meta.ign, 'target', function (err, msg) {
+                                    if (err) {
+                                        err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.reserveBase', message: 'Error saving reservation message in the log' } );
+                                        errorService.save(err, function() {});
+                                    }
+                                    else {
+                                    }
+                                });                                
                             }
                         });
 
-                        messagelogService.save($scope.meta.current_clan.clan_id, '[ign] called base ' + (baseNum+1), $scope.meta.ign, 'target', function (err, msg) {
-                            if (err) {
-                                err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.reserveBase', message: 'Error saving reservation message in the log' } );
-                                errorService.save(err, function() {});
-                            }
-                            else {
-                                loadClanMessages();
-                            }
-                        });
+
                     }
                 };
 
@@ -472,6 +475,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
     }
 
     function loadWar(callback) {
+        console.log('here');
         warService.getActive($scope.meta.current_clan.clan_id, $scope.meta.role, function (err, war) {
             if (err) {
                 err.stack_trace.unshift( { file: 'home-controller.js', func: 'loadWar', message: 'Error getting current war' } );
