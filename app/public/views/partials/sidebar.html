@@ -15,6 +15,9 @@
         <li ng-if="clanName.length>0">
             <a href="/members">Members</a>
         </li>
+        <li ng-if="clanName.length>0" access-level="coleader">
+            <a href="/roster">Roster</a>
+        </li>
         <li ng-if="clanName.length>0">
             <a href="/war">War History</a>
         </li>
