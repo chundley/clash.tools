@@ -236,9 +236,14 @@ var routes = [
     *   Image upload endpoints
     */
     {
-        path: '/crud/image/upload/:clanId',
+        path: '/crud/image/avatar/:userId',
         httpMethod: 'POST',
-        middleware: [imageUploadCtrl.upload]
+        middleware: [imageUploadCtrl.uploadAvatar]
+    },
+    {
+        path: '/crud/image/clan/:clanId',
+        httpMethod: 'POST',
+        middleware: [imageUploadCtrl.uploadClan]
     },
     /*
     *   User account management endpoints

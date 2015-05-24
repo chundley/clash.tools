@@ -1,15 +1,33 @@
 /*
-*   Error log endpoints
+*   Image upload endpoints
 */
 
 var model = require('../models/imageupload-model');
 
+
 /*
-*   Save an error message
+*   Save a user avatar
 */
-exports.upload = function(req, res, next) {
+exports.uploadAvatar = function(req, res, next) {
+    logger.warn(req.files.file);
+
+    model.upload('avatar', req.files.file.name, req.files.file.path, function (err, message) {
+        if (err) {
+            res.send(500, err);
+        }
+        else {
+            res.json(200, message);
+        }
+    });
+};
+
+
+/*
+*   Save a clan image
+*/
+exports.uploadClan = function(req, res, next) {
     //model.upload(req.body, function (err, message) {
-    model.upload(null, null, null, function (err, message) {
+    model.upload(null, req.files.file.name, req.files.file.path, function (err, message) {
         if (err) {
             res.send(500, err);
         }

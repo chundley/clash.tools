@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('ProfileCtrl', ['$rootScope', '$scope', 'moment', 'authService', 'cacheService', 'sessionService', 'errorService', 'userService',
-function ($rootScope, $scope, moment, authService, cacheService, sessionService, errorService, userService) {
+.controller('ProfileCtrl', ['$rootScope', '$scope', 'moment', 'authService', 'cacheService', 'sessionService', 'errorService', 'userService', 'Upload', 'imageUploadService',
+function ($rootScope, $scope, moment, authService, cacheService, sessionService, errorService, userService, Upload, imageUploadService) {
     // initialize
     $rootScope.title = 'Profile - clash.tools';
 
@@ -25,11 +25,21 @@ function ($rootScope, $scope, moment, authService, cacheService, sessionService,
             if (err) {
                 err.stack_trace.unshift( { file: 'profile-controller.js', func: '$scope.saveUser', message: 'Error saving user' } );
                 errorService.save(err, function() {});
-            }  
+            }
             else {
                 $scope.user = newUser;
-            }          
+            }
         });
+    }
+
+
+    $scope.upload = function(file) {
+        console.log(file);
+        if (file.length > 0) {
+            imageUploadService.uploadAvatar(authService.user._id, file, function (err, result) {
+
+            });
+        }
     }
 
 /*    sessionService.getUserMeta(authService.user.id, function (err, meta) {
