@@ -16,6 +16,7 @@ var authCtrl            = require('./controllers/auth-controller'),
     mailCtrl            = require('./controllers/mail-controller'),
     errorCtrl           = require('./controllers/error-controller'),
     messagelogCtrl      = require('./controllers/messagelog-controller'),
+    imageUploadCtrl     = require('./controllers/imageupload-controller'),
     userModel           = require('./models/user-model'),
     userRoles           = require('../app/shared/role-config').userRoles,
     accessLevels        = require('../app/shared/role-config').accessLevels;
@@ -230,6 +231,14 @@ var routes = [
         httpMethod: 'GET',
         middleware: [emailMessageCtrl.countNew],
         accessLevel: accessLevels.member
+    },
+    /*
+    *   Image upload endpoints
+    */
+    {
+        path: '/crud/image/upload/:clanId',
+        httpMethod: 'POST',
+        middleware: [imageUploadCtrl.upload]
     },
     /*
     *   User account management endpoints

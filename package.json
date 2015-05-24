@@ -12,6 +12,7 @@
   "engineStrict": true,
   "dependencies": {
     "async": "~0.2.9",
+    "aws-sdk": "^2.1.30",
     "cron": "~1.0.3",
     "express": "3.3.4",
     "log4js": "~0.6.8",
