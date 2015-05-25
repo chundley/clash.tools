@@ -74,15 +74,55 @@
                     </div>
                     <!-- end your profile -->
 
-                    <!-- buildings, heroes, troops -->
+
+                    <!-- heroes -->
                     <div class="row margin-bottom-huge">
                         <div class="col-xs-12">
                             <div class="widget">
-                                <div class="widget-header">Buildings, heroes, and troops <a href class="btn btn-emphasis btn-xs pull-right" ng-mouseup="saveUser()">Save</a></div>
+                                <div class="widget-header">Heroes <a href class="btn btn-emphasis btn-xs pull-right" ng-mouseup="saveUser()">Save</a></div>
+                                <div class="widget-body">
+                                    <div class="row">
+                                        <div class="col-xs-12 profile-hero-ug">
+                                            <div class="row margin-bottom-big">
+                                                <div class="col-sm-1 col-xs-2">
+                                                    <span class="army-icon barbarianking-icon" ng-class="{'top-lvl':user.profile.heroes.bk==40, active:user.profile.heroes.bk>0}"><span>{{user.profile.heroes.bk}}</span></span>
+                                                </div>
+                                                <div class="col-sm-3 col-xs-10 profile-slider">
+                                                    <input type="range" min="0" max="40" ng-model="user.profile.heroes.bk" ng-mouseup="saveUser()" integer>
+                                                </div>
+                                                <div class="col-sm-3 col-xs-12">
+                                                    <a href class="btn btn-default btn-sm" ng-click="upgradeHero(true)"><span ng-if="bkDays>0 || bkHours > 0">Currently upgrading: <b>{{bkDays}}</b> day<span ng-if="bkDays==0 || bkDays > 1">s</span>, <b>{{bkHours}}</b> hour<span ng-if="bkHours==0 || bkHours > 1">s</span></span>
+                                                    <span ng-if="bkDays==0 && bkHours == 0">Set BK Upgrade Timer</span></a>
+                                                </div>
+                                            </div>
+                                            <div class="row margin-bottom-big">
+                                                <div class="col-sm-1 col-xs-2">
+                                                    <span class="army-icon archerqueen-icon" ng-class="{'top-lvl':user.profile.heroes.aq==40, active:user.profile.heroes.aq>0}"><span>{{user.profile.heroes.aq}}</span></span>
+                                                </div>
+                                                <div class="col-sm-3 col-xs-10 profile-slider">
+                                                    <input type="range" min="0" max="40" ng-model="user.profile.heroes.aq" ng-mouseup="saveUser()" integer>
+                                                </div>
+                                                <div class="col-sm-3 col-xs-12">
+                                                    <a href class="btn btn-default btn-sm" ng-click="upgradeHero(false)"><span ng-if="aqDays>0 || aqHours > 0">Currently upgrading: <b>{{aqDays}}</b> day<span ng-if="aqDays==0 || aqDays > 1">s</span>, <b>{{aqHours}}</b> hour<span ng-if="aqHours==0 || aqHours > 1">s</span></span>
+                                                    <span ng-if="aqDays==0 && aqHours == 0">Set AQ Upgrade Timer</span></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- /heroes -->
+
+                    <!-- buildings, spells, troops -->
+                    <div class="row margin-bottom-huge">
+                        <div class="col-xs-12">
+                            <div class="widget">
+                                <div class="widget-header">Buildings, spells, and troops <a href class="btn btn-emphasis btn-xs pull-right" ng-mouseup="saveUser()">Save</a></div>
                                 <div class="widget-body">
                                     <div class="row margin-bottom-medium">
                                         <div class="col-sm-4 col-xs-6">
-                                            <b>Buildings / heroes</b>
+                                            <b>Buildings/spells</b>
                                             <div class="row">
                                                 <div class="col-sm-3 col-xs-4">
                                                     <span class="th-icon th-{{user.profile.buildings.th}}">
@@ -101,22 +141,6 @@
                                                 </div>
                                                 <div class="col-sm-7 col-xs-8 profile-slider">
                                                     <input type="range" min="1" max="6" ng-model="user.profile.buildings.cc" ng-mouseup="saveUser()" integer>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-3 col-xs-4">
-                                                    <span class="army-icon barbarianking-icon" ng-class="{'top-lvl':user.profile.heroes.bk==40, active:user.profile.heroes.bk>0}"><span>{{user.profile.heroes.bk}}</span></span>
-                                                </div>
-                                                <div class="col-sm-7 col-xs-8 profile-slider">
-                                                    <input type="range" min="0" max="40" ng-model="user.profile.heroes.bk" ng-mouseup="saveUser()" integer>
-                                                </div>
-                                            </div>
-                                            <div class="row margin-bottom-big">
-                                                <div class="col-sm-3 col-xs-4">
-                                                    <span class="army-icon archerqueen-icon" ng-class="{'top-lvl':user.profile.heroes.aq==40, active:user.profile.heroes.aq>0}"><span>{{user.profile.heroes.aq}}</span></span>
-                                                </div>
-                                                <div class="col-sm-7 col-xs-8 profile-slider">
-                                                    <input type="range" min="0" max="40" ng-model="user.profile.heroes.aq" ng-mouseup="saveUser()" integer>
                                                 </div>
                                             </div>
                                             <b>Spells</b>
@@ -300,7 +324,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div> <!-- /buildings -->
+                    </div> <!-- /buildings, spells, troops -->
 
                     <!-- walls -->
                     <div class="row margin-bottom-huge">

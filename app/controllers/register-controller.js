@@ -15,7 +15,8 @@ function ($rootScope, $scope, $location, md5, authService, sessionService, mailS
     $rootScope.title = "Register new user - clash.tools";
 
     $scope.register = function() {
-
+        var now = new Date();
+        tmpExpire = new Date(now.getTime() - 30*24*60*60*1000);
         var newUser = {
             ign: $scope.ign,
             player_tag: $scope.playerTag,
@@ -24,9 +25,12 @@ function ($rootScope, $scope, $location, md5, authService, sessionService, mailS
             role: authService.userRoles.member,
             profile: {
                 public: true,
+                avatar: '000000000000000000000000.png',
+                bkUpgrade: tmpExpire,
+                aqUpgrade: tmpExpire,
                 buildings: {
                     th: 1,
-                    cc: 0
+                    cc: 1
                 },
                 troops: {
                     barbarian: 1,
@@ -61,7 +65,7 @@ function ($rootScope, $scope, $location, md5, authService, sessionService, mailS
                 },
                 walls: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             },
-            last_login: new Date()
+            last_login: now
         };
 
         authService.register(newUser, function (err, user) {

@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('ProfileCtrl', ['$rootScope', '$scope', 'moment', 'authService', 'cacheService', 'sessionService', 'errorService', 'userService', 'Upload', 'imageUploadService',
-function ($rootScope, $scope, moment, authService, cacheService, sessionService, errorService, userService, Upload, imageUploadService) {
+.controller('ProfileCtrl', ['$rootScope', '$scope', '$interval', '$modal', '$window', 'moment', 'authService', 'cacheService', 'sessionService', 'errorService', 'userService', 'Upload', 'imageUploadService',
+function ($rootScope, $scope, $interval, $modal, $window, moment, authService, cacheService, sessionService, errorService, userService, Upload, imageUploadService) {
     // initialize
     $rootScope.title = 'Profile - clash.tools';
 
@@ -17,6 +17,13 @@ function ($rootScope, $scope, moment, authService, cacheService, sessionService,
         }
         else {
             $scope.user = user;
+            setCountdownTimers();
+
+            // set countdown timers to refresh every three minutes
+            var promise = $interval(setCountdownTimers, 180000);
+            $scope.$on('$destroy', function() {
+                $interval.cancel(promise);
+            });
         }
     });
 
@@ -44,6 +51,44 @@ function ($rootScope, $scope, moment, authService, cacheService, sessionService,
         }
     }
 
+    $scope.upgradeHero = function(isBK) {
+        var cssClass = 'center';
+        if ($window.innerWidth < 500) {
+            cssClass = 'mobile';
+        }
+
+        $scope.modalOptions = {
+            yesBtn: 'Set',
+            noBtn: 'Cancel',
+            cssClass: cssClass,
+            formData: {},
+            onYes: function(formData) {
+                var now = new Date();
+                if (isBK) {
+                    $scope.user.profile.bkUpgrade = new Date(now.getTime() + ((formData.finishedDays*24*60 + formData.finishedHours*60)*60000));
+                }
+                else {
+                    $scope.user.profile.aqUpgrade = new Date(now.getTime() + ((formData.finishedDays*24*60 + formData.finishedHours*60)*60000));
+                }
+                saveUserInternal();
+            }
+        };
+
+        var modalInstance = $modal(
+            {
+                scope: $scope,
+                animation: 'am-fade-and-slide-top',
+                placement: 'center',
+                template: "/views/partials/heroUpgradeDialog.html",
+                show: false
+            }
+        );
+
+        modalInstance.$promise.then(function() {
+            modalInstance.show();
+        });
+    }
+
     function saveUserInternal() {
         // clear meta data in case the UI needs bits refreshed
         sessionService.clearUserMeta();
@@ -55,24 +100,39 @@ function ($rootScope, $scope, moment, authService, cacheService, sessionService,
             }
             else {
                 $scope.user = newUser;
+                setCountdownTimers();
             }
         });
     }
 
+    function setCountdownTimers() {
+        var now = new Date();
 
-/*    sessionService.getUserMeta(authService.user.id, function (err, meta) {
-        $scope.ign = meta.ign;
-        $scope.clan = meta.current_clan;
+        var bkFinishTime = new Date($scope.user.profile.bkUpgrade);
+        bkFinishTime = bkFinishTime.getTime();
 
-        if ($scope.clan.clan_id) {
-            messagelogService.get($scope.clan.clan_id, 10, function (err, messages) {
-                angular.forEach(messages, function (message) {
-                    message.created_at = new moment(message.created_at);
-                    message.message = message.message.replace('[ign]', '<b class="emphasis">' + message.ign + '</b>');
-                });
-                $scope.clanMessages = messages;
-            });
+        if (bkFinishTime > now.getTime()) {
+            var hoursLeft = parseInt((bkFinishTime - now.getTime())/1000/60/60);
+            $scope.bkDays = parseInt(hoursLeft / 24);
+            $scope.bkHours = parseInt(hoursLeft % 24);
         }
-    });*/
+        else {
+            $scope.bkDays = 0;
+            $scope.bkHours = 0;
+        }
+
+        var aqFinishTime = new Date($scope.user.profile.aqUpgrade);
+        aqFinishTime = aqFinishTime.getTime();
+
+        if (aqFinishTime > now.getTime()) {
+            var hoursLeft = parseInt((aqFinishTime - now.getTime())/1000/60/60);
+            $scope.aqDays = parseInt(hoursLeft / 24);
+            $scope.aqHours = parseInt(hoursLeft % 24);
+        }
+        else {
+            $scope.aqDays = 0;
+            $scope.aqHours = 0;
+        }
+    }
 
 }]);
