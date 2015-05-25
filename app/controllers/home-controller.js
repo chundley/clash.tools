@@ -548,13 +548,11 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
             });
 
             // set countdown for targets, and set it to refresh every 30 seconds
-            if ($scope.playerTargets.length > 0) {
-                setCountdownTimers();
-                var promise = $interval(setCountdownTimers, 30000);
-                $scope.$on('$destroy', function() {
-                    $interval.cancel(promise);
-                });
-            }
+            setCountdownTimers();
+            var promise = $interval(setCountdownTimers, 30000);
+            $scope.$on('$destroy', function() {
+                $interval.cancel(promise);
+            });
             findOpenTargets();
         }
     }
@@ -602,12 +600,6 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
             $scope.aqDays = 0;
             $scope.aqHours = 0;
         }
-
-        console.log($scope.bkDays);
-        console.log($scope.bkHours);
-        console.log($scope.aqDays);
-        console.log($scope.aqHours);
-
     }
 
     /*
