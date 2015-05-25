@@ -102,9 +102,6 @@
                                             <div class="col-lg-2 col-md-3 col-sm-3 col-xs-5">
                                                <select class="form-control-small" ng-model="tm.u" ng-options="member._id as member.ign for member in members" ng-change="assignRoster($index, tm.u)">
                                                 </select>
-<!--                                                 <select class="form-control-small" ng-model="tm.u" ng-change="assignRoster($index, tm.u)">
-                                                    <option ng-repeat="member in members" value="{{member._id}}">{{member.ign}}</option>
-                                                </select> -->
                                             </div>
                                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
                                                 <select class="form-control-small" ng-model="tm.t" ng-change="saveWar()" integer>
@@ -144,14 +141,16 @@
                                     </div>
                                     <form name="opponentSettingsForm" class="form-horizontal" ng-submit="saveWar()" novalidate>
                                         <div class="row">
-                                            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-3 t-header text-center">Base</div>
-                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4 t-header">Town hall</div>
-                                            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-5 t-header">Assign to</div>
+                                            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-1 t-header text-center">Base</div>
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3 t-header">Town hall</div>
+                                            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4 t-header">Assign to</div>
+                                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+                                            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-3 t-header">Heroes Down</div>
                                         </div>
                                         <div class="row row-underline-2"></div>
                                         <div class="row" ng-repeat="base in war.bases">
-                                            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-3 t-row text-center">{{base.b}}</div>
-                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
+                                            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-1 t-row text-center">{{base.b}}</div>
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
                                                 <select class="form-control-small" ng-model="base.t" ng-change="saveWar()" integer>
                                                     <option>10</option>
                                                     <option>9.5</option>
@@ -173,6 +172,10 @@
                                             </div>
                                             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 icon-remove">
                                                 <a href ng-click="deleteAssignment($index)" ng-if="base.a.length>0 && !warStarted"><i class="icon-cancel error-red" title="Remove assignment"></i></a>
+                                            </div>
+                                            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-3 hero-down">
+                                                <span ng-if="heroesUpgrading[$index].bkDown.days > 0 || heroesUpgrading[$index].hours > 0"><b>BK</b>: <b class="alternate">{{heroesUpgrading[$index].bkDown.days}}</b>d <b class="alternate">{{heroesUpgrading[$index].bkDown.hours}}</b>h</span>
+                                                <span ng-if="heroesUpgrading[$index].aqDown.days > 0 || heroesUpgrading[$index].aqDown.hours > 0"><b>AQ</b>: <b class="alternate">{{heroesUpgrading[$index].aqDown.days}}</b>d <b class="alternate">{{heroesUpgrading[$index].aqDown.hours}}</b>h</span>
                                             </div>
                                         </div>
                                     </form>

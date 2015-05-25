@@ -24,7 +24,36 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
 
             clanService.getMembers($scope.meta.current_clan.clan_id, 'all', function (err, members) {
                 $scope.members = members;
+                var now = new Date();
 
+                // set hero status for members
+                angular.forEach($scope.members, function (member) {
+                    var bkFinishTime = new Date(member.profile.bkUpgrade);
+                    bkFinishTime = bkFinishTime.getTime();
+
+                    if (bkFinishTime > now.getTime()) {
+                        var hoursLeft = parseInt((bkFinishTime - now.getTime())/1000/60/60);
+                        member.bkDays = parseInt(hoursLeft / 24);
+                        member.bkHours = parseInt(hoursLeft % 24);
+                    }
+                    else {
+                        member.bkDays = 0;
+                        member.bkHours = 0;
+                    }
+
+                    var aqFinishTime = new Date(member.profile.aqUpgrade);
+                    aqFinishTime = aqFinishTime.getTime();
+
+                    if (aqFinishTime > now.getTime()) {
+                        var hoursLeft = parseInt((aqFinishTime - now.getTime())/1000/60/60);
+                        member.aqDays = parseInt(hoursLeft / 24);
+                        member.aqHours = parseInt(hoursLeft % 24);
+                    }
+                    else {
+                        member.aqDays = 0;
+                        member.aqHours = 0;
+                    }
+                });
 
                 $scope.members.push(
                     {
@@ -76,6 +105,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                                         );
                                     }
                                 });
+                                updateInterface();
                             }
                         });
                     }
@@ -338,6 +368,36 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
         }
     }
 
+    function updateInterface() {
+        $scope.heroesUpgrading = [];
+        for (var baseNum=0; baseNum<$scope.war.bases.length; baseNum++) {
+            var hUpgrade = {};
+            if ($scope.war.bases[baseNum].a.length > 0) {
+                for (var idx=0; idx<$scope.members.length; idx++) {
+                    if ($scope.members[idx]._id == $scope.war.bases[baseNum].a[0].u) {
+                        // set hero upgrade status on base
+                        if ($scope.members[idx].bkDays > 0 || $scope.members[idx].bkHours > 0) {
+                            hUpgrade.bkDown = { days: $scope.members[idx].bkDays, hours: $scope.members[idx].bkHours};
+                        }
+                        else {
+                            hUpgrade.bkDown = { days: 0, hours: 0};
+                        }
+
+                        if ($scope.members[idx].aqDays > 0 || $scope.members[idx].aqHours > 0) {
+                            hUpgrade.aqDown = { days: $scope.members[idx].aqDays, hours: $scope.members[idx].aqHours};
+                        }
+                        else {
+                            hUpgrade.aqDown = { days: 0, hours: 0};
+                        }
+                        break;
+                    }
+
+                }
+            }
+            $scope.heroesUpgrading.push(hUpgrade);
+        }
+    }
+
     function saveWarInternal() {
         warService.save($scope.war, function (err, war) {
             if (err) {
@@ -357,6 +417,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                     if (now.getTime() > warStart.getTime()) {
                         $scope.warStarted = true;
                     }
+                    updateInterface();
                 }
             }
         });

@@ -22,15 +22,22 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                 }
                 else {
                     $scope.clan = clan;
-                    // load war initially
-                    loadWar(function(){
-                        if ($scope.war) {
-                            $rootScope.title = 'War vs. ' + $scope.war.opponent_name + ' - clash.tools';
-                            // and after that any time a change is broadcast by socket.io
-                            ctSocket.on('war:' + $scope.war._id + ':change', function (data) {
-                                loadWar(function(){});
-                            });
-                        }
+
+
+                    // needed for avatars
+                    clanService.getMembers($scope.meta.current_clan.clan_id, 'all', function (err, members) {
+                        $scope.members = members;
+
+                        // load war initially
+                        loadWar(function(){
+                            if ($scope.war) {
+                                $rootScope.title = 'War vs. ' + $scope.war.opponent_name + ' - clash.tools';
+                                // and after that any time a change is broadcast by socket.io
+                                ctSocket.on('war:' + $scope.war._id + ':change', function (data) {
+                                    loadWar(function(){});
+                                });
+                            }
+                        });
                     });
                 }
             });
@@ -183,6 +190,17 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
         for (var idx=0; idx< $scope.totAttackValue.length; idx++) {
             if ($scope.totAttackValue[idx].u == authService.user.id) {
                 $scope.myIndex = idx;
+            }
+
+            var found = false;
+            angular.forEach($scope.members, function (member) {
+                if (member._id == $scope.totAttackValue[idx].u) {
+                    $scope.totAttackValue[idx].avatar = member.profile.avatar;
+                    found = true;
+                }
+            });
+            if (!found) {
+                $scope.totAttackValue[idx].avatar = "000000000000000000000000.png";
             }
         }
 
