@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('Clashtools.directives')
-.directive('topNav', ['$location', '$interval', 'moment', 'authService', 'sessionService', 'emailMessageService',
-function ($location, $interval, moment, authService, sessionService, emailMessageService) {
+.directive('topNav', ['$location', '$interval', 'moment', 'authService', 'sessionService', 'emailMessageService', 'ctSocket',
+function ($location, $interval, moment, authService, sessionService, emailMessageService, ctSocket) {
     return {
         restrict: 'A',
         templateUrl: '/views/partials/topNav.html',
@@ -30,7 +30,7 @@ function ($location, $interval, moment, authService, sessionService, emailMessag
             var updateUICounters = function() {
                 emailMessageService.countNew(authService.user.id, function (err, data) {
                     scope.newMailCount = data.count;
-                });                
+                });
             }
 
             // run once on UI load
@@ -41,7 +41,7 @@ function ($location, $interval, moment, authService, sessionService, emailMessag
 
             scope.$on('$destroy', function() {
                 $interval.cancel(promise);
-            }); 
+            });
         }
     }
 }]);

@@ -13,43 +13,288 @@
                             <h3 class="same-line-sub-heading alternate">{{user.ign}}</h3>
                         </div>
                     </div>
-                    <!-- buildings -->
+
+                    <!-- Your profile -->
                     <div class="row margin-bottom-huge">
                         <div class="col-xs-12">
-                            <div class="btn btn-default" ngf-select ngf-accept="'.jpg,.png,.gif'" ngf-multiple="false" ngf-change="upload(avatar)" ng-model="avatar">Select file</div>
                             <div class="widget">
-                                <div class="widget-header">Buildings and Heroes <a href class="btn btn-emphasis btn-xs pull-right" ng-mouseup="saveUser()">Save</a></div>
+                                <div class="widget-header">
+                                    Your profile
+                                </div>
                                 <div class="widget-body">
-                                    <div class="row margin-bottom-huge">
-                                        <div class="col-xs-2">
-                                            <img src="/img/troops/th-{{user.profile.buildings.th}}.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.buildings.th}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.buildings.th}}</span>
-                                            <input type="range" min="1" max="10" ng-model="user.profile.buildings.th" ng-mouseup="saveUser()" integer>
+                                    <div class="row">
+                                        <div class="col-md-8 col-sm-9 col-xs-8">
+                                            <form name="nameForm" class="form-horizontal" ng-submit="saveUser()">
+                                                <div class="form-group">
+                                                    <label for="ign" class="col-md-4 col-sm-5 col-xs-12 control-label">In game name</label>
+                                                    <div class="col-md-5 col-sm-6 col-xs-12">
+                                                        <input type="text" class="form-control req-field" id="ign" ng-model="user.ign" required ng-minlength="1">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="playerTag" class="col-md-4 col-sm-5 col-xs-12 control-label">Player tag</label>
+                                                    <div class="col-md-5 col-sm-6 col-xs-12">
+                                                        <input type="text" class="form-control req-field" id="playerTag" ng-model="user.player_tag" required ng-minlength="1">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="emailAddress" class="col-md-4 col-sm-5 col-xs-12 control-label">Email Address</label>
+                                                    <div class="col-md-5 col-sm-6 col-xs-12">
+                                                        <input type="email" class="form-control req-field" id="emailAddress" ng-model="user.email_address" required ng-minlength="1">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-md-4 col-md-offset-4 col-sm-5 col-sm-offset-5 col-xs-12">
+                                                        <button class="btn btn-emphasis btn-sm save-btn" ng-disabled="nameForm.$invalid || !nameForm.$dirty">Save</button>
+                                                    </div>
+                                                </div>
+                                            </form>
                                         </div>
-                                        <div class="col-xs-2">
-                                            <img src="/img/troops/cc-{{user.profile.buildings.cc}}.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.buildings.cc}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.buildings.cc}}</span>
-                                            <input type="range" min="1" max="6" ng-model="user.profile.buildings.cc" ng-mouseup="saveUser()" integer>
+                                        <div class="col-md-4 col-sm-3 col-xs-4">
+                                            <div class="row margin-bottom-medium">
+                                                <div class="col-xs-12 text-center">
+                                                Your avatar
+                                                </div>
+                                            </div>
+                                            <div class="row margin-bottom-big">
+                                                <div class="col-xs-12 text-center">
+                                                <img ng-src="https://s3.amazonaws.com/clashtools/avatar/{{meta.avatar}}" width="80" height="80">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xx-12 text-center">
+                                                <div class="btn btn-default btn-xs" ngf-select ngf-accept="'.jpg,.png,.gif'" ngf-multiple="false" ngf-max-size="131072" ngf-capture="'camera'" ngf-change="uploadAvatar(avatar)" ng-model="avatar">Upload new</div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col-xs-2">
-                                            <img ng-if="user.profile.heroes.bk==0"src="/img/troops/bk-0.png" class="img-responsive object-center">
-                                            <img ng-if="user.profile.heroes.bk>0 && user.profile.heroes.bk<10"src="/img/troops/bk-9.png" class="img-responsive object-center">
-                                            <img ng-if="user.profile.heroes.bk>9 && user.profile.heroes.bk<20"src="/img/troops/bk-19.png" class="img-responsive object-center">
-                                            <img ng-if="user.profile.heroes.bk>19"src="/img/troops/bk-40.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.heroes.bk}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.heroes.bk}}</span>
-                                            <input type="range" min="0" max="40" ng-model="user.profile.heroes.bk" ng-mouseup="saveUser()" integer>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end your profile -->
+
+                    <!-- buildings, heroes, troops -->
+                    <div class="row margin-bottom-huge">
+                        <div class="col-xs-12">
+                            <div class="widget">
+                                <div class="widget-header">Buildings, heroes, and troops <a href class="btn btn-emphasis btn-xs pull-right" ng-mouseup="saveUser()">Save</a></div>
+                                <div class="widget-body">
+                                    <div class="row margin-bottom-medium">
+                                        <div class="col-sm-4 col-xs-6">
+                                            <b>Buildings / heroes</b>
+                                            <div class="row">
+                                                <div class="col-sm-3 col-xs-4">
+                                                    <span class="th-icon th-{{user.profile.buildings.th}}">
+                                                    <span class="troop-level">{{user.profile.buildings.th}}</span>
+                                                </span>
+                                                </div>
+                                                <div class="col-sm-7 col-xs-8 profile-slider">
+                                                    <input type="range" min="1" max="10" ng-model="user.profile.buildings.th" ng-mouseup="saveUser()" integer>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-3 col-xs-4">
+                                                    <span class="cc-icon cc-{{user.profile.buildings.cc}}">
+                                                    <span class="troop-level">{{user.profile.buildings.cc}}</span>
+                                                    </span>
+                                                </div>
+                                                <div class="col-sm-7 col-xs-8 profile-slider">
+                                                    <input type="range" min="1" max="6" ng-model="user.profile.buildings.cc" ng-mouseup="saveUser()" integer>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-3 col-xs-4">
+                                                    <span class="army-icon barbarianking-icon" ng-class="{'top-lvl':user.profile.heroes.bk==40, active:user.profile.heroes.bk>0}"><span>{{user.profile.heroes.bk}}</span></span>
+                                                </div>
+                                                <div class="col-sm-7 col-xs-8 profile-slider">
+                                                    <input type="range" min="0" max="40" ng-model="user.profile.heroes.bk" ng-mouseup="saveUser()" integer>
+                                                </div>
+                                            </div>
+                                            <div class="row margin-bottom-big">
+                                                <div class="col-sm-3 col-xs-4">
+                                                    <span class="army-icon archerqueen-icon" ng-class="{'top-lvl':user.profile.heroes.aq==40, active:user.profile.heroes.aq>0}"><span>{{user.profile.heroes.aq}}</span></span>
+                                                </div>
+                                                <div class="col-sm-7 col-xs-8 profile-slider">
+                                                    <input type="range" min="0" max="40" ng-model="user.profile.heroes.aq" ng-mouseup="saveUser()" integer>
+                                                </div>
+                                            </div>
+                                            <b>Spells</b>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-xs-4">
+                                                        <span class="army-icon lightningspell-icon" ng-class="{'top-lvl':user.profile.spells.lightning==6, active:user.profile.spells.lightning>0}"><span>{{user.profile.spells.lightning}}</span></span>
+                                                    </div>
+                                                    <div class="col-sm-7 col-xs-8 profile-slider">
+                                                        <input type="range" min="0" max="6" ng-model="user.profile.spells.lightning" ng-mouseup="saveUser()" integer>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-xs-4">
+                                                        <span class="army-icon healspell-icon" ng-class="{'top-lvl':user.profile.spells.heal==6, active:user.profile.spells.heal>0}"><span>{{user.profile.spells.heal}}</span></span>
+                                                    </div>
+                                                    <div class="col-sm-7 col-xs-8 profile-slider">
+                                                        <input type="range" min="0" max="6" ng-model="user.profile.spells.heal" ng-mouseup="saveUser()" integer>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-xs-4">
+                                                        <span class="army-icon ragespell-icon" ng-class="{'top-lvl':user.profile.spells.rage==5, active:user.profile.spells.rage>0}"><span>{{user.profile.spells.rage}}</span></span>
+                                                    </div>
+                                                    <div class="col-sm-7 col-xs-8 profile-slider">
+                                                        <input type="range" min="0" max="5" ng-model="user.profile.spells.rage" ng-mouseup="saveUser()" integer>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-xs-4">
+                                                        <span class="army-icon jumpspell-icon" ng-class="{'top-lvl':user.profile.spells.jump==3, active:user.profile.spells.jump>0}"><span>{{user.profile.spells.jump}}</span></span>
+                                                    </div>
+                                                    <div class="col-sm-7 col-xs-8 profile-slider">
+                                                        <input type="range" min="0" max="3" ng-model="user.profile.spells.jump" ng-mouseup="saveUser()" integer>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-xs-4">
+                                                        <span class="army-icon freezespell-icon" ng-class="{'top-lvl':user.profile.spells.freeze==5, active:user.profile.spells.freeze>0}"><span>{{user.profile.spells.freeze}}</span></span>
+                                                    </div>
+                                                    <div class="col-sm-7 col-xs-8 profile-slider">
+                                                        <input type="range" min="0" max="5" ng-model="user.profile.spells.freeze" ng-mouseup="saveUser()" integer>
+                                                    </div>
+                                                </div>
                                         </div>
-                                        <div class="col-xs-2">
-                                            <img ng-if="user.profile.heroes.aq==0"src="/img/troops/aq-0.png" class="img-responsive object-center">
-                                            <img ng-if="user.profile.heroes.aq>0 && user.profile.heroes.aq<10"src="/img/troops/aq-9.png" class="img-responsive object-center">
-                                            <img ng-if="user.profile.heroes.aq>9 && user.profile.heroes.aq<20"src="/img/troops/aq-19.png" class="img-responsive object-center">
-                                            <img ng-if="user.profile.heroes.aq>19"src="/img/troops/aq-40.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.heroes.aq}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.heroes.aq}}</span>
-                                            <input type="range" min="0" max="40" ng-model="user.profile.heroes.aq" ng-mouseup="saveUser()" integer>
+                                        <div class="col-sm-4 col-xs-6">
+                                            <b>Elixer troops</b>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-xs-4">
+                                                        <span class="army-icon active barbarian-icon" ng-class="{'top-lvl':user.profile.troops.barbarian==7}"><span>{{user.profile.troops.barbarian}}</span></span>
+                                                    </div>
+                                                    <div class="col-sm-7 col-xs-8 profile-slider">
+                                                        <input type="range" min="1" max="7" ng-model="user.profile.troops.barbarian" ng-mouseup="saveUser()" integer>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-xs-4">
+                                                        <span class="army-icon archer-icon" ng-class="{'top-lvl':user.profile.troops.archer==7,active:user.profile.troops.archer>0}"><span>{{user.profile.troops.archer}}</span></span>
+                                                    </div>
+                                                    <div class="col-sm-7 col-xs-8 profile-slider">
+                                                        <input type="range" min="0" max="7" ng-model="user.profile.troops.archer" ng-mouseup="saveUser()" integer>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-xs-4">
+                                                        <span class="army-icon goblin-icon" ng-class="{'top-lvl':user.profile.troops.goblin==6,active:user.profile.troops.goblin>0}"><span>{{user.profile.troops.goblin}}</span></span>
+                                                    </div>
+                                                    <div class="col-sm-7 col-xs-8 profile-slider">
+                                                        <input type="range" min="0" max="6" ng-model="user.profile.troops.goblin" ng-mouseup="saveUser()" integer>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-xs-4">
+                                                        <span class="army-icon giant-icon" ng-class="{'top-lvl':user.profile.troops.giant==7,active:user.profile.troops.giant>0}"><span>{{user.profile.troops.giant}}</span></span>
+                                                    </div>
+                                                    <div class="col-sm-7 col-xs-8 profile-slider">
+                                                        <input type="range" min="0" max="7" ng-model="user.profile.troops.giant" ng-mouseup="saveUser()" integer>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-xs-4">
+                                                        <span class="army-icon wallbreaker-icon" ng-class="{'top-lvl':user.profile.troops.wallbreaker==6,active:user.profile.troops.wallbreaker>0}"><span>{{user.profile.troops.wallbreaker}}</span></span>
+                                                    </div>
+                                                    <div class="col-sm-7 col-xs-8 profile-slider">
+                                                        <input type="range" min="0" max="6" ng-model="user.profile.troops.wallbreaker" ng-mouseup="saveUser()" integer>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-xs-4">
+                                                        <span class="army-icon balloon-icon" ng-class="{'top-lvl':user.profile.troops.balloon==6,active:user.profile.troops.balloon>0}"><span>{{user.profile.troops.balloon}}</span></span>
+                                                    </div>
+                                                    <div class="col-sm-7 col-xs-8 profile-slider">
+                                                        <input type="range" min="0" max="6" ng-model="user.profile.troops.balloon" ng-mouseup="saveUser()" integer>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-xs-4">
+                                                        <span class="army-icon wizard-icon" ng-class="{'top-lvl':user.profile.troops.wizard==6,active:user.profile.troops.wizard>0}"><span>{{user.profile.troops.wizard}}</span></span>
+                                                    </div>
+                                                    <div class="col-sm-7 col-xs-8 profile-slider">
+                                                        <input type="range" min="0" max="6" ng-model="user.profile.troops.wizard" ng-mouseup="saveUser()" integer>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-xs-4">
+                                                        <span class="army-icon healer-icon" ng-class="{'top-lvl':user.profile.troops.healer==4,active:user.profile.troops.healer>0}"><span>{{user.profile.troops.healer}}</span></span>
+                                                    </div>
+                                                    <div class="col-sm-7 col-xs-8 profile-slider">
+                                                        <input type="range" min="0" max="4" ng-model="user.profile.troops.healer" ng-mouseup="saveUser()" integer>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-xs-4">
+                                                        <span class="army-icon dragon-icon" ng-class="{'top-lvl':user.profile.troops.dragon==4,active:user.profile.troops.dragon>0}"><span>{{user.profile.troops.dragon}}</span></span>
+                                                    </div>
+                                                    <div class="col-sm-7 col-xs-8 profile-slider">
+                                                        <input type="range" min="0" max="4" ng-model="user.profile.troops.dragon" ng-mouseup="saveUser()" integer>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-xs-4">
+                                                        <span class="army-icon pekka-icon" ng-class="{'top-lvl':user.profile.troops.pekka==5,active:user.profile.troops.pekka>0}"><span>{{user.profile.troops.pekka}}</span></span>
+                                                    </div>
+                                                    <div class="col-sm-7 col-xs-8 profile-slider">
+                                                        <input type="range" min="0" max="5" ng-model="user.profile.troops.pekka" ng-mouseup="saveUser()" integer>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        <div class="col-sm-4 col-xs-6">
+                                            <b>Dark elixer troops</b>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-xs-4">
+                                                        <span class="army-icon minion-icon" ng-class="{'top-lvl':user.profile.dark_troops.minion==6,active:user.profile.dark_troops.minion>0}"><span>{{user.profile.dark_troops.minion}}</span></span>
+                                                    </div>
+                                                    <div class="col-sm-7 col-xs-8 profile-slider">
+                                                        <input type="range" min="0" max="6" ng-model="user.profile.dark_troops.minion" ng-mouseup="saveUser()" integer>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-xs-4">
+                                                        <span class="army-icon hog-rider-icon" ng-class="{'top-lvl':user.profile.dark_troops.hogrider==5,active:user.profile.dark_troops.hogrider>0}"><span>{{user.profile.dark_troops.hogrider}}</span></span>
+                                                    </div>
+                                                    <div class="col-sm-7 col-xs-8 profile-slider">
+                                                        <input type="range" min="0" max="5" ng-model="user.profile.dark_troops.hogrider" ng-mouseup="saveUser()" integer>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-xs-4">
+                                                        <span class="army-icon valkyrie-icon" ng-class="{'top-lvl':user.profile.dark_troops.valkyrie==4,active:user.profile.dark_troops.valkyrie>0}"><span>{{user.profile.dark_troops.valkyrie}}</span></span>
+                                                    </div>
+                                                    <div class="col-sm-7 col-xs-8 profile-slider">
+                                                        <input type="range" min="0" max="4" ng-model="user.profile.dark_troops.valkyrie" ng-mouseup="saveUser()" integer>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-xs-4">
+                                                        <span class="army-icon golem-icon" ng-class="{'top-lvl':user.profile.dark_troops.golem==5,active:user.profile.dark_troops.golem>0}"><span>{{user.profile.dark_troops.golem}}</span></span>
+                                                    </div>
+                                                    <div class="col-sm-7 col-xs-8 profile-slider">
+                                                        <input type="range" min="0" max="5" ng-model="user.profile.dark_troops.golem" ng-mouseup="saveUser()" integer>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-xs-4">
+                                                        <span class="army-icon witch-icon" ng-class="{'top-lvl':user.profile.dark_troops.witch==2,active:user.profile.dark_troops.witch>0}"><span>{{user.profile.dark_troops.witch}}</span></span>
+                                                    </div>
+                                                    <div class="col-sm-7 col-xs-8 profile-slider">
+                                                        <input type="range" min="0" max="2" ng-model="user.profile.dark_troops.witch" ng-mouseup="saveUser()" integer>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-xs-4">
+                                                        <span class="army-icon lavahound-icon" ng-class="{'top-lvl':user.profile.dark_troops.lavahound==3,active:user.profile.dark_troops.lavahound>0}"><span>{{user.profile.dark_troops.lavahound}}</span></span>
+                                                    </div>
+                                                    <div class="col-sm-7 col-xs-8 profile-slider">
+                                                        <input type="range" min="0" max="3" ng-model="user.profile.dark_troops.lavahound" ng-mouseup="saveUser()" integer>
+                                                    </div>
+                                                </div>
                                         </div>
                                     </div>
                                 </div>
@@ -57,269 +302,108 @@
                         </div>
                     </div> <!-- /buildings -->
 
-                    <!-- elixer troops -->
-                    <div class="row margin-bottom-huge">
-                        <div class="col-xs-12">
-                            <div class="widget">
-                                <div class="widget-header">Elixer Troops <a href class="btn btn-emphasis btn-xs pull-right" ng-mouseup="saveUser()">Save</a></div>
-                                <div class="widget-body">
-                                    <div class="row margin-bottom-huge">
-                                        <div class="col-xs-2">
-                                            <img src="/img/troops/barbarian-{{user.profile.troops.barbarian}}.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.troops.barbarian}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.troops.barbarian}}</span>
-                                            <input type="range" min="0" max="7" ng-model="user.profile.troops.barbarian" ng-mouseup="saveUser()" integer>
-                                        </div>
-                                        <div class="col-xs-2">
-                                            <img src="/img/troops/archer-{{user.profile.troops.archer}}.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.troops.archer}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.troops.archer}}</span>
-                                            <input type="range" min="0" max="7" ng-model="user.profile.troops.archer" ng-mouseup="saveUser()" integer>
-                                        </div>
-                                        <div class="col-xs-2">
-                                            <img src="/img/troops/goblin-{{user.profile.troops.goblin}}.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.troops.goblin}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.troops.goblin}}</span>
-                                            <input type="range" min="0" max="6" ng-model="user.profile.troops.goblin" ng-mouseup="saveUser()" integer>
-                                        </div>
-                                        <div class="col-xs-2">
-                                            <img src="/img/troops/giant-{{user.profile.troops.giant}}.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.troops.giant}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.troops.giant}}</span>
-                                            <input type="range" min="0" max="7" ng-model="user.profile.troops.giant" ng-mouseup="saveUser()" integer>
-                                        </div>
-                                        <div class="col-xs-2">
-                                            <img src="/img/troops/wallbreaker-{{user.profile.troops.wallbreaker}}.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.troops.wallbreaker}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.troops.wallbreaker}}</span>
-                                            <input type="range" min="0" max="6" ng-model="user.profile.troops.wallbreaker" ng-mouseup="saveUser()" integer>
-                                        </div>
-                                        <div class="col-xs-2">
-                                            <img src="/img/troops/balloon-{{user.profile.troops.balloon}}.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.troops.balloon}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.troops.balloon}}</span>
-                                            <input type="range" min="0" max="6" ng-model="user.profile.troops.balloon" ng-mouseup="saveUser()" integer>
-                                        </div>
-                                    </div>
-                                    <div class="row margin-bottom-huge">
-                                        <div class="col-xs-2">
-                                            <img src="/img/troops/wizard-{{user.profile.troops.wizard}}.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.troops.wizard}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.troops.wizard}}</span>
-                                            <input type="range" min="0" max="6" ng-model="user.profile.troops.wizard" ng-mouseup="saveUser()" integer>
-                                        </div>
-                                        <div class="col-xs-2">
-                                            <img src="/img/troops/healer-{{user.profile.troops.healer}}.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.troops.healer}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.troops.healer}}</span>
-                                            <input type="range" min="0" max="4" ng-model="user.profile.troops.healer" ng-mouseup="saveUser()" integer>
-                                        </div>
-                                        <div class="col-xs-2">
-                                            <img src="/img/troops/dragon-{{user.profile.troops.dragon}}.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.troops.dragon}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.troops.dragon}}</span>
-                                            <input type="range" min="0" max="4" ng-model="user.profile.troops.dragon" ng-mouseup="saveUser()" integer>
-                                        </div>
-                                        <div class="col-xs-2">
-                                            <img src="/img/troops/pekka-{{user.profile.troops.pekka}}.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.troops.pekka}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.troops.pekka}}</span>
-                                            <input type="range" min="0" max="5" ng-model="user.profile.troops.pekka" ng-mouseup="saveUser()" integer>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> <!-- /elixer troops -->
-
-                    <!-- dark elixer troops -->
-                    <div class="row margin-bottom-huge">
-                        <div class="col-xs-12">
-                            <div class="widget">
-                                <div class="widget-header">Dark Elixer Troops <a href class="btn btn-emphasis btn-xs pull-right" ng-mouseup="saveUser()">Save</a></div>
-                                <div class="widget-body">
-                                    <div class="row margin-bottom-huge">
-                                        <div class="col-xs-2">
-                                            <img src="/img/troops/minion-{{user.profile.dark_troops.minion}}.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.dark_troops.minion}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.dark_troops.minion}}</span>
-                                            <input type="range" min="0" max="6" ng-model="user.profile.dark_troops.minion" ng-mouseup="saveUser()" integer>
-                                        </div>
-                                        <div class="col-xs-2">
-                                            <img src="/img/troops/hogrider-{{user.profile.dark_troops.hogrider}}.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.dark_troops.hogrider}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.dark_troops.hogrider}}</span>
-                                            <input type="range" min="0" max="5" ng-model="user.profile.dark_troops.hogrider" ng-mouseup="saveUser()" integer>
-                                        </div>
-                                        <div class="col-xs-2">
-                                            <img src="/img/troops/valkyrie-{{user.profile.dark_troops.valkyrie}}.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.dark_troops.valkyrie}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.dark_troops.valkyrie}}</span>
-                                            <input type="range" min="0" max="4" ng-model="user.profile.dark_troops.valkyrie" ng-mouseup="saveUser()" integer>
-                                        </div>
-                                        <div class="col-xs-2">
-                                            <img src="/img/troops/golem-{{user.profile.dark_troops.golem}}.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.dark_troops.golem}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.dark_troops.golem}}</span>
-                                            <input type="range" min="0" max="5" ng-model="user.profile.dark_troops.golem" ng-mouseup="saveUser()" integer>
-                                        </div>
-                                        <div class="col-xs-2">
-                                            <img src="/img/troops/witch-{{user.profile.dark_troops.witch}}.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.dark_troops.witch}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.dark_troops.witch}}</span>
-                                            <input type="range" min="0" max="2" ng-model="user.profile.dark_troops.witch" ng-mouseup="saveUser()" integer>
-                                        </div>
-                                        <div class="col-xs-2">
-                                            <img src="/img/troops/lavahound-{{user.profile.dark_troops.lavahound}}.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.dark_troops.lavahound}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.dark_troops.lavahound}}</span>
-                                            <input type="range" min="0" max="3" ng-model="user.profile.dark_troops.lavahound" ng-mouseup="saveUser()" integer>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /dark elixer troops -->
-
-                    <!-- spells -->
-                    <div class="row margin-bottom-huge">
-                        <div class="col-xs-12">
-                            <div class="widget">
-                                <div class="widget-header">Spells <a href class="btn btn-emphasis btn-xs pull-right" ng-mouseup="saveUser()">Save</a></div>
-                                <div class="widget-body">
-                                    <div class="row margin-bottom-huge">
-                                        <div class="col-xs-2">
-                                            <img ng-if="user.profile.spells.lightning==0"src="/img/troops/lightning-0.png" class="img-responsive object-center">
-                                            <img ng-if="user.profile.spells.lightning>0"src="/img/troops/lightning.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.spells.lightning}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.spells.lightning}}</span>
-                                            <input type="range" min="0" max="6" ng-model="user.profile.spells.lightning" ng-mouseup="saveUser()" integer>
-                                        </div>
-
-                                        <div class="col-xs-2">
-                                            <img ng-if="user.profile.spells.heal==0"src="/img/troops/heal-0.png" class="img-responsive object-center">
-                                            <img ng-if="user.profile.spells.heal>0"src="/img/troops/heal.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.spells.heal}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.spells.heal}}</span>
-                                            <input type="range" min="0" max="6" ng-model="user.profile.spells.heal" ng-mouseup="saveUser()" integer>
-                                        </div>
-                                        <div class="col-xs-2">
-                                            <img ng-if="user.profile.spells.rage==0"src="/img/troops/rage-0.png" class="img-responsive object-center">
-                                            <img ng-if="user.profile.spells.rage>0"src="/img/troops/rage.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.spells.rage}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.spells.rage}}</span>
-                                            <input type="range" min="0" max="5" ng-model="user.profile.spells.rage" ng-mouseup="saveUser()" integer>
-                                        </div>
-                                        <div class="col-xs-2">
-                                            <img ng-if="user.profile.spells.jump==0"src="/img/troops/jump-0.png" class="img-responsive object-center">
-                                            <img ng-if="user.profile.spells.jump>0"src="/img/troops/jump.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.spells.jump}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.spells.jump}}</span>
-                                            <input type="range" min="0" max="3" ng-model="user.profile.spells.jump" ng-mouseup="saveUser()" integer>
-                                        </div>
-                                        <div class="col-xs-2">
-                                            <img ng-if="user.profile.spells.freeze==0"src="/img/troops/freeze-0.png" class="img-responsive object-center">
-                                            <img ng-if="user.profile.spells.freeze>0"src="/img/troops/freeze.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.spells.freeze}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.spells.freeze}}</span>
-                                            <input type="range" min="0" max="5" ng-model="user.profile.spells.freeze" ng-mouseup="saveUser()" integer>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /spells -->
-
                     <!-- walls -->
                     <div class="row margin-bottom-huge">
                         <div class="col-xs-12">
                             <div class="widget">
                                 <div class="widget-header">Walls <a href class="btn btn-emphasis btn-xs pull-right" ng-mouseup="saveUser()">Save</a></div>
                                 <div class="widget-body">
-                                    <div class="row margin-bottom-gigantic">
-                                        <div class="col-xs-4">
-                                            <img src="/img/troops/wall-11.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.walls[10]}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.walls[10]}}</span>
+                                    <div class="row">
+                                        <div class="col-sm-1 col-xs-3">
+                                            <span class="wall-icon wall-11">
+                                            <span class="troop-level">{{user.profile.walls[10]}}</span>
+                                        </div>
+                                        <div class="col-sm-5 col-xs-9 profile-slider">
                                             <input type="range" min="0" max="250" ng-model="user.profile.walls[10]" ng-mouseup="saveUser()" integer>
                                         </div>
-                                        <div class="col-xs-4">
-                                            <img src="/img/troops/wall-10.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.walls[9]}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.walls[9]}}</span>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-1 col-xs-3">
+                                            <span class="wall-icon wall-10">
+                                            <span class="troop-level">{{user.profile.walls[9]}}</span>
+                                        </div>
+                                        <div class="col-sm-5 col-xs-9 profile-slider">
                                             <input type="range" min="0" max="250" ng-model="user.profile.walls[9]" ng-mouseup="saveUser()" integer>
                                         </div>
-                                        <div class="col-xs-4">
-                                            <img src="/img/troops/wall-9.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.walls[8]}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.walls[8]}}</span>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-1 col-xs-3">
+                                            <span class="wall-icon wall-9">
+                                            <span class="troop-level">{{user.profile.walls[8]}}</span>
+                                        </div>
+                                        <div class="col-sm-5 col-xs-9 profile-slider">
                                             <input type="range" min="0" max="250" ng-model="user.profile.walls[8]" ng-mouseup="saveUser()" integer>
                                         </div>
                                     </div>
-                                    <div class="row margin-bottom-gigantic">
-                                        <div class="col-xs-4">
-                                            <img src="/img/troops/wall-8.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.walls[7]}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.walls[7]}}</span>
+                                    <div class="row">
+                                        <div class="col-sm-1 col-xs-3">
+                                            <span class="wall-icon wall-8">
+                                            <span class="troop-level">{{user.profile.walls[7]}}</span>
+                                        </div>
+                                        <div class="col-sm-5 col-xs-9 profile-slider">
                                             <input type="range" min="0" max="250" ng-model="user.profile.walls[7]" ng-mouseup="saveUser()" integer>
                                         </div>
-
-                                        <div class="col-xs-4">
-                                            <img src="/img/troops/wall-7.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.walls[6]}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.walls[6]}}</span>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-1 col-xs-3">
+                                            <span class="wall-icon wall-7">
+                                            <span class="troop-level">{{user.profile.walls[6]}}</span>
+                                        </div>
+                                        <div class="col-sm-5 col-xs-9 profile-slider">
                                             <input type="range" min="0" max="250" ng-model="user.profile.walls[6]" ng-mouseup="saveUser()" integer>
                                         </div>
-
-                                        <div class="col-xs-4">
-                                            <img src="/img/troops/wall-6.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.walls[5]}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.walls[5]}}</span>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-1 col-xs-3">
+                                            <span class="wall-icon wall-6">
+                                            <span class="troop-level">{{user.profile.walls[5]}}</span>
+                                        </div>
+                                        <div class="col-sm-5 col-xs-9 profile-slider">
                                             <input type="range" min="0" max="250" ng-model="user.profile.walls[5]" ng-mouseup="saveUser()" integer>
                                         </div>
                                     </div>
-                                    <div class="row margin-bottom-huge">
-                                        <div class="col-xs-4">
-                                            <img src="/img/troops/wall-5.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.walls[4]}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.walls[4]}}</span>
+                                    <div class="row">
+                                        <div class="col-sm-1 col-xs-3">
+                                            <span class="wall-icon wall-5">
+                                            <span class="troop-level">{{user.profile.walls[4]}}</span>
+                                        </div>
+                                        <div class="col-sm-5 col-xs-9 profile-slider">
                                             <input type="range" min="0" max="250" ng-model="user.profile.walls[4]" ng-mouseup="saveUser()" integer>
                                         </div>
-                                        <div class="col-xs-4">
-                                            <img src="/img/troops/wall-4.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.walls[3]}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.walls[3]}}</span>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-1 col-xs-3">
+                                            <span class="wall-icon wall-4">
+                                            <span class="troop-level">{{user.profile.walls[3]}}</span>
+                                        </div>
+                                        <div class="col-sm-5 col-xs-9 profile-slider">
                                             <input type="range" min="0" max="250" ng-model="user.profile.walls[3]" ng-mouseup="saveUser()" integer>
                                         </div>
-                                        <div class="col-xs-4">
-                                            <img src="/img/troops/wall-3.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.walls[2]}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.walls[2]}}</span>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-1 col-xs-3">
+                                            <span class="wall-icon wall-3">
+                                            <span class="troop-level">{{user.profile.walls[2]}}</span>
+                                        </div>
+                                        <div class="col-sm-5 col-xs-9 profile-slider">
                                             <input type="range" min="0" max="250" ng-model="user.profile.walls[2]" ng-mouseup="saveUser()" integer>
                                         </div>
                                     </div>
-<!--                                     <div class="row margin-bottom-gigantic">
-                                        <div class="col-xs-2">
-                                            <img src="/img/troops/wall-2.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.walls[1]}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.walls[1]}}</span>
-                                            <input type="range" min="0" max="250" ng-model="user.profile.walls[1]" ng-mouseup="saveUser()">
+                                    <div class="row">
+                                        <div class="col-sm-1 col-xs-3">
+                                            <span class="wall-icon wall-2">
+                                            <span class="troop-level">{{user.profile.walls[1]}}</span>
                                         </div>
-
-                                        <div class="col-xs-4">
-                                            <img src="/img/troops/wall-1.png" class="img-responsive object-center">
-                                            <span class="troop-level-small hidden-sm hidden-md hidden-lg">{{user.profile.walls[0]}}</span>
-                                            <span class="troop-level-big hidden-xs">{{user.profile.walls[0]}}</span>
-                                            <input type="range" min="0" max="250" ng-model="user.profile.walls[0]" ng-mouseup="saveUser()">
+                                        <div class="col-sm-5 col-xs-9 profile-slider">
+                                            <input type="range" min="0" max="250" ng-model="user.profile.walls[1]" ng-mouseup="saveUser()" integer>
                                         </div>
-                                    </div> -->
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- /walls -->
+                    </div> <!-- /walls -->
+
+
                 </div>
             </div> <!-- /page content -->
         </div>

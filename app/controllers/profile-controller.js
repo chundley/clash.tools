@@ -20,7 +20,34 @@ function ($rootScope, $scope, moment, authService, cacheService, sessionService,
         }
     });
 
+    sessionService.getUserMeta(authService.user.id, function (err, meta) {
+        $scope.meta = meta;
+    });
+
     $scope.saveUser = function() {
+        saveUserInternal();
+    }
+
+
+    $scope.uploadAvatar = function(file) {
+        if (file.length > 0) {
+            imageUploadService.uploadAvatar(authService.user.id, file, function (err, result) {
+                if (err) {
+                    err.stack_trace.unshift( { file: 'profile-controller.js', func: '$scope.uploadAvatar', message: 'Error saving user' } );
+                    errorService.save(err, function() {});
+                }
+                else {
+                    $scope.user.profile.avatar = result.newFile;
+                    saveUserInternal();
+                }
+            });
+        }
+    }
+
+    function saveUserInternal() {
+        // clear meta data in case the UI needs bits refreshed
+        sessionService.clearUserMeta();
+
         userService.update($scope.user._id, $scope.user, function (err, newUser) {
             if (err) {
                 err.stack_trace.unshift( { file: 'profile-controller.js', func: '$scope.saveUser', message: 'Error saving user' } );
@@ -32,15 +59,6 @@ function ($rootScope, $scope, moment, authService, cacheService, sessionService,
         });
     }
 
-
-    $scope.upload = function(file) {
-        console.log(file);
-        if (file.length > 0) {
-            imageUploadService.uploadAvatar(authService.user._id, file, function (err, result) {
-
-            });
-        }
-    }
 
 /*    sessionService.getUserMeta(authService.user.id, function (err, meta) {
         $scope.ign = meta.ign;

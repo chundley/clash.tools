@@ -21,7 +21,8 @@ exports.upload = function(folderName, fileName, file, callback) {
 
             var bucket = new AWS.S3({
                 params: {
-                    Bucket: 'clashtools/' + folderName
+                    Bucket: 'clashtools/' + folderName,
+                    CacheControl: 'public, max-age=0'
                 }
             });
 

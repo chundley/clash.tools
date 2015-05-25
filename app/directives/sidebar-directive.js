@@ -1,27 +1,28 @@
 'use strict';
 
 angular.module('Clashtools.directives')
-.directive('sidebar', ['moment', 'authService', 'sessionService', 'messagelogService',
-function (moment, authService, sessionService, messagelogService) {
+.directive('sidebar', ['$timeout', 'authService', 'sessionService', 'ctSocket',
+function ($timeout, authService, sessionService, ctSocket) {
     return {
         restrict: 'A',
         templateUrl: '/views/partials/sidebar.html',
         link: function(scope, element, attrs) {
             sessionService.getUserMeta(authService.user.id, function (err, meta) {
-                scope.ign = meta.ign;
-                scope.clanName = meta.current_clan.name ? meta.current_clan.name : '';
-                scope.clanId = meta.current_clan.clan_id ? meta.current_clan.clan_id : '';
+                scope.meta = meta;
             });
 
-/*            scope.$watch('logUpdate', function() {
-                messagelogService.get(authService.user.id, 10000, function (err, messages) {
-                    scope.messageCount = messages.length;
-                    scope.messages = messages.slice(0,5);
-                    angular.forEach(scope.messages, function (message) {
-                        message.created_at = new moment(message.created_at);
-                    });
+            // subscribe to updates on user meta changes
+            ctSocket.on('user:' + authService.user.id + ':meta', function (data) {
+                sessionService.getUserMeta(authService.user.id, function (err, meta) {
+                    scope.meta = meta;
+
+                    // give it a second to refresh, make sure the upload finished
+                    $timeout(function() {
+                        scope.meta.avatar += '?ts=' + new Date().getTime();
+                    }, 2000);
+
                 });
-            });*/
+            });
         }
     }
 }]);

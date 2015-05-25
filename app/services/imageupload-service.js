@@ -13,7 +13,7 @@ function ($http, errorService, Upload) {
                 url: '/crud/image/avatar/' + userId,
                 file: file
             }).success(function (data, status, headers, config) {
-                callback(null, null);
+                callback(null, data);
             }).
             error(function (data, status, headers, config) {
                 callback(err, null);

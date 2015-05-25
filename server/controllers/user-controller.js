@@ -59,6 +59,7 @@ exports.updateClan = function(req, res, next) {
             res.send(500, err);
         }
         else if (user) {
+            socket.emit('user:' + user._id + ':meta');
             res.json(200, { updateStatus: user} );
         }
         else {
@@ -76,6 +77,7 @@ exports.updateRole = function(req, res, next) {
             res.send(500, err);
         }
         else if (user) {
+            socket.emit('user:' + user._id + ':meta');
             res.json(200, user);
         }
         else {
@@ -94,6 +96,7 @@ exports.save = function(req, res, next) {
             res.send(500, err);
         }
         else if (user) {
+            socket.emit('user:' + user._id + ':meta');
             res.json(200, user);
         }
         else {
@@ -167,7 +170,8 @@ exports.getMeta = function(req, res, next) {
                 ign: user.ign,
                 email_address: user.email_address,
                 current_clan: user.current_clan,
-                role: user.role.title
+                role: user.role.title,
+                avatar: user.profile.avatar
             };
             res.json(200, ret);
         }
