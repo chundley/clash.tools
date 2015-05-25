@@ -171,7 +171,9 @@ exports.getMeta = function(req, res, next) {
                 email_address: user.email_address,
                 current_clan: user.current_clan,
                 role: user.role.title,
-                avatar: user.profile.avatar
+                avatar: user.profile.avatar,
+                bkUpgrade: user.profile.bkUpgrade,
+                aqUpgrade: user.profile.aqUpgrade
             };
             res.json(200, ret);
         }

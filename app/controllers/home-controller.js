@@ -561,6 +561,8 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
 
     function setCountdownTimers() {
         var now = new Date();
+
+        // Targets
         angular.forEach($scope.playerTargets, function (target) {
             if (target.expires > 0) {
                 var minutesLeft = parseInt((target.expires - now.getTime())/1000/60);
@@ -573,6 +575,34 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
                 }
             }
         });
+
+        // heroes
+        var bkFinishTime = new Date($scope.meta.bkUpgrade);
+        bkFinishTime = bkFinishTime.getTime();
+
+        if (bkFinishTime > now.getTime()) {
+            var hoursLeft = parseInt((bkFinishTime - now.getTime())/1000/60/60);
+            $scope.bkDays = parseInt(hoursLeft / 24);
+            $scope.bkHours = parseInt(hoursLeft % 24);
+        }
+        else {
+            $scope.bkDays = 0;
+            $scope.bkHours = 0;
+        }
+
+        var aqFinishTime = new Date($scope.meta.aqUpgrade);
+        aqFinishTime = aqFinishTime.getTime();
+
+        if (aqFinishTime > now.getTime()) {
+            var hoursLeft = parseInt((aqFinishTime - now.getTime())/1000/60/60);
+            $scope.aqDays = parseInt(hoursLeft / 24);
+            $scope.aqHours = parseInt(hoursLeft % 24);
+        }
+        else {
+            $scope.aqDays = 0;
+            $scope.aqHours = 0;
+        }
+
     }
 
     /*
