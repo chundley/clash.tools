@@ -603,6 +603,11 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
             $scope.aqHours = 0;
         }
 
+        console.log($scope.bkDays);
+        console.log($scope.bkHours);
+        console.log($scope.aqDays);
+        console.log($scope.aqHours);
+
     }
 
     /*
