@@ -12,7 +12,7 @@
                             <h2 class="hidden-xs">{{meta.current_clan.name}} vs. <b>{{war.opponent_name}}</b></h2>
                             <h3 class="visible-xs">{{meta.current_clan.name}} vs. <b>{{war.opponent_name}}</b></h3>
                         </div>
-                        <div class="col-sm-6 col-xs-12 war-countdown">
+                        <div class="col-sm-6 col-xs-12 margin-bottom-medium war-countdown">
                             <div class="wc-inner" ng-show="!warEnded">
                                 <span ng-if="warStarted">Ends</span><span ng-if="!warStarted">Starts</span> in
                                 <timer interval="1000" autostart="false" language="en" ng-attr-end-time="warStartTime">
@@ -23,11 +23,9 @@
                     </div>
                     <div class="row margin-bottom-medium">
                         <div class="col-xs-12">
-                            <ul class="war-sub-nav">
-                                <li><a href="/war/{{war._id}}">Bases</a></li>
-                                <li><a href="/war/team/{{war._id}}">Team</a></li>
-                                <li class="active"><a href="/war/summary/{{war._id}}">Leaders</a></li>
-                            </ul>
+                            <a href="/war/{{war._id}}" class="btn btn-default btn-sm"><img src="/img/icons/swords-icon.png"> Bases</a>
+                            <a href="/war/team/{{war._id}}" class="btn btn-default btn-sm"><img src="/img/icons/team-icon.png"> Team</a>
+                            <a href="/war/summary/{{war._id}}" class="btn btn-primary btn-sm"><img src="/img/icons/trophy-icon.png"> Leaders</a>
                         </div>
                     </div>
                     <div class="row">
