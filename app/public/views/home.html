@@ -157,21 +157,23 @@
                                 <div class="widget-body status-container">
                                     <div class="row">
                                         <div class="col-xs-3">
-                                            <span class="army-icon active barbarianking-icon">
+                                            <span class="army-icon barbarianking-icon" ng-class="{active: meta.hasBK}">
                                         </div>
                                         <div class="col-xs-9 hero-countdown">
-                                            <span ng-if="bkDays>0 || bkHours > 0">Finishes in: <b>{{bkDays}}</b> day<span ng-if="bkDays==0 || bkDays > 1">s</span>, <b>{{bkHours}}</b> hour<span ng-if="bkHours==0 || bkHours > 1">s</span></span>
-                                            <span ng-if="bkDays==0 && bkHours == 0"><b>Active</b></span>
+                                            <span ng-if="(bkDays>0 || bkHours > 0) && meta.hasBK">Finishes in: <b>{{bkDays}}</b> day<span ng-if="bkDays==0 || bkDays > 1">s</span>, <b>{{bkHours}}</b> hour<span ng-if="bkHours==0 || bkHours > 1">s</span></span>
+                                            <span ng-if="bkDays==0 && bkHours == 0 && meta.hasBK"><b>Active</b></span>
+                                            <span ng-if="!meta.hasBK"><b class="primary-40">No BK</b></span>
                                         </div>
                                     </div>
 
                                     <div class="row margin-bottom-huge">
                                         <div class="col-xs-3">
-                                            <span class="army-icon active archerqueen-icon">
+                                            <span class="army-icon archerqueen-icon" ng-class="{active: meta.hasAQ}">
                                         </div>
                                         <div class="col-xs-9 hero-countdown">
-                                            <span ng-if="aqDays>0 || aqHours > 0">Finishes in: <b>{{aqDays}}</b> day<span ng-if="aqDays==0 || aqDays > 1">s</span>, <b>{{aqHours}}</b> hour<span ng-if="aqHours==0 || aqHours > 1">s</span></span>
-                                            <span ng-if="aqDays==0 && aqHours == 0"><b>Active</b></span>
+                                            <span ng-if="(aqDays>0 || aqHours > 0) && meta.hasAQ">Finishes in: <b>{{aqDays}}</b> day<span ng-if="aqDays==0 || aqDays > 1">s</span>, <b>{{aqHours}}</b> hour<span ng-if="aqHours==0 || aqHours > 1">s</span></span>
+                                            <span ng-if="aqDays==0 && aqHours == 0 && meta.hasAQ"><b>Active</b></span>
+                                            <span ng-if="!meta.hasAQ"><b class="primary-40">No AQ</b></span>
                                         </div>
                                     </div>
                                     <div class="row row-underline-1"></div>
