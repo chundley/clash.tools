@@ -14,7 +14,6 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
 
     sessionService.getUserMeta(authService.user.id, function (err, meta) {
         $scope.meta = meta;
-        console.log(meta);
         if ($scope.meta.current_clan.clan_id) {
             $scope.nullState = false;
 
