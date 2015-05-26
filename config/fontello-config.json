@@ -115,6 +115,18 @@
       "src": "fontawesome"
     },
     {
+      "uid": "555ef8c86832e686fef85f7af2eb7cde",
+      "css": "left",
+      "code": 59416,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "ad6b3fbb5324abe71a9c0b6609cbb9f1",
+      "css": "right",
+      "code": 59415,
+      "src": "fontawesome"
+    },
+    {
       "uid": "ab656e280958018a7859eba9a1eabbc7",
       "css": "award",
       "code": 59406,

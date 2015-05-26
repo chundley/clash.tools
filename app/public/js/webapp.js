@@ -12,7 +12,7 @@ angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize',
     var access = roleConfig.accessLevels;
 
     $routeProvider
-        .when('/', { controller: 'HomeCtrl', templateUrl: '/views/home.html', access: access.user } )
+        .when('/', { controller: 'DefaultCtrl', templateUrl: '/views/default.html', access: access.public } )
         .when('/register', { controller: 'RegisterCtrl', templateUrl: '/views/register.html', access: access.public } )
         .when('/login', { controller: 'LoginCtrl', templateUrl: '/views/login.html', access: access.public } )
         .when('/logout', { controller: 'LogoutCtrl', templateUrl: '/views/login.html', access: access.public } )

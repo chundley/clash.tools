@@ -1,0 +1,89 @@
+<div ng-if="loggedIn" id="wrapper">
+    <div sidebar></div>
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div top-nav></div>
+            <!-- page content -->
+            <div class="row content-body">
+                <div class="col-xs-12">
+                    <div class="row margin-bottom-huge">
+                        <div class="col-xs-12">
+                            <h1>Welcome to clash.tools</h1>
+                            <h3 class="same-line-sub-heading alternate">{{user.ign}}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- /page content -->
+        </div>
+    </div>  <!-- /#page-content-wrapper -->
+</div>  <!-- /#wrapper -->
+
+
+<div ng-if="!loggedIn">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-xs-12 top-nav-container">
+                <div class="row">
+                    <div class="col-md-4 col-sm-6 col-xs-6">
+                        <a href="/"><img class="logo" src="/img/logo-small.png"></a> <span class="small primary-40"><b>beta</b></span>
+                    </div>
+<!--                     <div class="col-md-4 hidden-sm hidden-xs search-box">
+                        <div class="form-control-group">
+                            <input class="form-control" type="text" placeholder="Search for a clan by name or tag" ng-model="searchTerms" press-enter="search()">
+                            <button class="btn btn-search" ng-click="search()"><i class="icon-search"></i></button>
+                        </div>
+                    </div> -->
+                    <div class="col-md-8 col-sm-6 col-xs-6 default-nav-buttons text-right">
+                        <a href="/register" class="btn btn-default btn-sm">Sign up</a>
+                        <a href="login" class="btn btn-emphasis btn-sm">Log in</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- page content -->
+        <div class="row content-body">
+            <div class="col-xs-12">
+                <div class="row margin-bottom-big">
+                    <div class="col-xs-12">
+                        <h1>Welcome to clash.tools!</h1>
+                    </div>
+                </div>
+                <div class="row margin-bottom-big">
+                    <div class="col-xs-12">
+                        <p>The clash.tools application is designed from the ground up to be the easiest and most efficient way to manage clan wars in Clash of Clans. There have been a few valiant efforts at capturing the most important aspects of managing wars, but nothing with the capabilities and scale of clash.tools.</p>
+                        While it's still in beta with some bugs to be ironed out, here's just a glimpse of what's already working:
+                    </div>
+                </div>
+                <div class="row margin-bottom-huge">
+                    <div class="col-xs-12 demo-container">
+                        <div class="row">
+                            <div class="col-md-3 col-sm-4 col-xs-5 dc-description">
+                                <h4>{{pics[picIndex].title}}</h4><br>
+                                {{pics[picIndex].description}}<br><br>
+                                <a class="btn btn-xs btn-default" ng-disabled="picIndex==0" ng-click="picIndex=picIndex-1"><i class="icon-left"></i> <span class="hidden-xs">Prev</span></a>
+                                <a class="btn btn-xs btn-default" ng-disabled="picIndex==pics.length-1"ng-click="picIndex=picIndex+1"><span class="hidden-xs">Next</span> <i class="icon-right"></i></a>
+                            </div>
+                            <div class="col-md-9 col-sm-8 col-xs-7">
+                                <img class="img-responsive" src="/img/{{pics[picIndex].image}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row margin-bottom-big">
+                    <div class="col-xs-12">
+                        <p>Clash.tools is made with love by minpin. <a href="http://forum.supercell.net/private.php?do=newpm&u=778211" target="_blank">Message me on the Supercell forum</a> or participate in the official feedback thread if you have questions or suggestions.</p><p>Thanks to KARA Rising and KARA Heroes for pushing through all the bugs and getting it shaped up for the community to use. Help content will be coming soon based on how much time I have to work on it.</p>
+                    </div>
+                </div>
+                <div class="row disclaimer">
+                    <div class="col-xs-12">
+                        This content is not affiliated with, endorsed, sponsored, or specifically approved by Supercell and Supercell is not responsible for it. For more information see Supercell’s Fan Content Policy: <a href="http://www.supercell.com/fan-content-policy" target="_blank">www.supercell.com/fan-content-policy</a>.
+                    </div>
+                </div>
+            </div>
+        </div> <!-- /page content -->
+    </div>
+</div>
