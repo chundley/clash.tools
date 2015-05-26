@@ -25,6 +25,13 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
                 loadClanMessages();
             });
 
+            // set countdown for heroes, and set it to refresh every 15 minutes
+            setHeroTimers();
+            var promise = $interval(setHeroTimers, 900000);
+            $scope.$on('$destroy', function() {
+                $interval.cancel(promise);
+            });
+
             clanService.getById($scope.meta.current_clan.clan_id, function (err, clan) {
                 if (err) {
                     err.stack_trace.unshift( { file: 'startwar-controller.js', func: 'init', message: 'Error getting clan' } );
@@ -34,7 +41,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
                     $scope.clan = clan;
 
                     // load war initially
-                    loadWar(function(){
+                    loadWar(function() {
                         // and after that any time a change is broadcast by socket.io (if there is a war active)
                         if($scope.war) {
                             ctSocket.on('war:' + $scope.war._id + ':change', function (data) {
@@ -572,8 +579,11 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
                 }
             }
         });
+    }
 
-        // heroes
+    function setHeroTimers() {
+        var now = new Date();
+
         var bkFinishTime = new Date($scope.meta.bkUpgrade);
         bkFinishTime = bkFinishTime.getTime();
 
