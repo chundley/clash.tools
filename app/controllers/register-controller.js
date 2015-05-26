@@ -16,7 +16,7 @@ function ($rootScope, $scope, $location, md5, authService, sessionService, mailS
 
     $scope.register = function() {
         var now = new Date();
-        tmpExpire = new Date(now.getTime() - 30*24*60*60*1000);
+        var tmpExpire = new Date(now.getTime() - 30*24*60*60*1000);
         var newUser = {
             ign: $scope.ign,
             player_tag: $scope.playerTag,
