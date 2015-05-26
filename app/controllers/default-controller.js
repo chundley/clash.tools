@@ -41,17 +41,17 @@ function ($rootScope, $scope, $location, authService) {
             {
                 image: 'home-warsettings.png',
                 title: 'War settings',
-                description: 'Whether your clan assigns attacks or plays free-for-all the war settings page let\'s you manage your way.'
+                description: 'Whether your clan assigns attacks or plays free-for-all the war settings page lets you manage your way.'
             },
             {
                 image: 'home-bases.png',
                 title: 'Enemy bases',
-                description: 'View the war by enemy bases or ordered by your team. Get a full picture of what\s going on during and after the war.'
+                description: 'View the war by enemy bases or ordered by your team. Get a full picture of what\'s going on during and after the war.'
             },
             {
                 image: 'home-topattackers.png',
                 title: 'Top attackers',
-                description: 'The top attackers during and after the war - updated in real time as sttacks are logged. Find out who your true MVP\'s are.'
+                description: 'The top attackers during and after the war - updated in real time as attacks are logged. Find out who your true MVP\'s are.'
             },
             {
                 image: 'home-roster.png',
