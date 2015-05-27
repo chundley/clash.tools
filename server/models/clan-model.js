@@ -282,6 +282,7 @@ function clanMetrics(clanId, callback) {
         _.each(results.users, function (user) {
             if (user.role.title === 'leader') {
                 metrics.leader = user.ign;
+                metrics.leaderId = user._id;
             }
         });
         callback(null, metrics);
