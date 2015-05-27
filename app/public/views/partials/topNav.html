@@ -11,9 +11,7 @@
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-6 col-xs-6 text-right icon-notification">
-<!--                             <A href="/chat"><i class="icon-chat"></i><span class="count-indicator alternate-bg">0</span></a> -->
                             <a href="/mail"><i class="icon-mail"></i></a><span class="count-indicator alternate-bg">{{newMailCount}}</span>
-
                             <span class="dropdown pull-right" on-toggle="toggled(open)">
                                 <a href class="dropdown-toggle">
                                     <i class="icon-menu"></i>
@@ -22,15 +20,16 @@
                                     <p class="dropdown-header">Quick Links</p>
                                     <li><a href="/home">Home</a></li>
                                     <li><a href="/mail">Mail</a></li>
+                                    <p class="dropdown-header">You</p>
+                                    <li><a href="/profile">Profile</a></li>
                                     <p class="dropdown-header" ng-if="clanName.length>0">Clan</p>
                                     <li ng-if="clanName.length>0"><a href="/members">Members</a></li>
                                     <li ng-if="clanName.length>0" access-level="coleader"><a href="/roster">Roster</a></li>
+                                    <p class="dropdown-header" ng-if="clanName.length>0">Wars</p>
                                     <li ng-if="clanName.length>0"><a href="/war">War History</a></li>
                                     <li class="margin-bottom-medium" ng-if="clanName.length>0"><a href="/clan/{{clanId}}">Settings</a></li>
-                                    <p class="dropdown-header">You</p>
-                                    <li><a href="/profile">Profile</a></li>
-                                    <li><a href="/history">History</a></li>
                                     <li class="divider"></li>
+                                    <li access-level="sadmin"><a href="/admin">Admin</a></li>
                                     <li><a href="/logout">Logout</a></li>
                                 </ul>
                             </span>

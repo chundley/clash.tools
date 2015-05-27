@@ -8,20 +8,22 @@
 *
 *   Roles (limit 31)
 *   -------------------------
-*   public:    00001
-*   member:    00010
-*   elder:     00100
-*   coleader:  01000
-*   leader:    10000
+*   public:    000001 (1)
+*   member:    000010 (2)
+*   elder:     000100 (4)
+*   coleader:  001000 (8)
+*   leader:    010000 (16)
+*   sadmin:    100000 (32)
 *
 *   Access levels (whom has access to what)
 *   ---------------------------------------
-*   public:     11111  (all roles)
-*   anon:       10001  (public)
-*   member:     11110  (member, elder, coleader, leader)
-*   elder:      11100  (elder, coleader, leader)
-*   coleader:   11000  (coleader, leader)
-*   leader:     10000  (leader)
+*   public:     111111  (all roles)
+*   anon:       100001  (public)
+*   member:     111110  (member, elder, coleader, leader)
+*   elder:      111100  (elder, coleader, leader)
+*   coleader:   111000  (coleader, leader)
+*   leader:     110000  (leader)
+*   sadmin:     100000  (super admin, site manager)
 */
 
 
@@ -36,7 +38,8 @@
             'member',
             'elder',
             'coleader',
-            'leader'],
+            'leader',
+            'sadmin'],
 
         /*
         *   Build out all the access levels you want referencing the roles listed above
@@ -45,10 +48,11 @@
         accessLevels : {
             'public' : "*",
             'anon': ['public'],
-            'member' : ['member', 'elder', 'coleader', 'leader'],
-            'elder': ['elder','coleader', 'leader'],
-            'coleader': ['coleader', 'leader'],
-            'leader': ['leader']
+            'member' : ['member', 'elder', 'coleader', 'leader', 'sadmin'],
+            'elder': ['elder','coleader', 'leader', 'sadmin'],
+            'coleader': ['coleader', 'leader', 'sadmin'],
+            'leader': ['leader', 'sadmin'],
+            'sadmin': ['sadmin']
         }
 
     }
