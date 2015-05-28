@@ -9,10 +9,23 @@ var ObjectID = require('mongodb').ObjectID,
 var config    = require('../../config/config'),
     warModel  = require('./war-model');
 
+// baseline value for stars
 var starVal = [0, 10, 30, 60];
+
+// fibonacci sequence for distance from mirror
 var fib = [0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987];
+
+// max extra points given for attacking higher (by stars)
+var maxFibHigh = [0, 12, 24, 36];
+
+// max points deducted for attacking lower (by stars)
+var maxFibLow = [0, 36, 24, 12];
+
+// wars broken up into 10 bands, points added for hitting specific bands
 var rankBands = [16, 12, 10, 8, 6, 4, 3, 2, 1, 0];
-var firstAttackBonus = [0, 1, 4, 10];
+
+// bonus applied if it was the first attack
+var firstAttackBonus = [0, 1, 3, 8];
 
 /*
 * Upserts a record and returns the record
@@ -22,9 +35,16 @@ exports.save = function(warId, model, callback) {
         warId = new ObjectID.createFromHexString(warId);
     }
 
-    if (_.isString(model.u)) {
-        model.u = new ObjectID.createFromHexString(model.u);
-    }
+    //NOTE: can't save model.u as a native Object because the temp users have a GUID
+/*    if (_.isString(model.u)) {
+        try {
+            model.u = new ObjectID.createFromHexString(model.u);
+        }
+        catch (e) {
+            logger.error(model.u);
+            logger.warn(e);
+        }
+    }*/
 
     if (_.isString(model.c)) {
         model.c = new ObjectID.createFromHexString(model.c);
@@ -42,32 +62,32 @@ exports.save = function(warId, model, callback) {
     // added or subtracted value based on position of base attacked in lineup compared to attacker
     if (fibIdx >= 0) {
         if (fibIdx < 12) {
-            attackValue += Math.sqrt(fib[fibIdx]) * 3;
+            attackValue += Math.sqrt(fib[fibIdx]) * model.stars;
         }
         else {
-            attackValue += 50;
+            attackValue += maxFibHigh[model.stars];
         }
     }
     else {
         fibIdx = fibIdx * -1;
-        if (fibIdx < 16) {
-            attackValue -= Math.sqrt(fib[fibIdx]);
+        if (fibIdx < 10) {
+            attackValue -= Math.sqrt(fib[fibIdx]) * model.stars;
         }
         else {
             // max attack deduction = 30
-            attackValue -= 30;
+            attackValue -= maxFibLow[model.stars];
         }
     }
 
     // added or subtracted value based on attacking a higher or lower TH level
     if (model.t < model.ot) {
-        attackValue += starVal[model.stars] * .25;
+        attackValue += starVal[model.stars] * .20;
     }
     else if (model.t > model.ot) {
-        attackValue -= starVal[model.stars] * .25;
+        attackValue -= starVal[model.stars] * .20;
     }
 
-    // max is 120
+    // max is 150
     if (attackValue > 150) {
         attackValue = 150;
     }
@@ -115,10 +135,10 @@ exports.save = function(warId, model, callback) {
         function (war, attackResult, callback_wf) {
 
             // before updating, use the war context for additional scoring value
-            
-            var bandSize = parseInt(war.player_count / 10);         
 
-            // figure out rankBonus based on banding 
+            var bandSize = parseInt(war.player_count / 10);
+
+            // figure out rankBonus based on banding
             var rankRange = opponentRank / bandSize;
             var rankBonus = 0;
 
@@ -139,13 +159,13 @@ exports.save = function(warId, model, callback) {
             }
             else if (rankRange <= 6) {
                 rankBonus = rankBands[5];
-            } 
+            }
             else if (rankRange <= 7) {
                 rankBonus = rankBands[6];
-            }  
+            }
             else if (rankRange <= 8) {
                 rankBonus = rankBands[7];
-            }  
+            }
             else if (rankRange <= 9) {
                 rankBonus = rankBands[8];
             }

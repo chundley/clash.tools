@@ -372,14 +372,19 @@ exports.backfillAllWars = function(callback) {
                 }
                 else {
                     if (wars) {
-                        _.each(wars, function (war) {
+                        async.each(wars, function (war, callback_each) {
                             exports.backfillAttackResults(war._id, function (err, result) {
                                 if (err) {
                                     logger.error('Could not backfill war ' + war._id);
+                                    callback('backfill failed');
+                                }
+                                else {
+                                    callback_each(null);
                                 }
                             });
+                        }, function (err) {
+                            callback(err, null);
                         });
-                        callback(null, null);
                     }
                     else {
                         callback(null, null);
