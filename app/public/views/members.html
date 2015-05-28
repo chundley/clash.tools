@@ -16,7 +16,7 @@
                             <a href="/roster" class="btn btn-emphasis btn-sm pull-right" access-level="coleader">Leader Roster</a>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row margin-bottom-huge">
                         <div class="col-xs-12">
                             <div class="widget">
                                 <div class="widget-header">
@@ -33,13 +33,13 @@
                                     <div class="row row-underline-2"></div>
                                     <div ng-repeat="member in members">
                                         <div class="row t-row">
-                                            <div class="col-sm-3 col-xs-5 t-col-center">{{member.ign}}</div>
+                                            <div class="col-sm-3 col-xs-5"><img src="https://s3.amazonaws.com/clashtools/avatar/{{member.profile.avatar}}" width="24" height="24" class="mt-avatar"> <span class="mt-membername">{{member.ign}}</span></div>
                                             <div class="col-sm-1 col-xs-2"><img src="/img/icons/th-{{member.profile.buildings.th}}.png"></div>
                                             <div class="col-sm-3 col-xs-3 t-col-center capitalize {{member.role.title}}">{{member.role.title}}</div>
                                             <div class="col-sm-3 hidden-xs t-col-center"><span am-time-ago="{{member.joined}}"></span></div>
                                             <div class="col-sm-2 col-xs-2 t-col-center text-right" ng-if="(meta.role=='member' || meta.role=='elder' || member.role.title=='leader')"></div>
 
-                                            <div class="col-sm-2 col-xs-2 t-col-center" ng-if="(meta.role=='leader' || meta.role=='coleader') && member.role.title!='leader' && member._id != userId">
+                                            <div class="col-sm-2 col-xs-2 t-col-dd" ng-if="(meta.role=='leader' || meta.role=='coleader') && member.role.title!='leader' && member._id != userId">
                                                 <span class="dropdown pull-right" on-toggle="toggled(open)">
                                                     <a href class="dropdown-toggle">
                                                         <button class="btn btn-default btn-member-dd btn-xs"><i class="icon-down-dir primary-30"></i></button>
