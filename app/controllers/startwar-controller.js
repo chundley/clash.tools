@@ -269,6 +269,8 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                     $scope.war.team[baseNum].i = $scope.members[idx].ign;
                     $scope.war.team[baseNum].t = $scope.members[idx].profile.buildings.th > 1 ? $scope.members[idx].profile.buildings.th :
                         $scope.war.team[baseNum].t > 1 ? $scope.war.team[baseNum].t : 1;
+
+
                 }
             }
             saveWarInternal();
@@ -370,6 +372,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
 
     function updateInterface() {
         $scope.heroesUpgrading = [];
+        $scope.teamHeroesUpgrading = [];
         for (var baseNum=0; baseNum<$scope.war.bases.length; baseNum++) {
             var hUpgrade = {};
             if ($scope.war.bases[baseNum].a.length > 0) {
@@ -395,6 +398,30 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                 }
             }
             $scope.heroesUpgrading.push(hUpgrade);
+        }
+
+        for (var idx=0; idx<$scope.war.team.length; idx++) {
+            var thUpgrade = {};
+            for (var memberIdx=0; memberIdx<$scope.members.length; memberIdx++) {
+                if ($scope.members[memberIdx]._id == $scope.war.team[idx].u) {
+                    // set hero upgrade status on base
+                    if ($scope.members[memberIdx].bkDays > 0 || $scope.members[memberIdx].bkHours > 0) {
+                        thUpgrade.bkDown = { days: $scope.members[memberIdx].bkDays, hours: $scope.members[memberIdx].bkHours};
+                    }
+                    else {
+                        thUpgrade.bkDown = { days: 0, hours: 0};
+                    }
+
+                    if ($scope.members[memberIdx].aqDays > 0 || $scope.members[memberIdx].aqHours > 0) {
+                        thUpgrade.aqDown = { days: $scope.members[memberIdx].aqDays, hours: $scope.members[memberIdx].aqHours};
+                    }
+                    else {
+                        thUpgrade.aqDown = { days: 0, hours: 0};
+                    }
+                    break;
+                }
+            }
+            $scope.teamHeroesUpgrading.push(thUpgrade);
         }
     }
 
