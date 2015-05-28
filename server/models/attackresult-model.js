@@ -12,6 +12,9 @@ var config    = require('../../config/config'),
 // baseline value for stars
 var starVal = [0, 10, 30, 60];
 
+// baseline inversed
+var starValInversed = [0, 60, 30, 10];
+
 // fibonacci sequence for distance from mirror
 var fib = [0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987];
 
@@ -70,7 +73,7 @@ exports.save = function(warId, model, callback) {
     }
     else {
         fibIdx = fibIdx * -1;
-        if (fibIdx < 10) {
+        if (fibIdx < 12) {
             attackValue -= Math.sqrt(fib[fibIdx]) * model.stars;
         }
         else {
@@ -81,10 +84,10 @@ exports.save = function(warId, model, callback) {
 
     // added or subtracted value based on attacking a higher or lower TH level
     if (model.t < model.ot) {
-        attackValue += starVal[model.stars] * .20;
+        attackValue += starVal[model.stars] * .30;
     }
     else if (model.t > model.ot) {
-        attackValue -= starVal[model.stars] * .20;
+        attackValue -= starValInversed[model.stars] * .30;
     }
 
     // max is 150
