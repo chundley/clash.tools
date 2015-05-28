@@ -74,7 +74,7 @@ exports.save = function(warId, model, callback) {
     else {
         fibIdx = fibIdx * -1;
         if (fibIdx < 12) {
-            attackValue -= Math.sqrt(fib[fibIdx]) * model.stars;
+            attackValue -= Math.sqrt(fib[fibIdx]) * (4 - model.stars);
         }
         else {
             // max attack deduction = 30
