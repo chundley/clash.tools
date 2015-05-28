@@ -4,6 +4,26 @@ var mongodb = require('mongodb');
 
 var config = require('../../config/config');
 
+
+
+// This logging stuff didn't work
+
+/*var mongoLogger = {};
+mongoLogger.doDebug = true;
+
+mongoLogger.error = function(message, object) {
+    logger.error(message);
+}
+
+mongoLogger.log = function(message, object) {
+    logger.info(message);
+}
+
+mongoLogger.debug = function(message, object) {
+    logger.debug(message);
+}*/
+
+
 var mongoCache = function() {
 
     // keep open connections cached
@@ -26,7 +46,7 @@ var mongoCache = function() {
         //    - replica set for failover
         //    - write preference of 1 = get ack from the primary that the operation was accepted
         //    - read preference of primary preferred, will read from secondary during a failover
-        var db = new mongodb.Db(dbName, replSet, { w: 1, readPreference: mongodb.ReadPreference.PRIMARY_PREFERRED } );
+        var db = new mongodb.Db(dbName, replSet, { w: 1, readPreference: mongodb.ReadPreference.PRIMARY_PREFERRED, fsync: true } );
 
         db.open(function (err, connection) {
             if (err) {
