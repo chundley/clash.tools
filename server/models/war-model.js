@@ -103,29 +103,55 @@ exports.assignBase = function(warId, model, callback) {
         warId = new ObjectID.createFromHexString(warId);
     }
 
-    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'war', function (err, collection) {
-        if (err) {
-            callback(err, null);
-        }
-        else {
-            // bases.0.a.ign (pull out of base array where base is zero and assignment is ign)
-            var push = {};
-            push['bases.' + model.bIndex + '.a'] = model.assignment;
-            collection.update(
-                { _id: warId,  },
-                { $push: push },
-                { upsert: false },
-                function (err, result) {
-                    if (err) {
-                        callback(err, null);
+    // need to validate this record - on occasion it looks like corrupt data is getting through
+    var valid = true;
+    if (!model || model==null || model==undefined) {
+        valid = false;
+    }
+    else if (!model.assignment || model.assignment==null || model.assignment==undefined) {
+        valid = false;
+    }
+    else if (!model.assignment.u || model.assignment.u==null || model.assignment.u==undefined || model.assignment.u.length == 0) {
+        valid = false;
+    }
+    else if (!model.assignment.i || model.assignment.i==null || model.assignment.i==undefined || model.assignment.i.length==0) {
+        valid = false;
+    }
+    else if (!model.assignment.c || model.assignment.c==null || model.assignment.c==undefined) {
+        valid = false;
+    }
+    else if (!model.assignment.e || model.assignment.e==null || model.assignment.e==undefined) {
+        valid = false;
+    }
+
+    if (valid) {
+        db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'war', function (err, collection) {
+            if (err) {
+                callback(err, null);
+            }
+            else {
+                // bases.0.a.ign (pull out of base array where base is zero and assignment is ign)
+                var push = {};
+                push['bases.' + model.bIndex + '.a'] = model.assignment;
+                collection.update(
+                    { _id: warId,  },
+                    { $push: push },
+                    { upsert: false },
+                    function (err, result) {
+                        if (err) {
+                            callback(err, null);
+                        }
+                        else {
+                            callback(null, result);
+                        }
                     }
-                    else {
-                        callback(null, result);
-                    }
-                }
-            );
-        }
-    });
+                );
+            }
+        });
+    }
+    else {
+        callback('Invalid model', null);
+    }
 }
 
 /*
@@ -135,71 +161,111 @@ exports.updateStars = function(warId, model, callback) {
     if (_.isString(warId)) {
         warId = new ObjectID.createFromHexString(warId);
     }
-
     if (model.stars < 0) {
         // negative stars means delete the call
-        db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'war', function (err, collection) {
-            if (err) {
-                callback(err, null);
-            }
-            else {
-                // bases.0.a.ign (pull out of base array where base is zero and assignment is ign)
-                var pull = {};
-                pull['bases.' + model.bIndex + '.a'] = { u: model.u };
-                collection.update(
-                    { _id: warId,  },
-                    { $pull: pull },
-                    { upsert: false },
-                    function (err, result) {
-                        if (err) {
-                            callback(err, null);
+
+        //verify the model
+        var valid = true;
+        if (!model || model==null || model==undefined) {
+            valid = false;
+        }
+        else if (!model.u || model.u==null || model.u==undefined || model.u.length == 0) {
+            valid = false;
+        }
+        else if (model.bIndex==null || model.bIndex==undefined) {
+            valid = false;
+        }
+
+        if (valid) {
+            db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'war', function (err, collection) {
+                if (err) {
+                    callback(err, null);
+                }
+                else {
+                    // bases.0.a.ign (pull out of base array where base is zero and assignment is ign)
+                    var pull = {};
+                    pull['bases.' + model.bIndex + '.a'] = { u: model.u };
+                    collection.update(
+                        { _id: warId,  },
+                        { $pull: pull },
+                        { upsert: false },
+                        function (err, result) {
+                            if (err) {
+                                callback(err, null);
+                            }
+                            else {
+                                attackResultModel.remove(warId, model, function (err, res) {
+                                    if (err) {
+                                        callback(err, null);
+                                    }
+                                    else {
+                                        callback(null, result);
+                                    }
+                                });
+                            }
                         }
-                        else {
-                            attackResultModel.remove(warId, model, function (err, res) {
-                                if (err) {
-                                    callback(err, null);
-                                }
-                                else {
-                                    callback(null, result);
-                                }
-                            });
-                        }
-                    }
-                );
-            }
-        });
+                    );
+                }
+            });
+        }
+        else {
+            callback("invalid model", null);
+        }
     }
     else {
-        db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'war', function (err, collection) {
-            if (err) {
-                callback(err, null);
-            }
-            else {
-                // bases.0.a.0.s (array indexing to base 0, assignment 0, stars)
-                var update = {};
-                update['bases.' + model.bIndex + '.a.' + model.aIndex + '.s'] = model.stars;
-                collection.update(
-                    { _id: warId },
-                    { $set: update },
-                    { upsert: false },
-                    function (err, result) {
-                        if (err) {
-                            callback(err, null);
+        //verify the model
+        var valid = true;
+        if (!model || model==null || model==undefined) {
+            valid = false;
+        }
+        else if (!model.u || model.u==null || model.u==undefined || model.u.length == 0) {
+            valid = false;
+        }
+        else if (model.bIndex==null || model.bIndex==undefined) {
+            valid = false;
+        }
+        else if (model.aIndex==null || model.aIndex==undefined) {
+            valid = false;
+        }
+        else if (model.stars==null || model.stars==undefined) {
+            valid = false;
+        }
+
+        if (valid) {
+            db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'war', function (err, collection) {
+                if (err) {
+                    callback(err, null);
+                }
+                else {
+                    // bases.0.a.0.s (array indexing to base 0, assignment 0, stars)
+                    var update = {};
+                    update['bases.' + model.bIndex + '.a.' + model.aIndex + '.s'] = model.stars;
+                    collection.update(
+                        { _id: warId },
+                        { $set: update },
+                        { upsert: false },
+                        function (err, result) {
+                            if (err) {
+                                callback(err, null);
+                            }
+                            else {
+                                attackResultModel.save(warId, model, function (err, res) {
+                                    if (err) {
+                                        callback(err, null);
+                                    }
+                                    else {
+                                        callback(null, result);
+                                    }
+                                });
+                            }
                         }
-                        else {
-                            attackResultModel.save(warId, model, function (err, res) {
-                                if (err) {
-                                    callback(err, null);
-                                }
-                                else {
-                                    callback(null, result);
-                                }
-                            });
-                        }
-                    }
-                );
-            }
-        });
+                    );
+                }
+            });
+        }
+        else {
+            callback("invalid model", null);
+        }
     }
 }
 
@@ -316,7 +382,6 @@ exports.backfillAttackResults = function(warId, callback) {
                     endDate = new Date(endDate.getTime() + 24*60*60*1000);
                     _.each(war.bases, function (base) {
                         _.each(base.a, function (assignment) {
-
                             var playerIndex = -1;
                             for (var idx=0; idx<war.team.length; idx++) {
                                 if (war.team[idx].u == assignment.u) {

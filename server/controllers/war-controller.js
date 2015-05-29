@@ -77,6 +77,7 @@ exports.assignBase = function(req, res, next) {
 exports.updateStars = function(req, res, next) {
     warModel.updateStars(req.params.warId, req.body, function (err, result) {
         if (err) {
+            logger.error(err);
             res.send(500, err);
         }
         else {
