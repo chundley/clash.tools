@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('MailCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$interval', 'authService', 'sessionService', 'errorService', 'emailMessageService',
-function ($rootScope, $scope, $routeParams, $location, $interval, authService, sessionService, errorService, emailMessageService) {
+.controller('MailCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$interval', 'authService', 'sessionService', 'errorService', 'emailMessageService', 'ctSocket',
+function ($rootScope, $scope, $routeParams, $location, $interval, authService, sessionService, errorService, emailMessageService, ctSocket) {
 
     $scope.folder = $location.search().folder ? $location.search().folder : 'inbox';
     $scope.counts = {
@@ -24,13 +24,10 @@ function ($rootScope, $scope, $routeParams, $location, $interval, authService, s
     // run once on UI load
     refreshMail();
 
-    // and then every 60 seconds
-    var promise = $interval(refreshMail, 30000);
-
-    $scope.$on('$destroy', function() {
-        $interval.cancel(promise);
+    // then listen for socket.io updates
+    ctSocket.on('email:' + authService.user.id + ':count', function (data) {
+        refreshMail();
     });
-
 
     $scope.changeFolder = function(folder) {
         $scope.folder = folder;

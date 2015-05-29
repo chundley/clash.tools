@@ -18,6 +18,16 @@ exports.save = function(message, callback) {
     _.each(message.to_users, function (user) {
         if (_.isString(user.user_id)) {
             user.user_id = new ObjectID.createFromHexString(user.user_id);
+
+            // use socket.io to send update to UI
+            exports.countNew(user.user_id, function (err, count) {
+                if (err) {
+                    // nothing to do really
+                }
+                else {
+                    socket.emit('email:' + user.user_id + ':count', { count: count});
+                }
+            });
         }
     });
 
@@ -100,38 +110,6 @@ exports.getById = function(messageId, callback) {
 }
 
 /*
-*   Used to update a simple name/value pair field, like "read" and "deleted"
-*/
-/*exports.updateField = function(emailMessageId, field, value, callback) {
-    if (_.isString(emailMessageId)) {
-        emailMessageId = new ObjectID.createFromHexString(emailMessageId);
-    }
-    var update = {};
-    update[field] = value;
-
-    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'email_message', function (err, collection) {
-        if (err) {
-            callback(err, null);
-        }
-        else {
-            collection.update(
-                { _id: emailMessageId },
-                { $set: update },
-                { upsert: false },
-                function (err, doc) {
-                    if (err) {
-                        callback(err, null);
-                    }
-                    else {
-                        callback(null, doc);
-                    }
-                }
-            );
-        }
-    });
-}*/
-
-/*
 *   Sets an email to "deleted" puts in trash folder
 */
 exports.deleteEmail = function(emailMessageId, userId, callback) {
@@ -157,6 +135,15 @@ exports.deleteEmail = function(emailMessageId, userId, callback) {
                         callback(err, null);
                     }
                     else {
+                        // use socket.io to send update to UI
+                        exports.countNew(userId, function (err, count) {
+                            if (err) {
+                                // nothing to do really
+                            }
+                            else {
+                                socket.emit('email:' + userId + ':count', { count: count });
+                            }
+                        });
                         callback(null, doc);
                     }
                 }

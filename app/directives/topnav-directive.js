@@ -27,21 +27,16 @@ function ($location, $interval, moment, authService, sessionService, emailMessag
                 scope.clanId = meta.current_clan.clan_id ? meta.current_clan.clan_id : '';
             });
 
-            var updateUICounters = function() {
-                emailMessageService.countNew(authService.user.id, function (err, data) {
-                    scope.newMailCount = data.count;
-                });
-            }
-
-            // run once on UI load
-            updateUICounters();
-
-            // and then every 60 seconds
-            var promise = $interval(updateUICounters, 60000);
-
-            scope.$on('$destroy', function() {
-                $interval.cancel(promise);
+            // load email count initially
+            emailMessageService.countNew(authService.user.id, function (err, data) {
+                scope.newMailCount = data.count;
             });
+
+            // then listen for socket.io updates
+            ctSocket.on('email:' + authService.user.id + ':count', function (data) {
+                scope.newMailCount = data.count;
+            });
+
         }
     }
 }]);
