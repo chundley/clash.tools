@@ -87,3 +87,20 @@ exports.getRoster = function(req, res, next) {
         }
     });
 }
+
+/*
+*   Admin view - get all clan meta data
+*/
+exports.adminAllData = function(req, res, next) {
+    clanModel.adminAllData(req.params.clanId, function (err, clan) {
+        if (err) {
+            res.send(500, err);
+        }
+        else if (clan) {
+            res.json(200, clan);
+        }
+        else {
+            res.send(404, 'not found');
+        }
+    });
+}

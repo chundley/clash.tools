@@ -120,9 +120,6 @@ exports.assignBase = function(warId, model, callback) {
     else if (!model.assignment.c || model.assignment.c==null || model.assignment.c==undefined) {
         valid = false;
     }
-    else if (!model.assignment.e || model.assignment.e==null || model.assignment.e==undefined) {
-        valid = false;
-    }
 
     if (valid) {
         db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'war', function (err, collection) {

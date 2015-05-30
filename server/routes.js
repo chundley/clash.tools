@@ -301,6 +301,15 @@ var routes = [
         httpMethod: 'POST',
         middleware: [mailCtrl.wwwForm]
     },
+    /*
+    *   Admin / management endpoints
+    */
+    {
+        path: '/crud/admin/clan/:clanId',
+        httpMethod: 'GET',
+        middleware: [clanCtrl.adminAllData],
+        accessLevel: accessLevels.sadmin
+    },
 /*    {
         path: '/config/hubspot',
         httpMethod: 'GET',

@@ -5,7 +5,7 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('AdminCtrl', ['$rootScope', '$scope', '$location', 'userService', 'authService', 'sessionService', 'errorService', 'clanService',
+.controller('AdminHomeCtrl', ['$rootScope', '$scope', '$location', 'userService', 'authService', 'sessionService', 'errorService', 'clanService',
 function ($rootScope, $scope, $location, userService, authService, sessionService, errorService, clanService) {
 
     $rootScope.title = "Clashtools - Admin";

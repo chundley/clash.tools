@@ -262,6 +262,46 @@ exports.getRoster = function(clanId, callback) {
 }
 
 /*
+*   Get ALL meta data for a clan
+*/
+exports.adminAllData = function(clanId, callback) {
+    var clan = {};
+
+    async.parallel({
+        clanBase: function(callback_p) {
+            exports.findById(clanId, function (err, c) {
+                if (err) {
+                    callback_p(err, null);
+                }
+                else {
+                    callback_p(null, c);
+                }
+            });
+        },
+        members: function(callback_p) {
+            userModel.usersByClan(clanId, [], function (err, u) {
+                if (err) {
+                    callback_p(err, null);
+                }
+                else {
+                    callback_p(null, u);
+                }
+            });
+        }
+    },
+    function (err, result) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            clan.clan = result.clanBase;
+            clan.members = result.members;
+            callback(null, clan);
+        }
+    });
+}
+
+/*
 *   Internal function for gathering clan metrics across all models
 */
 function clanMetrics(clanId, callback) {
@@ -289,37 +329,3 @@ function clanMetrics(clanId, callback) {
     });
 }
 
-/*
-*   Set a field value in the account record
-*/
-/*exports.setField = function(accountId, field, value, callback) {
-
-    if (_.isString(accountId)) {
-        accountId = new ObjectID.createFromHexString(accountId);
-    }
-
-    // create the field value to be updated
-    var update = {};
-    update[field] = value;
-
-    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'account', function (err, collection) {
-        if (err) {
-            callback(err, null);
-        }
-        else {
-            collection.update(
-                { _id: accountId },
-                { $set: update },
-                { upsert: false },
-                function (err, doc) {
-                    if (err) {
-                        callback(err, null);
-                    }
-                    else {
-                        callback(null, doc);
-                    }
-                }
-            );
-        }
-    });
-}*/

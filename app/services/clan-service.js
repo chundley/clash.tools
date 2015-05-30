@@ -32,7 +32,7 @@ function ($http, errorService) {
             }).success(function (data, status, headers, config) {
                 callback(null, data);
             }).error(function (data, status, headers, config) {
-                callback(errorService.initMessage('clan-service.js', 'get', status), null);
+                callback(errorService.initMessage('clan-service.js', 'getById', status), null);
             });
         },
         allClans: function(query, callback) {
@@ -42,7 +42,7 @@ function ($http, errorService) {
             }).success(function (data, status, headers, config) {
                 callback(null, data);
             }).error(function (data, status, headers, config) {
-                callback(errorService.initMessage('clan-service.js', 'get', status), null);
+                callback(errorService.initMessage('clan-service.js', 'allClans', status), null);
             });
         },
         getMembers: function(clanId, types, callback) {
@@ -52,7 +52,7 @@ function ($http, errorService) {
             }).success(function (data, status, headers, config) {
                 callback(null, data);
             }).error(function (data, status, headers, config) {
-                callback(errorService.initMessage('clan-service.js', 'get', status), null);
+                callback(errorService.initMessage('clan-service.js', 'getMembers', status), null);
             });
         },
         getRoster: function(clanId, callback) {
@@ -62,7 +62,17 @@ function ($http, errorService) {
             }).success(function (data, status, headers, config) {
                 callback(null, data);
             }).error(function (data, status, headers, config) {
-                callback(errorService.initMessage('clan-service.js', 'get', status), null);
+                callback(errorService.initMessage('clan-service.js', 'getRoster', status), null);
+            });
+        },
+        adminAllData: function(clanId, callback) {
+            $http({
+                url: '/crud/admin/clan/' + clanId,
+                method: 'GET'
+            }).success(function (data, status, headers, config) {
+                callback(null, data);
+            }).error(function (data, status, headers, config) {
+                callback(errorService.initMessage('clan-service.js', 'adminAllData', status), null);
             });
         }
     }
