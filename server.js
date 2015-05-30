@@ -70,7 +70,7 @@ app.init(function(err) {
             *   Un-comment this line to run the backfill once on startup
             */
 
-            warModel.backfillAllWars(function(err, result){ logger.info('Attack result backfill finished')});
+            //warModel.backfillAllWars(function(err, result){ logger.info('Attack result backfill finished')});
         }
     );
 });
