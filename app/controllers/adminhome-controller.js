@@ -43,7 +43,7 @@ function ($rootScope, $scope, $location, userService, authService, sessionServic
     }
 
     function runSearch(query) {
-        clanService.allClans(query, function (err, clans) {
+        clanService.allClans(query, 10000, function (err, clans) {
             $scope.clans = clans;
         });
     }

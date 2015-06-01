@@ -23,7 +23,7 @@ exports.save = function(req, res, next) {
 };
 
 exports.allClans = function(req, res, next) {
-    clanModel.allClans(req.params.query, function (err, clans) {
+    clanModel.allClans(req.params.query, req.query.count, function (err, clans) {
         if (err) {
             res.send(500, err);
         }

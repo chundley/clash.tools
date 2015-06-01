@@ -116,7 +116,7 @@ exports.save = function(model, callback) {
 /*
 *   Get metadata for all clans
 */
-exports.allClans = function(query, callback) {
+exports.allClans = function(query, count, callback) {
     db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'clan', function (err, collection) {
         if (err) {
             callback(err, null);
@@ -130,7 +130,9 @@ exports.allClans = function(query, callback) {
                 ];
             }
 
-            collection.find( q, {} ).sort({name: 1}).limit(50).toArray(function (err, clans) {
+            count = parseInt(count);
+
+            collection.find( q, {} ).sort({name: 1}).limit(count).toArray(function (err, clans) {
                 if (err) {
                     callback(err, null);
                 }

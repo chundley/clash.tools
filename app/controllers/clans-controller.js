@@ -114,7 +114,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
     }
 
     function runSearch(query) {
-        clanService.allClans(query, function (err, clans) {
+        clanService.allClans(query, 50, function (err, clans) {
             $scope.clans = clans;
         });
     }

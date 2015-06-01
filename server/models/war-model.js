@@ -379,36 +379,39 @@ exports.backfillAttackResults = function(warId, callback) {
                     endDate = new Date(endDate.getTime() + 24*60*60*1000);
                     _.each(war.bases, function (base) {
                         _.each(base.a, function (assignment) {
-                            var playerIndex = -1;
-                            for (var idx=0; idx<war.team.length; idx++) {
-                                if (war.team[idx].u == assignment.u) {
-                                    playerIndex = idx;
+                            if (assignment.s != null) {
+                                // only process if stars have been logged
+                                var playerIndex = -1;
+                                for (var idx=0; idx<war.team.length; idx++) {
+                                    if (war.team[idx].u == assignment.u) {
+                                        playerIndex = idx;
+                                    }
                                 }
-                            }
 
-                            // make sure nothing strange happened to the team
-                            if (playerIndex >= 0) {
-                                var update = {
-                                    bIndex: base.b-1,
-                                    pIndex: playerIndex,
-                                    stars: assignment.s,
-                                    c: war.clan_id,
-                                    cn: clan.name,
-                                    u: assignment.u,
-                                    i: assignment.i,
-                                    t: war.team[playerIndex].t,
-                                    ot: parseInt(base.t),
-                                    we: endDate
-                                };
+                                // make sure nothing strange happened to the team
+                                if (playerIndex >= 0) {
+                                    var update = {
+                                        bIndex: base.b-1,
+                                        pIndex: playerIndex,
+                                        stars: assignment.s,
+                                        c: war.clan_id,
+                                        cn: clan.name,
+                                        u: assignment.u,
+                                        i: assignment.i,
+                                        t: war.team[playerIndex].t,
+                                        ot: parseInt(base.t),
+                                        we: endDate
+                                    };
 
-                                attackResultModel.save(warId, update, function (err, result) {
-                                    if (err) {
-                                        logger.error(err);
-                                    }
-                                    else {
+                                    attackResultModel.save(warId, update, function (err, result) {
+                                        if (err) {
+                                            logger.error(err);
+                                        }
+                                        else {
 
-                                    }
-                                });
+                                        }
+                                    });
+                                }
                             }
                         });
                     });

@@ -35,9 +35,9 @@ function ($http, errorService) {
                 callback(errorService.initMessage('clan-service.js', 'getById', status), null);
             });
         },
-        allClans: function(query, callback) {
+        allClans: function(query, count, callback) {
             $http({
-                url: '/crud/clans/' + query,
+                url: '/crud/clans/' + query + '?count=' + count,
                 method: 'GET'
             }).success(function (data, status, headers, config) {
                 callback(null, data);

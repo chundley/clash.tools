@@ -16,13 +16,21 @@ var starVal = [0, 10, 30, 60];
 var starValInversed = [0, 60, 30, 10];
 
 // fibonacci sequence for distance from mirror
-var fib = [0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987];
+//var fib = [0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987];
+
+// based on fibonacci sequence, number of points (by stars) added
+var fib = [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 3, 4, 5],
+            [0, 1, 1, 1, 1, 2, 2, 3, 4, 5, 6, 8, 10],
+            [0, 1, 1, 2, 2, 3, 4, 5, 6, 7, 9, 12, 15]
+          ];
 
 // max extra points given for attacking higher (by stars)
-var maxFibHigh = [0, 12, 24, 36];
+var maxFibHigh = [0, 5, 10, 15];
 
 // max points deducted for attacking lower (by stars)
-var maxFibLow = [0, 36, 24, 12];
+var maxFibLow = [0, 15, 10, 5];
 
 // wars broken up into 10 bands, points added for hitting specific bands
 var rankBands = [16, 12, 10, 8, 6, 4, 3, 2, 1, 0];
@@ -55,57 +63,8 @@ exports.save = function(warId, model, callback) {
 
     var rank = model.pIndex + 1;
     var opponentRank = model.bIndex + 1;
-    model.we = new Date(model.we);
-
-    var fibIdx = rank - opponentRank;
-
-    // baseline attack value is number of stars
-    var attackValue = starVal[model.stars];
-
-    // added or subtracted value based on position of base attacked in lineup compared to attacker
-    if (fibIdx >= 0) {
-        if (fibIdx < 12) {
-            attackValue += Math.sqrt(fib[fibIdx]) * model.stars;
-        }
-        else {
-            attackValue += maxFibHigh[model.stars];
-        }
-    }
-    else {
-        fibIdx = fibIdx * -1;
-        if (fibIdx < 12) {
-            attackValue -= Math.sqrt(fib[fibIdx]) * (4 - model.stars);
-        }
-        else {
-            // max attack deduction = 30
-            attackValue -= maxFibLow[model.stars];
-        }
-    }
-
-    // added or subtracted value based on attacking a higher or lower TH level
-    if (model.t < model.ot) {
-        attackValue += starVal[model.stars] * .30;
-    }
-    else if (model.t > model.ot) {
-        attackValue -= starValInversed[model.stars] * .30;
-    }
-
-    // max is 150
-    if (attackValue > 150) {
-        attackValue = 150;
-    }
-    // min is 0
-    else if (attackValue < 0) {
-        attackValue = 0;
-    }
-
-    // final check - zero stars is always worth zero (the above factors could make a zero attack worth points)
-    if (model.stars == 0) {
-        attackValue = 0;
-    }
 
     // determine if this record exists already
-
     async.waterfall([
         function (callback_wf) {
             // need the war for some parts of scoring
@@ -137,9 +96,84 @@ exports.save = function(warId, model, callback) {
         },
         function (war, attackResult, callback_wf) {
 
-            // before updating, use the war context for additional scoring value
+            // start doing AV calculation
+            var avParts = [];
+
+            model.we = new Date(model.we);
 
             var bandSize = parseInt(war.player_count / 10);
+
+            // adjust rank for top of the map - adds additional points for top bases
+            var adjustedRank = rank;
+            var aRankRange = rank / bandSize;
+
+            if (aRankRange <= 1) {
+                adjustedRank = (10 - (1 + rank));
+            }
+            else if (aRankRange <= 2 ) {
+                adjustedRank = (10 - (2 + rank));
+            }
+
+            // index used for delta points
+            var fibIdx = adjustedRank - opponentRank;
+
+
+
+            // baseline attack value is number of stars
+            var attackValue = starVal[model.stars];
+            avParts.push( { c: 'baseStars', v: starVal[model.stars] });
+
+            // added or subtracted value based on position of base attacked in lineup compared to attacker
+            if (fibIdx >= 0) {
+                if (fibIdx < 13) {
+                    //attackValue += Math.sqrt(fib[fibIdx]) * model.stars;
+                    attackValue += fib[model.stars][fibIdx];
+                    avParts.push( { c: 'oppDelta', v: fib[model.stars][fibIdx]});                    
+                }
+                else {
+                    attackValue += maxFibHigh[model.stars];
+                    avParts.push( { c: 'oppDelta', v: maxFibHigh[model.stars]}); 
+                }
+            }
+            else {
+                fibIdx = fibIdx * -1;
+                if (fibIdx < 13 && model.stars > 0) {
+                    //attackValue -= Math.sqrt(fib[fibIdx]) * (4 - model.stars);
+                    attackValue -= fib[4-model.stars][fibIdx];
+                    avParts.push( { c: 'oppDelta', v: (fib[4-model.stars][fibIdx])*(-1)});  
+                }
+                else {
+                    // max attack deduction = 30
+                    attackValue -= maxFibLow[model.stars];
+                    avParts.push( { c: 'oppDelta', v: (maxFibLow[model.stars])*(-1)}); 
+                }
+            }
+
+            // added or subtracted value based on attacking a higher or lower TH level
+            if (model.t < model.ot) {
+                attackValue += parseInt(starVal[model.stars] * .50);
+                avParts.push( { c: 'thDelta', v: parseInt(starVal[model.stars] * .50)});
+            }
+            else if (model.t > model.ot) {
+                attackValue -= parseInt(starValInversed[model.stars] * .30);
+                avParts.push( { c: 'thDelta', v: parseInt(starValInversed[model.stars] * (-.30))});
+            }
+
+            // max is 150
+            if (attackValue > 150) {
+                attackValue = 150;
+            }
+            // min is 0
+            else if (attackValue < 0) {
+                attackValue = 0;
+            }
+
+            // final check - zero stars is always worth zero (the above factors could make a zero attack worth points)
+            if (model.stars == 0) {
+                attackValue = 0;
+            }
+            // before updating, use the war context for additional scoring value
+            
 
             // figure out rankBonus based on banding
             var rankRange = opponentRank / bandSize;
@@ -176,11 +210,13 @@ exports.save = function(warId, model, callback) {
             // apply star credit on rankBonus
             rankBonus = parseInt(rankBonus*model.stars/3);
             attackValue += rankBonus;
+            avParts.push( { c: 'rankBonus', v: rankBonus });
 
             // apply first attack bonus
             if (war.bases[opponentRank - 1].a[0].u == model.u) {
                 // if the first item in the attack array is this user, assume it was the first attack
                 attackValue += firstAttackBonus[model.stars];
+                avParts.push( { c: 'firstAttack', v: firstAttackBonus[model.stars] });
             }
 
             if (attackResult == null) {
@@ -193,11 +229,13 @@ exports.save = function(warId, model, callback) {
                     w: warId,
                     we: model.we,
                     r: rank,
+                    ar: adjustedRank,
                     or: opponentRank,
                     t: model.t,
                     ot: model.ot,
                     s: model.stars,
-                    v: parseInt(attackValue)
+                    v: parseInt(attackValue),
+                    av_parts: avParts
                 };
 
                 db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'attack_result', function (err, collection) {
@@ -221,7 +259,8 @@ exports.save = function(warId, model, callback) {
                 var update = {
                     $set: {
                         s: model.stars,
-                        v: parseInt(attackValue)
+                        v: parseInt(attackValue),
+                        av_parts: avParts
                     }
                 };
 
@@ -261,16 +300,17 @@ exports.remove = function(warId, model, callback) {
         warId = new ObjectID.createFromHexString(warId);
     }
 
+    // removing this - uid's can be temporary GUID's
+    /*
     if (_.isString(model.u)) {
         model.u = new ObjectID.createFromHexString(model.u);
-    }
+    }*/
 
     db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'attack_result', function (err, collection) {
         if (err) {
             callback(err, null);
         }
         else {
-            //var opponentRank = model.bIndex + 1;
             collection.remove({ w: warId, u: model.u, or: model.bIndex + 1 }, {}, function (err, result) {
                 if (err) {
                     callback(err, null);
