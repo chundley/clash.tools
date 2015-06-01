@@ -13,6 +13,7 @@ angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize',
 
     $routeProvider
         .when('/', { controller: 'DefaultCtrl', templateUrl: '/views/default.html', access: access.public } )
+        .when('/help/:id', { controller: 'HelpCtrl', templateUrl: '/views/help.html', access: access.public } )
         .when('/register', { controller: 'RegisterCtrl', templateUrl: '/views/register.html', access: access.public } )
         .when('/login', { controller: 'LoginCtrl', templateUrl: '/views/login.html', access: access.public } )
         .when('/logout', { controller: 'LogoutCtrl', templateUrl: '/views/login.html', access: access.public } )

@@ -1,0 +1,60 @@
+<div ng-if="loggedIn" id="wrapper">
+    <div sidebar></div>
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div top-nav></div>
+            <!-- page content -->
+            <div class="row content-body">
+                <div class="col-xs-12">
+                    <div class="row margin-bottom-huge">
+                        <div class="col-xs-12">
+                            <h1>{{help.title}}</h1>
+                        </div>
+                    </div>
+                    <div class="row margin-bottom-huge">
+                        <div ng-include="helpTemplate"></div>
+                    </div>
+                </div>
+            </div> <!-- /page content -->
+        </div>
+    </div>  <!-- /#page-content-wrapper -->
+</div>  <!-- /#wrapper -->
+
+
+<div ng-if="!loggedIn">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-xs-12 top-nav-container">
+                <div class="row">
+                    <div class="col-md-4 col-sm-6 col-xs-6">
+                        <a href="/"><img class="logo" src="/img/logo-small.png"></a> <span class="small primary-40"><b>beta</b></span>
+                    </div>
+<!--                     <div class="col-md-4 hidden-sm hidden-xs search-box">
+                        <div class="form-control-group">
+                            <input class="form-control" type="text" placeholder="Search for a clan by name or tag" ng-model="searchTerms" press-enter="search()">
+                            <button class="btn btn-search" ng-click="search()"><i class="icon-search"></i></button>
+                        </div>
+                    </div> -->
+                    <div class="col-md-8 col-sm-6 col-xs-6 default-nav-buttons text-right">
+                        <a href="/register" class="btn btn-default btn-sm">Sign up</a>
+                        <a href="login" class="btn btn-emphasis btn-sm">Log in</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- page content -->
+        <div class="row content-body">
+            <div class="col-xs-12">
+                <div class="row margin-bottom-big">
+                    <div class="col-xs-12">
+                        <h1>Welcome to clash.tools!</h1>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- /page content -->
+    </div>
+</div>
