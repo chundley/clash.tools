@@ -8,9 +8,19 @@
             <div class="row content-body">
                 <div class="col-xs-12">
                     <div class="row margin-bottom-big">
-                        <div class="col-xs-12">
+                        <div class="col-xs-10">
                             <h1>Help</h1>
                             <h3 class="same-line-sub-heading alternate">{{helpContent[helpId].title}}</h3>
+                        </div>
+                        <div class="hidden-lg hidden-md hidden-sm col-xs-2">
+                            <span class="dropdown pull-right" on-toggle="toggled(open)">
+                                <a href class="dropdown-toggle btn btn-default btn-xs">
+                                    Help <i class="icon-down"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li ng-repeat="help in helpContent"><a href="/help/{{help.path}}">{{help.title}}</a></li>
+                                </ul>
+                            </span>  
                         </div>
                     </div>
                     <div class="row margin-bottom-huge">
@@ -21,8 +31,23 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-2 col-md-3 col-sm-4 hidden-xs">
-                            TOC
+                        <div class="col-lg-2 col-md-3 col-sm-4 hidden-xs help-toc-container">
+                            <div class="widget">
+                                <div class="widget-body">
+                                    <div class="row htc-header">
+                                        <div class="col-xs-12">
+                                            Help TOC
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <ul>
+                                                <li ng-repeat="help in helpContent"><a href="/help/{{help.path}}">{{help.title}}</a> {{$key}}</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -56,15 +81,53 @@
         </div>
 
 
-        <!-- page content -->
-        <div class="row content-body">
-            <div class="col-xs-12">
-                <div class="row margin-bottom-big">
-                    <div class="col-xs-12">
-                        <h1>Welcome to clash.tools!</h1>
+            <!-- page content -->
+            <div class="row content-body">
+                <div class="col-xs-12">
+                    <div class="row margin-bottom-big">
+                        <div class="col-xs-10">
+                            <h1>Help</h1>
+                            <h3 class="same-line-sub-heading alternate">{{helpContent[helpId].title}}</h3>
+                        </div>
+                        <div class="hidden-lg hidden-md hidden-sm col-xs-2">
+                            <span class="dropdown pull-right" on-toggle="toggled(open)">
+                                <a href class="dropdown-toggle btn btn-default btn-xs">
+                                    Help <i class="icon-down"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li ng-repeat="help in helpContent"><a href="/help/{{help.path}}">{{help.title}}</a></li>
+                                </ul>
+                            </span>                            
+                        </div>
+                    </div>
+                    <div class="row margin-bottom-huge">
+                        <div class="col-lg-10 col-md-9 col-sm-8 col-xs-12 help-container">
+                            <div class="widget">
+                                <div class="widget-body">
+                                    <div ng-include="helpContent[helpId].template"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-4 hidden-xs help-toc-container">
+                            <div class="widget">
+                                <div class="widget-body">
+                                    <div class="row htc-header">
+                                        <div class="col-xs-12">
+                                            Help TOC
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <ul>
+                                                <li ng-repeat="help in helpContent"><a href="/help/{{help.path}}">{{help.title}}</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div> <!-- /page content -->
+            </div> <!-- /page content -->
     </div>
 </div>

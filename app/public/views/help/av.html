@@ -9,8 +9,8 @@
             <div class="col-xs-12">
                 <p>Attack Value (AV) is attached to every individual attack in clash.tools. Coming up with a single value is challenging and always open to subjective interpretation. AV is meant to be the most fair and accurate measure given the data available.</p>
                 <p>The primary goal is to make it possible for anyone in the clan - whether the #1 maxed TH10 or the #40 mid-range TH8 - to make the top five attackers in any given war.</p>
-                <p>Several bits of normalization are applied to ensure this goal is met. Over the course of the war you will see themost valuable attacks rise to the top of the list.</p>
-                <p>It's important to understand that no scoring algorithim is going to be perfect. This method is generalized for the average war - there are always strange edge cases that can throw off a calculation (like base #50 doing a loot raid on base #1).</p>
+                <p>Several bits of normalization are applied to ensure this goal is met. Over the course of the war you will see the most valuable attacks rise to the top of the list.</p>
+                <p>It's important to understand that no scoring algorithm is going to be perfect. This method is generalized for the average war - there are always strange edge cases that can throw off a calculation (like base #50 doing a loot raid on base #1).</p>
             </div>
         </div>
         <div class="row">
@@ -173,8 +173,8 @@
         <div class="row">
             <div class="col-xs-12">
                 <p>The third factor contributing to the AV calculation is relative rank. As an example, let's say I am base #15. Attacking the enemy's #10 base is more valuable than attacking their #23.</p>
-                <p>This calcualtion needs to be non-linear, apply to both positive and negative values, and be impacted by number of stars.</p>
-                <p>As a baseline I chose to use the Fibonacci sequence due to it's logarithmic nature. However, it grows too quickly on it's own - so the base is the square root of the Fibonacci number at the delta between the player ranks.</p>
+                <p>This calculation needs to be non-linear, apply to both positive and negative values, and be impacted by number of stars.</p>
+                <p>As a baseline I chose to use the Fibonacci sequence due to its logarithmic nature. However, it grows too quickly on it's own - so the base is the square root of the Fibonacci number at the delta between the player ranks.</p>
                 <p>To apply stars earned to this metric, simply give full credit for three stars, 2/3 credit for two stars, and 1/3 credit for one star. Points are capped at +/- 12 difference in rank. Values are rounded to the nearest whole number.</p>
             </div>
         </div>
@@ -267,6 +267,7 @@
             <div class="col-xs-12">
                 <p>For example, if you were base #21 and attacked base #13 for three stars, the difference between your base ranks is 8. This would be worth an additional six points bases on the above chart.</p>
                 <p>To calculate the negative, flip the numbers based on stars. For example, if you were base #13 and attacked base #21 for three stars, you'd be deducted 2 points for having an "easier" target. You'd be deducted 6 points of you only got one star.</p>
+                <p>One final note on this calculation. Since the members at the top of the map don't have an opportunity to attack higher, their rank is adjusted down for this calculation. For example, base #1 will be considered base #8 when attacking bases 1-7. This adjustment is necessary to give them a fair chance at comparable AV to lower bases.</p>
             </div>
         </div>
         <div class="row">
@@ -346,5 +347,181 @@
                 </table>
             </div>
         </div>
+        <div class="row">
+            <div class="col-xs-12">
+            <h3>Examples</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <p>Let's work through a few examples to illustrate and compare different attacks for Attack Value.</p>
+            </div>
+        </div>  
+        <div class="row">
+            <div class="col-xs-12">
+            <h4>1. TH9 vs. TH9 mirror attack, first attack</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <p>Base #13 is a TH9 and attacked base #13 which is also a TH9 for 3 stars. This is the first attack on base 13 in a 40 person war. The AV for this attack is:</p>
+            </div>
+        </div>   
+        <div class="row">
+            <div class="col-lg-5 col-md-6 col-sm-7 col-xs-12">
+                <table class="table table-condensed">
+                    <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th class="text-center">Points</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td >1. Stars (3)</td>
+                        <td class="text-center">60</td>
+                    </tr>
+                    <tr>
+                        <td >2. Group (4)</td>
+                        <td class="text-center">8</td>
+                    </tr>
+                    <tr>
+                        <td >3. Relative rank (0)</td>
+                        <td class="text-center">0</td>
+                    </tr>
+                    <tr>
+                        <td >4. Relative TH level (0)</td>
+                        <td class="text-center">0</td>
+                    </tr>    
+                    <tr>
+                        <td >5. First attack - yes</td>
+                        <td class="text-center">8</td>
+                    </tr>  
+                    <tr>
+                        <th>Total AV</th>
+                        <th class="text-center">76</th>
+                    </tr>                                                         
+                    </tbody>
+                </table>
+            </div>
+        </div> 
+        <div class="row">
+            <div class="col-xs-12">
+            <h4>2. TH9 vs. TH9 higher attack, first attack</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <p>Base #22 is a TH9 and attacked base #13 which is also a TH9 for 3 stars. This is the first attack on base 13 in a 50 person war. The AV for this attack is:</p>
+            </div>
+        </div>   
+        <div class="row">
+            <div class="col-lg-5 col-md-6 col-sm-7 col-xs-12">
+                <table class="table table-condensed">
+                    <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th class="text-center">Points</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td >1. Stars (3)</td>
+                        <td class="text-center">60</td>
+                    </tr>
+                    <tr>
+                        <td >2. Group (3)</td>
+                        <td class="text-center">10</td>
+                    </tr>
+                    <tr>
+                        <td >3. Relative rank (9)</td>
+                        <td class="text-center">7</td>
+                    </tr>
+                    <tr>
+                        <td >4. Relative TH level (0)</td>
+                        <td class="text-center">0</td>
+                    </tr>    
+                    <tr>
+                        <td >5. First attack - yes</td>
+                        <td class="text-center">8</td>
+                    </tr>  
+                    <tr>
+                        <th>Total AV</th>
+                        <th class="text-center">85</th>
+                    </tr>                                                         
+                    </tbody>
+                </table>
+            </div>
+        </div>     
+        <div class="row">
+            <div class="col-xs-12">
+                <p>Notice the differences between attack 1 and attack 2. The value of attack 2 is higher for two reasons - first the opponent was 9 higher on the map than the attacker. Second, it was a 50 person war vs 40 person war.</p>
+                <p>Notice that if this had been a 2nd attack the AV would have been 77. It's still worth slightly more than attack 1 because of the higher opponent rank and larger war.</p>
+            </div>
+        </div> 
+        <div class="row">
+            <div class="col-xs-12">
+            <h4>3. TH9 vs. TH10 higher attack, second attack</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <p>Base #22 is a TH9 and attacked base #4 which is TH10 for 3 stars. This is <b>not</b> the first attack on base 4 in a 50 person war. The AV for this attack is:</p>
+            </div>
+        </div>   
+        <div class="row">
+            <div class="col-lg-5 col-md-6 col-sm-7 col-xs-12">
+                <table class="table table-condensed">
+                    <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th class="text-center">Points</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td >1. Stars (2)</td>
+                        <td class="text-center">30</td>
+                    </tr>
+                    <tr>
+                        <td >2. Group (1)</td>
+                        <td class="text-center">10</td>
+                    </tr>
+                    <tr>
+                        <td >3. Relative rank (>12)</td>
+                        <td class="text-center">10</td>
+                    </tr>
+                    <tr>
+                        <td >4. Relative TH level (+1)</td>
+                        <td class="text-center">15</td>
+                    </tr>    
+                    <tr>
+                        <td >5. First attack - no</td>
+                        <td class="text-center">0</td>
+                    </tr>  
+                    <tr>
+                        <th>Total AV</th>
+                        <th class="text-center">65</th>
+                    </tr>                                                   
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <p>Note this attack has a lower value than the other two, which makes sense. While it has a relatively high value (65), it still just a two star even though it was against a TH10. It was also a cleanup attack making it worth less.</p>
+                <p>If this TH9 managed to three-star the TH10 it's a whole different story. The attack value would almost double to <b>121</b>. This should also make sense given the circumstances - #22 attacking #4, TH9 vs TH10, and three stars. This attack is far more valuable than any of the examples above.
+            </div>
+        </div>                                                                   
+        <div class="row">
+            <div class="col-xs-12">
+            <h3>Summary</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <p>Hopefully this gives you a full understanding of the Attack Value calculation. Your average attack value over time is tracked by the system, and the top attackers each war are shown based on the combined attack value of their two attacks.</p>
+            </div>
+        </div>                   
     </div>
 </div>

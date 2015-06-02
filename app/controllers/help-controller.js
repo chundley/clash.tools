@@ -14,6 +14,7 @@ function ($rootScope, $scope, $routeParams, $location, authService) {
 
     $scope.helpContent = {
         'av': {
+            path: 'av',
             title: 'Attack Value',
             template: '/views/help/av.html'
         }
