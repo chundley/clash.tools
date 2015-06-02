@@ -7,13 +7,23 @@
             <!-- page content -->
             <div class="row content-body">
                 <div class="col-xs-12">
-                    <div class="row margin-bottom-huge">
+                    <div class="row margin-bottom-big">
                         <div class="col-xs-12">
-                            <h1>{{help.title}}</h1>
+                            <h1>Help</h1>
+                            <h3 class="same-line-sub-heading alternate">{{helpContent[helpId].title}}</h3>
                         </div>
                     </div>
                     <div class="row margin-bottom-huge">
-                        <div ng-include="helpTemplate"></div>
+                        <div class="col-lg-10 col-md-9 col-sm-8 col-xs-12 help-container">
+                            <div class="widget">
+                                <div class="widget-body">
+                                    <div ng-include="helpContent[helpId].template"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-4 hidden-xs">
+                            TOC
+                        </div>
                     </div>
                 </div>
             </div> <!-- /page content -->

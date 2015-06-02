@@ -1,3 +1,350 @@
-<div>
-	AV help
+<div class="row">
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="col-xs-12">
+            <h3>Overview</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <p>Attack Value (AV) is attached to every individual attack in clash.tools. Coming up with a single value is challenging and always open to subjective interpretation. AV is meant to be the most fair and accurate measure given the data available.</p>
+                <p>The primary goal is to make it possible for anyone in the clan - whether the #1 maxed TH10 or the #40 mid-range TH8 - to make the top five attackers in any given war.</p>
+                <p>Several bits of normalization are applied to ensure this goal is met. Over the course of the war you will see themost valuable attacks rise to the top of the list.</p>
+                <p>It's important to understand that no scoring algorithim is going to be perfect. This method is generalized for the average war - there are always strange edge cases that can throw off a calculation (like base #50 doing a loot raid on base #1).</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+            <h3>Current metrics</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <p>There are currently five metrics contributing to Attack Value. Each of these will be broken down into more detail below:</p>
+                <ol>
+                    <li>Number of stars</li>
+                    <li>Rank of opponent</li>
+                    <li>Attacker's rank relative to opponent's rank</li>
+                    <li>Attacker's town hall level relative to opponent's</li>
+                    <li>First attack vs. cleanup attack</li>
+                </ol>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+            <h4>1. Number of stars</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <p>The biggest weight in AV is number of stars earned in the attack. The number of stars not only serves as a baseline, but it also adds additional weight to other metrics.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md- 5 col-sm-6 col-xs-12">
+                <table class="table table-condensed">
+                    <thead>
+                    <tr>
+                        <th>Stars</th>
+                        <th class="text-center">Points</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><img src="/img/icons/stars-tiny-3.png"></td>
+                        <td class="text-center">60</td>
+                    </tr>
+                    <tr>
+                        <td><img src="/img/icons/stars-tiny-2.png"></td>
+                        <td class="text-center">30</td>
+                    </tr>
+                    <tr>
+                        <td><img src="/img/icons/stars-tiny-1.png"></td>
+                        <td class="text-center">10</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+            <h4>2. Rank of opponent</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <p>In a 50 person war it's harder to attack base #1 than it is base #50. This is generally true regardless of the matchup or TH level. As such, extra credit is given (based on stars of course) the higher up the attack is on the map.</p>
+                <p>For this calculation the enemy bases are broken into 10 groups, each group representing 10% of the enemy bases. For example, in a 50 person war there are 10 groups of five bases each. A 30 person war would have three bases in each bucket. Attacking a base in the first bucket is worth more than attacking a base in the third bucket.</p>
+                <p>The number of stars earned has an impact to this metric. Get three stars for 100% of the points. Two stars gets you 2/3 the points, one star gets 1/3 the points. Here's the breakdown for a 50 person war. One example: getting a two star on base #1 is worth the same as getting a 3 star on base #14 (10 points).</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table class="table table-condensed">
+                    <thead>
+                    <tr>
+                        <th>Group</th>
+                        <th class="text-center">Bases</th>
+                        <th class="text-center"><img src="/img/icons/stars-tiny-3.png"></th>
+                        <th class="text-center"><img src="/img/icons/stars-tiny-2.png"></th>
+                        <th class="text-center"><img src="/img/icons/stars-tiny-1.png"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td class="text-center">1-5</td>
+                        <td class="text-center">16</td>
+                        <td class="text-center">10</td>
+                        <td class="text-center">5</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td class="text-center">6-10</td>
+                        <td class="text-center">12</td>
+                        <td class="text-center">8</td>
+                        <td class="text-center">4</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td class="text-center">11-15</td>
+                        <td class="text-center">10</td>
+                        <td class="text-center">6</td>
+                        <td class="text-center">3</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td class="text-center">16-20</td>
+                        <td class="text-center">8</td>
+                        <td class="text-center">5</td>
+                        <td class="text-center">2</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td class="text-center">21-25</td>
+                        <td class="text-center">6</td>
+                        <td class="text-center">4</td>
+                        <td class="text-center">2</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td class="text-center">26-30</td>
+                        <td class="text-center">4</td>
+                        <td class="text-center">2</td>
+                        <td class="text-center">1</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td class="text-center">31-35</td>
+                        <td class="text-center">3</td>
+                        <td class="text-center">2</td>
+                        <td class="text-center">1</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td class="text-center">36-40</td>
+                        <td class="text-center">2</td>
+                        <td class="text-center">1</td>
+                        <td class="text-center">0</td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td class="text-center">41-45</td>
+                        <td class="text-center">1</td>
+                        <td class="text-center">0</td>
+                        <td class="text-center">0</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td class="text-center">46-50</td>
+                        <td class="text-center">0</td>
+                        <td class="text-center">0</td>
+                        <td class="text-center">0</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+            <h4>3. Attacker's rank relative to opponent</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <p>The third factor contributing to the AV calculation is relative rank. As an example, let's say I am base #15. Attacking the enemy's #10 base is more valuable than attacking their #23.</p>
+                <p>This calcualtion needs to be non-linear, apply to both positive and negative values, and be impacted by number of stars.</p>
+                <p>As a baseline I chose to use the Fibonacci sequence due to it's logarithmic nature. However, it grows too quickly on it's own - so the base is the square root of the Fibonacci number at the delta between the player ranks.</p>
+                <p>To apply stars earned to this metric, simply give full credit for three stars, 2/3 credit for two stars, and 1/3 credit for one star. Points are capped at +/- 12 difference in rank. Values are rounded to the nearest whole number.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table class="table table-condensed">
+                    <thead>
+                    <tr>
+                        <th>Rank delta</th>
+                        <th class="text-center">12</th>
+                        <th class="text-center">11</th>
+                        <th class="text-center">10</th>
+                        <th class="text-center">9</th>
+                        <th class="text-center">8</th>
+                        <th class="text-center">7</th>
+                        <th class="text-center">6</th>
+                        <th class="text-center">5</th>
+                        <th class="text-center">4</th>
+                        <th class="text-center">3</th>
+                        <th class="text-center">2</th>
+                        <th class="text-center">1</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th>Fibonacci base</th>
+                        <th class="text-center">233</th>
+                        <th class="text-center">144</th>
+                        <th class="text-center">89</th>
+                        <th class="text-center">55</th>
+                        <th class="text-center">34</th>
+                        <th class="text-center">21</th>
+                        <th class="text-center">13</th>
+                        <th class="text-center">8</th>
+                        <th class="text-center">5</th>
+                        <th class="text-center">3</th>
+                        <th class="text-center">2</th>
+                        <th class="text-center">1</th>
+                    </tr>
+                    <tr>
+                        <td><img src="/img/icons/stars-tiny-3.png"></td>
+                        <td class="text-center">15</td>
+                        <td class="text-center">12</td>
+                        <td class="text-center">9</td>
+                        <td class="text-center">7</td>
+                        <td class="text-center">6</td>
+                        <td class="text-center">5</td>
+                        <td class="text-center">4</td>
+                        <td class="text-center">3</td>
+                        <td class="text-center">2</td>
+                        <td class="text-center">2</td>
+                        <td class="text-center">1</td>
+                        <td class="text-center">1</td>
+                    </tr>
+                    <tr>
+                        <td><img src="/img/icons/stars-tiny-2.png"></td>
+                        <td class="text-center">10</td>
+                        <td class="text-center">8</td>
+                        <td class="text-center">6</td>
+                        <td class="text-center">5</td>
+                        <td class="text-center">4</td>
+                        <td class="text-center">3</td>
+                        <td class="text-center">2</td>
+                        <td class="text-center">2</td>
+                        <td class="text-center">1</td>
+                        <td class="text-center">1</td>
+                        <td class="text-center">1</td>
+                        <td class="text-center">1</td>
+                    </tr>
+                    <tr>
+                        <td><img src="/img/icons/stars-tiny-1.png"></td>
+                        <td class="text-center">5</td>
+                        <td class="text-center">4</td>
+                        <td class="text-center">3</td>
+                        <td class="text-center">2</td>
+                        <td class="text-center">2</td>
+                        <td class="text-center">2</td>
+                        <td class="text-center">1</td>
+                        <td class="text-center">1</td>
+                        <td class="text-center">1</td>
+                        <td class="text-center">1</td>
+                        <td class="text-center">0</td>
+                        <td class="text-center">0</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <p>For example, if you were base #21 and attacked base #13 for three stars, the difference between your base ranks is 8. This would be worth an additional six points bases on the above chart.</p>
+                <p>To calculate the negative, flip the numbers based on stars. For example, if you were base #13 and attacked base #21 for three stars, you'd be deducted 2 points for having an "easier" target. You'd be deducted 6 points of you only got one star.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+            <h4>4. Attacker's town hall level relative to opponent's</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <p>It's way easier to three star a TH8 when you are a TH9. And it's way harder attacking a TH9 when you are a TH8. For that reason attacks are given a bump based on TH level of opponent versus attacker.</p>
+                <p>The calculation is simple - attacking a TH higher than you gets an additional 50% points from the base star value (#1 above). Attacking a TH lower gets a 30% deduction from the base star value.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md- 5 col-sm-6 col-xs-12">
+                <table class="table table-condensed">
+                    <thead>
+                    <tr>
+                        <th>Stars</th>
+                        <th class="text-center">TH Higher</th>
+                        <th class="text-center">TH Lower</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><img src="/img/icons/stars-tiny-3.png"></td>
+                        <td class="text-center">30</td>
+                        <td class="text-center">-3</td>
+                    </tr>
+                    <tr>
+                        <td><img src="/img/icons/stars-tiny-2.png"></td>
+                        <td class="text-center">15</td>
+                        <td class="text-center">-9</td>
+                    </tr>
+                    <tr>
+                        <td><img src="/img/icons/stars-tiny-1.png"></td>
+                        <td class="text-center">5</td>
+                        <td class="text-center">-18</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+            <h4>5. First attack versus cleanup</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <p>The first attack is generally harder because traps and cc troops are unknown. Get a three star on the first attack and your AV will be higher.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md- 5 col-sm-6 col-xs-12">
+                <table class="table table-condensed">
+                    <thead>
+                    <tr>
+                        <th>Stars</th>
+                        <th class="text-center">Points</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><img src="/img/icons/stars-tiny-3.png"></td>
+                        <td class="text-center">8</td>
+                    </tr>
+                    <tr>
+                        <td><img src="/img/icons/stars-tiny-2.png"></td>
+                        <td class="text-center">3</td>
+                    </tr>
+                    <tr>
+                        <td><img src="/img/icons/stars-tiny-1.png"></td>
+                        <td class="text-center">1</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>

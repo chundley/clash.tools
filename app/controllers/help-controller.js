@@ -11,8 +11,13 @@ function ($rootScope, $scope, $routeParams, $location, authService) {
     $rootScope.title = 'Help - clash.tools';
 
     $scope.helpId = $routeParams.id;
-    $scope.helpTemplate = '/views/help/av.html';
-    console.log($scope.helpTemplate);
+
+    $scope.helpContent = {
+        'av': {
+            title: 'Attack Value',
+            template: '/views/help/av.html'
+        }
+    }
 
     $scope.loggedIn = false;
     if (authService.isLoggedIn()) {
