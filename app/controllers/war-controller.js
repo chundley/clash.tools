@@ -137,7 +137,75 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
         });
     }
 
-    $scope.assignBase = function(baseNum, userId, ign) {
+    $scope.assignBase = function(baseNum) {
+
+        // figure out who doesn't have two assignments already
+        var eligibleMembers = [];
+
+        angular.forEach($scope.war.team, function (member) {
+            eligibleMembers.push({
+                u: member.u,
+                i: member.i,
+                count: 0
+            });
+        });
+
+        angular.forEach($scope.war.bases, function (base) {
+            angular.forEach(base.a, function (assignment) {
+                for (var idx=0; idx<eligibleMembers.length; idx++) {
+                    if (eligibleMembers[idx].u == assignment.u) {
+                        eligibleMembers[idx].count++
+                        if (eligibleMembers[idx].count > 1) {
+                            eligibleMembers.splice(idx, 1);
+                        }
+                        break;
+                    }
+                }
+            });
+        });
+
+        eligibleMembers.sort(function (a, b) {
+            if (a.i.toLowerCase() < b.i.toLowerCase()) {
+                return -1;
+            }
+            else {
+                return 1;
+            }
+        });
+
+        var cssClass = 'center';
+        if ($window.innerWidth < 500) {
+            cssClass = 'mobile';
+        }
+
+        $scope.modalOptions = {
+            yesBtn: 'Assign',
+            noBtn: 'Cancel',
+            baseNum: baseNum,
+            eligibleMembers: eligibleMembers,
+            cssClass: cssClass,
+            formData: {},
+            onYes: function(formData) {
+                assignInternal(baseNum, formData.member.u, formData.member.i);
+            }
+        };
+
+        var modalInstance = $modal(
+            {
+                scope: $scope,
+                animation: 'am-fade-and-slide-top',
+                placement: 'center',
+                template: "/views/partials/assignDialog.html",
+                show: false
+            }
+        );
+
+        modalInstance.$promise.then(function() {
+            modalInstance.show();
+        });
+    }
+
+    function assignInternal(baseNum, userId, ign) {
         // re-load the war to reduce chances of a double assign
         loadWar(function() {
             var open = false;

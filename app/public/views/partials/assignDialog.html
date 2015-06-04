@@ -1,0 +1,30 @@
+<div class="modal {{modalOptions.cssClass}}" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Assign base {{modalOptions.baseNum}}
+            </div>
+            <div class="modal-body">
+                <div class="row margin-bottom-big">
+                    <div class="col-sm-12">
+                        <p><b>Assigning base #{{modalOptions.baseNum}}</b>.</p>
+                        Only eligible members with less than two assignments are shown here.
+                    </div>
+                </div>
+                <form class="form-horizontal" name="assignForm">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-2 col-xs-12 control-label">Member</label>
+                        <div class="col-sm-6 col-xs-6">
+                           <select class="form-control" ng-model="modalOptions.formData.member" ng-options="member as member.i for member in modalOptions.eligibleMembers" required>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+            <button class="btn btn-emphasis btn-sm" ng-disabled="assignForm.$invalid" ng-click="modalOptions.onYes(modalOptions.formData); $hide();">{{modalOptions.yesBtn}}</button>
+            <button class="btn btn-default btn-sm" ng-click="$hide();">{{modalOptions.noBtn}}</button>
+            </div>
+        </div>
+    </div>
+</div>

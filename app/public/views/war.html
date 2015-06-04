@@ -45,7 +45,11 @@
                                                 <h2 ng-if="base.isOpen && activeWar" class="primary-dark"><strong>{{base.b}}</strong></h2>
                                                 <h2 ng-if="!base.isOpen || !activeWar" class="primary-30"><strong>{{base.b}}</strong></h2>
                                                 <br/>
-                                                <span class="dropdown" on-toggle="toggled(open)" ng-if="base.isOpen && (meta.role=='coleader' || meta.role=='leader') && activeWar">
+
+                                                <span ng-if="base.isOpen && (meta.role=='coleader' || meta.role=='leader') && activeWar">
+                                                    <a href ng-click="assignBase(base.b)"><img src="/img/icons/swords-on.png"></a>
+                                                </span>
+<!--                                                 <span class="dropdown" on-toggle="toggled(open)" ng-if="base.isOpen && (meta.role=='coleader' || meta.role=='leader') && activeWar">
                                                     <a href class="dropdown-toggle">
                                                         <img src="/img/icons/swords-on.png">
                                                     </a>
@@ -53,7 +57,7 @@
                                                         <p class="dropdown-header">Assign base to</p>
                                                         <li ng-repeat="tm in war.team | orderBy:'i'" ng-if="tm.i"><a href ng-click="assignBase(base.b, tm.u, tm.i)">{{tm.i}}</a></li>
                                                     </ul>
-                                                </span>
+                                                </span> -->
                                                 <span ng-if="base.isOpen && (meta.role=='member' || meta.role=='elder') && activeWar">
                                                     <a href ng-click="reserveBase(base.b)"><img src="/img/icons/swords-on.png"></a>
                                                 </span>
