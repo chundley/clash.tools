@@ -99,7 +99,6 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
         // people from spamming the app with updates when things are broken
         $scope.war.bases[baseNum-1].a[assignmentIndex].s = numStars;
         refreshInterface();
-        //$scope.playerTargets[targetNum].stars = numStars;
 
         warService.updateStars($scope.war._id, update, function (err, result) {
             if (err) {

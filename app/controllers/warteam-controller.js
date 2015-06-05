@@ -73,6 +73,11 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
             we: endDate
         };
 
+        // update the UI immediately in case this call takes a long time. And even if it fails this prevents
+        // people from spamming the app with updates when things are broken
+        $scope.war.bases[baseNum-1].a[assignmentIndex].s = numStars;
+        refreshInterface();
+
         warService.updateStars($scope.war._id, update, function (err, result) {
             if (err) {
                 err.stack_trace.unshift( { file: 'war-controller.js', func: '$scope.changeStars', message: 'Error updating stars' } );
@@ -112,6 +117,10 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
             bIndex: baseNum - 1,
             stars: -1
         };
+
+        // update UI regardless of whether the save works to avoid spamming with updates
+        $scope.war.bases[baseNum-1].a.splice(assignmentIndex, 1);
+        refreshInterface();
 
         warService.updateStars($scope.war._id, update, function (err, result) {
             if (err) {
