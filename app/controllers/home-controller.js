@@ -95,6 +95,12 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
             we: endDate
         };
 
+        // update the UI immediately in case this call takes a long time. And even if it fails this prevents
+        // people from spamming the app with updates when things are broken
+        $scope.war.bases[baseNum-1].a[assignmentIndex].s = numStars;
+        refreshInterface();
+        //$scope.playerTargets[targetNum].stars = numStars;
+
         warService.updateStars($scope.war._id, update, function (err, result) {
             if (err) {
                 err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.changeStars', message: 'Error updating stars' } );
@@ -141,7 +147,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
             else {
                 // no overcalls allowed and not in free for all period, make sure the base is still open to avoid double reservations
                 angular.forEach($scope.openBases, function (base) {
-                    if (base.base_num == baseNum+1) {
+                    if (base.base_num == baseNum) {
                         open = true;
                     }
                 });
@@ -155,7 +161,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
 
                 $scope.modalOptions = {
                     title: 'Confirm reservation',
-                    message: 'Please confirm you want to reserve base ' + (baseNum + 1),
+                    message: 'Please confirm you want to reserve base ' + baseNum,
                     yesBtn: 'Reserve',
                     noBtn: 'Cancel',
                     cssClass: cssClass,
@@ -181,7 +187,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
 
                         var model =
                         {
-                            bIndex: baseNum,
+                            bIndex: baseNum-1,
                             assignment: {
                                 u: authService.user.id,
                                 i: $scope.meta.ign,
@@ -191,13 +197,17 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
                             }
                         }
 
+                        // update UI so the user gets the feedback, even if the save fails
+                        $scope.war.bases[baseNum-1].a.push(model.assignment);
+                        refreshInterface();
+
                         warService.assignBase($scope.war._id, model, function (err, result) {
                             if (err) {
                                 err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.reserveBase', message: 'Error reserving base' } );
                                 errorService.save(err, function() {});
                             }
                             else {
-                                messagelogService.save($scope.meta.current_clan.clan_id, '[ign] called base ' + (baseNum+1), $scope.meta.ign, 'target', function (err, msg) {
+                                messagelogService.save($scope.meta.current_clan.clan_id, '[ign] called base ' + baseNum, $scope.meta.ign, 'target', function (err, msg) {
                                     if (err) {
                                         err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.reserveBase', message: 'Error saving reservation message in the log' } );
                                         errorService.save(err, function() {});
@@ -273,6 +283,10 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
             bIndex: baseNum - 1,
             stars: -1
         };
+
+        // update UI regardless of whether the save works to avoid spamming with updates
+        $scope.war.bases[baseNum-1].a.splice(assignmentIndex, 1);
+        refreshInterface();
 
         warService.updateStars($scope.war._id, update, function (err, result) {
             if (err) {
