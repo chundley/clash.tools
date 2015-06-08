@@ -15,8 +15,6 @@ function ($rootScope, $scope, $routeParams, $interval, $modal, $window, moment, 
 
     $scope.userId = $routeParams.id;
 
-
-
     userService.getById($scope.userId, function (err, user) {
         if (err) {
             err.stack_trace.unshift( { file: 'member-controller.js', func: 'init', message: 'Error getting user' } );
@@ -38,9 +36,6 @@ function ($rootScope, $scope, $routeParams, $interval, $modal, $window, moment, 
         }
     });
 
-/*    sessionService.getUserMeta($scope.userId, function (err, meta) {
-        $scope.meta = meta;
-    });*/
 
     $scope.saveUser = function() {
         saveUserInternal();
@@ -48,17 +43,15 @@ function ($rootScope, $scope, $routeParams, $interval, $modal, $window, moment, 
 
 
     $scope.uploadAvatar = function(file) {
-        console.log('here');
         if (file.length > 0) {
             imageUploadService.uploadAvatar($scope.userId, file, function (err, result) {
                 if (err) {
-                    console.log(err);
                     err.stack_trace.unshift( { file: 'member-controller.js', func: '$scope.uploadAvatar', message: 'Error uploading avatar' } );
                     errorService.save(err, function() {});
                 }
                 else {
                     $scope.user.profile.avatar = result.newFile;
-                    console.log(result.newFile);
+                    $scope.meta = { avatar: result.newFile };
                     saveUserInternal();
                 }
             });
