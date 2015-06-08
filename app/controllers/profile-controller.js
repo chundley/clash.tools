@@ -10,6 +10,11 @@ function ($rootScope, $scope, $interval, $modal, $window, moment, authService, c
     // initialize
     $rootScope.title = 'Profile - clash.tools';
 
+    $scope.walls = [];
+    for (var idx=0; idx<=250; idx++) {
+        $scope.walls.push({count: idx});
+    }
+
     userService.getById(authService.user.id, function (err, user) {
         if (err) {
             err.stack_trace.unshift( { file: 'profile-controller.js', func: 'init', message: 'Error getting user' } );
@@ -87,6 +92,14 @@ function ($rootScope, $scope, $interval, $modal, $window, moment, authService, c
         modalInstance.$promise.then(function() {
             modalInstance.show();
         });
+    }
+
+    $scope.wallDD = function() {
+        var options = [];
+        for (var idx=0; idx<=250; idx++) {
+            options.push(idx);
+        }
+        return options;
     }
 
     function saveUserInternal() {
