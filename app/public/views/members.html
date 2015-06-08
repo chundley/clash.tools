@@ -33,7 +33,12 @@
                                     <div class="row row-underline-2"></div>
                                     <div ng-repeat="member in members">
                                         <div class="row t-row">
-                                            <div class="col-sm-3 col-xs-5"><img src="https://s3.amazonaws.com/clashtools/avatar/{{member.profile.avatar}}" width="24" height="24" class="mt-avatar"> <span class="mt-membername">{{member.ign}}</span></div>
+                                            <div class="col-sm-3 col-xs-5">
+                                                <img src="https://s3.amazonaws.com/clashtools/avatar/{{member.profile.avatar}}" width="24" height="24" class="mt-avatar">
+                                                <span class="mt-membername">
+                                                    {{member.ign}}
+                                                </span>
+                                            </div>
                                             <div class="col-sm-1 col-xs-2"><img src="/img/icons/th-{{member.profile.buildings.th}}.png"></div>
                                             <div class="col-sm-3 col-xs-3 t-col-center capitalize {{member.role.title}}">{{member.role.title}}</div>
                                             <div class="col-sm-3 hidden-xs t-col-center"><span am-time-ago="{{member.joined}}"></span></div>
@@ -45,6 +50,8 @@
                                                         <button class="btn btn-default btn-member-dd btn-xs"><i class="icon-down-dir primary-30"></i></button>
                                                     </a>
                                                     <ul class="dropdown-menu">
+                                                        <li ng-if="(meta.role=='leader' || meta.role=='coleader') && (member.role.title=='member' || member.role.title=='elder')"><a href="/members/{{member._id}}">Edit profile</a></li>
+                                                        <li class="divider"  ng-if="(meta.role=='leader' || meta.role=='coleader') && (member.role.title=='member' || member.role.title=='elder')"></li>
                                                         <li ng-if="(meta.role=='leader' || meta.role=='coleader') && member.role.title=='member'"><a href ng-click="changeRole(member, 'elder', 'promoted')">Promote to Elder</a></li>
                                                         <li ng-if="(meta.role=='leader' || meta.role=='coleader') && (member.role.title=='member' || member.role.title=='elder')"><a href ng-click="changeRole(member, 'coleader', 'promoted')">Promote to Co-leader</a></li>
                                                         <li ng-if="meta.role=='leader'"><a href ng-click="changeRole(member, 'leader', 'promoted')">Promote to Leader</a></li>

@@ -8,17 +8,17 @@ function ($timeout, authService, sessionService, ctSocket) {
         templateUrl: '/views/partials/sidebar.html',
         link: function(scope, element, attrs) {
             sessionService.getUserMeta(authService.user.id, function (err, meta) {
-                scope.meta = meta;
+                scope.sbMeta = meta;
             });
 
             // subscribe to updates on user meta changes
             ctSocket.on('user:' + authService.user.id + ':meta', function (data) {
                 sessionService.getUserMeta(authService.user.id, function (err, meta) {
-                    scope.meta = meta;
+                    scope.sbMeta = meta;
 
                     // give it a second to refresh, make sure the upload finished
                     $timeout(function() {
-                        scope.meta.avatar += '?ts=' + new Date().getTime();
+                        scope.sbMeta.avatar += '?ts=' + new Date().getTime();
                     }, 2000);
 
                 });
