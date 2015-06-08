@@ -13,6 +13,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
 
     $scope.newWar = true;
     $scope.warStarted = false;
+    $scope.cascade = true;
 
     sessionService.getUserMeta(authService.user.id, function (err, meta) {
         if (err) {
@@ -352,6 +353,21 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
 
     $scope.saveWar = function() {
         saveWarInternal();
+    }
+
+    $scope.oppTH = function(baseNum) {
+        if ($scope.cascade) {
+            // cascade changes to TH level down
+            for (var idx=baseNum; idx<$scope.war.bases.length; idx++) {
+                $scope.war.bases[idx].t = $scope.war.bases[baseNum-1].t;
+            }
+        }
+        saveWarInternal();
+    }
+
+    // no idea why model binding isn't working right for this checkbox, but it isn't
+    $scope.wtf = function() {
+        $scope.cascade = !$scope.cascade;
     }
 
     /*
