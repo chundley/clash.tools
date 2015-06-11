@@ -34,9 +34,9 @@
                                 <div class="widget-body war-table">
                                     <div class="row t-row">
                                         <div class="col-sm-1 col-xs-2 t-header text-center">Base</div>
-                                        <div class="col-sm-1 hidden-xs t-header">TH</div>
-                                        <div class="col-sm-1 col-xs-2 t-header">Best</div>
-                                        <div class="col-sm-9 col-xs-8 t-header">Assignments</div>
+                                        <div class="col-sm-1 col-xs-2 t-header text-center">TH</div>
+                                        <div class="col-sm-1 col-xs-2 t-header text-center">Best</div>
+                                        <div class="col-sm-9 col-xs-6 t-header">Assignments</div>
                                     </div>
                                     <div class="row row-underline-2"></div>
                                     <div ng-repeat="base in war.bases">
@@ -49,29 +49,28 @@
                                                 <span ng-if="base.isOpen && (meta.role=='coleader' || meta.role=='leader') && activeWar">
                                                     <a href ng-click="assignBase(base.b)"><img src="/img/icons/swords-on.png"></a>
                                                 </span>
-<!--                                                 <span class="dropdown" on-toggle="toggled(open)" ng-if="base.isOpen && (meta.role=='coleader' || meta.role=='leader') && activeWar">
-                                                    <a href class="dropdown-toggle">
-                                                        <img src="/img/icons/swords-on.png">
-                                                    </a>
-                                                    <ul class="dropdown-menu">
-                                                        <p class="dropdown-header">Assign base to</p>
-                                                        <li ng-repeat="tm in war.team | orderBy:'i'" ng-if="tm.i"><a href ng-click="assignBase(base.b, tm.u, tm.i)">{{tm.i}}</a></li>
-                                                    </ul>
-                                                </span> -->
                                                 <span ng-if="base.isOpen && (meta.role=='member' || meta.role=='elder') && activeWar">
                                                     <a href ng-click="reserveBase(base.b)"><img src="/img/icons/swords-on.png"></a>
                                                 </span>
                                                 <img src="/img/icons/swords-off.png" ng-if="!base.isOpen || !activeWar">
                                             </div>
-                                            <div class="col-sm-1 hidden-xs wc-th-icon"><img src="/img/icons/th-{{base.t}}.png"></div>
-                                            <div class="col-sm-1 col-xs-2 best-icon">
+                                            <div class="col-sm-1 col-xs-2 wc-th-icon text-center" ng-click="baseNotes(base.b)">
+                                                <img src="/img/icons/th-{{base.t}}.png"><br>
+                                                <div class="notes-num-container">
+                                                    <span class="notes-num" ng-class="{'nn-on': base.notes.length>0}">
+                                                        <i class="icon-attach"></i> 
+                                                        {{base.notes? base.notes.length: 0}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-1 col-xs-2 best-icon text-center">
                                                 <img src="/img/icons/stars-tiny.png" ng-if="base.maxStars==null">
                                                 <img src="/img/icons/stars-tiny-0.png" ng-if="base.maxStars==0">
                                                 <img src="/img/icons/stars-tiny-1.png" ng-if="base.maxStars==1">
                                                 <img src="/img/icons/stars-tiny-2.png" ng-if="base.maxStars==2">
                                                 <img src="/img/icons/stars-tiny-3.png" ng-if="base.maxStars==3">
                                             </div>
-                                            <div class="col-sm-9 col-xs-8">
+                                            <div class="col-sm-9 col-xs-6">
                                                 <div ng-repeat="a in base.a">
                                                     <div class="assignment-widget">
                                                         <div class="aw-name text-center">

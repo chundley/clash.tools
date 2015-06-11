@@ -531,6 +531,10 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
         });
     }
 
+    $scope.baseNotes = function(baseNum) {
+        $location.url('/war/notes/' + $scope.war._id + '/' + baseNum);
+    }
+
     function loadWar(callback) {
         warService.getById($scope.warId, function (err, war) {
             if (err) {
@@ -649,6 +653,8 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
         $scope.$on('$destroy', function() {
             $interval.cancel(promise);
         });
+
+        $scope.war.bases[0].notes = [3, 4];
     }
 
     function setCountdownTimers() {
