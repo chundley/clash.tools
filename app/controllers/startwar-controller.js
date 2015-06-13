@@ -217,7 +217,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                 // need to re-set any assignment expirations
                 angular.forEach($scope.war.bases, function (base) {
                     angular.forEach(base.a, function (assignment) {
-                        assignment.expires = new Date($scope.war.start.getTime() + ($scope.clan.war_config.first_attack_time * 60 * 60 * 1000));
+                        assignment.e = new Date($scope.war.start.getTime() + ($scope.clan.war_config.first_attack_time * 60 * 60 * 1000));
                     });
                 });
 

@@ -77,7 +77,6 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
         // update the UI immediately in case this call takes a long time. And even if it fails this prevents
         // people from spamming the app with updates when things are broken
         $scope.war.bases[baseNum-1].a[assignmentIndex].s = numStars;
-        refreshInterface();
 
         warService.updateStars($scope.war._id, update, function (err, result) {
             if (err) {
@@ -106,6 +105,8 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                         // nothing to do here
                     }
                 });
+
+                refreshInterface();
             }
         });
     }
@@ -121,7 +122,6 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
 
         // update UI regardless of whether the save works to avoid spamming with updates
         $scope.war.bases[baseNum-1].a.splice(assignmentIndex, 1);
-        refreshInterface();
 
         warService.updateStars($scope.war._id, update, function (err, result) {
             if (err) {
@@ -142,6 +142,7 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                         // nothing to do here
                     }
                 });
+                refreshInterface();
             }
         });
     }
@@ -297,7 +298,6 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
 
                 // update UI so the user gets the feedback, even if the save fails
                 $scope.war.bases[baseNum-1].a.push(model.assignment);
-                refreshInterface();
 
                 warService.assignBase($scope.war._id, model, function (err, result) {
                     if (err) {
@@ -314,6 +314,8 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                                 // nothing to do here
                             }
                         });
+
+                        refreshInterface();
                     }
                 });
             }
@@ -440,6 +442,9 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                             }
                         }
 
+                        // update UI so the user gets the feedback, even if the save fails
+                        $scope.war.bases[baseNum-1].a.push(model.assignment);
+
                         warService.assignBase($scope.war._id, model, function (err, war) {
                             if (err) {
                                 err.stack_trace.unshift( { file: 'war-controller.js', func: '$scope.reserveBase', message: 'Error reserving base' } );
@@ -455,6 +460,8 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                                         // nothing
                                     }
                                 });
+
+                                refreshInterface();
                             }
                         });
                     }

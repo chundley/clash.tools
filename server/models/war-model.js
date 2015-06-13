@@ -127,22 +127,54 @@ exports.assignBase = function(warId, model, callback) {
                 callback(err, null);
             }
             else {
-                // bases.0.a.ign (pull out of base array where base is zero and assignment is ign)
-                var push = {};
-                push['bases.' + model.bIndex + '.a'] = model.assignment;
-                collection.update(
-                    { _id: warId,  },
-                    { $push: push },
-                    { upsert: false },
-                    function (err, result) {
-                        if (err) {
-                            callback(err, null);
+                async.waterfall([
+                    function (callback_w) {
+                        exports.findById(warId, function (err, war) {
+                            if (err) {
+                                callback_w(err, null);
+                            }
+                            else {
+                                var exists = false;
+                                _.each(war.bases[model.bIndex].a, function (assignment) {
+                                    if (assignment.i == model.assignment.i) {
+                                        exists = true;
+                                    }
+                                });
+                                callback_w(null, exists);
+                            }
+                        });
+                    },
+                    function (exists, callback_w) {
+                        if (!exists) {
+                            // bases.0.a.ign (pull out of base array where base is zero and assignment is ign)
+                            var push = {};
+                            push['bases.' + model.bIndex + '.a'] = model.assignment;
+                            collection.update(
+                                { _id: warId,  },
+                                { $push: push },
+                                { upsert: false },
+                                function (err, result) {
+                                    if (err) {
+                                        callback_w(err, null);
+                                    }
+                                    else {
+                                        callback_w(null, result);
+                                    }
+                                }
+                            );
                         }
                         else {
-                            callback(null, result);
+                            callback_w('Assignment already exists', null);
                         }
                     }
-                );
+                ], function (err, results) {
+                    if (err) {
+                        callback(err, null);
+                    }
+                    else {
+                        callback(null, results);
+                    }
+                });
             }
         });
     }
@@ -179,7 +211,7 @@ exports.updateStars = function(warId, model, callback) {
                     callback(err, null);
                 }
                 else {
-                    // bases.0.a.ign (pull out of base array where base is zero and assignment is ign)
+                    // bases.0.a.u (pull out of base array where base is zero and assignment is user)
                     var pull = {};
                     pull['bases.' + model.bIndex + '.a'] = { u: model.u };
                     collection.update(
@@ -234,29 +266,69 @@ exports.updateStars = function(warId, model, callback) {
                     callback(err, null);
                 }
                 else {
-                    // bases.0.a.0.s (array indexing to base 0, assignment 0, stars)
-                    var update = {};
-                    update['bases.' + model.bIndex + '.a.' + model.aIndex + '.s'] = model.stars;
-                    collection.update(
-                        { _id: warId },
-                        { $set: update },
-                        { upsert: false },
-                        function (err, result) {
-                            if (err) {
-                                callback(err, null);
-                            }
-                            else {
-                                attackResultModel.save(warId, model, function (err, res) {
-                                    if (err) {
-                                        callback(err, null);
+                    async.waterfall([
+                        function (callback_w) {
+                            // this step verifies that the assignment actually exists and is this user's assignment
+                            // in some cases someone will update stars after a call has been removed and the UI isn't refreshed
+                            var query = {
+                                _id: warId
+                            };
+                            query['bases.' + model.bIndex + '.a.' + model.aIndex + '.u'] = model.u;
+
+                            collection.findOne( query, function (err, item) {
+                                if (err) {
+                                    callback_w(err, null);
+                                }
+                                else {
+                                    if (item) {
+                                        callback_w(null, true);
                                     }
                                     else {
-                                        callback(null, result);
+                                        callback_w(null, false);
                                     }
-                                });
+
+                                }
+                            });
+                        },
+                        function (callValid, callback_w) {
+                            // the check in the first waterfall step ensures the call is still valid before doing the update
+                            if (callValid) {
+                                // bases.0.a.0.s (array indexing to base 0, assignment 0, stars)
+                                var update = {};
+                                update['bases.' + model.bIndex + '.a.' + model.aIndex + '.s'] = model.stars;
+                                collection.update(
+                                    { _id: warId },
+                                    { $set: update },
+                                    { upsert: false },
+                                    function (err, result) {
+                                        if (err) {
+                                            callback_w(err, null);
+                                        }
+                                        else {
+                                            attackResultModel.save(warId, model, function (err, res) {
+                                                if (err) {
+                                                    callback_w(err, null);
+                                                }
+                                                else {
+                                                    callback_w(null, result);
+                                                }
+                                            });
+                                        }
+                                    }
+                                );
+                            }
+                            else {
+                                callback_w('Call was no longer valid', null);
                             }
                         }
-                    );
+                    ], function (err, results) {
+                        if (err) {
+                            callback(err, null);
+                        }
+                        else {
+                            callback(null, results);
+                        }
+                    });
                 }
             });
         }

@@ -98,7 +98,6 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
         // update the UI immediately in case this call takes a long time. And even if it fails this prevents
         // people from spamming the app with updates when things are broken
         $scope.war.bases[baseNum-1].a[assignmentIndex].s = numStars;
-        refreshInterface();
 
         warService.updateStars($scope.war._id, update, function (err, result) {
             if (err) {
@@ -119,6 +118,8 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
                     else {
                     }
                 });
+
+                refreshInterface();
             }
         });
     }
@@ -198,7 +199,6 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
 
                         // update UI so the user gets the feedback, even if the save fails
                         $scope.war.bases[baseNum-1].a.push(model.assignment);
-                        refreshInterface();
 
                         warService.assignBase($scope.war._id, model, function (err, result) {
                             if (err) {
@@ -214,6 +214,9 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
                                     else {
                                     }
                                 });
+
+                                // do this after the assignment - will ensure that if a double assign happens the UI will fix itself
+                                refreshInterface();
                             }
                         });
 
@@ -285,7 +288,6 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
 
         // update UI regardless of whether the save works to avoid spamming with updates
         $scope.war.bases[baseNum-1].a.splice(assignmentIndex, 1);
-        refreshInterface();
 
         warService.updateStars($scope.war._id, update, function (err, result) {
             if (err) {
@@ -302,6 +304,8 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
                         // nothing
                     }
                 });
+
+                refreshInterface();
             }
         });
 
@@ -349,6 +353,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
                             }
                         });
                         $scope.nullState = true;
+                        refreshInterface();
                     }
                 });
             }
