@@ -16,20 +16,19 @@ function ($http, errorService, Upload) {
                 callback(null, data);
             }).
             error(function (data, status, headers, config) {
-                callback(err, null);
+                callback(errorService.initMessage('imgupload-service.js', 'uploadAvatar', status));
             });
-        }
-/*        upload: function(clanId, file, callback) {
-            $http({
-                url: '/crud/image/upload/' + clanId,
-                method: 'POST',
-                data: file,
-                headers: {'Content-Type': 'image'}
+        },
+        upload: function(clanId, file, callback) {
+            Upload.upload({
+                url: '/crud/image/clan/' + clanId,
+                file: file
             }).success(function (data, status, headers, config) {
                 callback(null, data);
-            }).error(function (data, status, headers, config) {
-                callback(status, null);
+            }).
+            error(function (data, status, headers, config) {
+                callback(errorService.initMessage('imgupload-service.js', 'upload', status));
             });
-        }*/
+        }
     }
 }]);

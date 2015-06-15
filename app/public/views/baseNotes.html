@@ -7,27 +7,49 @@
             <!-- page content -->
             <div class="row content-body" ng-if="!nullState">
                 <div class="col-sm-12">
-                    <div class="row margin-bottom-huge">
+                    <div class="row margin-bottom-big">
                         <div class="col-sm-12">
                             <h1>Base notes</h1>
                             <h3 class="same-line-sub-heading alternate">{{war.opponent_name}}</h3>
                         </div>
                     </div>
+                    <div class="row margin-bottom-big">
+                        <div class="col-xs-12">
+                            <a href="/war/{{war._id}}" class="btn btn-default btn-sm"><img src="/img/icons/swords-icon.png"> Bases</a>
+                            <a href="/war/team/{{war._id}}" class="btn btn-default btn-sm"><img src="/img/icons/team-icon.png"> Team</a>
+                            <a href="/war/summary/{{war._id}}" class="btn btn-default btn-sm"><img src="/img/icons/trophy-icon.png"> Leaders</a>
+                        </div>
+                    </div>                    
                     <div class="row margin-bottom-huge">
                         <div class="col-xs-12">
                             <div class="widget">
                                 <div class="widget-header">
-                                    Base # {{baseNum}}
+                                    <h3 class="white">Base # {{baseNum}}</h3>
                                 </div>
                                 <div class="widget-body">
-                                    <div class="row">
-                                        <div class="col-xs-2">
-                                            <span class="th-icon-nb th-{{war.bases[baseNum-1].t}} no-border">
-                                        </div>
-                                        <div class="col-xs-10">
-                                            Picture goes here
+                                    <div class="row margin-bottom-gigantic" ng-if="!war.bases[baseNum-1].n.img && !uploading">
+                                        <div class="col-xs-12 text-center">
+                                            <div ngf-drop ngf-select class="base-img-drop" ngf-drag-over-class="base-img-drop-dragover" ngf-multiple="false" accept="image/*" ngf-max-size="4194304" ngf-capture="'camera'" ng-model="war.bases[baseNum-1].n.img" ngf-change="uploadBaseImg(war.bases[baseNum-1].n.img)">
+                                            <h3>Drop a picture of the base here or click to upload (<b>4MB limit</b>)</h3>
+                                            </div>
+                                            <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
                                         </div>
                                     </div>
+                                    <div class="row margin-bottom-gigantic" ng-if="war.bases[baseNum-1].n.img && !uploading">
+                                        <div class="col-xs-12">
+                                            <span class="remove-base-img" ng-click="deleteImage()">
+                                                <i class="icon-cancel" title="Delete image"></i>
+                                            </span>                                            
+                                            <img class="img-responsive" ng-src="https://s3.amazonaws.com/clashtools/{{war.clan_id}}/{{war.bases[baseNum-1].n.img}}">
+
+                                        </div>
+                                    </div>
+                                    <div class="row margin-bottom-gigantic" ng-if="uploading">
+                                        <div class="col-xs-12 text-center">
+                                            <p><h3>Image uploading...</h3></p>
+                                            <img ng-src="/img/wb-animation.gif">
+                                        </div>
+                                    </div>                                    
                                 </div>
                             </div>
                         </div>

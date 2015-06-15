@@ -15,13 +15,13 @@ exports.upload = function(folderName, fileName, file, callback) {
         }
         else {
             AWS.config.update({
-                accessKeyId: 'AKIAJAFS45XYTNTOIAGA',
-                secretAccessKey: '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'
+                accessKeyId: config.env[process.env.NODE_ENV].s3.accessKeyId,
+                secretAccessKey: config.env[process.env.NODE_ENV].s3.secretAccessKey
             });
 
             var bucket = new AWS.S3({
                 params: {
-                    Bucket: 'clashtools/' + folderName,
+                    Bucket: config.env[process.env.NODE_ENV].s3.bucket + '/' + folderName,
                     CacheControl: 'public, max-age=0'
                 }
             });
@@ -33,8 +33,6 @@ exports.upload = function(folderName, fileName, file, callback) {
                     callback(err, null);
                 }
                 else {
-                    // success?
-                    logger.warn(response);
                     callback(null, null)
                 }
             });

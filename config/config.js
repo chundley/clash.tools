@@ -1,4 +1,4 @@
-// # siftrock-app configuration
+// # clashtools configuration
 
 var config = {};
 
@@ -22,7 +22,12 @@ config.env = {
         },
         cookieSecret: 'clashtools_bab',
         logLevel: 'debug',
-        mandrill: 'hYM_1Xl4pPKbF2EZR-pnmA'
+        mandrill: 'hYM_1Xl4pPKbF2EZR-pnmA',
+        s3: {
+            accessKeyId: 'AKIAJAFS45XYTNTOIAGA',
+            secretAccessKey: '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',
+            bucket: 'clashtools'
+        }
     },
     production: {
         url: {
@@ -43,7 +48,12 @@ config.env = {
         },
         cookieSecret: 'clashtools_kak',
         logLevel: 'info',
-        mandrill: 'IAO8H52xJO-Lk-4_zBFcEQ'
+        mandrill: 'IAO8H52xJO-Lk-4_zBFcEQ',
+        s3: {
+            accessKeyId: 'AKIAJAFS45XYTNTOIAGA',
+            secretAccessKey: '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',
+            bucket: 'clashtools'
+        }
     }
 };
 

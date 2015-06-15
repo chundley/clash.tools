@@ -88,6 +88,36 @@ exports.updateStars = function(req, res, next) {
 };
 
 /*
+*   Save a base image
+*/
+exports.saveBaseImage = function(req, res, next) {
+    warModel.saveBaseImage(req.params.warId, req.params.baseNum, req.body, function (err, result) {
+        if (err) {
+            res.send(500, err);
+        }
+        else {
+            socket.emit('war:' + req.params.warId + ':change', null);
+            res.json(200, 'Success');
+        }
+    });
+};
+
+/*
+*   Add note to a base
+*/
+exports.addBaseNote = function(req, res, next) {
+    warModel.addBaseNote(req.params.warId, req.params.baseNum, req.body, function (err, result) {
+        if (err) {
+            res.send(500, err);
+        }
+        else {
+            socket.emit('war:' + req.params.warId + ':change', null);
+            res.json(200, 'Success');
+        }
+    });
+};
+
+/*
 *   Gets a war by id
 */
 exports.getById = function(req, res, next) {

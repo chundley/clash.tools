@@ -338,6 +338,35 @@ exports.updateStars = function(warId, model, callback) {
     }
 }
 
+exports.saveBaseImage = function(warId, baseNum, model, callback) {
+    if (_.isString(warId)) {
+        warId = new ObjectID.createFromHexString(warId);
+    }
+
+    var baseIndex = parseInt(baseNum) - 1;    
+    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'war', function (err, collection) {
+        if (err) {
+            callback(err, null);
+        }
+        else {    
+            var update = {};
+            update['bases.' + baseIndex + '.n.img'] = model.fileName;
+            collection.update(  
+                { _id: warId },
+                { $set: update },
+                { upsert: false },
+                function (err, result) {
+                    if (err) {
+                        callback(err, null);
+                    }
+                    else {
+                        callback(null, result);
+                    }
+                }
+            );            
+        }
+    });
+}
 
 /*
 *   Find war by id

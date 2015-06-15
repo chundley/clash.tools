@@ -2,7 +2,8 @@
 *   Image upload endpoints
 */
 
-var model = require('../models/imageupload-model');
+var model = require('../models/imageupload-model'),
+    utils = require('../../app/shared/util');
 
 
 /*
@@ -10,7 +11,6 @@ var model = require('../models/imageupload-model');
 */
 exports.uploadAvatar = function(req, res, next) {
     var newFileName = req.params.userId + req.files.file.name.substring(req.files.file.name.indexOf('.'), req.files.file.name.length);
-    logger.warn(newFileName);
     model.upload('avatar', newFileName, req.files.file.path, function (err, result) {
         if (err) {
             res.send(500, err);
@@ -26,13 +26,13 @@ exports.uploadAvatar = function(req, res, next) {
 *   Save a clan image
 */
 exports.uploadClan = function(req, res, next) {
-    //model.upload(req.body, function (err, message) {
-    model.upload(null, req.files.file.name, req.files.file.path, function (err, message) {
+    var newFileName = utils.createGUID() + req.files.file.name.substring(req.files.file.name.indexOf('.'), req.files.file.name.length);
+    model.upload(req.params.clanId, newFileName, req.files.file.path, function (err, result) {
         if (err) {
             res.send(500, err);
         }
         else {
-            res.json(200, message);
+            res.json(200, { newFile: newFileName});
         }
     });
 };
