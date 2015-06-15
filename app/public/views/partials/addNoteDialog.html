@@ -1,0 +1,24 @@
+<div class="modal {{modalOptions.cssClass}}" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Add note to base #{{modalOptions.baseNum}}
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" name="noteForm">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label">Note</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control req-field" ng-model="modalOptions.formData.note" placeholder="Type note here" required>
+                            </textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+            <button class="btn btn-emphasis btn-sm" ng-disabled="noteForm.$invalid" ng-click="modalOptions.onYes(modalOptions.formData); $hide();">{{modalOptions.yesBtn}}</button>
+            <button class="btn btn-default btn-sm" ng-click="$hide();">{{modalOptions.noBtn}}</button>
+            </div>
+        </div>
+    </div>
+</div>

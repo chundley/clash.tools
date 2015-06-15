@@ -188,7 +188,7 @@ var routes = [
         accessLevel: accessLevels.member
     },
     {
-        path: '/crud/war/:warId/base/:baseNum/baseImage',
+        path: '/crud/war/:warId/base/:baseNum/image',
         httpMethod: 'POST',
         middleware: [warCtrl.saveBaseImage],
         accessLevel: accessLevels.member
@@ -199,6 +199,12 @@ var routes = [
         middleware: [warCtrl.addBaseNote],
         accessLevel: accessLevels.member
     },
+    {
+        path: '/crud/war/:warId/base/:baseNum/note',
+        httpMethod: 'DELETE',
+        middleware: [warCtrl.deleteBaseNote],
+        accessLevel: accessLevels.member
+    },    
     {
         path: '/crud/wars/:clanId',
         httpMethod: 'GET',

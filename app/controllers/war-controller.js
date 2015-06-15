@@ -660,8 +660,6 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
         $scope.$on('$destroy', function() {
             $interval.cancel(promise);
         });
-
-        $scope.war.bases[0].notes = [3, 4];
     }
 
     function setCountdownTimers() {

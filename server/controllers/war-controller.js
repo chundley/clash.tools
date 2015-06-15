@@ -118,6 +118,21 @@ exports.addBaseNote = function(req, res, next) {
 };
 
 /*
+*   Add note to a base
+*/
+exports.deleteBaseNote = function(req, res, next) {
+    warModel.deleteBaseNote(req.params.warId, req.params.baseNum, req.body, function (err, result) {
+        if (err) {
+            res.send(500, err);
+        }
+        else {
+            socket.emit('war:' + req.params.warId + ':change', null);
+            res.json(200, 'Success');
+        }
+    });
+};
+
+/*
 *   Gets a war by id
 */
 exports.getById = function(req, res, next) {

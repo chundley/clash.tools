@@ -368,6 +368,66 @@ exports.saveBaseImage = function(warId, baseNum, model, callback) {
     });
 }
 
+exports.addBaseNote = function(warId, baseNum, model, callback) {
+    if (_.isString(warId)) {
+        warId = new ObjectID.createFromHexString(warId);
+    }
+
+    var baseIndex = parseInt(baseNum) - 1;    
+    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'war', function (err, collection) {
+        if (err) {
+            callback(err, null);
+        }
+        else {    
+            var push = {};
+            push['bases.' + baseIndex + '.n.n'] = model;
+            collection.update(  
+                { _id: warId },
+                { $push: push },
+                { upsert: false },
+                function (err, result) {
+                    if (err) {
+                        callback(err, null);
+                    }
+                    else {
+                        callback(null, result);
+                    }
+                }
+            );            
+        }
+    });    
+}
+
+exports.deleteBaseNote = function(warId, baseNum, model, callback) {
+    if (_.isString(warId)) {
+        warId = new ObjectID.createFromHexString(warId);
+    }
+
+    var baseIndex = parseInt(baseNum) - 1;    
+    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'war', function (err, collection) {
+        if (err) {
+            callback(err, null);
+        }
+        else {    
+            var pull = {};
+            pull['bases.' + baseIndex + '.n.n'] = { u: model.u, content: model.content };
+            collection.update(  
+                { _id: warId },
+                { $pull: pull },
+                { upsert: false },
+                function (err, result) {
+                    if (err) {
+                        callback(err, null);
+                    }
+                    else {
+                        callback(null, result);
+                    }
+                }
+            );            
+        }
+    });    
+}
+
 /*
 *   Find war by id
 */

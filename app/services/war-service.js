@@ -46,7 +46,7 @@ function ($http, errorService) {
         },
         saveBaseImage: function(warId, baseNum, model, callback) {
             $http({
-                url: '/crud/war/' + warId + '/base/' + baseNum + '/baseImage',
+                url: '/crud/war/' + warId + '/base/' + baseNum + '/image',
                 method: 'POST',
                 data: model,
                 headers: {'Content-Type': 'application/json'}
@@ -56,6 +56,30 @@ function ($http, errorService) {
                 callback(errorService.initMessage('clan-service.js', 'saveBaseImage', data), null);
             });
         },
+        saveBaseNote: function(warId, baseNum, model, callback) {
+            $http({
+                url: '/crud/war/' + warId + '/base/' + baseNum + '/note',
+                method: 'POST',
+                data: model,
+                headers: {'Content-Type': 'application/json'}
+            }).success(function (data, status, headers, config) {
+                callback(null, data);
+            }).error(function (data, status, headers, config) {
+                callback(errorService.initMessage('clan-service.js', 'saveBaseImage', data), null);
+            });
+        },
+        deleteBaseNote: function(warId, baseNum, model, callback) {
+            $http({
+                url: '/crud/war/' + warId + '/base/' + baseNum + '/note',
+                method: 'DELETE',
+                data: model,
+                headers: {'Content-Type': 'application/json'}
+            }).success(function (data, status, headers, config) {
+                callback(null, data);
+            }).error(function (data, status, headers, config) {
+                callback(errorService.initMessage('clan-service.js', 'saveBaseImage', data), null);
+            });
+        },        
         getById: function(id, callback) {
             $http({
                 url: '/crud/war/' + id,

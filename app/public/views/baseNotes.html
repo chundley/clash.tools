@@ -49,7 +49,49 @@
                                             <p><h3>Image uploading...</h3></p>
                                             <img ng-src="/img/wb-animation.gif">
                                         </div>
-                                    </div>                                    
+                                    </div>
+                                    <div class="row margin-bottom-huge">
+                                        <div class="col-xs-12">
+                                            <a class="btn btn-default btn-sm" ng-click="addNote('text')">Add text note</a>
+                                            <a ngf-select class="btn btn-default btn-sm" ngf-multiple="false" accept="image/*" ngf-max-size="4194304" ngf-capture="'camera'" ng-model="noteImage" ngf-change="addImageNote(noteImage)">Add image note</a>
+                                        </div>
+                                    </div>
+                                    <div class="row margin-bottom-huge" ng-if="uploadingNoteImage">
+                                        <div class="col-xs-12 text-center">
+                                            <p><h3>Image uploading...</h3></p>
+                                            <img ng-src="/img/wb-animation.gif">
+                                        </div>
+                                    </div>                                      
+                                    <div class="row row-underline-1" ng-if="war.bases[baseNum-1].n.n.length>0"></div>     
+                                    <div ng-repeat="note in war.bases[baseNum-1].n.n">
+                                        <div class="row t-row hidden-xs">
+                                            <div class="col-sm-2">
+                                                <b class="emphasis">{{note.i}}</b>
+                                                <i class="icon-cancel action-icon error-red" access-level="coleader" title="Delete note" ng-click="deleteNote(note, $index)"></i><br/>
+                                                <span am-time-ago="{{note.created_at}}" class="small"></span>
+                                            </div>
+                                            <div class="col-sm-10" ng-if="note.type=='text'">
+                                                {{note.content}}
+                                            </div>
+                                            <div class="col-sm-10" ng-if="note.type=='image'">
+                                                <img class="img-responsive" ng-src="https://s3.amazonaws.com/clashtools/{{war.clan_id}}/{{note.content}}">                                                
+                                            </div>                                            
+                                        </div>
+                                        <div class="row t-row visible-xs">
+                                            <div class="col-xs-12">
+                                                <b class="emphasis">{{note.i}}</b> added
+                                                <span am-time-ago="{{note.created_at}}" class="strong"></span> 
+                                                <i class="icon-cancel action-icon error-red" access-level="coleader" title="Delete note" ng-click="deleteNote(note, $index)"></i><br/>
+                                            </div>
+                                            <div class="col-xs-12" ng-if="note.type=='text'">
+                                                {{note.content}}
+                                            </div>
+                                            <div class="col-xs-12" ng-if="note.type=='image'">
+                                                <img class="img-responsive" ng-src="https://s3.amazonaws.com/clashtools/{{war.clan_id}}/{{note.content}}">                                                
+                                            </div>                                             
+                                        </div> 
+                                        <div class="row row-underline-1" ng-if="$index<war.bases[baseNum-1].n.n.length-1"></div>                                                                             
+                                    </div>                        
                                 </div>
                             </div>
                         </div>
