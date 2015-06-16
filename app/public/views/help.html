@@ -20,7 +20,7 @@
                                 <ul class="dropdown-menu">
                                     <li ng-repeat="help in helpContent"><a href="/help/{{help.path}}">{{help.title}}</a></li>
                                 </ul>
-                            </span>  
+                            </span>
                         </div>
                     </div>
                     <div class="row margin-bottom-huge">
@@ -73,6 +73,7 @@
                         </div>
                     </div> -->
                     <div class="col-md-8 col-sm-6 col-xs-6 default-nav-buttons text-right">
+                        <a href="/help/faq" class="help">View Help</a>
                         <a href="/register" class="btn btn-default btn-sm">Sign up</a>
                         <a href="/login" class="btn btn-emphasis btn-sm">Log in</a>
                     </div>
@@ -87,7 +88,7 @@
                     <div class="row margin-bottom-big">
                         <div class="col-xs-10">
                             <h1>Help</h1>
-                            <h3 class="same-line-sub-heading alternate">{{helpContent[helpId].title}}</h3>
+                            <h3 class="same-line-sub-heading alternate">{{helpContent[helpIndex].title}}</h3>
                         </div>
                         <div class="hidden-lg hidden-md hidden-sm col-xs-2">
                             <span class="dropdown pull-right" on-toggle="toggled(open)">
@@ -97,14 +98,14 @@
                                 <ul class="dropdown-menu">
                                     <li ng-repeat="help in helpContent"><a href="/help/{{help.path}}">{{help.title}}</a></li>
                                 </ul>
-                            </span>                            
+                            </span>
                         </div>
                     </div>
                     <div class="row margin-bottom-huge">
                         <div class="col-lg-10 col-md-9 col-sm-8 col-xs-12 help-container">
                             <div class="widget">
                                 <div class="widget-body">
-                                    <div ng-include="helpContent[helpId].template"></div>
+                                    <div ng-include="helpContent[helpIndex].template"></div>
                                 </div>
                             </div>
                         </div>

@@ -20,8 +20,14 @@ function ($rootScope, $scope, $routeParams, $location, authService) {
             title: 'FAQ',
             order: 100,
             template: '/views/help/faq.html'
-        }, 
-        {       
+        },
+        {
+            path: 'war-setup',
+            title: 'War Setup',
+            order: 150,
+            template: '/views/help/warSetup.html'
+        },
+        {
             path: 'av',
             title: 'Attack Value',
             order: 200,
