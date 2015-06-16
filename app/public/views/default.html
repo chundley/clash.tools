@@ -1,12 +1,17 @@
 <div ng-if="!loggedIn">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-xs-12 top-nav-container">
+            <div class="col-xs-12 top-nav-container" style="padding-bottom: 4px;">
                 <div class="row">
-                    <div class="col-md-4 col-sm-6 col-xs-6">
+                    <div class="col-md-4 col-sm-6 col-xs-12">
                         <a href="/"><img class="logo" src="/img/logo-small.png"></a> <span class="small primary-40"><b>beta</b></span>
                     </div>
-                    <div class="col-md-8 col-sm-6 col-xs-6 default-nav-buttons text-right">
+                    <div class="col-md-8 col-sm-6 hidden-xs default-nav-buttons text-right">
+                        <a href="/help/faq" class="help">View Help</a>
+                        <a href="/register" class="btn btn-default btn-sm">Sign up</a>
+                        <a href="/login" class="btn btn-emphasis btn-sm">Log in</a>
+                    </div>
+                    <div class="col-xs-12 visible-xs default-nav-buttons">
                         <a href="/help/faq" class="help">View Help</a>
                         <a href="/register" class="btn btn-default btn-sm">Sign up</a>
                         <a href="/login" class="btn btn-emphasis btn-sm">Log in</a>
@@ -17,7 +22,7 @@
 
         <!-- page content -->
         <div class="row content-body">
-            <div class="col-sm-9 col-xs-8">
+            <div class="col-md-9 col-sm-12">
                 <div class="row margin-bottom-big">
                     <div class="col-xs-12">
                         <h1>Welcome to clash.tools!</h1>
@@ -26,10 +31,53 @@
                 <div class="row margin-bottom-big">
                     <div class="col-xs-12">
                         <p>The clash.tools application is designed from the ground up to be the easiest and most efficient way to manage clan wars in Clash of Clans. There have been a few valiant efforts at capturing the most important aspects of managing wars, but nothing with the capabilities and scale of clash.tools.</p>
-                        While it's still in beta with some bugs to be ironed out, here's just a glimpse of what's already working:
+                    </div>
+                </div>
+                <div class="row margin-bottom-big visible-sm visible-xs text-center">
+                    <div class="summary-widget-small">
+                        <table width="100%" cellpadding="0" border="0">
+                            <tbody>
+                                <tr>
+                                <td><img src="/img/clan-icon.png"></td>
+                                <td class="text-center">
+                                    <span class="metric">{{metrics.clans | number}}</span><br>
+                                    Clans
+                                </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="summary-widget-small">
+                        <table width="100%" cellpadding="0" border="0">
+                            <tbody>
+                                <tr>
+                                <td><img src="/img/users-icon.png"></td>
+                                <td class="text-center">
+                                    <span class="metric">{{metrics.members | number}}</span><br>
+                                    Members
+                                </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="summary-widget-small hidden-xs">
+                        <table width="100%" cellpadding="0" border="0">
+                            <tbody>
+                                <tr>
+                                <td><img src="/img/attack-icon.png"></td>
+                                <td class="text-center">
+                                    <span class="metric">{{metrics.attacks | number}}</span><br>
+                                    Attacks
+                                </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <div class="row margin-bottom-huge">
+                    <div class="col-xs-12">
+                        <p>While it's still in beta with some bugs to be ironed out, here's just a glimpse of what's already working:</p>
+                    </div>
                     <div class="col-xs-12 demo-container">
                         <div class="row">
                             <div class="col-md-3 col-sm-4 col-xs-5 dc-description">
@@ -49,30 +97,58 @@
                         <p><a href="http://forum.supercell.net/private.php?do=newpm&u=778211" target="_blank">Message minpin on the Supercell forum</a> or participate in the <a href="http://forum.supercell.net/showthread.php/681133-Official-clash-tools-feedback-thread" target="_blank">official feedback thread</a> if you have questions or suggestions.</p><p>Thanks to KARA Rising and KARA Heroes for pushing through all the bugs and getting it shaped up for the community to use. Help content will be coming soon based on how much time I have to work on it.</p>
                     </div>
                 </div>
-                <div class="row disclaimer">
-                    <div class="col-xs-12">
-                        This content is not affiliated with, endorsed, sponsored, or specifically approved by Supercell and Supercell is not responsible for it. For more information see Supercell’s Fan Content Policy: <a href="http://www.supercell.com/fan-content-policy" target="_blank">www.supercell.com/fan-content-policy</a>.
-                    </div>
-                </div>
             </div>
-            <div class="col-sm-3 col-xs-4">
-                <div class="widget">
-                    <div class="widget-header">
-                        clash.tools usage
-                    </div>
-                </div>
+            <div class="col-md-3 hidden-sm hidden-xs text-center">
+                <div class="row">
+                    <div class="col-md-9 col-md-offset-3">
+                        <p><h4>Who uses clash.tools?</h4></p>
                         <div class="summary-widget-big">
                             <table width="100%" cellpadding="0" border="0">
-                            <tbody><tr>
-                                <td><img src="/img/clan-icon.png"></td>
-                                <td class="text-center">
-                                    <span class="metric">{{metrics.clans}}</span><br>
-                                    Clans
-                                </td>
-                            </tr>
-                            </tbody></table>
+                                <tbody>
+                                    <tr>
+                                    <td><img src="/img/clan-icon.png"></td>
+                                    <td class="text-center">
+                                        <span class="metric">{{metrics.clans | number}}</span><br>
+                                        Clans
+                                    </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
+                        <div class="summary-widget-big">
+                            <table width="100%" cellpadding="0" border="0">
+                                <tbody>
+                                    <tr>
+                                    <td><img src="/img/users-icon.png"></td>
+                                    <td class="text-center">
+                                        <span class="metric">{{metrics.members | number}}</span><br>
+                                        Members
+                                    </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="summary-widget-big">
+                            <table width="100%" cellpadding="0" border="0">
+                                <tbody>
+                                    <tr>
+                                    <td><img src="/img/attack-icon.png"></td>
+                                    <td class="text-center">
+                                        <span class="metric">{{metrics.attacks | number}}</span><br>
+                                        Attacks
+                                    </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div> <!-- /page content -->
+        <div class="row disclaimer">
+            <div class="col-xs-12">
+                This content is not affiliated with, endorsed, sponsored, or specifically approved by Supercell and Supercell is not responsible for it. For more information see Supercell’s Fan Content Policy: <a href="http://www.supercell.com/fan-content-policy" target="_blank">www.supercell.com/fan-content-policy</a>.
+            </div>
+        </div>
     </div>
 </div>

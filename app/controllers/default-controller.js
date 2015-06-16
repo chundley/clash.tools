@@ -82,7 +82,6 @@ function ($rootScope, $scope, $location, authService, analyticsService, errorSer
             }
             else {
                 $scope.metrics = result;
-                console.log(result);
             }
         });
     }
