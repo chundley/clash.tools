@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('DefaultCtrl', ['$rootScope', '$scope', '$location', 'authService',
-function ($rootScope, $scope, $location, authService) {
+.controller('DefaultCtrl', ['$rootScope', '$scope', '$location', 'authService', 'analyticsService', 'errorService',
+function ($rootScope, $scope, $location, authService, analyticsService, errorService) {
     // initialize
     $rootScope.title = 'Welcome to clash.tools';
 
@@ -74,5 +74,16 @@ function ($rootScope, $scope, $location, authService) {
                 description: 'Get your clan using clash.tools today and start enjoying a full war history log, built-in direct messaging to clan mates, and future features like chat, clan linking, and public clan/member profiles.'
             }
         ];
+
+        analyticsService.summaryMetrics(function (err, result) {
+            if (err) {
+                err.stack_trace.unshift( { file: 'default-controller.js', func: 'init', message: 'Error getting summary metrics' } );
+                errorService.save(err, function() {});
+            }
+            else {
+                $scope.metrics = result;
+                console.log(result);
+            }
+        });
     }
 }]);

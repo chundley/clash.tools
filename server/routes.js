@@ -17,6 +17,7 @@ var authCtrl            = require('./controllers/auth-controller'),
     errorCtrl           = require('./controllers/error-controller'),
     messagelogCtrl      = require('./controllers/messagelog-controller'),
     imageUploadCtrl     = require('./controllers/imageupload-controller'),
+    analyticsCtrl       = require('./controllers/analytics-controller'),
     userModel           = require('./models/user-model'),
     userRoles           = require('../app/shared/role-config').userRoles,
     accessLevels        = require('../app/shared/role-config').accessLevels;
@@ -204,12 +205,20 @@ var routes = [
         httpMethod: 'DELETE',
         middleware: [warCtrl.deleteBaseNote],
         accessLevel: accessLevels.member
-    },    
+    },
     {
         path: '/crud/wars/:clanId',
         httpMethod: 'GET',
         middleware: [warCtrl.getHistory],
         accessLevel: accessLevels.member
+    },
+    /*
+    *   Analytics endpoints
+    */
+    {
+        path: '/analytics/summary',
+        httpMethod: 'GET',
+        middleware: [analyticsCtrl.summaryMetrics]
     },
     /*
     *   App email endpoints

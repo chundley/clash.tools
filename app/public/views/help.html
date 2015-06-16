@@ -61,18 +61,17 @@
     <div class="container-fluid">
 
         <div class="row">
-            <div class="col-xs-12 top-nav-container">
+            <div class="col-xs-12 top-nav-container" style="padding-bottom: 4px;">
                 <div class="row">
-                    <div class="col-md-4 col-sm-6 col-xs-6">
+                    <div class="col-md-4 col-sm-6 col-xs-12">
                         <a href="/"><img class="logo" src="/img/logo-small.png"></a> <span class="small primary-40"><b>beta</b></span>
                     </div>
-<!--                     <div class="col-md-4 hidden-sm hidden-xs search-box">
-                        <div class="form-control-group">
-                            <input class="form-control" type="text" placeholder="Search for a clan by name or tag" ng-model="searchTerms" press-enter="search()">
-                            <button class="btn btn-search" ng-click="search()"><i class="icon-search"></i></button>
-                        </div>
-                    </div> -->
-                    <div class="col-md-8 col-sm-6 col-xs-6 default-nav-buttons text-right">
+                    <div class="col-md-8 col-sm-6 hidden-xs default-nav-buttons text-right">
+                        <a href="/help/faq" class="help">View Help</a>
+                        <a href="/register" class="btn btn-default btn-sm">Sign up</a>
+                        <a href="/login" class="btn btn-emphasis btn-sm">Log in</a>
+                    </div>
+                    <div class="col-xs-12 visible-xs default-nav-buttons">
                         <a href="/help/faq" class="help">View Help</a>
                         <a href="/register" class="btn btn-default btn-sm">Sign up</a>
                         <a href="/login" class="btn btn-emphasis btn-sm">Log in</a>
