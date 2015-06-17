@@ -153,11 +153,13 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
         var eligibleMembers = [];
 
         angular.forEach($scope.war.team, function (member) {
-            eligibleMembers.push({
-                u: member.u,
-                i: member.i,
-                count: 0
-            });
+            if (member.u && member.u.length > 0) {
+                eligibleMembers.push({
+                    u: member.u,
+                    i: member.i,
+                    count: 0
+                });
+            }
         });
 
         angular.forEach($scope.war.bases, function (base) {
