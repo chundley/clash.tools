@@ -19,7 +19,7 @@
                             <a href="/war/team/{{war._id}}" class="btn btn-default btn-sm"><img src="/img/icons/team-icon.png"> Team</a>
                             <a href="/war/summary/{{war._id}}" class="btn btn-default btn-sm"><img src="/img/icons/trophy-icon.png"> Leaders</a>
                         </div>
-                    </div>                    
+                    </div>
                     <div class="row margin-bottom-huge">
                         <div class="col-xs-12">
                             <div class="widget">
@@ -29,8 +29,8 @@
                                 <div class="widget-body">
                                     <div class="row margin-bottom-gigantic" ng-if="!war.bases[baseNum-1].n.img && !uploading">
                                         <div class="col-xs-12 text-center">
-                                            <div ngf-drop ngf-select class="base-img-drop" ngf-drag-over-class="base-img-drop-dragover" ngf-multiple="false" accept="image/*" ngf-max-size="4194304" ngf-capture="'camera'" ng-model="war.bases[baseNum-1].n.img" ngf-change="uploadBaseImg(war.bases[baseNum-1].n.img)">
-                                            <h3>Drop a picture of the base here or click to upload (<b>4MB limit</b>)</h3>
+                                            <div ngf-drop ngf-select class="base-img-drop" ngf-drag-over-class="base-img-drop-dragover" ngf-multiple="false" accept="image/*" ngf-max-size="10485760" ngf-capture="'camera'" ng-model="war.bases[baseNum-1].n.img" ngf-change="uploadBaseImg(war.bases[baseNum-1].n.img)">
+                                            <h3>Drop a picture of the base here or click to upload (<b>10MB limit</b>)</h3>
                                             </div>
                                             <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
                                         </div>
@@ -39,7 +39,7 @@
                                         <div class="col-xs-12">
                                             <span class="remove-base-img" ng-click="deleteImage()">
                                                 <i class="icon-cancel" title="Delete image"></i>
-                                            </span>                                            
+                                            </span>
                                             <img class="img-responsive" ng-src="https://s3.amazonaws.com/clashtools/{{war.clan_id}}/{{war.bases[baseNum-1].n.img}}">
 
                                         </div>
@@ -53,7 +53,7 @@
                                     <div class="row margin-bottom-huge">
                                         <div class="col-xs-12">
                                             <a class="btn btn-default btn-sm" ng-click="addNote('text')">Add text note</a>
-                                            <a ngf-select class="btn btn-default btn-sm" ngf-multiple="false" accept="image/*" ngf-max-size="4194304" ngf-capture="'camera'" ng-model="noteImage" ngf-change="addImageNote(noteImage)">Add image note</a>
+                                            <a ngf-select class="btn btn-default btn-sm" ngf-multiple="false" accept="image/*" ngf-max-size="10485760" ngf-capture="'camera'" ng-model="noteImage" ngf-change="addImageNote(noteImage)">Add image note</a>
                                         </div>
                                     </div>
                                     <div class="row margin-bottom-huge" ng-if="uploadingNoteImage">
@@ -61,8 +61,8 @@
                                             <p><h3>Image uploading...</h3></p>
                                             <img ng-src="/img/wb-animation.gif">
                                         </div>
-                                    </div>                                      
-                                    <div class="row row-underline-1" ng-if="war.bases[baseNum-1].n.n.length>0"></div>     
+                                    </div>
+                                    <div class="row row-underline-1" ng-if="war.bases[baseNum-1].n.n.length>0"></div>
                                     <div ng-repeat="note in war.bases[baseNum-1].n.n">
                                         <div class="row t-row hidden-xs">
                                             <div class="col-sm-2">
@@ -74,24 +74,24 @@
                                                 {{note.content}}
                                             </div>
                                             <div class="col-sm-10" ng-if="note.type=='image'">
-                                                <img class="img-responsive" ng-src="https://s3.amazonaws.com/clashtools/{{war.clan_id}}/{{note.content}}">                                                
-                                            </div>                                            
+                                                <img class="img-responsive" ng-src="https://s3.amazonaws.com/clashtools/{{war.clan_id}}/{{note.content}}">
+                                            </div>
                                         </div>
                                         <div class="row t-row visible-xs">
                                             <div class="col-xs-12">
                                                 <b class="emphasis">{{note.i}}</b> added
-                                                <span am-time-ago="{{note.created_at}}" class="strong"></span> 
+                                                <span am-time-ago="{{note.created_at}}" class="strong"></span>
                                                 <i class="icon-cancel action-icon error-red" access-level="coleader" title="Delete note" ng-click="deleteNote(note, $index)"></i><br/>
                                             </div>
                                             <div class="col-xs-12" ng-if="note.type=='text'">
                                                 {{note.content}}
                                             </div>
                                             <div class="col-xs-12" ng-if="note.type=='image'">
-                                                <img class="img-responsive" ng-src="https://s3.amazonaws.com/clashtools/{{war.clan_id}}/{{note.content}}">                                                
-                                            </div>                                             
-                                        </div> 
-                                        <div class="row row-underline-1" ng-if="$index<war.bases[baseNum-1].n.n.length-1"></div>                                                                             
-                                    </div>                        
+                                                <img class="img-responsive" ng-src="https://s3.amazonaws.com/clashtools/{{war.clan_id}}/{{note.content}}">
+                                            </div>
+                                        </div>
+                                        <div class="row row-underline-1" ng-if="$index<war.bases[baseNum-1].n.n.length-1"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
