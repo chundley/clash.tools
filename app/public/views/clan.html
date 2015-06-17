@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div top-nav></div>
             <!-- page content - new clan -->
-            <div class="row content-body" ng-if="newClan">
+            <div class="row content-body" ng-show="newClan">
                 <div class="col-xs-12">
                     <div class="row margin-bottom-big">
                         <div class="col-xs-12">
@@ -55,7 +55,7 @@
             </div> <!-- /page content - new clan -->
 
             <!-- page content - existing clan -->
-            <div class="row content-body" ng-if="!newClan">
+            <div class="row content-body" ng-show="!newClan">
                 <div class="col-xs-12">
                     <div class="row margin-bottom-big">
                         <div class="col-xs-12">
@@ -72,7 +72,19 @@
                                             Public information
                                         </div>
                                         <div class="widget-body">
-                                            <form name="publicInformationForm" class="form-horizontal" ng-submit="saveClan()" novalidate>
+                                            <form name="publicInformationForm" class="form-horizontal" ng-submit="savePublicInformation()" novalidate>
+                                                <div class="form-group">
+                                                    <label for="clanName" class="col-xs-3 control-label">Clan name</label>
+                                                    <div class="col-xs-9">
+                                                        <input type="text" class="form-control req-field" id="clanName" ng-model="clan.name" placeholder="Enter clan name" access-level-disable="coleader" required ng-minlength="1">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="clanTag" class="col-xs-3 control-label">Clan tag</label>
+                                                    <div class="col-xs-9">
+                                                        <input type="text" class="form-control req-field" id="clanName" ng-model="clan.clan_tag" placeholder="Enter clan tag" ng-minlength="1" access-level-disable="coleader" required>
+                                                    </div>
+                                                </div>
                                                 <div class="form-group">
                                                     <label for="clanOverview" class="col-xs-3 control-label">Clan Overview</label>
                                                     <div class="col-xs-9">
@@ -87,7 +99,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="col-xs-12 text-right">
-                                                        <button class="btn btn-emphasis btn-sm" ng-disabled="publicInformationForm.$invalid" access-level-disable="coleader">Save</button>
+                                                        <span ng-show="publicInformationForm.$dirty" class="error-red"><b>Changes not saved!</b></span> <button class="btn btn-emphasis btn-sm" ng-disabled="publicInformationForm.$invalid" access-level-disable="coleader">Save</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -108,7 +120,7 @@
                                             War settings
                                         </div>
                                         <div class="widget-body">
-                                            <form name="warSettingsForm" class="form-horizontal" ng-submit="saveClan()" novalidate>
+                                            <form name="warSettingsForm" class="form-horizontal" ng-submit="saveWarSettings()" novalidate>
                                                 <div class="form-group">
                                                     <label for="firstAssignment" class="col-sm-5 col-xs-12 control-label">Base assignment - first target <i class="icon-help-circled" popover-placement="right" popover="Will first targets be assigned by clan leadership, or will you allow members to pick their own bases to attack?" popover-append-to-body="true" popover-trigger="mouseenter"></i></label>
                                                     <div class="col-sm-7 col-xs-12">
@@ -198,7 +210,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="col-xs-12 text-right">
-                                                        <button class="btn btn-emphasis btn-sm" ng-disabled="warSettingsForm.$invalid" access-level-disable="coleader">Save</button>
+                                                        <span ng-show="warSettingsForm.$dirty" class="error-red"><b>Changes not saved!</b></span> <button class="btn btn-emphasis btn-sm" ng-disabled="warSettingsForm.$invalid" access-level-disable="coleader">Save</button>
                                                     </div>
                                                 </div>
                                             </form>

@@ -52,7 +52,7 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
 
         $scope.modalOptions = {
             title: 'Delete war with ' + $scope.war.opponent_name + '?',
-            message: 'Please confirm you want to delete the war with "' + $scope.war.opponent_name + '". Please note that ALL data related to this war will be destroyed and you CANNOT undo this action. Are you sure you want to delete the war?',
+            message: 'Please confirm you want to delete the war with "' + $scope.war.opponent_name + '". Note that ALL data related to this war will be destroyed and you CANNOT undo this action. Are you sure you want to delete the war?',
             yesBtn: 'Delete War',
             noBtn: 'Cancel',
             cssClass: cssClass,

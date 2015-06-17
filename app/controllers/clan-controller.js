@@ -36,13 +36,6 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
         $rootScope.title = 'New clan - clash.tools';
     }
 
-/*    sessionService.getUserMeta(authService.user.id, function (err, meta) {
-        $scope.ign = meta.ign;
-        $scope.clan = meta.clan;
-    });
-*/
-
-
     $scope.saveNewClan = function() {
         clanService.save($scope.clan, function (err, result) {
             if (err) {
@@ -74,20 +67,47 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
         });
     }
 
-    $scope.saveClan = function() {
+    $scope.savePublicInformation = function() {
+        saveClanInternal(function (err) {
+            if (err) {
+                err.stack_trace.unshift( { file: 'clan-controller.js', func: '$scope.savePublicInformation', message: 'Error saving public information' } );
+                errorService.save(err, function() {});
+            }
+            else {
+                $scope.publicInformationForm.$setPristine();
+            }
+        });
+    }
+
+    $scope.saveWarSettings = function() {
+        saveClanInternal(function (err) {
+            if (err) {
+                err.stack_trace.unshift( { file: 'clan-controller.js', func: '$scope.saveWarSettings', message: 'Error saving war settings' } );
+                errorService.save(err, function() {});
+            }
+            else {
+                $scope.warSettingsForm.$setPristine();
+            }
+        });
+    }
+
+    function saveClanInternal(callback) {
         clanService.save($scope.clan, function (err, result) {
             if (err) {
-                err.stack_trace.unshift( { file: 'clan-controller.js', func: '$scope.saveClan', message: 'Error saving clan' } );
-                errorService.save(err, function() {});
+                err.stack_trace.unshift( { file: 'clan-controller.js', func: 'saveClanInternal', message: 'Error saving clan' } );
+                callback(err);
+                //errorService.save(err, function() {});
             }
             else {
                 // Log this activity
                 messagelogService.save(result._id, 'Clan settings changed by [ign]', $scope.ign, 'special', function (err, msg) {
                     if (err) {
-                        err.stack_trace.unshift( { file: 'clan-controller.js', func: '$scope.saveClan', message: 'Error saving new clan message in the log' } );
+                        err.stack_trace.unshift( { file: 'clan-controller.js', func: 'saveClanInternal', message: 'Error saving new clan message in the log' } );
                         errorService.save(err, function() {});
                     }
                 });
+
+                callback(null);
             }
         });
     }
