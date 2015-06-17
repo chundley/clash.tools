@@ -57,6 +57,21 @@ exports.save = function(req, res, next) {
 };
 
 /*
+*   Deletes a war
+*/
+exports.delete = function(req, res, next) {
+    warModel.delete(req.params.id, function (err, result) {
+        if (err) {
+            res.send(500, err);
+        }
+        else {
+            socket.emit('war:' + req.params.id + ':change', null);
+            res.json(200, { result: 'success' } );
+        }
+    });
+};
+
+/*
 *   Assign a base
 */
 exports.assignBase = function(req, res, next) {

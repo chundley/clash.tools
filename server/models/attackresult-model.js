@@ -46,17 +46,6 @@ exports.save = function(warId, model, callback) {
         warId = new ObjectID.createFromHexString(warId);
     }
 
-    //NOTE: can't save model.u as a native Object because the temp users have a GUID
-/*    if (_.isString(model.u)) {
-        try {
-            model.u = new ObjectID.createFromHexString(model.u);
-        }
-        catch (e) {
-            logger.error(model.u);
-            logger.warn(e);
-        }
-    }*/
-
     if (_.isString(model.c)) {
         model.c = new ObjectID.createFromHexString(model.c);
     }
@@ -128,11 +117,11 @@ exports.save = function(warId, model, callback) {
                 if (fibIdx < 13) {
                     //attackValue += Math.sqrt(fib[fibIdx]) * model.stars;
                     attackValue += fib[model.stars][fibIdx];
-                    avParts.push( { c: 'oppDelta', v: fib[model.stars][fibIdx]});                    
+                    avParts.push( { c: 'oppDelta', v: fib[model.stars][fibIdx]});
                 }
                 else {
                     attackValue += maxFibHigh[model.stars];
-                    avParts.push( { c: 'oppDelta', v: maxFibHigh[model.stars]}); 
+                    avParts.push( { c: 'oppDelta', v: maxFibHigh[model.stars]});
                 }
             }
             else {
@@ -140,12 +129,12 @@ exports.save = function(warId, model, callback) {
                 if (fibIdx < 13 && model.stars > 0) {
                     //attackValue -= Math.sqrt(fib[fibIdx]) * (4 - model.stars);
                     attackValue -= fib[4-model.stars][fibIdx];
-                    avParts.push( { c: 'oppDelta', v: (fib[4-model.stars][fibIdx])*(-1)});  
+                    avParts.push( { c: 'oppDelta', v: (fib[4-model.stars][fibIdx])*(-1)});
                 }
                 else {
                     // max attack deduction = 30
                     attackValue -= maxFibLow[model.stars];
-                    avParts.push( { c: 'oppDelta', v: (maxFibLow[model.stars])*(-1)}); 
+                    avParts.push( { c: 'oppDelta', v: (maxFibLow[model.stars])*(-1)});
                 }
             }
 
@@ -173,7 +162,7 @@ exports.save = function(warId, model, callback) {
                 attackValue = 0;
             }
             // before updating, use the war context for additional scoring value
-            
+
 
             // figure out rankBonus based on banding
             var rankRange = opponentRank / bandSize;
@@ -367,6 +356,31 @@ exports.findByWarId = function(warId, callback) {
                 }
                 else {
                     callback(null, items);
+                }
+            });
+        }
+    });
+}
+
+/*
+*   Deletes all attack results for a war
+*/
+exports.deleteWar = function(warId, callback) {
+    if (_.isString(warId)) {
+        warId = new ObjectID.createFromHexString(warId);
+    }
+
+    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'attack_result', function (err, collection) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            collection.remove( { w: warId }, function (err, count) {
+                if (err) {
+                    callback(err, null);
+                }
+                else {
+                    callback(null, count);
                 }
             });
         }

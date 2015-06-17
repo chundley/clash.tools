@@ -44,6 +44,47 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
         }
     });
 
+    $scope.deleteWar = function() {
+        var cssClass = 'center';
+        if ($window.innerWidth < 500) {
+            cssClass = 'mobile';
+        }
+
+        $scope.modalOptions = {
+            title: 'Delete war with ' + $scope.war.opponent_name + '?',
+            message: 'Please confirm you want to delete the war with "' + $scope.war.opponent_name + '". Please note that ALL data related to this war will be destroyed and you CANNOT undo this action. Are you sure you want to delete the war?',
+            yesBtn: 'Delete War',
+            noBtn: 'Cancel',
+            cssClass: cssClass,
+                onYes: function() {
+                    warService.delete($scope.war._id, function (err, results) {
+                        if (err) {
+                            err.stack_trace.unshift( { file: 'war-controller.js', func: '$scope.deleteWar', message: 'Error deleting war' } );
+                            errorService.save(err, function() {});
+                            callback();
+                        }
+                        else {
+                            $location.url('/war').replace();
+                        }
+                    });
+                }
+        };
+
+        var modalInstance = $modal(
+            {
+                scope: $scope,
+                animation: 'am-fade-and-slide-top',
+                placement: 'center',
+                template: "/views/partials/confirmDialog.html",
+                show: false
+            }
+        );
+
+        modalInstance.$promise.then(function() {
+            modalInstance.show();
+        });
+    }
+
     function loadWar(callback) {
         warService.getById($scope.warId, function (err, war) {
             if (err) {

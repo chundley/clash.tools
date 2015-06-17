@@ -159,6 +159,12 @@ var routes = [
         accessLevel: accessLevels.member
     },
     {
+        path: '/crud/war/:id',
+        httpMethod: 'DELETE',
+        middleware: [warCtrl.delete],
+        accessLevel: accessLevels.leader
+    },
+    {
         path: '/crud/war/:clanId/active',
         httpMethod: 'GET',
         middleware: [warCtrl.activeWar],

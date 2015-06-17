@@ -79,7 +79,7 @@ function ($http, errorService) {
             }).error(function (data, status, headers, config) {
                 callback(errorService.initMessage('clan-service.js', 'saveBaseImage', data), null);
             });
-        },        
+        },
         getById: function(id, callback) {
             $http({
                 url: '/crud/war/' + id,
@@ -116,7 +116,19 @@ function ($http, errorService) {
             }).error(function (data, status, headers, config) {
                 callback(errorService.initMessage('war-service.js', 'get', status), null);
             });
-        }
+        },
+        delete: function(warId, callback) {
+            $http({
+                url: '/crud/war/' + warId,
+                method: 'DELETE',
+                data: null,
+                headers: {'Content-Type': 'application/json'}
+            }).success(function (data, status, headers, config) {
+                callback(null, data);
+            }).error(function (data, status, headers, config) {
+                callback(errorService.initMessage('clan-service.js', 'saveBaseImage', data), null);
+            });
+        },
 /*        allClans: function(query, callback) {
             $http({
                 url: '/crud/clans/' + query,

@@ -98,6 +98,51 @@ exports.save = function(model, callback) {
 
 }
 
+exports.delete = function(warId, callback) {
+    if (_.isString(warId)) {
+        warId = new ObjectID.createFromHexString(warId);
+    }
+
+    async.waterfall([
+        function (callback_w) {
+            // delete attack results
+            attackResultModel.deleteWar(warId, function (err, count) {
+                if (err) {
+                    callback_w(err, null);
+                }
+                else {
+                    callback_w(null, count);
+                }
+            });
+        },
+        function (count, callback_w) {
+            // delete the war
+            db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'war', function (err, collection) {
+                if (err) {
+                    callback_w(err, null);
+                }
+                else {
+                    collection.remove( { _id: warId }, function (err, count) {
+                        if (err) {
+                            callback_w(err, null);
+                        }
+                        else {
+                            callback_w(null, count);
+                        }
+                    });
+                }
+            });
+        }
+    ], function (err, results) {
+        if (err) {
+            callback(err, null)
+        }
+        else {
+            callback(null, results);
+        }
+    });
+}
+
 exports.assignBase = function(warId, model, callback) {
     if (_.isString(warId)) {
         warId = new ObjectID.createFromHexString(warId);
@@ -343,15 +388,15 @@ exports.saveBaseImage = function(warId, baseNum, model, callback) {
         warId = new ObjectID.createFromHexString(warId);
     }
 
-    var baseIndex = parseInt(baseNum) - 1;    
+    var baseIndex = parseInt(baseNum) - 1;
     db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'war', function (err, collection) {
         if (err) {
             callback(err, null);
         }
-        else {    
+        else {
             var update = {};
             update['bases.' + baseIndex + '.n.img'] = model.fileName;
-            collection.update(  
+            collection.update(
                 { _id: warId },
                 { $set: update },
                 { upsert: false },
@@ -363,7 +408,7 @@ exports.saveBaseImage = function(warId, baseNum, model, callback) {
                         callback(null, result);
                     }
                 }
-            );            
+            );
         }
     });
 }
@@ -373,15 +418,15 @@ exports.addBaseNote = function(warId, baseNum, model, callback) {
         warId = new ObjectID.createFromHexString(warId);
     }
 
-    var baseIndex = parseInt(baseNum) - 1;    
+    var baseIndex = parseInt(baseNum) - 1;
     db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'war', function (err, collection) {
         if (err) {
             callback(err, null);
         }
-        else {    
+        else {
             var push = {};
             push['bases.' + baseIndex + '.n.n'] = model;
-            collection.update(  
+            collection.update(
                 { _id: warId },
                 { $push: push },
                 { upsert: false },
@@ -393,9 +438,9 @@ exports.addBaseNote = function(warId, baseNum, model, callback) {
                         callback(null, result);
                     }
                 }
-            );            
+            );
         }
-    });    
+    });
 }
 
 exports.deleteBaseNote = function(warId, baseNum, model, callback) {
@@ -403,15 +448,15 @@ exports.deleteBaseNote = function(warId, baseNum, model, callback) {
         warId = new ObjectID.createFromHexString(warId);
     }
 
-    var baseIndex = parseInt(baseNum) - 1;    
+    var baseIndex = parseInt(baseNum) - 1;
     db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'war', function (err, collection) {
         if (err) {
             callback(err, null);
         }
-        else {    
+        else {
             var pull = {};
             pull['bases.' + baseIndex + '.n.n'] = { u: model.u, content: model.content };
-            collection.update(  
+            collection.update(
                 { _id: warId },
                 { $pull: pull },
                 { upsert: false },
@@ -423,9 +468,9 @@ exports.deleteBaseNote = function(warId, baseNum, model, callback) {
                         callback(null, result);
                     }
                 }
-            );            
+            );
         }
-    });    
+    });
 }
 
 /*
