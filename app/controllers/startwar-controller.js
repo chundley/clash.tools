@@ -106,6 +106,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                                         );
                                     }
                                 });
+
                                 updateInterface();
                             }
                         });
@@ -263,6 +264,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
     }
 
     $scope.assignRoster = function(baseNum, userId) {
+        console.log(userId);
         if (userId) {
             for (var idx=0; idx<$scope.members.length; idx++) {
                 if ($scope.members[idx]._id == userId) {
@@ -389,6 +391,8 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
     function updateInterface() {
         $scope.heroesUpgrading = [];
         $scope.teamHeroesUpgrading = [];
+        $scope.availableRoster = [];
+
         for (var baseNum=0; baseNum<$scope.war.bases.length; baseNum++) {
             var hUpgrade = {};
             if ($scope.war.bases[baseNum].a.length > 0) {
@@ -439,6 +443,22 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
             }
             $scope.teamHeroesUpgrading.push(thUpgrade);
         }
+
+        angular.forEach($scope.members, function (member) {
+            var used = false;
+            for (var idx=0; idx<$scope.war.team.length; idx++) {
+                if (member._id == $scope.war.team[idx].u) {
+                    used = true;
+                    break;
+                }
+            }
+
+            if (!used) {
+                $scope.availableRoster.push(member);
+            }
+        });
+        //console.log($scope.members);
+        console.log($scope.war.team);
     }
 
     function saveWarInternal() {
