@@ -15,7 +15,7 @@ var config    = require('../../config/config'),
 exports.addUser = function(user, callback) {
     var now = new Date();
     var user = {
-        email_address: user.email_address,
+        email_address: user.email_address.toLowerCase(),
         ign: user.ign,
         player_tag: user.player_tag,
         password: user.password,
@@ -365,6 +365,8 @@ exports.saveModel = function(model, callback) {
         model.created_at = new Date(model.created_at);
         model.last_updated_at = new Date();
 
+        model.email_address = model.email_address.toLowerCase();
+
         db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'user', function (err, collection) {
             if (err) {
                 callback(err, null);
@@ -530,6 +532,8 @@ exports.findById = function(id, callback) {
 *   Find user by email address
 */
 exports.findByEmail = function(email, callback) {
+    email = email.toLowerCase();
+    
     db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'user', function (err, collection) {
         if (err) {
             callback(err, null);
