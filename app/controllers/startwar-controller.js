@@ -82,11 +82,14 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                                 var now = new Date();
                                 var start = new Date(war.start);
                                 $scope.warStartTime = start.getTime();
+                                $scope.warEndTime = null;
                                 $scope.$broadcast('timer-start');
                                 $rootScope.title = 'Clan war vs: ' + war.opponent_name + ' - clash.tools';
 
                                 if (now.getTime() > start.getTime()) {
                                     $scope.warStarted = true;
+                                    $scope.warStartTime = null;
+                                    $scope.warEndTime = new Date(start.getTime() + (24*60*60*1000));
                                 }
 
                                 // add placeholder members so the dropdowns work
@@ -204,23 +207,86 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
             cssClass = 'mobile';
         }
 
+        var now = new Date();
+        var currentStart = new Date($scope.war.start);
+        var startEnd = 'startsIn';
+        if (now > currentStart) {
+            // war has already started
+            startEnd = 'endsIn';
+        }
+        else {
+            // war hasn't started
+
+        }
+
         $scope.modalOptions = {
             yesBtn: 'Set',
             noBtn: 'Cancel',
             cssClass: cssClass,
-            formData: {},
+            formData: {
+                startEnd: startEnd
+            },
             onYes: function(formData) {
                 var now = new Date();
-                $scope.war.start = new Date(now.getTime() + ((formData.startsHours*60 + formData.startsMinutes)*60000));
-                $scope.warStartTime = $scope.war.start.getTime();
-                $scope.$broadcast('timer-start');
 
-                // need to re-set any assignment expirations
-                angular.forEach($scope.war.bases, function (base) {
-                    angular.forEach(base.a, function (assignment) {
-                        assignment.e = new Date($scope.war.start.getTime() + ($scope.clan.war_config.first_attack_time * 60 * 60 * 1000));
+                if (formData.startEnd == 'startsIn') {
+                    $scope.war.start = new Date(now.getTime() + ((formData.hours*60 + formData.minutes)*60000));
+                    $scope.warStartTime = $scope.war.start.getTime();
+                    $scope.warEndTime = null;
+                    $scope.$broadcast('timer-start');
+
+                    // need to re-set any assignment expirations
+                    angular.forEach($scope.war.bases, function (base) {
+                        angular.forEach(base.a, function (assignment) {
+                            assignment.e = new Date($scope.war.start.getTime() + ($scope.clan.war_config.first_attack_time * 60 * 60 * 1000));
+                        });
                     });
-                });
+                }
+                else {
+                    $scope.war.start = new Date(now.getTime() - ((24*60*60*1000) -  ((formData.hours*60 + formData.minutes)*60000) ));
+                    $scope.warStartTime = null
+                    $scope.warEndTime = new Date($scope.war.start.getTime() + (24*60*60*1000));
+                    var freeForAllDate = new Date($scope.war.start.getTime() + ((24 - $scope.clan.war_config.free_for_all_time)*60*60*1000));
+                    var warEnd = new Date($scope.war.start.getTime() + (24*60*60*1000));
+
+                    // calculate possible expire date on cleanup attacks
+                    var possibleExpireDate = new Date(now.getTime() + ($scope.clan.war_config.cleanup_attack_time*60*60*1000));
+
+                    var expireDate = null;
+                    if (now.getTime() >= freeForAllDate.getTime()) {
+                        // already passed the free for all time
+                        expireDate = null;
+                    }
+
+                    else if (possibleExpireDate.getTime() >= warEnd) {
+                        // possible expire date is already greater than war end
+                        expireDate = warEnd;
+                    }
+                    else {
+                        expireDate = possibleExpireDate;
+                    }
+
+
+                    $scope.$broadcast('timer-start');
+
+                    // need to re-set any assignment expirations
+                    angular.forEach($scope.war.bases, function (base) {
+                        for (var idx=0; idx<base.a.length; idx++) {
+                            if (base.a[idx].s == null) {
+                                // only update attacks that haven't logges stars
+                                if (idx == 0) {
+                                    // for first attacks, set expired to
+                                    base.a[idx].e = new Date($scope.war.start.getTime() + ($scope.clan.war_config.first_attack_time * 60 * 60 * 1000));
+                                }
+                                else {
+                                    // re-set to standard expiration based on clan settings
+                                    base.a[idx].e = expireDate;
+                                }
+                            }
+                        }
+                    });
+
+                }
 
                 $scope.warSettingsForm.$setDirty();
             }
@@ -264,7 +330,6 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
     }
 
     $scope.assignRoster = function(baseNum, userId) {
-        console.log(userId);
         if (userId) {
             for (var idx=0; idx<$scope.members.length; idx++) {
                 if ($scope.members[idx]._id == userId) {
@@ -457,8 +522,6 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                 $scope.availableRoster.push(member);
             }
         });
-        //console.log($scope.members);
-        console.log($scope.war.team);
     }
 
     function saveWarInternal() {
