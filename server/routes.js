@@ -101,7 +101,7 @@ var routes = [
     {
         path: '/crud/clan',
         httpMethod: 'POST',
-        middleware: [clanCtrl.save],
+        middleware: [authorizeClanIdAccess, clanCtrl.save],
         accessLevel: accessLevels.member
     },
     {
@@ -438,15 +438,39 @@ function authorizeUserIdAccess(req, res, next) {
 }
 
 function authorizeClanIdAccess(req, res, next) {
-    authCtrl.authClanAccessByClanId(req.user, req.params.clanId, function (err, authorized) {
-        if (err) {
-            return res.send(500, err);
-        }
-        else if (!authorized) {
-            return res.send(403);
+    if (req.params.clanId && req.params.clanId.length > 0) {
+        // standard request for information
+        authCtrl.authClanAccessByClanId(req.user, req.method, req.params.clanId, function (err, authorized) {
+            if (err) {
+                return res.send(500, err);
+            }
+            else if (!authorized) {
+                return res.send(403);
+            }
+            else {
+                return next();
+            }
+        });
+    }
+    else {
+        // special case - POST'ing data
+        if (req.body._id) {
+            // saving an existing clan, need to authorize
+            authCtrl.authClanAccessByClanId(req.user, req.method, req.body._id, function (err, authorized) {
+                if (err) {
+                    return res.send(500, err);
+                }
+                else if (!authorized) {
+                    return res.send(403);
+                }
+                else {
+                    return next();
+                }
+            });            
         }
         else {
+            // POST'ing a new clan
             return next();
         }
-    });
+    }
 }

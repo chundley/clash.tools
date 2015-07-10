@@ -168,13 +168,26 @@ exports.authUserAccessByUserId = function(reqUser, userId, callback) {
 /*
 *   Make sure a user should have access to a user account
 */
-exports.authClanAccessByClanId = function(reqUser, clanId, callback) {
+exports.authClanAccessByClanId = function(reqUser, reqMethod, clanId, callback) {
     if (reqUser.role.title == 'sadmin') {
         // super admin all access
         callback(null, true);
     }
     else {
         async.parallel({
+            authorized: function (callback_p) {
+                if (reqMethod=='POST') {
+                    if (reqUser.role.title=='leader' || reqUser.role.title=='coleader') {
+                        callback_p(null, true);
+                    }
+                    else {
+                        callback_p(null, false);
+                    }
+                }
+                else {
+                    callback_p(null, true);
+                }
+            },
             requestor: function (callback_p) {
                 userModel.findById(reqUser.id, function (err, user) {
                     if (err) {
@@ -190,7 +203,7 @@ exports.authClanAccessByClanId = function(reqUser, clanId, callback) {
                 callback(err, false);
             }
             else {
-                if (results.requestor.current_clan.clan_id.toString() == clanId) {
+                if (results.authorized && results.requestor.current_clan.clan_id.toString() == clanId) {
                     callback(null, true);
                 }
                 else {
