@@ -504,6 +504,7 @@ exports.disable = function(id, callback) {
 }
 
 exports.findById = function(id, callback) {
+
     if (_.isString(id)) {
         id = new ObjectID.createFromHexString(id);
     }
@@ -612,7 +613,7 @@ exports.getByAccount = function(account_id, callback) {
 /*
 *   Get all users
 */
-exports.getAllUsers = function(callback) {
+/*exports.getAllUsers = function(callback) {
     db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'user', function (err, collection) {
         if (err) {
             callback(err, null);
@@ -633,7 +634,7 @@ exports.getAllUsers = function(callback) {
             });
         }
     });
-}
+}*/
 
 /*
 *   Gets new users created in the last n hours
@@ -664,8 +665,8 @@ exports.opsUsers = function(hours, callback) {
     });
 }
 
-// passport stuff for local auth strategy and user serialization
 
+// passport stuff for local auth strategy and user serialization
 exports.localStrategy = new LocalStrategy(
     {
         usernameField: 'email',

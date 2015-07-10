@@ -5,22 +5,12 @@
 var passport      = require('passport'),
     model          = require('../models/user-model');
 
-exports.allUsers = function(req, res, next) {
-    model.getAllUsers(function (err, users) {
-        if (err) {
-           res.send(500, err);
-        }
-        else {
-            res.json(200, users);
-        }
-    });
-}
 
 /*
 *   Get a user model by user id
 */
 exports.getById = function(req, res, next) {
-    model.findById(req.params.id, function (err, user) {
+    model.findById(req.params.userId, function (err, user) {
         if (err) {
             res.send(500, err);
         }
@@ -54,7 +44,7 @@ exports.getByVerifyToken = function(req, res, next) {
 *   Updates a user's clan. Note this is ONLY for joining an existing clan
 */
 exports.updateClan = function(req, res, next) {
-    model.updateClan(req.params.id, req.body, false, function (err, user) {
+    model.updateClan(req.params.userId, req.body, false, function (err, user) {
         if (err) {
             res.send(500, err);
         }
@@ -72,7 +62,7 @@ exports.updateClan = function(req, res, next) {
 *   Updates a user's role
 */
 exports.updateRole = function(req, res, next) {
-    model.updateRole(req.params.id, req.query.role, function (err, user) {
+    model.updateRole(req.params.userId, req.query.role, function (err, user) {
         if (err) {
             res.send(500, err);
         }
@@ -109,7 +99,7 @@ exports.save = function(req, res, next) {
 *   Change user's password
 */
 exports.changePassword = function(req, res, next) {
-    model.changePassword(req.params.id, req.body, function (err, result) {
+    model.changePassword(req.params.userId, req.body, function (err, result) {
         if (err) {
             res.send(500, err);
         }
@@ -126,7 +116,7 @@ exports.changePassword = function(req, res, next) {
 *   User has verified their email address
 */
 exports.setVerified = function(req, res, next) {
-    model.setVerified(req.params.id, function (err, result) {
+    model.setVerified(req.params.userId, function (err, result) {
         if (err) {
             res.send(500, err);
         }
@@ -143,7 +133,7 @@ exports.setVerified = function(req, res, next) {
 *   Disables a user
 */
 exports.disable = function(req, res, next) {
-    model.disable(req.params.id, function (err, result) {
+    model.disable(req.params.userId, function (err, result) {
         if (err) {
             res.send(500, err);
         }
@@ -160,7 +150,7 @@ exports.disable = function(req, res, next) {
 *   Gets user meta data
 */
 exports.getMeta = function(req, res, next) {
-    model.findById(req.params.id, function (err, user) {
+    model.findById(req.params.userId, function (err, user) {
         if (err) {
             res.send(500, err);
         }
@@ -189,7 +179,7 @@ exports.getMeta = function(req, res, next) {
 *   Gets a user session
 */
 exports.getUserSession = function(req, res, next) {
-    model.findById(req.params.id, function (err, user) {
+    model.findById(req.params.userId, function (err, user) {
         if (err) {
             res.send(500, err);
         }
@@ -206,7 +196,7 @@ exports.getUserSession = function(req, res, next) {
 *   Saves user session data
 */
 exports.saveUserSession = function(req, res, next) {
-    model.saveSession(req.params.id, req.body, function (err, result) {
+    model.saveSession(req.params.userId, req.body, function (err, result) {
         if (err) {
             res.send(500, err);
         }
@@ -222,7 +212,7 @@ exports.saveUserSession = function(req, res, next) {
 /*
 *   Get users for account
 */
-exports.getByAccount = function(req, res, next) {
+/*exports.getByAccount = function(req, res, next) {
     model.getByAccount(req.params.id, function (err, users) {
         if (err) {
            res.send(500, err);
@@ -234,4 +224,4 @@ exports.getByAccount = function(req, res, next) {
             res.send(404, 'not found');
         }
     });
-}
+}*/

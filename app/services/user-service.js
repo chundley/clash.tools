@@ -8,16 +8,6 @@ angular.module('Clashtools.services')
 .factory('userService', ['$http', 'errorService',
 function ($http, errorService) {
     return {
-        getAllUsers: function (callback) {
-            $http({
-                url: '/crud/user',
-                method: 'GET'
-            }).success(function (data, status, headers, config) {
-                callback(null, data);
-            }).error(function (data, status, headers, config) {
-                callback(status, null);
-            });
-        },
         getById: function (id, callback) {
             $http({
                 url: '/crud/user/' + id,

@@ -43,62 +43,56 @@ var routes = [
     *   User endpoints
     */
     {
-        path: '/crud/user',
+        path: '/crud/user/:userId',
         httpMethod: 'GET',
-        middleware: [userCtrl.allUsers],
+        middleware: [authorizeUserIdAccess, userCtrl.getById],
         accessLevel: accessLevels.member
     },
     {
-        path: '/crud/user/:id',
+        path: '/crud/user/:userId',
+        httpMethod: 'POST',
+        middleware: [authorizeUserIdAccess, userCtrl.save],
+        accessLevel: accessLevels.member
+    },
+    {
+        path: '/crud/user/:userId/role',
+        httpMethod: 'POST',
+        middleware: [authorizeUserIdAccess, userCtrl.updateRole],
+        accessLevel: accessLevels.member
+    },
+    {
+        path: '/crud/user/:userId/clan',
+        httpMethod: 'POST',
+        middleware: [authorizeUserIdAccess, userCtrl.updateClan],
+        accessLevel: accessLevels.member
+    },
+    {
+        path: '/crud/user/:userId/pw',
+        httpMethod: 'POST',
+        middleware: [authorizeUserIdAccess, userCtrl.changePassword]
+    },
+    {
+        path: '/crud/user/:userId/session',
         httpMethod: 'GET',
-        middleware: [userCtrl.getById],
+        middleware: [authorizeUserIdAccess, userCtrl.getUserSession],
         accessLevel: accessLevels.member
     },
     {
-        path: '/crud/user/:id',
+        path: '/crud/user/:userId/session',
         httpMethod: 'POST',
-        middleware: [userCtrl.save],
+        middleware: [authorizeUserIdAccess, userCtrl.saveUserSession],
         accessLevel: accessLevels.member
     },
     {
-        path: '/crud/user/:id/role',
-        httpMethod: 'POST',
-        middleware: [userCtrl.updateRole],
-        accessLevel: accessLevels.member
-    },
-    {
-        path: '/crud/user/:id/clan',
-        httpMethod: 'POST',
-        middleware: [userCtrl.updateClan],
-        accessLevel: accessLevels.member
-    },
-    {
-        path: '/crud/user/:id/pw',
-        httpMethod: 'POST',
-        middleware: [userCtrl.changePassword]
-    },
-    {
-        path: '/crud/user/:id/session',
+        path: '/crud/user/:userId/meta',
         httpMethod: 'GET',
-        middleware: [userCtrl.getUserSession],
+        middleware: [authorizeUserIdAccess, userCtrl.getMeta],
         accessLevel: accessLevels.member
     },
     {
-        path: '/crud/user/:id/session',
+        path: '/crud/user/:userId/disable',
         httpMethod: 'POST',
-        middleware: [userCtrl.saveUserSession],
-        accessLevel: accessLevels.member
-    },
-    {
-        path: '/crud/user/:id/meta',
-        httpMethod: 'GET',
-        middleware: [userCtrl.getMeta],
-        accessLevel: accessLevels.member
-    },
-    {
-        path: '/crud/user/:id/disable',
-        httpMethod: 'POST',
-        middleware: [userCtrl.disable],
+        middleware: [authorizeUserIdAccess, userCtrl.disable],
         accessLevel: accessLevels.member
     },
     /*
@@ -132,7 +126,7 @@ var routes = [
         path: '/crud/clans/:query',
         httpMethod: 'GET',
         middleware: [clanCtrl.allClans],
-        accessLevel: accessLevels.public
+        accessLevel: accessLevels.member
     },
     /*
     *   Attack result endpoints
@@ -424,4 +418,21 @@ function ensureAuthorized(req, res, next) {
     }
 
     return next();
+}
+
+/*
+*   Authorize access to user detail records, by user id
+*/
+function authorizeUserIdAccess(req, res, next) {
+    authCtrl.authUserAccessByUserId(req.user, req.params.userId, function (err, authorized) {
+        if (err) {
+            return res.send(500, err);
+        }
+        else if (!authorized) {
+            return res.send(403);
+        }
+        else {
+            return next();
+        }
+    });
 }

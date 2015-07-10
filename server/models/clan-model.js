@@ -132,7 +132,7 @@ exports.allClans = function(query, count, callback) {
 
             count = parseInt(count);
 
-            collection.find( q, {} ).sort({name: 1}).limit(count).toArray(function (err, clans) {
+            collection.find( q, { _id: 1, name: 1, clan_tag: 1 } ).sort({name: 1}).limit(count).toArray(function (err, clans) {
                 if (err) {
                     callback(err, null);
                 }
@@ -324,7 +324,6 @@ function clanMetrics(clanId, callback) {
         _.each(results.users, function (user) {
             if (user.role.title === 'leader') {
                 metrics.leader = user.ign;
-                metrics.leaderId = user._id;
             }
         });
         callback(null, metrics);
