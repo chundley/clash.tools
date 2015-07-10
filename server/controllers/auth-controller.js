@@ -108,6 +108,9 @@ exports.logout = function(req, res) {
     res.send(200);
 }
 
+/*
+*   Make sure a user should have access to a user account
+*/
 exports.authUserAccessByUserId = function(reqUser, userId, callback) {
     if (reqUser.id == userId) {
         // request for a user from the user
@@ -158,5 +161,42 @@ exports.authUserAccessByUserId = function(reqUser, userId, callback) {
         else {
             callback('Not authorized', false);
         }
+    }
+}
+
+
+/*
+*   Make sure a user should have access to a user account
+*/
+exports.authClanAccessByClanId = function(reqUser, clanId, callback) {
+    if (reqUser.role.title == 'sadmin') {
+        // super admin all access
+        callback(null, true);
+    }
+    else {
+        async.parallel({
+            requestor: function (callback_p) {
+                userModel.findById(reqUser.id, function (err, user) {
+                    if (err) {
+                        callback_p(err, null);
+                    }
+                    else {
+                        callback_p(null, user);
+                    }
+                });
+            }
+        }, function (err, results) {
+            if (err) {
+                callback(err, false);
+            }
+            else {
+                if (results.requestor.current_clan.clan_id.toString() == clanId) {
+                    callback(null, true);
+                }
+                else {
+                    callback('Not authorized', false);
+                }
+            }
+        });
     }
 }

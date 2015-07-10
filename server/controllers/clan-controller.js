@@ -37,7 +37,7 @@ exports.allClans = function(req, res, next) {
 }
 
 exports.getById = function(req, res, next) {
-    clanModel.findById(req.params.id, function (err, clan) {
+    clanModel.findById(req.params.clanId, function (err, clan) {
         if (err) {
             res.send(500, err);
         }

@@ -105,21 +105,21 @@ var routes = [
         accessLevel: accessLevels.member
     },
     {
-        path: '/crud/clan/:id',
+        path: '/crud/clan/:clanId',
         httpMethod: 'GET',
-        middleware: [clanCtrl.getById],
+        middleware: [authorizeClanIdAccess, clanCtrl.getById],
         accessLevel: accessLevels.member
     },
     {
         path: '/crud/clan/:clanId/members',
         httpMethod: 'GET',
-        middleware: [clanCtrl.getByClan],
+        middleware: [authorizeClanIdAccess, clanCtrl.getByClan],
         accessLevel: accessLevels.member
     },
     {
         path: '/crud/clan/:clanId/roster',
         httpMethod: 'GET',
-        middleware: [clanCtrl.getRoster],
+        middleware: [authorizeClanIdAccess, clanCtrl.getRoster],
         accessLevel: accessLevels.coleader
     },
     {
@@ -425,6 +425,20 @@ function ensureAuthorized(req, res, next) {
 */
 function authorizeUserIdAccess(req, res, next) {
     authCtrl.authUserAccessByUserId(req.user, req.params.userId, function (err, authorized) {
+        if (err) {
+            return res.send(500, err);
+        }
+        else if (!authorized) {
+            return res.send(403);
+        }
+        else {
+            return next();
+        }
+    });
+}
+
+function authorizeClanIdAccess(req, res, next) {
+    authCtrl.authClanAccessByClanId(req.user, req.params.clanId, function (err, authorized) {
         if (err) {
             return res.send(500, err);
         }
