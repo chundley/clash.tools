@@ -41,6 +41,24 @@ exports.getByVerifyToken = function(req, res, next) {
 }
 
 /*
+*   Request to join a clan
+*/
+exports.joinClan = function(req, res, next) {
+    model.joinClan(req.params.userId, req.body, function (err, result) {
+        if (err) {
+            res.send(500, err);
+        }
+        else if (result) {
+            socket.emit('messagelog:' + req.body.clanId + ':change', null);
+            res.json(200, { updateStatus: result} );
+        }
+        else {
+            res.send(404, 'not found');
+        }
+    });
+}
+
+/*
 *   Updates a user's clan. Note this is ONLY for joining an existing clan
 */
 exports.updateClan = function(req, res, next) {

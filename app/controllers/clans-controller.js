@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('ClansCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$window', '$modal', 'authService', 'sessionService', 'errorService', 'messagelogService', 'clanService', 'emailMessageService', 'CLAN_EMAILS',
-function ($rootScope, $scope, $routeParams, $location, $window, $modal, authService, sessionService, errorService, messagelogService, clanService, emailMessageService, CLAN_EMAILS) {
+.controller('ClansCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$window', '$modal', 'authService', 'sessionService', 'errorService', 'messagelogService', 'clanService', 'userService', 'emailMessageService', 'CLAN_EMAILS',
+function ($rootScope, $scope, $routeParams, $location, $window, $modal, authService, sessionService, errorService, messagelogService, clanService, userService, emailMessageService, CLAN_EMAILS) {
 
     //$scope.helpLink = 'http://www.siftrock.com/help/dashboard/';
     $rootScope.title = 'Find a clan - clash.tools';
@@ -50,51 +50,33 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
             noBtn: 'Cancel',
             cssClass: cssClass,
             onYes: function() {
-                // need to send app emails to leaders and coleaders
-                clanService.getMembers(clan._id, 'coleader,leader', function (err, members) {
 
-                    // Log this activity
-                    messagelogService.save(clan._id, '[ign] would like to join the clan', $scope.ign, 'member', function (err, msg) {
-                        if (err) {
-                            err.stack_trace.unshift( { file: 'clan-controller.js', func: '$scope.saveNewClan', message: 'Error saving new clan message in the log' } );
-                            errorService.save(err, function() {});
-                        }
-                    });
+                var emailMsg = {
+                    subject: $scope.ign + ' would like to join the clan',
+                    message: CLAN_EMAILS.joinRequest.replace(/\[1\]/g, $scope.ign).replace(/\[2\]/g, authService.user.id),
+                    from_user: {
+                        user_id: null, // in this case we really don't want the user getting this in their sent box
+                        ign: $scope.ign,
+                        deleted: false
+                    },
+                    to_users: []
+                };
 
-                    var emailMsg = {
-                        subject: $scope.ign + ' would like to join the clan',
-                        message: CLAN_EMAILS.joinRequest.replace(/\[1\]/g, $scope.ign).replace(/\[2\]/g, authService.user.id),
-                        from_user: {
-                            user_id: null, // in this case we really don't want the user getting this in their sent box
-                            ign: $scope.ign,
-                            deleted: false
-                        },
-                        to_users: []
-                    };
+                var metaData = {
+                    clanId: clan._id,
+                    email: emailMsg
+                };
 
-                    angular.forEach(members, function (member) {
-                        emailMsg.to_users.push(
-                            {
-                                user_id: member._id,
-                                ign: member.ign,
-                                read: false,
-                                deleted: false
-                            }
-                        );
-                    });
-
-                    emailMessageService.save(emailMsg, function (err, msg) {
-                        if (err) {
-
-                        }
-                        else {
-                            // do something yeah?
-                        }
-                    });
-
-                    $location.url('/mail').replace();
+                userService.joinClan(authService.user.id, metaData, function (err, result) {
+                    if (err) {
+                        err.stack_trace.unshift( { file: 'clan-controller.js', func: '$scope.joinClan', message: 'Error with join clan request' } );
+                        errorService.save(err, function() {});
+                    }
+                    else {
+                        // TODO: notify UI
+                    }
                 });
-
+                $location.url('/mail').replace();
             }
         };
 

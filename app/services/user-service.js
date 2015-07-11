@@ -41,7 +41,7 @@ function ($http, errorService) {
         updateRole: function (id, role, callback) {
             $http({
                 url: '/crud/user/' + id + '/role?role=' + role,
-                method: "POST",
+                method: 'POST',
                 data: null,
                 headers: {'Content-Type': 'application/json'}
             }).success(function (data, status, headers, config) {
@@ -50,10 +50,22 @@ function ($http, errorService) {
                 callback(errorService.initMessage('user-service.js', 'update', status), null);
             });
         },
+        joinClan: function (id, metaData, callback) {
+            $http({
+                url: '/crud/user/' + id + '/join',
+                method: 'POST',
+                data: metaData,
+                headers: {'Content-Type': 'application/json'}
+            }).success(function (data, status, headers, config) {
+                callback(null, data);
+            }).error(function (data, status, headers, config) {
+                callback(errorService.initMessage('user-service.js', 'joinClan', status), null);
+            });
+        },
         updateClan: function (id, clan, callback) {
             $http({
                 url: '/crud/user/' + id + '/clan',
-                method: "POST",
+                method: 'POST',
                 data: clan,
                 headers: {'Content-Type': 'application/json'}
             }).success(function (data, status, headers, config) {
@@ -61,11 +73,11 @@ function ($http, errorService) {
             }).error(function (data, status, headers, config) {
                 callback(errorService.initMessage('user-service.js', 'update', status), null);
             });
-        },        
+        },
         update: function (id, user, callback) {
             $http({
                 url: '/crud/user/' + id,
-                method: "POST",
+                method: 'POST',
                 data: user,
                 headers: {'Content-Type': 'application/json'}
             }).success(function (data, status, headers, config) {
@@ -77,7 +89,7 @@ function ($http, errorService) {
         changePassword: function (id, password, callback) {
             $http({
                 url: '/crud/user/' + id + '/pw',
-                method: "POST",
+                method: 'POST',
                 data: { 'new_password': password },
                 headers: {'Content-Type': 'application/json'}
             }).success(function (data, status, headers, config) {
@@ -89,7 +101,7 @@ function ($http, errorService) {
         disable: function (id, callback) {
             $http({
                 url: '/crud/user/' + id + '/disable',
-                method: "POST",
+                method: 'POST',
                 data: null,
                 headers: {'Content-Type': 'application/json'}
             }).success(function (data, status, headers, config) {

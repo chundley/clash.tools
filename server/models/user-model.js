@@ -8,9 +8,12 @@ var LocalStrategy = require('passport-local').Strategy,
     _             = require('underscore');
 
 
-var config    = require('../../config/config'),
-    util      = require('../../app/shared/util'),
-    userRoles = require('../../app/shared/role-config').userRoles;
+var config            = require('../../config/config'),
+    util              = require('../../app/shared/util'),
+    userRoles         = require('../../app/shared/role-config').userRoles,
+    emailMessageModel = require('./emailmessage-model'),
+    messageLogModel   = require('./messagelog-model');
+
 
 exports.addUser = function(user, callback) {
     var now = new Date();
@@ -111,7 +114,7 @@ exports.updateRole = function (userId, role, callback) {
                         });
                     }
                 });
-            }            
+            }
         });
     }
 
@@ -153,6 +156,57 @@ function changeRole(userId, role, callback) {
                     }
                 }
             );
+        }
+    });
+}
+
+/*
+*   Does a join request for a clan. This was moved to the back-end from the front end to plug security
+*   holes where the front-end would need a list of clan leaders in order to execute a join request
+*/
+exports.joinClan = function(userId, metaData, callback) {
+    if (_.isString(userId)) {
+        userId = new ObjectID.createFromHexString(userId);
+    }
+
+    exports.usersByClan(metaData.clanId, ['leader', 'coleader'], function (err, members) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            _.each(members, function (member) {
+                metaData.email.to_users.push(
+                    {
+                        user_id: member._id,
+                        ign: member.ign,
+                        read: false,
+                        deleted: false
+                    }
+                );
+            });
+
+            emailMessageModel.save(metaData.email, function (err, result) {
+                if (err) {
+                    callback(err, null);
+                }
+                else {
+                    var newMsg = {
+                        clan_id: metaData.clanId,
+                        user_id: userId.toString(),
+                        message: '[ign] would like to join the clan',
+                        ign: metaData.email.from_user.ign,
+                        type: 'member' /* member, target (called), target (attacked), delete (deleted call), special (start war), note (base notes) */
+                    };
+
+                    messageLogModel.save(newMsg, function (err, msg) {
+                        if (err) {
+                            logger.warn('Problem saving message log on member join attempt');
+                        }
+                    });
+
+                    callback(null, true);
+                }
+            });
         }
     });
 }
@@ -534,7 +588,7 @@ exports.findById = function(id, callback) {
 */
 exports.findByEmail = function(email, callback) {
     email = email.toLowerCase();
-    
+
     db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'user', function (err, collection) {
         if (err) {
             callback(err, null);
