@@ -45,54 +45,54 @@ var routes = [
     {
         path: '/crud/user/:userId',
         httpMethod: 'GET',
-        middleware: [authorizeUserIdAccess, userCtrl.getById],
+        middleware: [userCtrl.getById],
         accessLevel: accessLevels.member
     },
     {
         path: '/crud/user/:userId',
         httpMethod: 'POST',
-        middleware: [authorizeUserIdAccess, userCtrl.save],
+        middleware: [userCtrl.save],
         accessLevel: accessLevels.member
     },
     {
         path: '/crud/user/:userId/role',
         httpMethod: 'POST',
-        middleware: [authorizeUserIdAccess, userCtrl.updateRole],
+        middleware: [userCtrl.updateRole],
         accessLevel: accessLevels.member
     },
     {
         path: '/crud/user/:userId/clan',
         httpMethod: 'POST',
-        middleware: [authorizeUserIdAccess, userCtrl.updateClan],
+        middleware: [userCtrl.updateClan],
         accessLevel: accessLevels.member
     },
     {
         path: '/crud/user/:userId/pw',
         httpMethod: 'POST',
-        middleware: [authorizeUserIdAccess, userCtrl.changePassword]
+        middleware: [userCtrl.changePassword]
     },
     {
         path: '/crud/user/:userId/session',
         httpMethod: 'GET',
-        middleware: [authorizeUserIdAccess, userCtrl.getUserSession],
+        middleware: [userCtrl.getUserSession],
         accessLevel: accessLevels.member
     },
     {
         path: '/crud/user/:userId/session',
         httpMethod: 'POST',
-        middleware: [authorizeUserIdAccess, userCtrl.saveUserSession],
+        middleware: [userCtrl.saveUserSession],
         accessLevel: accessLevels.member
     },
     {
         path: '/crud/user/:userId/meta',
         httpMethod: 'GET',
-        middleware: [authorizeUserIdAccess, userCtrl.getMeta],
+        middleware: [userCtrl.getMeta],
         accessLevel: accessLevels.member
     },
     {
         path: '/crud/user/:userId/disable',
         httpMethod: 'POST',
-        middleware: [authorizeUserIdAccess, userCtrl.disable],
+        middleware: [userCtrl.disable],
         accessLevel: accessLevels.member
     },
     /*
@@ -101,25 +101,25 @@ var routes = [
     {
         path: '/crud/clan',
         httpMethod: 'POST',
-        middleware: [authorizeClanIdAccess, clanCtrl.save],
+        middleware: [clanCtrl.save],
         accessLevel: accessLevels.member
     },
     {
         path: '/crud/clan/:clanId',
         httpMethod: 'GET',
-        middleware: [authorizeClanIdAccess, clanCtrl.getById],
+        middleware: [clanCtrl.getById],
         accessLevel: accessLevels.member
     },
     {
         path: '/crud/clan/:clanId/members',
         httpMethod: 'GET',
-        middleware: [authorizeClanIdAccess, clanCtrl.getByClan],
+        middleware: [clanCtrl.getByClan],
         accessLevel: accessLevels.member
     },
     {
         path: '/crud/clan/:clanId/roster',
         httpMethod: 'GET',
-        middleware: [authorizeClanIdAccess, clanCtrl.getRoster],
+        middleware: [clanCtrl.getRoster],
         accessLevel: accessLevels.coleader
     },
     {
@@ -466,7 +466,7 @@ function authorizeClanIdAccess(req, res, next) {
                 else {
                     return next();
                 }
-            });            
+            });
         }
         else {
             // POST'ing a new clan

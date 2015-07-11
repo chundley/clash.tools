@@ -166,7 +166,7 @@ exports.authUserAccessByUserId = function(reqUser, userId, callback) {
 
 
 /*
-*   Make sure a user should have access to a user account
+*   Make sure a user should have access to a clan
 */
 exports.authClanAccessByClanId = function(reqUser, reqMethod, clanId, callback) {
     if (reqUser.role.title == 'sadmin') {
