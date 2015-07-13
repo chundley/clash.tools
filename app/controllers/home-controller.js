@@ -119,7 +119,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
                     }
                 });
 
-                //$rootScope.globalMessage = 'Your attack on base #' + baseNum + ' for ' + numStars + ' ' + starsText + ' has been recorded.'
+                $rootScope.globalMessage = 'Your attack on base #' + baseNum + ' for ' + numStars + ' ' + starsText + ' has been recorded.'
                 refreshInterface();
             }
         });
