@@ -149,7 +149,11 @@ exports.authUserAccessByUserId = function(reqUser, userId, callback) {
                     callback(err, false);
                 }
                 else {
-                    if (results.requestor.current_clan.clan_id.toString() == results.requested.current_clan.clan_id.toString()) {
+                    if (!results.requested.current_clan.clan_id || results.requested.current_clan.clan_id.toString().length == 0) {
+                        // HACK: this is a leader authorizing a new memmber
+                        callback(null, true);
+                    }
+                    else if (results.requestor.current_clan.clan_id.toString() == results.requested.current_clan.clan_id.toString()) {
                         callback(null, true);
                     }
                     else {
