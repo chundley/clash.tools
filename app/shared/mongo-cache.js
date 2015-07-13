@@ -33,6 +33,10 @@ var mongoCache = function() {
     // keep open connections cached
     var dbs = {};
 
+/*
+
+    Commenting out replica set code since this database isn't replicated yet
+
     // replica set config
     var servers = [];
     _.each(config.env[process.env.NODE_ENV].mongoDb.servers, function (server) {
@@ -40,7 +44,13 @@ var mongoCache = function() {
     });
 
     //logger.warn(servers[0].s);
-    var replSet = new mongodb.ReplSet(servers);
+    var replSet = new mongodb.ReplSet(servers);*/
+
+
+
+    // in lieu of replica set
+    var server = new mongodb.Server(config.env[process.env.NODE_ENV].mongoDb.servers[0].host, parseInt(config.env[process.env.NODE_ENV].mongoDb.servers[0].port), { auto_reconnect: true} );
+
 
     var ensureDB = function(dbName, callback) {
         if (dbs[dbName]) {
@@ -52,7 +62,13 @@ var mongoCache = function() {
         //    - replica set for failover
         //    - write preference of 1 = get ack from the primary that the operation was accepted
         //    - read preference of primary preferred, will read from secondary during a failover
-        var db = new mongodb.Db(dbName, replSet, { w: 1, readPreference: mongodb.ReadPreference.PRIMARY_PREFERRED, fsync: true } );
+        
+        // replica set db
+        //var db = new mongodb.Db(dbName, replSet, { w: 1, readPreference: mongodb.ReadPreference.PRIMARY_PREFERRED, fsync: true } );
+
+        // single server version
+        var db = new mongodb.Db(dbName, server, { w: 1, fsync: true } );
+
 
         db.open(function (err, connection) {
             if (err) {

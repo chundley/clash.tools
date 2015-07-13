@@ -16,11 +16,12 @@ var http    = require('http'),
 /*
  * Module dependencies
 */
-var config       = require('./config/config'),
-    mongoCache   = require('./app/shared/mongo-cache'),
-    App          = require('./app/app'),
-    warModel     = require('./server/models/war-model'),
-    purgeEmail   = require('./server/jobs/emailmessagepurge-job');
+var config          = require('./config/config'),
+    mongoCache      = require('./app/shared/mongo-cache'),
+    App             = require('./app/app'),
+    warModel        = require('./server/models/war-model'),
+    purgeEmail      = require('./server/jobs/emailmessagepurge-job'),
+    purgeMessagelog = require('./server/jobs/messagelogpurge-job');
 
 /*
  * Global logger
@@ -57,6 +58,26 @@ var purgeEmailJob = new cronJob(config.env[process.env.NODE_ENV].jobSchedule.pur
    }
 });
 purgeEmailJob.start();
+
+/*
+*   Purge message log
+*/
+var purgingMessagelog = false;
+var purgeMessagelogJob = new cronJob(config.env[process.env.NODE_ENV].jobSchedule.purgeMessagelogJob, function() {
+    try {
+        if (!purgingMessagelog) {
+            purgingMessagelog = true;
+            logger.info('Purge message log job starting...');
+            var start = new Date();
+            purgeMessagelog.runJob(config.env[process.env.NODE_ENV].purgeDays.purgeMessagelog, function() {
+                purgingMessagelog = false;
+            });
+        }
+    } catch(err) {
+       logger.error(err);
+   }
+});
+purgeMessagelogJob.start();
 
 /*
  * The app

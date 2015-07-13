@@ -21,11 +21,14 @@ config.env = {
             ]
         },
         jobSchedule: {
-            //purgeEmailJob: '* * * * * *' // run immediately in development
-            purgeEmailJob: '5 * * * *' // run immediately in development
+            //purgeEmailJob: '* * * * * *', // (testing) run immediately in development
+            //purgeMessagelogJob: '* * * * * *' // (testing) run immediately in development
+            purgeEmailJob: '0 8 * * *',        // every day at 2AM PST
+            purgeMessagelogJob: '0 9 * * *'   // every day at 3AM PST
         },
         purgeDays: {
-            purgeEmail: 30
+            purgeEmail: 30,
+            purgeMessagelog: 30
         },        
         cookieSecret: 'clashtools_bab',
         logLevel: 'debug',
@@ -54,10 +57,12 @@ config.env = {
             ]
         },
         jobSchedule: {
-            purgEmailJob: '0 9 * * *'   // every day at 3AM PST
+            purgeEmailJob: '0 8 * * *',        // every day at 2AM PST
+            purgeMessagelogJob: '0 9 * * *'   // every day at 3AM PST
         },   
         purgeDays: {
-            purgeEmail: 30
+            purgeEmail: 30,
+            purgeMessagelog: 30
         },              
         cookieSecret: 'clashtools_kak',
         logLevel: 'info',
