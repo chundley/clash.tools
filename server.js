@@ -1,4 +1,4 @@
-// # app.siftrock.com main application startup
+// # clash.tools application startup
 
 // if no env is set, default to development
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
@@ -16,10 +16,12 @@ var http    = require('http'),
 /*
  * Module dependencies
 */
-var config       = require('./config/config'),
-    mongoCache   = require('./app/shared/mongo-cache'),
-    App          = require('./app/app'),
-    warModel     = require('./server/models/war-model');
+var config          = require('./config/config'),
+    mongoCache      = require('./app/shared/mongo-cache'),
+    App             = require('./app/app'),
+    warModel        = require('./server/models/war-model'),
+    purgeEmail      = require('./server/jobs/emailmessagepurge-job'),
+    purgeMessagelog = require('./server/jobs/messagelogpurge-job');
 
 /*
  * Global logger
@@ -35,6 +37,47 @@ logger.setLevel(config.env[process.env.NODE_ENV].logLevel);
 * Global connection manager for MongoDB
 */
 db = mongoCache();
+
+
+/*
+*   Purge email messages
+*/
+var purgingEmail = false;
+var purgeEmailJob = new cronJob(config.env[process.env.NODE_ENV].jobSchedule.purgeEmailJob, function() {
+    try {
+        if (!purgingEmail) {
+            purgingEmail = true;
+            logger.info('Purge email job starting...');
+            var start = new Date();
+            purgeEmail.runJob(config.env[process.env.NODE_ENV].purgeDays.purgeEmail, function() {
+                purgingEmail = false;
+            });
+        }
+    } catch(err) {
+       logger.error(err);
+   }
+});
+purgeEmailJob.start();
+
+/*
+*   Purge message log
+*/
+var purgingMessagelog = false;
+var purgeMessagelogJob = new cronJob(config.env[process.env.NODE_ENV].jobSchedule.purgeMessagelogJob, function() {
+    try {
+        if (!purgingMessagelog) {
+            purgingMessagelog = true;
+            logger.info('Purge message log job starting...');
+            var start = new Date();
+            purgeMessagelog.runJob(config.env[process.env.NODE_ENV].purgeDays.purgeMessagelog, function() {
+                purgingMessagelog = false;
+            });
+        }
+    } catch(err) {
+       logger.error(err);
+   }
+});
+purgeMessagelogJob.start();
 
 /*
  * The app

@@ -225,3 +225,27 @@ exports.countNew = function(userId, callback) {
         }
     });
 }
+
+/*
+*   Purges emails that are older than X days
+*/
+exports.purge = function(numDays, callback) {
+    var now = new Date();
+    var purgeDate = new Date(now.getTime() - (numDays * 24 * 60 * 60 * 1000));
+
+    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'email_message', function (err, collection) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            collection.remove( { created_at: { $lt: purgeDate } }, function (err, results) {
+                if (err) {
+                    callback(err, null);
+                }
+                else {
+                    callback(null, results.result.n);
+                }
+            });
+        }
+    });    
+}

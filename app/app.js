@@ -87,7 +87,7 @@ App.prototype.init = function(callback) {
                     callback_inner();
                 }
                 else {
-                    logger.info('Connected to MongoDB on ' + collection.db.serverConfig.servers[0].host + ':' + collection.db.serverConfig.servers[0].port);
+                    logger.info('Connected to MongoDB');
                     callback_inner();
                 }
             });
