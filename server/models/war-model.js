@@ -80,16 +80,16 @@ exports.save = function(model, callback) {
             callback(err, null);
         }
         else {
-            collection.save(model, function (err, war) {
+            collection.save(model, function (err, results) {
                 if (err) {
                     callback(err, null);
                 }
                 else {
-                    if (war == 1) { // successful update
+                    if (results.result.ok == 1) { // successful update
                         callback(null, model);
                     }
                     else {  // successful save new
-                        callback(null, war);
+                        callback(null, results);
                     }
                 }
             });

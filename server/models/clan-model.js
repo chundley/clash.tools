@@ -72,7 +72,7 @@ exports.save = function(model, callback) {
                                 callback_wf(err, null);
                             }
                             else {
-                                if (result == 1) {
+                                if (result.result.ok == 1) {
                                     // result is 1 if the record existed and was updated
                                     callback_wf(null, model);
                                 }

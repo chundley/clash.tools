@@ -589,36 +589,66 @@ a.external-link {
     border: 1px dotted @vis-5;
 }
 
-/*
-    Stuff below this line from funded.io
-*/
 
 .global-message {
     position: absolute;
-    right : 0px;
-    top: 8px;
-    width: 99%;
+    font-size: 14px;
+    left : 2px;
+    top: 40px;
+    width: 260px;
+    min-height: 60px;
     padding: 4px 4px 6px 4px;
     margin: 0px 5px 0px 5px;
-    background-color: @alternate;
+    background-color: #27af61;
     color: #fff;
-    text-align: center;
-    font-size: 18px;
-    border-radius: 4px;
-    border: 1px solid darken(@alternate, 20%);
-    -webkit-transition: 1.0s linear all;
-    transition: 1.0s linear all;
+    box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.2);
+    border: 1px solid darken(#27af61, 10%);
+    -webkit-transition: 0.5s linear all;
+    transition: 0.5s linear all;
     z-index: 2000;
+
+    .gm-body {
+        padding: 4px 4px 4px 4px;
+    }
 }
 
-.global-message.ng-hide-add,
-.global-message.ng-hide-remove {
-    /* necessary due to ng-animate trickery */
-    display: block!important;
 
+
+.global-message.ng-hide-add {
+    //animation:0.5s lightSpeedOut ease;
+    opacity: 0;
+    //top: 1000px;
+    animation: translateY(1000);
 }
 
 .global-message.ng-hide {
     opacity: 0;
-    top: -200px;
+    //top: 1000px;
 }
+
+
+/* light speed out */
+@-webkit-keyframes lightSpeedOut {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    -webkit-transform: translate3d(200%, 20%, 0) skewX(0deg);
+    transform: translate3d(200%, 20%, 0) skewX(0deg);
+    opacity: 0;
+  }
+}
+
+/*@keyframes lightSpeedOut {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    -webkit-transform: translate3d(100%, 0, 0) skewX(15deg);
+    -ms-transform: translate3d(100%, 0, 0) skewX(15deg);
+    transform: translate3d(100%, 0, 0) skewX(15deg);
+    opacity: 0;
+  }
+}*/
