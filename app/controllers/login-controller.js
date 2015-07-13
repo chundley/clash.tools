@@ -62,7 +62,6 @@ function ($rootScope, $scope, $location, $modal, md5, authService, mailService, 
     }
 
     function sendPWReset(emailAddress) {
-        console.log(emailAddress);
         mailService.pwReset(emailAddress, function (err, something) {
         });
     }
