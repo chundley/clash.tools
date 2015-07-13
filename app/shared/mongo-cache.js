@@ -1,6 +1,10 @@
 
-var mongodb = require('mongodb');
+var mongodb = require('mongodb'),
     _       = require('underscore');
+
+/*var Server  = mongodb.Server,
+    ReplSet = mongodb.ReplSet;*/
+
 
 var config = require('../../config/config');
 
@@ -32,9 +36,11 @@ var mongoCache = function() {
     // replica set config
     var servers = [];
     _.each(config.env[process.env.NODE_ENV].mongoDb.servers, function (server) {
-        servers.push(new mongodb.Server(server.host, server.port, { auto_reconnect: true} ));
+        servers.push(new mongodb.Server(server.host, parseInt(server.port), { auto_reconnect: true} ));
     });
-    var replSet = new mongodb.ReplSetServers(servers);
+
+    //logger.warn(servers[0].s);
+    var replSet = new mongodb.ReplSet(servers);
 
     var ensureDB = function(dbName, callback) {
         if (dbs[dbName]) {

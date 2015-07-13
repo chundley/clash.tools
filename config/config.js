@@ -20,6 +20,13 @@ config.env = {
                 }
             ]
         },
+        jobSchedule: {
+            //purgeEmailJob: '* * * * * *' // run immediately in development
+            purgeEmailJob: '5 * * * *' // run immediately in development
+        },
+        purgeDays: {
+            purgeEmail: 30
+        },        
         cookieSecret: 'clashtools_bab',
         logLevel: 'debug',
         mandrill: 'hYM_1Xl4pPKbF2EZR-pnmA',
@@ -46,6 +53,12 @@ config.env = {
                 }
             ]
         },
+        jobSchedule: {
+            purgEmailJob: '0 9 * * *'   // every day at 3AM PST
+        },   
+        purgeDays: {
+            purgeEmail: 30
+        },              
         cookieSecret: 'clashtools_kak',
         logLevel: 'info',
         mandrill: 'IAO8H52xJO-Lk-4_zBFcEQ',
