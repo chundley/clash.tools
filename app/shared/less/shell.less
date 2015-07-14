@@ -603,6 +603,7 @@ a.external-link {
     color: #fff;
     box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.2);
     border: 1px solid darken(#27af61, 10%);
+    opacity: 0.5;
     -webkit-transition: 0.5s linear all;
     transition: 0.5s linear all;
     z-index: 2000;
@@ -612,23 +613,26 @@ a.external-link {
     }
 }
 
+.global-message.show {
+    opacity: 1;
+}
 
 
-.global-message.ng-hide-add {
+/*.global-message.ng-hide-add {
     //animation:0.5s lightSpeedOut ease;
     opacity: 0;
-    //top: 1000px;
-    animation: translateY(1000);
+    top: 100px;
+    //animation: translateY(1000);
 }
 
 .global-message.ng-hide {
     opacity: 0;
-    //top: 1000px;
-}
+    top: 100px;
+}*/
 
 
 /* light speed out */
-@-webkit-keyframes lightSpeedOut {
+/*@-webkit-keyframes lightSpeedOut {
   0% {
     opacity: 1;
   }
@@ -638,7 +642,7 @@ a.external-link {
     transform: translate3d(200%, 20%, 0) skewX(0deg);
     opacity: 0;
   }
-}
+}*/
 
 /*@keyframes lightSpeedOut {
   0% {

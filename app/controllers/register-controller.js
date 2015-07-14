@@ -77,6 +77,7 @@ function ($rootScope, $scope, $location, md5, authService, sessionService, mailS
             else {
                 // set user context
                 authService.changeUser(user, function() {
+                    console.log(user);
                     $location.path('/home').replace();
                 });
             }
