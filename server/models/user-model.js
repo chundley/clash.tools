@@ -65,7 +65,7 @@ exports.addUser = function(user, callback) {
                     callback(err, null);
                 }
                 else {
-                    callback(null, result);
+                    callback(null, result.ops[0]);
                 }
             });
         }
