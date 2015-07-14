@@ -116,6 +116,8 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                     }
                     else {
                         $scope.newWar = true;
+                        var warStart = new Date();
+                        warStart = new Date(warStart.getTime() + (24*60*60*1000));
                         $scope.war = {
                             clan_id: $scope.meta.current_clan.clan_id,
                             active: true,
@@ -123,7 +125,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                             opponent_name: '',
                             opponent_tag: '',
                             player_count: 30,
-                            start: new Date(),
+                            start: warStart,
                             bases: [],
                             team: [],
                             result: {
