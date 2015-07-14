@@ -55,6 +55,7 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
                     }
                 });
 
+                $rootScope.globalMessage = 'Clan "' + $scope.clan.name + '" created successfully.';
                 // In every case with a new clan, the creator becomes the leader. Need to reset role for UI permissions. The back-end
                 // takes care of changing the values in the database
                 var newUser = authService.user;
@@ -75,6 +76,7 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
             }
             else {
                 $scope.publicInformationForm.$setPristine();
+                $rootScope.globalMessage = 'Public clan information saved.';
             }
         });
     }
@@ -87,6 +89,7 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
             }
             else {
                 $scope.warSettingsForm.$setPristine();
+                $rootScope.globalMessage = 'Clan war settings saved.'
             }
         });
     }

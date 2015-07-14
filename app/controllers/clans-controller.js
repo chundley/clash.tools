@@ -76,6 +76,8 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                         // TODO: notify UI
                     }
                 });
+
+                $rootScope.globalMessage = 'Your request to join "' + clan.name + '" has been sent.';
                 $location.url('/mail').replace();
             }
         };

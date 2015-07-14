@@ -119,7 +119,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
                     }
                 });
 
-                //$rootScope.globalMessage = 'Your attack on base #' + baseNum + ' for ' + numStars + ' ' + starsText + ' has been recorded.'
+                $rootScope.globalMessage = 'Your attack on base #' + baseNum + ' for ' + numStars + ' ' + starsText + ' has been recorded.'
                 refreshInterface();
             }
         });
@@ -216,6 +216,8 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
                                     }
                                 });
 
+                                $rootScope.globalMessage = 'Your call on base #' + baseNum + ' has been saved.';
+
                                 // do this after the assignment - will ensure that if a double assign happens the UI will fix itself
                                 refreshInterface();
                             }
@@ -305,6 +307,8 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
                         // nothing
                     }
                 });
+
+                $rootScope.globalMessage = 'Your call on base #' + baseNum + ' has been removed.';
 
                 refreshInterface();
             }

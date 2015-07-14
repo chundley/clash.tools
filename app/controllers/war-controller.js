@@ -1,7 +1,7 @@
 'use strict';
 
 /*
-*   Controller for clan page
+*   Controller for war bases page
 */
 
 angular.module('Clashtools.controllers')
@@ -106,6 +106,7 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                     }
                 });
 
+                $rootScope.globalMessage = 'Attack updated for base #' + baseNum;
                 refreshInterface();
             }
         });
@@ -142,6 +143,8 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                         // nothing to do here
                     }
                 });
+
+                $rootScope.globalMessage = 'Call on base #' + baseNum + ' was removed.'
                 refreshInterface();
             }
         });
@@ -317,6 +320,7 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                             }
                         });
 
+                        $rootScope.globalMessage = 'Base #' + baseNum + ' was assigned to ' + ign;
                         refreshInterface();
                     }
                 });
@@ -463,6 +467,7 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                                     }
                                 });
 
+                                $rootScope.globalMessage = 'You reserved base # ' + baseNum;
                                 refreshInterface();
                             }
                         });

@@ -36,6 +36,11 @@ function ($rootScope, $scope, $interval, $modal, $window, moment, authService, c
         $scope.meta = meta;
     });
 
+    $scope.saveWithFeedback = function() {
+        saveUserInternal();
+        $rootScope.globalMessage = 'Profile was saved.'
+    }
+
     $scope.saveUser = function() {
         saveUserInternal();
     }
@@ -76,6 +81,8 @@ function ($rootScope, $scope, $interval, $modal, $window, moment, authService, c
                     $scope.user.profile.aqUpgrade = new Date(now.getTime() + ((formData.finishedDays*24*60 + formData.finishedHours*60)*60000));
                 }
                 saveUserInternal();
+
+                $rootScope.globalMessage = 'Hero upgrade status saved';
             }
         };
 

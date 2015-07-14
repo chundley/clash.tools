@@ -418,6 +418,11 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
         saveWarInternal();
     }
 
+    $scope.saveWarFeedback = function() {
+        saveWarInternal();
+        $rootScope.globalMessage = 'War saved.';
+    }
+
     $scope.saveWar = function() {
         saveWarInternal();
     }

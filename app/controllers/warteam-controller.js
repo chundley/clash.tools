@@ -105,6 +105,8 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                         // nothing to do here
                     }
                 });
+
+                $rootScope.globalMessage = 'Attack updated for base #' + baseNum;
             }
         });
     }

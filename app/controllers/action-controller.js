@@ -90,6 +90,8 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
                                 errorService.save(err, function() {});
                             }
                         });
+
+                        $rootScope.globalMessage = user.ign + ' has been added to the clan.';                        
                     }
                 });
             }
@@ -139,6 +141,8 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
                         errorService.save(err, function() {});
                     }
                 });
+
+                $rootScope.globalMessage = user.ign + ' has been declined.';
             }
         });        
     }    

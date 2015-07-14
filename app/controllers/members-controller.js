@@ -47,6 +47,7 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, 
                     }
                 });
 
+                $rootScope.globalMessage = member.ign + ' ' + pd + ' to ' + role;
                 angular.forEach($scope.members, function (m) {
                     if (role=='leader') {
                         // promoting a new leader, demote existing leader
@@ -116,6 +117,8 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, 
                                 // do something yeah?
                             }
                         });
+
+                        $rootScope.globalMessage = member.ign + ' was kicked from the clan.';
                     }
                 });
 
