@@ -56,8 +56,15 @@ function ($rootScope, $scope, $interval, $modal, $window, moment, authService, c
                 else {
                     $scope.user.profile.avatar = result.newFile;
                     saveUserInternal();
+                    $scope.meta.avatar = result.newFile + '?' + new Date().getTime();
+                    $scope.avatarError = null;
+                    $rootScope.globalMessage = 'Your avatar has been changed - you should see it in the next few seconds.';
                 }
             });
+        }
+
+        if ($scope.badAvatar.length > 0) {
+            $scope.avatarError = 'That file is not an image, or is too big. The file size limit is 128KB';
         }
     }
 
