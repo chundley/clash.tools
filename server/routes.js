@@ -69,7 +69,7 @@ var routes = [
     {
         path: '/crud/user/:userId/pw',
         httpMethod: 'POST',
-        middleware: [authorizeUserIdAccess, userCtrl.changePassword]
+        middleware: [userCtrl.changePassword]
     },
     {
         path: '/crud/user/:userId/session',
