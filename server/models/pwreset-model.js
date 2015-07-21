@@ -23,7 +23,7 @@ exports.addRequest = function(user_id, callback) {
                 callback(err, null);
             }
             else {
-                callback(null, result);
+                callback(null, result.ops[0]);
             }
         });
     });

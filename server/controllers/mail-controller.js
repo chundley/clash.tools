@@ -9,7 +9,6 @@ var model = require('../models/mail-model');
 *   Reset a forgotten password
 */
 exports.pwReset = function(req, res, next) {
-    logger.error(req.params.email);
     model.pwReset(req.params.email, function (err, item) {
         if (err) {
             res.send(500, err);
