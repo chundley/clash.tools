@@ -59,6 +59,11 @@ function ($rootScope, $scope, $location, md5, authService, sessionService, mailS
                     jump: 0,
                     freeze: 0
                 },
+                dark_spells: {
+                    poison: 0,
+                    earthquake: 0,
+                    haste: 0
+                },
                 heroes: {
                     bk: 0,
                     aq: 0
