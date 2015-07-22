@@ -10,7 +10,7 @@
                     <div class="row margin-bottom-huge">
                         <div class="col-xs-12">
                             <h1>Your Results</h1>
-                            <h3 class="same-line-sub-heading alternate">{{user.ign}}</h3>
+                            <h3 class="same-line-sub-heading alternate">{{meta.ign}}</h3>
                         </div>
                     </div>
                     <div class="row margin-bottom-huge">
@@ -34,19 +34,29 @@
                                 <div class="stats-widget-bottom">
                                     {{summaryStats.aav | number:2}}
                                 </div>
-                            </div>                            
+                            </div>
+                            <div class="chart-fill">
+                                <highchart id="attacks-by-stars" config="hcAttacksByStars">
+                            </div>
                         </div>
                     </div>
                     <div class="row margin-bottom-huge">
                         <div class="col-xs-12">
-                            <div class="widget">
-                                <div class="widget-header">
-                                    Summary
+                            <div class="row result-filter-container">
+                                <div class="col-xs-12">
+                                    <div class="filter-body">
+                                        Filters here
+                                    </div>
                                 </div>
-                                <div class="widget-body">
-                                    Cool shit here
+                            </div>
+                            <div class="row">  
+                                <div class="col-xs-12">                     
+                                    <div class="widget">
+                                        <div class="widget-body">
+                                        </div>
+                                    </div>            
                                 </div>
-                            </div>             
+                            </div> 
                         </div>
                     </div>       
                 </div>
