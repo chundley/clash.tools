@@ -23,7 +23,7 @@
                                 </div>
                                 <div class="widget-header" ng-if="userId!=null">
                                     Member profile - {{user.ign}}
-                                </div>                                
+                                </div>
                                 <div class="widget-body">
                                     <div class="row">
                                         <div class="col-md-8 col-sm-9 col-xs-8">
@@ -139,7 +139,7 @@
                                                         <option>37</option>
                                                         <option>38</option>
                                                         <option>39</option>
-                                                        <option>40</option>                     
+                                                        <option>40</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-sm-3 col-xs-12">
@@ -193,8 +193,8 @@
                                                         <option>37</option>
                                                         <option>38</option>
                                                         <option>39</option>
-                                                        <option>40</option>                     
-                                                    </select>                                             
+                                                        <option>40</option>
+                                                    </select>
                                                 </div>
                                                 <div class="col-sm-3 col-xs-12">
                                                     <a href class="btn btn-default btn-sm" ng-click="upgradeHero(false)"><span ng-if="aqDays>0 || aqHours > 0">Currently upgrading: <b>{{aqDays}}</b> day<span ng-if="aqDays==0 || aqDays > 1">s</span>, <b>{{aqHours}}</b> hour<span ng-if="aqHours==0 || aqHours > 1">s</span></span>
@@ -216,7 +216,7 @@
                                 <div class="widget-body">
                                     <div class="row margin-bottom-medium">
                                         <div class="col-sm-4 col-xs-6">
-                                            <b>Buildings/spells</b>
+                                            <b>Buildings</b>
                                             <div class="row">
                                                 <div class="col-sm-3 col-xs-4">
                                                     <span class="th-icon th-{{user.profile.buildings.th}}">
@@ -235,7 +235,7 @@
                                                         <option>7</option>
                                                         <option>8</option>
                                                         <option>9</option>
-                                                        <option>10</option>                 
+                                                        <option>10</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -253,8 +253,8 @@
                                                         <option>3</option>
                                                         <option>4</option>
                                                         <option>5</option>
-                                                        <option>6</option>            
-                                                    </select>                                              
+                                                        <option>6</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <b>Spells</b>
@@ -271,8 +271,8 @@
                                                             <option>3</option>
                                                             <option>4</option>
                                                             <option>5</option>
-                                                            <option>6</option>            
-                                                        </select>                                                          
+                                                            <option>6</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -288,8 +288,8 @@
                                                             <option>3</option>
                                                             <option>4</option>
                                                             <option>5</option>
-                                                            <option>6</option>            
-                                                        </select>                                                         
+                                                            <option>6</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -304,8 +304,8 @@
                                                             <option>2</option>
                                                             <option>3</option>
                                                             <option>4</option>
-                                                            <option>5</option>         
-                                                        </select>                                                         
+                                                            <option>5</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -318,8 +318,8 @@
                                                             <option>0</option>
                                                             <option>1</option>
                                                             <option>2</option>
-                                                            <option>3</option>         
-                                                        </select>                                                         
+                                                            <option>3</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -334,8 +334,54 @@
                                                             <option>2</option>
                                                             <option>3</option>
                                                             <option>4</option>
-                                                            <option>5</option>       
-                                                        </select>                                                         
+                                                            <option>5</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            <b>Dark Spells</b>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-xs-4">
+                                                        <span class="army-icon poisonspell-icon" ng-class="{'top-lvl':user.profile.dark_spells.poison==4, active:user.profile.dark_spells.poison>0}"><span>{{user.profile.dark_spells.poison}}</span></span>
+                                                    </div>
+                                                    <div class="col-sm-7 col-xs-8 profile-slider">
+                                                        <input type="range" class="hidden-xs" min="0" max="4" ng-model="user.profile.dark_spells.poison" ng-mouseup="saveUser()" integer>
+                                                        <select class="form-control-small profile-select hidden-lg hidden-md hidden-sm visible-xs" ng-model="user.profile.dark_spells.poison" ng-change="saveUser()" integer>
+                                                            <option>0</option>
+                                                            <option>1</option>
+                                                            <option>2</option>
+                                                            <option>3</option>
+                                                            <option>4</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-xs-4">
+                                                        <span class="army-icon earthquakespell-icon" ng-class="{'top-lvl':user.profile.dark_spells.earthquake==4, active:user.profile.dark_spells.earthquake>0}"><span>{{user.profile.dark_spells.earthquake}}</span></span>
+                                                    </div>
+                                                    <div class="col-sm-7 col-xs-8 profile-slider">
+                                                        <input type="range" class="hidden-xs" min="0" max="4" ng-model="user.profile.dark_spells.earthquake" ng-mouseup="saveUser()" integer>
+                                                        <select class="form-control-small profile-select hidden-lg hidden-md hidden-sm visible-xs" ng-model="user.profile.dark_spells.earthquake" ng-change="saveUser()" integer>
+                                                            <option>0</option>
+                                                            <option>1</option>
+                                                            <option>2</option>
+                                                            <option>3</option>
+                                                            <option>4</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-xs-4">
+                                                        <span class="army-icon hastespell-icon" ng-class="{'top-lvl':user.profile.dark_spells.haste==4, active:user.profile.dark_spells.haste>0}"><span>{{user.profile.dark_spells.haste}}</span></span>
+                                                    </div>
+                                                    <div class="col-sm-7 col-xs-8 profile-slider">
+                                                        <input type="range" class="hidden-xs" min="0" max="4" ng-model="user.profile.dark_spells.haste" ng-mouseup="saveUser()" integer>
+                                                        <select class="form-control-small profile-select hidden-lg hidden-md hidden-sm visible-xs" ng-model="user.profile.dark_spells.haste" ng-change="saveUser()" integer>
+                                                            <option>0</option>
+                                                            <option>1</option>
+                                                            <option>2</option>
+                                                            <option>3</option>
+                                                            <option>4</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                         </div>
@@ -354,8 +400,8 @@
                                                             <option>4</option>
                                                             <option>5</option>
                                                             <option>6</option>
-                                                            <option>7</option>            
-                                                        </select>                                                         
+                                                            <option>7</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -372,8 +418,8 @@
                                                             <option>4</option>
                                                             <option>5</option>
                                                             <option>6</option>
-                                                            <option>7</option>            
-                                                        </select>                                                          
+                                                            <option>7</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -389,8 +435,8 @@
                                                             <option>3</option>
                                                             <option>4</option>
                                                             <option>5</option>
-                                                            <option>6</option>       
-                                                        </select>                                                           
+                                                            <option>6</option>
+                                                        </select>
                                                     </div>
                                                 </div>
 
@@ -408,8 +454,8 @@
                                                             <option>4</option>
                                                             <option>5</option>
                                                             <option>6</option>
-                                                            <option>7</option>            
-                                                        </select>                                                           
+                                                            <option>7</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -425,8 +471,8 @@
                                                             <option>3</option>
                                                             <option>4</option>
                                                             <option>5</option>
-                                                            <option>6</option>          
-                                                        </select>                                                           
+                                                            <option>6</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -442,8 +488,8 @@
                                                             <option>3</option>
                                                             <option>4</option>
                                                             <option>5</option>
-                                                            <option>6</option>        
-                                                        </select>                                                           
+                                                            <option>6</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -459,8 +505,8 @@
                                                             <option>3</option>
                                                             <option>4</option>
                                                             <option>5</option>
-                                                            <option>6</option>          
-                                                        </select>                                                           
+                                                            <option>6</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -474,23 +520,24 @@
                                                             <option>1</option>
                                                             <option>2</option>
                                                             <option>3</option>
-                                                            <option>4</option>         
-                                                        </select>                                                           
+                                                            <option>4</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-sm-3 col-xs-4">
-                                                        <span class="army-icon dragon-icon" ng-class="{'top-lvl':user.profile.troops.dragon==4,active:user.profile.troops.dragon>0}"><span>{{user.profile.troops.dragon}}</span></span>
+                                                        <span class="army-icon dragon-icon" ng-class="{'top-lvl':user.profile.troops.dragon==5,active:user.profile.troops.dragon>0}"><span>{{user.profile.troops.dragon}}</span></span>
                                                     </div>
                                                     <div class="col-sm-7 col-xs-8 profile-slider">
-                                                        <input type="range" class="hidden-xs" min="0" max="4" ng-model="user.profile.troops.dragon" ng-mouseup="saveUser()" integer>
+                                                        <input type="range" class="hidden-xs" min="0" max="5" ng-model="user.profile.troops.dragon" ng-mouseup="saveUser()" integer>
                                                         <select class="form-control-small profile-select hidden-lg hidden-md hidden-sm visible-xs" ng-model="user.profile.troops.dragon" ng-change="saveUser()" integer>
                                                             <option>0</option>
                                                             <option>1</option>
                                                             <option>2</option>
                                                             <option>3</option>
-                                                            <option>4</option>          
-                                                        </select>                                                           
+                                                            <option>4</option>
+                                                            <option>5</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -505,8 +552,8 @@
                                                             <option>2</option>
                                                             <option>3</option>
                                                             <option>4</option>
-                                                            <option>5</option>         
-                                                        </select>                                                           
+                                                            <option>5</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                         </div>
@@ -525,8 +572,8 @@
                                                             <option>3</option>
                                                             <option>4</option>
                                                             <option>5</option>
-                                                            <option>6</option>         
-                                                        </select>                                                           
+                                                            <option>6</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -541,8 +588,8 @@
                                                             <option>2</option>
                                                             <option>3</option>
                                                             <option>4</option>
-                                                            <option>5</option>      
-                                                        </select>                                                           
+                                                            <option>5</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -556,8 +603,8 @@
                                                             <option>1</option>
                                                             <option>2</option>
                                                             <option>3</option>
-                                                            <option>4</option>       
-                                                        </select>                                                           
+                                                            <option>4</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -572,8 +619,8 @@
                                                             <option>2</option>
                                                             <option>3</option>
                                                             <option>4</option>
-                                                            <option>5</option>       
-                                                        </select>                                                           
+                                                            <option>5</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -585,8 +632,8 @@
                                                         <select class="form-control-small profile-select hidden-lg hidden-md hidden-sm visible-xs" ng-model="user.profile.dark_troops.witch" ng-change="saveUser()" integer>
                                                             <option>0</option>
                                                             <option>1</option>
-                                                            <option>2</option>       
-                                                        </select>                                                           
+                                                            <option>2</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -599,8 +646,8 @@
                                                             <option>0</option>
                                                             <option>1</option>
                                                             <option>2</option>
-                                                            <option>3</option>       
-                                                        </select>                                                           
+                                                            <option>3</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                         </div>
@@ -637,7 +684,7 @@
                                             <input type="range" class="hidden-xs" min="0" max="250" ng-model="user.profile.walls[9]" ng-mouseup="saveUser()" integer>
                                             <select class="form-control-small profile-select hidden-lg hidden-md hidden-sm visible-xs" ng-model="user.profile.walls[9]" ng-change="saveUser()">
                                                 <option ng-repeat="w in walls" value="{{w.count}}">{{w.count}}</option>
-                                            </select>                                            
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -649,7 +696,7 @@
                                             <input type="range" class="hidden-xs" min="0" max="250" ng-model="user.profile.walls[8]" ng-mouseup="saveUser()" integer>
                                             <select class="form-control-small profile-select hidden-lg hidden-md hidden-sm visible-xs" ng-model="user.profile.walls[8]" ng-change="saveUser()">
                                                 <option ng-repeat="w in walls" value="{{w.count}}">{{w.count}}</option>
-                                            </select>                                              
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -661,7 +708,7 @@
                                             <input type="range" class="hidden-xs" min="0" max="250" ng-model="user.profile.walls[7]" ng-mouseup="saveUser()" integer>
                                             <select class="form-control-small profile-select hidden-lg hidden-md hidden-sm visible-xs" ng-model="user.profile.walls[7]" ng-change="saveUser()">
                                                 <option ng-repeat="w in walls" value="{{w.count}}">{{w.count}}</option>
-                                            </select>  
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -673,7 +720,7 @@
                                             <input type="range" class="hidden-xs" min="0" max="250" ng-model="user.profile.walls[6]" ng-mouseup="saveUser()" integer>
                                             <select class="form-control-small profile-select hidden-lg hidden-md hidden-sm visible-xs" ng-model="user.profile.walls[6]" ng-change="saveUser()">
                                                 <option ng-repeat="w in walls" value="{{w.count}}">{{w.count}}</option>
-                                            </select>                                              
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -685,7 +732,7 @@
                                             <input type="range" class="hidden-xs" min="0" max="250" ng-model="user.profile.walls[5]" ng-mouseup="saveUser()" integer>
                                             <select class="form-control-small profile-select hidden-lg hidden-md hidden-sm visible-xs" ng-model="user.profile.walls[5]" ng-change="saveUser()">
                                                 <option ng-repeat="w in walls" value="{{w.count}}">{{w.count}}</option>
-                                            </select>                                              
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -697,7 +744,7 @@
                                             <input type="range" class="hidden-xs" min="0" max="250" ng-model="user.profile.walls[4]" ng-mouseup="saveUser()" integer>
                                             <select class="form-control-small profile-select hidden-lg hidden-md hidden-sm visible-xs" ng-model="user.profile.walls[4]" ng-change="saveUser()">
                                                 <option ng-repeat="w in walls" value="{{w.count}}">{{w.count}}</option>
-                                            </select>                                              
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -709,7 +756,7 @@
                                             <input type="range" class="hidden-xs" min="0" max="250" ng-model="user.profile.walls[3]" ng-mouseup="saveUser()" integer>
                                             <select class="form-control-small profile-select hidden-lg hidden-md hidden-sm visible-xs" ng-model="user.profile.walls[3]" ng-change="saveUser()">
                                                 <option ng-repeat="w in walls" value="{{w.count}}">{{w.count}}</option>
-                                            </select>                                              
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -721,7 +768,7 @@
                                             <input type="range" class="hidden-xs" min="0" max="250" ng-model="user.profile.walls[2]" ng-mouseup="saveUser()" integer>
                                             <select class="form-control-small profile-select hidden-lg hidden-md hidden-sm visible-xs" ng-model="user.profile.walls[2]" ng-change="saveUser()">
                                                 <option ng-repeat="w in walls" value="{{w.count}}">{{w.count}}</option>
-                                            </select>                                              
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -733,7 +780,7 @@
                                             <input type="range" class="hidden-xs" min="0" max="250" ng-model="user.profile.walls[1]" ng-mouseup="saveUser()" integer>
                                             <select class="form-control-small profile-select hidden-lg hidden-md hidden-sm visible-xs" ng-model="user.profile.walls[1]" ng-change="saveUser()">
                                                 <option ng-repeat="w in walls" value="{{w.count}}">{{w.count}}</option>
-                                            </select>                                              
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
