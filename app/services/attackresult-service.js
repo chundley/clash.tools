@@ -29,6 +29,17 @@ function ($http, errorService) {
             }).error(function (data, status, headers, config) {
                 callback(errorService.initMessage('attackresult-service.js', 'save', getByClanId), null);
             });
-        }
+        },
+        getByUserId: function(userId, callback) {
+            $http({
+                url: '/crud/ar/user/' + userId,
+                method: 'GET',
+                headers: {'Content-Type': 'application/json'}
+            }).success(function (data, status, headers, config) {
+                callback(null, data);
+            }).error(function (data, status, headers, config) {
+                callback(errorService.initMessage('attackresult-service.js', 'save', getByClanId), null);
+            });
+        }        
     }
 }]);

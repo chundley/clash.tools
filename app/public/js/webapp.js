@@ -21,6 +21,7 @@ angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize',
         .when('/pwreset/:id', { controller: 'PWResetCtrl', templateUrl: '/views/pwreset.html', access: access.public } )
         .when('/home', { controller: 'HomeCtrl', templateUrl: '/views/home.html', access: access.member } )
         .when('/profile', { controller: 'ProfileCtrl', templateUrl: '/views/profile.html', access: access.member } )
+        .when('/results', { controller: 'ResultsCtrl', templateUrl: '/views/results.html', access: access.member } )
         .when('/mail', { controller: 'MailCtrl', templateUrl: '/views/mail.html', access: access.member } )
         .when('/mail/:id', { controller: 'MailDetailCtrl', templateUrl: '/views/mailDetail.html', access: access.member } )
         .when('/newmail/:id', { controller: 'NewMailCtrl', templateUrl: '/views/newMail.html', access: access.member } )

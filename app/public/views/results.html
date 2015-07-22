@@ -1,0 +1,57 @@
+<div id="wrapper">
+    <div sidebar></div>
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div top-nav></div>
+            <!-- page content -->
+            <div class="row content-body">
+                <div class="col-xs-12">
+                    <div class="row margin-bottom-huge">
+                        <div class="col-xs-12">
+                            <h1>Your Results</h1>
+                            <h3 class="same-line-sub-heading alternate">{{user.ign}}</h3>
+                        </div>
+                    </div>
+                    <div class="row margin-bottom-huge">
+                        <div class="col-xs-12">
+                            <div class="stats-widget-container">
+                                <div class="stats-widget-top">
+                                    <img src="/img/icons/stars-3.png">
+                                    
+                                </div>
+                                <span class="sw-title sw-title-three">THREE STAR RATE</span>
+                                <div class="stats-widget-bottom">
+                                    {{summaryStats.stars[3] / attackResults.length * 100 | number:2}} <span class="sw-perc">%</span>
+                                </div>
+                            </div>
+
+                            <div class="stats-widget-container">
+                                <div class="stats-widget-top">
+                                    <img src="/img/attack-icon.png">
+                                </div>
+                                <span class="sw-title sw-title-aav">AVG ATTACK VALUE</span>
+                                <div class="stats-widget-bottom">
+                                    {{summaryStats.aav | number:2}}
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
+                    <div class="row margin-bottom-huge">
+                        <div class="col-xs-12">
+                            <div class="widget">
+                                <div class="widget-header">
+                                    Summary
+                                </div>
+                                <div class="widget-body">
+                                    Cool shit here
+                                </div>
+                            </div>             
+                        </div>
+                    </div>       
+                </div>
+            </div> <!-- /page content -->
+        </div>
+    </div>  <!-- /#page-content-wrapper -->
+</div>  <!-- /#wrapper -->
+

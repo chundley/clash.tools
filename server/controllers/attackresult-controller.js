@@ -31,3 +31,17 @@ exports.findByWarId = function(req, res, next) {
         }
     });
 };
+
+/*
+*   All attack history for a user
+*/
+exports.findByUserId = function(req, res, next) {
+    attackResultModel.findByUserId(req.params.userId, function (err, results) {
+        if (err) {
+            res.send(500, err);
+        }
+        else {
+            res.json(200, results);
+        }
+    });
+};

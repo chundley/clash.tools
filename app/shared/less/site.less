@@ -450,6 +450,57 @@
 
 
 /*
+*   Results page styles
+*/
+
+.stats-widget-container {
+    position: relative;
+    width: 200px;
+    text-align: center;
+    border: 1px solid @primary-50;
+    float: left;
+    margin-right: 20px;
+    .stats-widget-top {
+        background: #fff;
+        padding: 20px 0px 30px 0px;
+        border-bottom: 1px solid @primary-50;
+        max-height: 87px;
+
+    }
+
+    .stats-widget-bottom {
+        background: lighten(@primary-60, 4%);
+        padding: 20px 0px 10px 0px;
+        font-size: 36px;
+        color: @primary-10;
+
+        .sw-perc {
+            font-size: 24px;
+        }
+    }
+
+    .sw-title {
+        position: absolute;
+        font-size: 14px;
+        border: 1px solid @primary-50;
+        border-radius: 12px;
+        background: #fff;
+        padding: 4px 6px;
+
+    }
+
+    .sw-title-three {
+        top: 73px;
+        left: 35px;        
+    }
+
+    .sw-title-aav {
+        top: 73px;
+        left: 29px;          
+    }
+}
+
+/*
 *   Start war page styles
 */
 .warstart-container {

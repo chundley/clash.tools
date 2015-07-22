@@ -362,6 +362,24 @@ exports.findByWarId = function(warId, callback) {
     });
 }
 
+exports.findByUserId = function(userId, callback) {
+    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'attack_result', function (err, collection) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            collection.find( { u: userId }).toArray(function (err, items) {
+                if (err) {
+                    callback(err, null);
+                }
+                else {
+                    callback(null, items);
+                }
+            });
+        }
+    });    
+}
+
 /*
 *   Deletes all attack results for a war
 */
