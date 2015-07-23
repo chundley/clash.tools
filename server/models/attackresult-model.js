@@ -215,6 +215,7 @@ exports.save = function(warId, model, callback) {
                     i: model.i,
                     c: model.c,
                     cn: model.cn,
+                    on: model.on,
                     w: warId,
                     we: model.we,
                     r: rank,
@@ -377,7 +378,7 @@ exports.findByUserId = function(userId, callback) {
                 }
             });
         }
-    });    
+    });
 }
 
 /*

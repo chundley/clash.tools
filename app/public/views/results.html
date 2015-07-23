@@ -7,10 +7,12 @@
             <!-- page content -->
             <div class="row content-body">
                 <div class="col-xs-12">
-                    <div class="row margin-bottom-huge">
+                    <div class="row margin-bottom-big">
                         <div class="col-xs-12">
-                            <h1>Your Results</h1>
-                            <h3 class="same-line-sub-heading alternate">{{meta.ign}}</h3>
+                            <h1 ng-if="!leader">Your Results</h1>
+                            <h1 ng-if="leader">Member Results</h1>
+                            <h3 ng-if="!leader" class="same-line-sub-heading alternate">{{meta.ign}}</h3>
+                            <h3 ng-if="leader" class="same-line-sub-heading alternate">{{attackResults[0].i}}</h3>
                         </div>
                     </div>
                     <div class="row margin-bottom-huge">
@@ -18,7 +20,7 @@
                             <div class="stats-widget-container">
                                 <div class="stats-widget-top">
                                     <img src="/img/icons/stars-3.png">
-                                    
+
                                 </div>
                                 <span class="sw-title sw-title-three">THREE STAR RATE</span>
                                 <div class="stats-widget-bottom">
@@ -40,25 +42,80 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row margin-bottom-medium">
+                        <div class="col-xs-12"><h3>Attack detail</h3></div>
+                    </div>
                     <div class="row margin-bottom-huge">
                         <div class="col-xs-12">
                             <div class="row result-filter-container">
                                 <div class="col-xs-12">
                                     <div class="filter-body">
-                                        Filters here
+                                        Handy filters will be here soon
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">  
-                                <div class="col-xs-12">                     
+                            <div class="row">
+                                <div class="col-xs-12">
                                     <div class="widget">
-                                        <div class="widget-body">
+                                        <div class="widget-body result-container">
+                                            <div class="row margin-bottom-big">
+                                                <div class="col-xs-12">
+                                                    <div class="summary-metric">
+                                                        <div class="left">
+                                                            Total attacks
+                                                        </div>
+                                                        <div class="right">
+                                                            {{filteredResults.detail.length}}
+                                                        </div>
+                                                    </div>
+                                                    <span class="primary-40">And more filtered summary stuff will be here soon</span>
+                                                </div>
+                                            </div>
+                                            <div class="row t-row">
+                                                <div class="col-sm-3 col-xs-5 t-header">
+                                                    Opponent
+                                                </div>
+                                                <div class="col-sm-3 hidden-xs t-header">
+                                                    War ended
+                                                </div>
+                                                <div class="col-sm-2 col-xs-2 t-header text-left">
+                                                    You
+                                                </div>
+                                                <div class="col-sm-2 col-xs-2 t-header text-left">
+                                                    Opp
+                                                </div>
+                                                <div class="col-sm-1 col-xs-2 t-header text-center">
+                                                    Stars
+                                                </div>
+                                                <div class="col-sm-1 col-xs-1 t-header text-right">
+                                                    AV
+                                                </div>
+                                            </div>
+                                            <div class="row row-underline-2"></div>
+                                            <div ng-repeat="ar in attackResults">
+                                                <div class="row t-row">
+                                                    <div class="col-sm-3 col-xs-5">{{ar.on}}</div>
+                                                    <div class="col-sm-3 hidden-xs"><span am-time-ago="{{ar.ended}}"></span></div>
+                                                    <div class="col-sm-1 hidden-xs text-left">TH{{ar.t}}</div>
+                                                    <div class="col-sm-1 col-xs-2 text-left">#{{ar.r}}</div>
+                                                    <div class="col-sm-1 hidden-xs text-left">TH{{ar.ot}}</div>
+                                                    <div class="col-sm-1 col-xs-2 text-left">#{{ar.or}}</div>
+                                                    <div class="col-sm-1 col-xs-2 text-center">
+                                                        <img src="/img/icons/stars-tiny-0.png" ng-if="ar.s==0">
+                                                        <img src="/img/icons/stars-tiny-1.png" ng-if="ar.s==1">
+                                                        <img src="/img/icons/stars-tiny-2.png" ng-if="ar.s==2">
+                                                        <img src="/img/icons/stars-tiny-3.png" ng-if="ar.s==3">
+                                                    </div>
+                                                    <div class="col-sm-1 col-xs-1 text-right">{{ar.v}}</div>
+                                                </div>
+                                                <div class="row row-underline-1" ng-if="$index<attackResults.length-1"></div>
+                                            </div>
                                         </div>
-                                    </div>            
+                                    </div>
                                 </div>
-                            </div> 
+                            </div>
                         </div>
-                    </div>       
+                    </div>
                 </div>
             </div> <!-- /page content -->
         </div>

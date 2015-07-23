@@ -602,6 +602,7 @@ exports.backfillAttackResults = function(warId, callback) {
                                         stars: assignment.s,
                                         c: war.clan_id,
                                         cn: clan.name,
+                                        on: war.opponent_name,
                                         u: assignment.u,
                                         i: assignment.i,
                                         t: war.team[playerIndex].t,

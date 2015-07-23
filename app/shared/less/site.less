@@ -493,12 +493,12 @@
 
     .sw-title-three {
         top: 73px;
-        left: 20px;        
+        left: 20px;
     }
 
     .sw-title-aav {
         top: 73px;
-        left: 14px;          
+        left: 14px;
     }
 }
 
@@ -521,6 +521,28 @@
     }
 }
 
+.result-container {
+    font-size: 12px;
+
+    .summary-metric {
+        float: left;
+        margin-right: 20px;
+        border: 1px solid @vis-2;
+        .left {
+            float: left;
+            //border-right: 1px solid @primary-40;
+            background: lighten(@primary-60, 5%);
+            color: @primary-10;
+            padding: 10px;
+        }
+        .right {
+            float: left;
+            padding: 10px;
+            background: @vis-2;
+            color: #fff;
+        }
+    }
+}
 
 /*
 *   Start war page styles

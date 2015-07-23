@@ -69,6 +69,7 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
             u: userId,
             i: ign,
             cn: $scope.meta.current_clan.name,
+            on: $scope.war.opponent_name,
             t: $scope.war.team[playerIndex].t,
             ot: parseInt($scope.war.bases[baseNum-1].t),
             we: endDate

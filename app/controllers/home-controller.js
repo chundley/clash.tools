@@ -90,6 +90,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
             u: authService.user.id,
             i: $scope.meta.ign,
             cn: $scope.meta.current_clan.name,
+            on: $scope.war.opponent_name,
             t: $scope.war.team[playerIndex].t,
             ot: parseInt($scope.war.bases[baseNum-1].t),
             we: endDate
