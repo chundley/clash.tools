@@ -52,14 +52,14 @@
                                     <div class="filter-body">
                                         <div class="row">
                                             <div class="col-sm-3 col-xs-4">
-                                                <p>Clan</p> 
+                                                <p><strong>Clan</strong></p> 
                                                 <select class="form-control" ng-model="filters.clanId" ng-change="applyFilters()">
                                                     <option value="all">All</option>
                                                     <option ng-repeat="ch in clanHistory" value="{{ch.clan_id}}">{{ch.name}}</option>
                                                 </select>
                                             </div>
                                             <div class="col-sm-3 col-xs-4">
-                                                <p>Opp. TH</p>
+                                                <p><strong>Opp. TH</strong></p>
                                                 <select class="form-control" ng-model="filters.th" ng-change="applyFilters()" integer>
                                                     <option value="0">All</option>
                                                     <option value="10">TH10</option>
@@ -70,7 +70,7 @@
                                                 </select>
                                             </div>
                                             <div class="col-sm-3 col-xs-4">
-                                                <p>Stars</p>
+                                                <p><strong>Stars</strong></p>
                                                 <select class="form-control" ng-model="filters.stars" ng-change="applyFilters()" integer>
                                                     <option value="-1">All</option>
                                                     <option value="3">3</option>

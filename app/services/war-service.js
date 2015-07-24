@@ -104,7 +104,9 @@ function ($http, errorService) {
                 if (status==404) {
                     callback(null, null);
                 }
-                callback(errorService.initMessage('war-service.js', 'get', status), null);
+                else {
+                    callback(errorService.initMessage('war-service.js', 'get', status), null);
+                }
             });
         },
         getHistory: function(clanId, callback) {
