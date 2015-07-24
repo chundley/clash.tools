@@ -293,7 +293,7 @@ var routes = [
         middleware: [userCtrl.getByVerifyToken]
     },
     {
-        path: '/crud/verifyemail/:id',
+        path: '/crud/verifyemail/:userId',
         httpMethod: 'POST',
         middleware: [userCtrl.setVerified]
     },
