@@ -36,6 +36,20 @@ exports.allClans = function(req, res, next) {
     });
 }
 
+exports.adminAllClans = function(req, res, next) {
+    clanModel.adminAllClans(req.params.query, req.query.count, function (err, clans) {
+        if (err) {
+            res.send(500, err);
+        }
+        else if (clans) {
+            res.json(200, clans);
+        }
+        else {
+            res.send(404, 'not found');
+        }
+    });
+}
+
 exports.getById = function(req, res, next) {
     clanModel.findById(req.params.clanId, function (err, clan) {
         if (err) {

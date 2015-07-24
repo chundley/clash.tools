@@ -24,19 +24,23 @@
                                 <div class="widget-header">Clans registered with clash.tools ({{clans.length}})</div>
                                 <div class="widget-body">
                                     <div class="row">
-                                        <div class="col-sm-4 col-xs-4 t-header">Clan name</div>
-                                        <div class="col-sm-2 col-xs-4 t-header">Clan tag</div>
+                                        <div class="col-sm-3 col-xs-4 t-header">Clan name</div>
+                                        <div class="col-sm-2 col-xs-4 t-header">Tag</div>
+                                        <div class="col-sm-2 col-xs-2">Created</div>
                                         <div class="col-sm-2 hidden-xs t-header">Leader</div>
-                                        <div class="col-sm-2 col-xs-2 t-header text-center">Members</div>
+                                        <div class="col-sm-1 col-xs-2 t-header text-center">Members</div>
+                                        <div class="col-sm-1 col-xs-2 t-header text-center">Wars</div>
                                     </div>
                                     <div class="row row-underline-1"></div>
                                     <div ng-repeat="c in clans">
                                         <div class="row t-row">
-                                            <div class="col-sm-4 col-xs-4"><a href="/admin/clan/{{c._id}}">{{c.name}}</a></div>
+                                            <div class="col-sm-3 col-xs-4"><a href="/admin/clan/{{c._id}}">{{c.name}}</a></div>
                                             <div class="col-sm-2 col-xs-4">{{c.clan_tag}}</div>
-                                            <div class="col-sm-2 hidden-xs">{{c.metrics.leader}}</div>
-                                            <div class="col-sm-2 col-xs-2 text-center">{{c.metrics.totalMembers}}</div>
-                                            <div class="col-sm-2 text-right"><button class="btn btn-alternate btn-xs" ng-click="spoofLeader(c)">View</button></div>
+                                            <div class="col-sm-2 col-xs-2"><span am-time-ago="{{c.started}}"></span></div>
+                                            <div class="col-sm-2 hidden-xs">{{c.metrics.leader.ign}}</div>
+                                            <div class="col-sm-1 col-xs-2 text-center">{{c.metrics.totalMembers}}</div>
+                                            <div class="col-sm-1 col-xs-2 text-center">{{c.metrics.totalWars}}</div>
+                                            <div class="col-sm-1 text-right"><button class="btn btn-alternate btn-xs" ng-click="spoofLeader(c)">View</button></div>
                                         </div>
                                     </div>
                                 </div>

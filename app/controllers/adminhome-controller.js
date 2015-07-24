@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('AdminHomeCtrl', ['$rootScope', '$scope', '$location', 'userService', 'authService', 'sessionService', 'errorService', 'clanService',
-function ($rootScope, $scope, $location, userService, authService, sessionService, errorService, clanService) {
+.controller('AdminHomeCtrl', ['$rootScope', '$scope', '$location', 'moment', 'userService', 'authService', 'sessionService', 'errorService', 'clanService',
+function ($rootScope, $scope, $location, moment, userService, authService, sessionService, errorService, clanService) {
 
     $rootScope.title = "Clashtools - Admin";
 
@@ -29,7 +29,7 @@ function ($rootScope, $scope, $location, userService, authService, sessionServic
 
     $scope.spoofLeader = function(clan) {
         var user = {
-            id: clan.metrics.leaderId,
+            id: clan.metrics.leader.id,
             email_address: '',
             role: {
                 bitMask: 16,
@@ -43,7 +43,11 @@ function ($rootScope, $scope, $location, userService, authService, sessionServic
     }
 
     function runSearch(query) {
-        clanService.allClans(query, 10000, function (err, clans) {
+        clanService.adminAllClans(query, 10000, function (err, clans) {
+            angular.forEach(clans, function (clan) {
+                clan.started = new moment(new Date(clan.created_at));
+            });
+
             $scope.clans = clans;
         });
     }

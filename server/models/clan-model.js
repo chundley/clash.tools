@@ -264,6 +264,59 @@ exports.getRoster = function(clanId, callback) {
 }
 
 /*
+*   Get metadata for all clans (super admin view)
+*/
+exports.adminAllClans = function(query, count, callback) {
+    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'clan', function (err, collection) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            var q = {};
+            if (query !== '*') {
+                q.$or = [
+                    { name: { $regex: query, $options: 'i'} },
+                    { clan_tag: { $regex: query, $options: 'i'} }
+                ];
+            }
+
+            count = parseInt(count);
+
+            collection.find( q, { _id: 1, name: 1, clan_tag: 1, created_at: 1 } ).sort({name: 1}).limit(count).toArray(function (err, clans) {
+                if (err) {
+                    callback(err, null);
+                }
+                else {
+                    if (clans) {
+                        async.each(clans, function (clan, callback_a) {
+                            adminClanMetrics(clan._id, function (err, metrics) {
+                                if (err) {
+                                    callback_a(err);
+                                }
+                                else {
+                                    clan.metrics = metrics;
+                                    callback_a(null)
+                                }
+                            });
+                        }, function (err) {
+                            if (err) {
+                                callback(err, null);
+                            }
+                            else {
+                                callback(null, clans);
+                            }
+                        });
+                    }
+                    else {
+                        callback(null, null);
+                    }
+                }
+            });
+        }
+    });
+}
+
+/*
 *   Get ALL meta data for a clan
 */
 exports.adminAllData = function(clanId, callback) {
@@ -330,3 +383,40 @@ function clanMetrics(clanId, callback) {
     });
 }
 
+/*
+*   Internal function for gathering clan metrics across all models
+*/
+function adminClanMetrics(clanId, callback) {
+    var metrics = {};
+    async.parallel({
+        users: function (callback_p) {
+            userModel.usersByClan(clanId, ['member','elder','coleader','leader'], function (err, users) {
+                if (err) {
+                    callback_p(err, null);
+                }
+                else {
+                    callback_p(null, users);
+                }
+            });
+        },
+        wars: function(callback_p) {
+            warModel.getFullHistory(clanId, function (err, wars) {
+                if (err) {
+                    callback_p(err, null);
+                }
+                else {
+                    callback_p(null, wars);
+                }                
+            });
+        }
+    }, function (err, results) {
+        metrics.totalMembers = results.users.length;
+        metrics.totalWars = results.wars.length;
+        _.each(results.users, function (user) {
+            if (user.role.title === 'leader') {
+                metrics.leader = { id: user._id, ign: user.ign };
+            }
+        });
+        callback(null, metrics);
+    });
+}

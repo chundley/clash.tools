@@ -74,6 +74,16 @@ function ($http, errorService) {
             }).error(function (data, status, headers, config) {
                 callback(errorService.initMessage('clan-service.js', 'adminAllData', status), null);
             });
-        }
+        },
+        adminAllClans: function(query, count, callback) {
+            $http({
+                url: '/crud/admin/clans/' + query + '?count=' + count,
+                method: 'GET'
+            }).success(function (data, status, headers, config) {
+                callback(null, data);
+            }).error(function (data, status, headers, config) {
+                callback(errorService.initMessage('clan-service.js', 'allClans', status), null);
+            });
+        }        
     }
 }]);

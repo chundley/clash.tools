@@ -344,6 +344,12 @@ var routes = [
     *   Admin / management endpoints
     */
     {
+        path: '/crud/admin/clans/:query',
+        httpMethod: 'GET',
+        middleware: [clanCtrl.adminAllClans],
+        accessLevel: accessLevels.sadmin
+    },    
+    {
         path: '/crud/admin/clan/:clanId',
         httpMethod: 'GET',
         middleware: [clanCtrl.adminAllData],
