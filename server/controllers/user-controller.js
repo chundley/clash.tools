@@ -180,8 +180,8 @@ exports.getMeta = function(req, res, next) {
                 current_clan: user.current_clan,
                 role: user.role.title,
                 avatar: user.profile.avatar,
-                hasBK: true ? user.profile.heroes.bk > 0 : false,
-                hasAQ: true ? user.profile.heroes.aq > 0 : false,
+                bkLevel: user.profile.heroes.bk,
+                aqLevel: user.profile.heroes.aq,
                 bkUpgrade: user.profile.bkUpgrade,
                 aqUpgrade: user.profile.aqUpgrade
             };
