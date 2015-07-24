@@ -255,9 +255,19 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                     // not called yet
                     open = true;
                 }
-                else if ($scope.war.bases[baseNum-1].a[$scope.war.bases[baseNum-1].a.length-1].s != null) {
+                else if ($scope.war.bases[baseNum-1].a.length > 0 &&
+                         $scope.war.bases[baseNum-1].a[$scope.war.bases[baseNum-1].a.length-1].s != null) {
                     // called, but attacks done
                     open = true;
+                }
+                else {
+                    // need to see if the latest call is expired
+                    if ($scope.war.bases[baseNum-1].a.length > 0) {
+                        var expireDate = new Date($scope.war.bases[baseNum-1].a[$scope.war.bases[baseNum-1].a.length-1].s);
+                        if (now > expireDate) {
+                            open = true;
+                        }
+                    }
                 }
             }
 
