@@ -50,7 +50,36 @@
                             <div class="row result-filter-container">
                                 <div class="col-xs-12">
                                     <div class="filter-body">
-                                        Handy filters will be here soon
+                                        <div class="row">
+                                            <div class="col-sm-3 col-xs-4">
+                                                <p>Clan</p> 
+                                                <select class="form-control" ng-model="filters.clanId" ng-change="applyFilters()">
+                                                    <option value="all">All</option>
+                                                    <option ng-repeat="ch in clanHistory" value="{{ch.clan_id}}">{{ch.name}}</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-3 col-xs-4">
+                                                <p>Opp. TH</p>
+                                                <select class="form-control" ng-model="filters.th" ng-change="applyFilters()" integer>
+                                                    <option value="0">All</option>
+                                                    <option value="10">TH10</option>
+                                                    <option value="9">TH9</option>
+                                                    <option value="8">TH8</option>
+                                                    <option value="7">TH7</option>
+                                                    <option value="6">TH6</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-3 col-xs-4">
+                                                <p>Stars</p>
+                                                <select class="form-control" ng-model="filters.stars" ng-change="applyFilters()" integer>
+                                                    <option value="-1">All</option>
+                                                    <option value="3">3</option>
+                                                    <option value="2">2</option>
+                                                    <option value="1">1</option>
+                                                    <option value="0">0</option>
+                                                </select>
+                                            </div>                                                                                        
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -65,10 +94,25 @@
                                                             Total attacks
                                                         </div>
                                                         <div class="right">
-                                                            {{filteredResults.detail.length}}
+                                                            {{filteredResults.length}}
                                                         </div>
                                                     </div>
-                                                    <span class="primary-40">And more filtered summary stuff will be here soon</span>
+                                                    <div class="summary-metric">
+                                                        <div class="left">
+                                                            3* Rate
+                                                        </div>
+                                                        <div class="right">
+                                                            {{filteredSummary.stars[3] / filteredResults.length * 100 | number:2}}%
+                                                        </div>
+                                                    </div>
+                                                    <div class="summary-metric">
+                                                        <div class="left">
+                                                            AAV
+                                                        </div>
+                                                        <div class="right">
+                                                            {{filteredSummary.aav | number:2}}
+                                                        </div>
+                                                    </div>                                                    
                                                 </div>
                                             </div>
                                             <div class="row t-row">
@@ -92,7 +136,7 @@
                                                 </div>
                                             </div>
                                             <div class="row row-underline-2"></div>
-                                            <div ng-repeat="ar in attackResults">
+                                            <div ng-repeat="ar in filteredResults">
                                                 <div class="row t-row">
                                                     <div class="col-sm-3 col-xs-5">{{ar.on}}</div>
                                                     <div class="col-sm-3 hidden-xs"><span am-time-ago="{{ar.ended}}"></span></div>
@@ -108,7 +152,7 @@
                                                     </div>
                                                     <div class="col-sm-1 col-xs-1 text-right">{{ar.v}}</div>
                                                 </div>
-                                                <div class="row row-underline-1" ng-if="$index<attackResults.length-1"></div>
+                                                <div class="row row-underline-1" ng-if="$index<filteredResults.length-1"></div>
                                             </div>
                                         </div>
                                     </div>
