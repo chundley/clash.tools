@@ -29,7 +29,7 @@ config.env = {
         purgeDays: {
             purgeEmail: 30,
             purgeMessagelog: 30
-        },        
+        },
         cookieSecret: 'clashtools_bab',
         logLevel: 'debug',
         mandrill: 'hYM_1Xl4pPKbF2EZR-pnmA',
@@ -42,7 +42,7 @@ config.env = {
     production: {
         url: {
             host: '0.0.0.0',
-            port: '80',
+            port: '7997',
             base: 'http://clash.tools'
         },
         mongoDb: {
@@ -51,7 +51,7 @@ config.env = {
             pwd: 'u2p82KY#g!',
             servers: [
                 {
-                    host: '127.0.0.1',
+                    host: 'ct-db1',
                     port: '27017'
                 }
             ]
@@ -59,11 +59,11 @@ config.env = {
         jobSchedule: {
             purgeEmailJob: '0 8 * * *',        // every day at 2AM PST
             purgeMessagelogJob: '0 9 * * *'   // every day at 3AM PST
-        },   
+        },
         purgeDays: {
             purgeEmail: 30,
             purgeMessagelog: 30
-        },              
+        },
         cookieSecret: 'clashtools_kak',
         logLevel: 'info',
         mandrill: 'IAO8H52xJO-Lk-4_zBFcEQ',

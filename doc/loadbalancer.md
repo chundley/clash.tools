@@ -204,25 +204,3 @@ At the end of the file, add this line -
 
 `vm.swappiness=10`
 
-
-#### Install and configure Zabbix monitoring
-
-Install the agent
-
-`$ apt-get install -y zabbix-agent`
-
-Update config with the zabbix server
-
-`$ vim /etc/zabbix/zabbix_agentd.conf`
-
-Edit the server property to reflect the Zabbix server name in production
-
-`Server=monitor.siftrock.com`
-
-Edit the hostname property to reflect this machine's host name
-
-`Hostname=siftrock-lb1`
-
-Re-start the zabbix agent
-
-`$ service zabbix-agent restart`
