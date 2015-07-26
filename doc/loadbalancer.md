@@ -70,8 +70,9 @@ Add this entry in the http {  } section:
 ````
 http {
     upstream ct-app {
-        server ct-app1:7997;
-        server ct-app2:7997;
+        ip_hash;
+        server ct-app1:7997 max_fails=1 fail_timeout=30s;
+        server ct-app2:7997 max_fails=1 fail_timeout=30s;
     }
 
     .

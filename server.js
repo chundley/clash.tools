@@ -9,7 +9,8 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 var http    = require('http'),
     https   = require('https'),
     fs      = require('fs'),
-    io      = require('socket.io'),
+    io      = require('socket.io')(3000),
+    redis   = require('socket.io-redis'),
     log4js  = require('log4js'),
     cronJob = require('cron').CronJob;
 
@@ -95,6 +96,9 @@ app.init(function(err) {
 
     // fire it up
     var server = http.createServer(app.theApp());
+
+    // set redis adapter for socket.io - for load balanced sets of app servers
+    io.adapter(redis({ host: config.env[process.env.NODE_ENV].redis.host, port: config.env[process.env.NODE_ENV].redis.port }));
 
     // global socket object
     socket = io.listen(server);

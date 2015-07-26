@@ -101,13 +101,9 @@ Install project dependencies
 
 ````
 $ cd clash.tools
+$ git checkout --track -b release origin/release
 $ npm install
 ````
-
-Check out release branch and enable tracking to remote in case a change is needed
-
-`$ git checkout --track -b release origin/release`
-
 
 #### Set up local deployment
 The application has a deploy script that runs from the local box

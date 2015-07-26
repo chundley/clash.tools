@@ -20,6 +20,10 @@ config.env = {
                 }
             ]
         },
+        redis: {
+            host: 'localhost',
+            port: '6379'
+        },
         jobSchedule: {
             //purgeEmailJob: '* * * * * *', // (testing) run immediately in development
             //purgeMessagelogJob: '* * * * * *' // (testing) run immediately in development
@@ -55,6 +59,10 @@ config.env = {
                     port: '27017'
                 }
             ]
+        },
+        redis: {
+            host: 'ct-db1',
+            port: '6379'
         },
         jobSchedule: {
             purgeEmailJob: '0 8 * * *',        // every day at 2AM PST
