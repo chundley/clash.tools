@@ -15,12 +15,15 @@ function ($rootScope, $scope, $interval, $modal, $window, moment, authService, c
         $scope.walls.push({count: idx});
     }
 
+    console.log('top - ' + authService.user.id);
     userService.getById(authService.user.id, function (err, user) {
         if (err) {
             err.stack_trace.unshift( { file: 'profile-controller.js', func: 'init', message: 'Error getting user' } );
             errorService.save(err, function() {});
         }
         else {
+            console.log('user');
+            console.log(user);
             $scope.user = user;
             setCountdownTimers();
 
