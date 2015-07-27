@@ -397,7 +397,7 @@ function MailMessage() {
     this.inline_css = null;
     this.url_strip_qs = null;
     this.preserve_recipients = false;
-    this.view_content_link = false;
+    this.view_content_link = true;
     this.bcc_address = null;
     this.tracking_domain = null;
     this.signing_domain = null;
