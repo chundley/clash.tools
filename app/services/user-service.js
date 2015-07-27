@@ -18,6 +18,16 @@ function ($http, errorService) {
                 callback(errorService.initMessage('user-service.js', 'getById', status), null);
             });
         },
+        getByIdLimited: function (id, callback) {
+            $http({
+                url: '/crud/user/limited/' + id,
+                method: 'GET'
+            }).success(function (data, status, headers, config) {
+                callback(null, data);
+            }).error(function (data, status, headers, config) {
+                callback(errorService.initMessage('user-service.js', 'getByIdLimited', status), null);
+            });
+        },        
         getByVerifyToken: function (id, callback) {
             $http({
                 url: '/crud/verifyemail/' + id,

@@ -23,6 +23,7 @@ angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize',
         .when('/profile', { controller: 'ProfileCtrl', templateUrl: '/views/profile.html', access: access.member } )
         .when('/results', { controller: 'ResultsCtrl', templateUrl: '/views/results.html', access: access.member } )
         .when('/results/:id', { controller: 'ResultsCtrl', templateUrl: '/views/results.html', access: access.coleader } )
+        .when('/playernotes/:id', { controller: 'PlayerNotesCtrl', templateUrl: '/views/playerNotes.html', access: access.coleader } )
         .when('/mail', { controller: 'MailCtrl', templateUrl: '/views/mail.html', access: access.member } )
         .when('/mail/:id', { controller: 'MailDetailCtrl', templateUrl: '/views/mailDetail.html', access: access.member } )
         .when('/newmail/:id', { controller: 'NewMailCtrl', templateUrl: '/views/newMail.html', access: access.member } )

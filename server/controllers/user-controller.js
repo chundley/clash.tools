@@ -24,6 +24,28 @@ exports.getById = function(req, res, next) {
 }
 
 /*
+*   Get a user model by user id (limited, removing email and password)
+*/
+exports.getByIdLimited = function(req, res, next) {
+    model.findById(req.params.userId, function (err, user) {
+        if (err) {
+            res.send(500, err);
+        }
+        else if (user) {
+            var ret = {
+                _id: user._id,
+                ign: user.ign,
+                player_tag: user.player_tag
+            };
+            res.json(200, ret);
+        }
+        else {
+            res.send(404, 'not found');
+        }
+    });
+}
+
+/*
 *   Get a user model by verify token
 */
 exports.getByVerifyToken = function(req, res, next) {

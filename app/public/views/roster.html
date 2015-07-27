@@ -25,26 +25,28 @@
                                 <div class="widget-body roster-table">
                                     <div class="row t-row">
                                         <div class="col-sm-3 col-xs-3 t-header" ng-class="{alternate: order=='i'}" ng-click="order='i'; reverse=!reverse">IGN</div>
+                                        <div class="col-sm-1 col-xs-1 t-header text-center">Notes</div>
                                         <div class="col-sm-1 col-xs-1 t-header" ng-class="{alternate: order=='t'}" ng-click="order='t'; reverse=!reverse">TH</div>
                                         <div class="col-sm-1 col-xs-1 t-header text-center" ng-class="{alternate: order=='stars[3]'}" ng-click="order='stars[3]'; reverse=!reverse">3*</div>
                                         <div class="col-sm-1 col-xs-1 t-header text-center" ng-class="{alternate: order=='stars[2]'}" ng-click="order='stars[2]'; reverse=!reverse">2*</div>
                                         <div class="col-sm-1 col-xs-1 t-header text-center" ng-class="{alternate: order=='stars[1]'}" ng-click="order='stars[1]'; reverse=!reverse">1*</div>
-                                        <div class="col-sm-1 col-xs-1 t-header text-center" ng-class="{alternate: order=='stars[0]'}" ng-click="order='stars[0]'; reverse=!reverse">0*</div>
+                                        <div class="col-sm-1 hidden-xs t-header text-center" ng-class="{alternate: order=='stars[0]'}" ng-click="order='stars[0]'; reverse=!reverse">0*</div>
                                         <div class="col-sm-2 col-xs-2 t-header text-right" ng-class="{alternate: order=='threeRate'}" ng-click="order='threeRate'; reverse=!reverse">3* Rate</div>
-                                        <div class="col-sm-2 col-xs-2 t-header text-right" ng-class="{alternate: order=='avgAttackValue'}" ng-click="order='avgAttackValue'; reverse=!reverse"><i class="icon-help-circled" popover-placement="left" popover="AAV is Average Attack Value. This is a calculation based on number of stars, distance the target was from mirror, and TH level of target. The AAV range is 0 - 100" popover-append-to-body="true" popover-trigger="mouseenter"></i> AAV</div>
+                                        <div class="col-sm-1 col-xs-2 t-header text-right" ng-class="{alternate: order=='avgAttackValue'}" ng-click="order='avgAttackValue'; reverse=!reverse"> AAV</div>
                                     </div>
                                     <div class="row row-underline-2"></div>
                                     <div ng-repeat="member in memberResults | filter:filterTable | orderBy:order:reverse">
                                         <div class="row t-row">
                                             <div class="col-sm-3 col-xs-3 t-col-center">{{member.i}}</div>
+                                            <div class="col-sm-1 col-xs-1 t-col-center text-center"><a href="/playernotes/{{member.u}}"><i class="icon-attach icon-large"></i></a></div>
                                             <div class="col-sm-1 hidden-xs"><img src="/img/icons/th-{{member.t}}.png"></div>
                                             <div class="col-xs-1 t-col-center hidden-sm hidden-md hidden-lg">{{member.t}}</div>
                                             <div class="col-sm-1 col-xs-1 t-col-center text-center">{{member.stars[3]}}</div>
                                             <div class="col-sm-1 col-xs-1 t-col-center text-center">{{member.stars[2]}}</div>
                                             <div class="col-sm-1 col-xs-1 t-col-center text-center">{{member.stars[1]}}</div>
-                                            <div class="col-sm-1 col-xs-1 t-col-center text-center">{{member.stars[0]}}</div>
+                                            <div class="col-sm-1 hidden-xs t-col-center text-center">{{member.stars[0]}}</div>
                                             <div class="col-sm-2 col-xs-2 t-col-center text-right">{{member.threeRate | number:2}}%</div>
-                                            <div class="col-sm-2 col-xs-2 t-col-center text-right">{{member.avgAttackValue | number:2}}</div>
+                                            <div class="col-sm-1 col-xs-2 t-col-center text-right">{{member.avgAttackValue | number:2}}</div>
                                         </div>
                                         <div class="row row-underline-1" ng-if="$index<memberResults.length-1"></div>
                                     </div>

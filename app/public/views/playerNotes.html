@@ -1,0 +1,62 @@
+<div id="wrapper">
+    <div sidebar></div>
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div top-nav></div>
+            <!-- page content -->
+            <div class="row content-body" ng-if="!nullState">
+                <div class="col-sm-12">
+                    <div class="row margin-bottom-big">
+                        <div class="col-sm-12">
+                            <h1>Player Notes</h1>
+                            <h3 class="same-line-sub-heading alternate">{{user.ign}}</h3>
+                        </div>
+                    </div>
+                    <div class="row margin-bottom-huge">
+                        <div class="col-xs-12">
+                            <div class="widget">
+                                <div class="widget-header">
+                                    <h3 class="white">Notes</h3>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="row margin-bottom-huge">
+                                        <div class="col-xs-12">
+                                            <a class="btn btn-default btn-sm" ng-click="addNote('text')">Add note</a>
+                                        </div>
+                                    </div>
+                                    <div class="row t-row">
+                                        <div class="col-sm-2 col-xs-4 t-header">
+                                            Added by
+                                        </div>
+                                        <div class="col-sm-2 hidden-xs t-header">
+                                            When
+                                        </div>
+                                        <div class="col-sm-8 col-xs-8 t-header">
+                                            Note
+                                        </div>                                                                                
+                                    </div>
+                                    <div class="row row-underline-2"></div>
+                                    <div ng-repeat="note in notes">
+                                        <div class="row t-row">
+                                            <div class="col-sm-2 col-xs-4">
+                                                <i class="icon-cancel action-icon error-red" access-level="coleader" title="Delete note" ng-click="deleteNote(note, $index)"></i>{{note.note.ign}}
+                                            </div>
+                                            <div class="col-sm-2 hidden-xs">
+                                                <span am-time-ago="{{note.created_at}}" class="small"></span>
+                                            </div>
+                                            <div class="col-sm-8 col-xs-8">
+                                                {{note.note.note}}                                             
+                                            </div>
+                                        </div>
+                                        <div class="row row-underline-1" ng-if="$index<notes.length-1"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- /page content -->
+        </div>
+    </div>  <!-- /#page-content-wrapper -->
+</div>  <!-- /#wrapper -->

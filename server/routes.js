@@ -16,6 +16,7 @@ var authCtrl            = require('./controllers/auth-controller'),
     mailCtrl            = require('./controllers/mail-controller'),
     errorCtrl           = require('./controllers/error-controller'),
     messagelogCtrl      = require('./controllers/messagelog-controller'),
+    playerNotesCtrl     = require('./controllers/playernotes-controller'),
     imageUploadCtrl     = require('./controllers/imageupload-controller'),
     analyticsCtrl       = require('./controllers/analytics-controller'),
     userModel           = require('./models/user-model'),
@@ -48,6 +49,12 @@ var routes = [
         middleware: [authorizeUserIdAccess, userCtrl.getById],
         accessLevel: accessLevels.member
     },
+    {
+        path: '/crud/user/limited/:userId',
+        httpMethod: 'GET',
+        middleware: [authorizeUserIdAccess, userCtrl.getByIdLimited],
+        accessLevel: accessLevels.member
+    },    
     {
         path: '/crud/user/:userId',
         httpMethod: 'POST',
@@ -101,6 +108,27 @@ var routes = [
         middleware: [authorizeUserIdAccess, userCtrl.disable],
         accessLevel: accessLevels.member
     },
+    /*
+    *   Player note endpoints
+    */
+    {
+        path: '/crud/playernotes/:userId/:clanId',
+        httpMethod: 'GET',
+        middleware: [authorizeUserIdAccess, playerNotesCtrl.get],
+        accessLevel: accessLevels.coleader
+    },    
+    {
+        path: '/crud/playernotes/:userId',
+        httpMethod: 'POST',
+        middleware: [authorizeUserIdAccess, playerNotesCtrl.save],
+        accessLevel: accessLevels.coleader
+    },  
+    {
+        path: '/crud/playernotes/:clanId/:noteId',
+        httpMethod: 'DELETE',
+        middleware: [authorizeClanIdAccess, playerNotesCtrl.delete],
+        accessLevel: accessLevels.coleader
+    },        
     /*
     *   Clan endpoints
     */

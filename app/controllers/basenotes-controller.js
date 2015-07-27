@@ -121,6 +121,7 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
         $scope.modalOptions = {
             yesBtn: 'Save',
             noBtn: 'Cancel',
+            title: 'Add note to base # ' + $scope.baseNum,
             cssClass: cssClass,
             baseNum: $scope.baseNum,
             formData: {},
