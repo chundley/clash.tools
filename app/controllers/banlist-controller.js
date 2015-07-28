@@ -1,12 +1,12 @@
 'use strict';
 
 /*
-*   Controller for clan page
+*   Controller for ban list
 */
 
 angular.module('Clashtools.controllers')
-.controller('BanListCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$modal', '$window', 'moment', 'authService', 'sessionService', 'errorService', 'messagelogService', 'userService', 'playerNotesService', 'banListService', 'utils',
-function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, authService, sessionService, errorService, messagelogService, userService, playerNotesService, banListService, utils) {
+.controller('BanListCtrl', ['$rootScope', '$scope', '$modal', '$window', 'moment', 'authService', 'sessionService', 'errorService', 'messagelogService', 'userService', 'playerNotesService', 'banListService', 'utils',
+function ($rootScope, $scope, $modal, $window, moment, authService, sessionService, errorService, messagelogService, userService, playerNotesService, banListService, utils) {
 
     sessionService.getUserMeta(authService.user.id, function (err, meta) {
         if (err) {
