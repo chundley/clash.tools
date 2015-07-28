@@ -9,7 +9,7 @@ angular.module('Clashtools.controllers')
 function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, authService, sessionService, errorService, messagelogService, userService, playerNotesService) {
 
     $scope.userId = $routeParams.id;
-    $scope.baseNum = $routeParams.baseNum;
+    $scope.banned = false;
 
     sessionService.getUserMeta(authService.user.id, function (err, meta) {
         if (err) {
@@ -123,6 +123,98 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
         modalInstance.$promise.then(function() {
             modalInstance.show();
         });
+    }
+
+    $scope.setBanned = function() {
+        var msg = "Are you sure you want to ban \"" + $scope.user.ign + "\"?";
+        var yesBtn = "Ban";
+        if ($scope.banned) {
+            // make sure we want to ban this person
+            msg = "Un-ban \"" + $scope.user.ign + "\". Are you sure?";
+            yesBtn = "Un-ban";
+        }
+
+        var cssClass = 'center';
+        if ($window.innerWidth < 500) {
+            cssClass = 'mobile';
+        }
+
+        $scope.modalOptions = {
+            title: msg,
+            yesBtn: yesBtn,
+            noBtn: 'Cancel',
+            cssClass: cssClass,
+            formData: {},
+            onYes: function(formData) {
+                if ($scope.banned) {
+                    // if they were un-banned, add the note to the standard set of notes and delete the ban
+                    var model = {
+                        user_id: $scope.user._id,
+                        clan_id: $scope.meta.current_clan.clan_id,
+                        note: {
+                            user_id: authService.user.id,
+                            ign: $scope.meta.ign,
+                            note: formData.note + ' (player was un-banned)'
+                        }
+                    };
+
+                    playerNotesService.save($scope.user._id, model, function (err, result) {
+                        if (err) {
+                            err.stack_trace.unshift( { file: 'playernotes-controller.js', func: '$scope.setBanned', message: 'Error adding un-ban message to user' } );
+                            errorService.save(err, function() {});
+                        }
+                        else {
+                            $rootScope.globalMessage = $scope.user.ign + ' was un-banned';
+                            $scope.banned = !$scope.banned;
+                            loadNotes();
+                        }
+                    });
+                }
+                else {
+                    // player was banned - save the ban message and ban status
+                    var model = {
+                        user_id: $scope.user._id,
+                        clan_id: $scope.meta.current_clan.clan_id,
+                        note: {
+                            user_id: authService.user.id,
+                            ign: $scope.meta.ign,
+                            note: formData.note + ' (player was banned)'
+                        }
+                    };
+
+                    playerNotesService.save($scope.user._id, model, function (err, result) {
+                        if (err) {
+                            err.stack_trace.unshift( { file: 'playernotes-controller.js', func: '$scope.setBanned', message: 'Error adding un-ban message to user' } );
+                            errorService.save(err, function() {});
+                        }
+                        else {
+                            $rootScope.globalMessage = $scope.user.ign + ' has been banned';
+                            $scope.banned = !$scope.banned;
+                            loadNotes();
+                        }
+                    });
+                }
+
+
+
+            }
+        };
+
+        var modalInstance = $modal(
+            {
+                scope: $scope,
+                animation: 'am-fade-and-slide-top',
+                placement: 'center',
+                template: "/views/partials/addNoteDialog.html",
+                show: false
+            }
+        );
+
+        modalInstance.$promise.then(function() {
+            modalInstance.show();
+        });
+
+
     }
 
     function loadNotes() {
