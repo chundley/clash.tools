@@ -29,7 +29,7 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
                 }
             });
 
-        }        
+        }
     });
 
 
@@ -62,6 +62,7 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
                         errorService.save(err, function() {});
                     }
                     else {
+                        $rootScope.globalMessage = 'Note added for ' + $scope.user.ign;
                         loadNotes();
                     }
                 });
@@ -96,64 +97,16 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
             noBtn: 'Cancel',
             cssClass: cssClass,
             onYes: function() {
-                $scope.war.bases[$scope.baseNum-1].n.n.splice(noteIndex, 1);
-                warService.deleteBaseNote($scope.war._id, $scope.baseNum, note, function (err, result) {
-                    if (err) {
-                        err.stack_trace.unshift( { file: 'basenotes-controller.js', func: '$scope.deleteNote', message: 'Error deleting base note' } );
-                        errorService.save(err, function() {});
-                    }
-                    else {
-                        messagelogService.save($scope.meta.current_clan.clan_id, '[ign] deleted ' + note.i + '\'s note from base #' + $scope.baseNum, $scope.meta.ign, 'note', function (err, msg) {
-                            if (err) {
-                                err.stack_trace.unshift( { file: 'basenotes-controller.js', func: '$scope.deleteNote', message: 'Error saving note message in the log' } );
-                                errorService.save(err, function() {});
-                            }
-                            else {
-                                // nothing to do here
-                            }
-                        });                            
-                    }
-                });                
-            }
-        };
-
-        var modalInstance = $modal(
-            {
-                scope: $scope,
-                animation: 'am-fade-and-slide-top',
-                placement: 'center',
-                template: "/views/partials/confirmDialog.html",
-                show: false
-            }
-        );
-
-        modalInstance.$promise.then(function() {
-            modalInstance.show();
-        });
-    }
-
-    $scope.deleteNote = function(note, noteIndex) {
-        var cssClass = 'center';
-        if ($window.innerWidth < 500) {
-            cssClass = 'mobile';
-        }
-
-        $scope.modalOptions = {
-            title: 'Delete note',
-            message: 'Please confirm you want to delete this note',
-            yesBtn: 'Delete',
-            noBtn: 'Cancel',
-            cssClass: cssClass,
-            onYes: function() {
                 playerNotesService.delete($scope.meta.current_clan.clan_id, note._id, function (err, result) {
                     if (err) {
                         err.stack_trace.unshift( { file: 'playernotes-controller.js', func: '$scope.deleteNote', message: 'Error deleting player note' } );
                         errorService.save(err, function() {});
                     }
                     else {
+                        $rootScope.globalMessage = 'Note deleted';
                         loadNotes();
                     }
-                });             
+                });
             }
         };
 
@@ -182,7 +135,7 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
                 angular.forEach(notes, function (note) {
                     note.created_at = new moment(note.created_at);
                 });
-                $scope.notes = notes;                
+                $scope.notes = notes;
             }
         });
     }
