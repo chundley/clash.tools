@@ -8,7 +8,7 @@ angular.module('Clashtools.controllers')
 .controller('BanListCtrl', ['$rootScope', '$scope', '$modal', '$window', 'moment', 'authService', 'sessionService', 'errorService', 'messagelogService', 'userService', 'playerNotesService', 'banListService', 'utils',
 function ($rootScope, $scope, $modal, $window, moment, authService, sessionService, errorService, messagelogService, userService, playerNotesService, banListService, utils) {
 
-/*    sessionService.getUserMeta(authService.user.id, function (err, meta) {
+    sessionService.getUserMeta(authService.user.id, function (err, meta) {
         if (err) {
             err.stack_trace.unshift( { file: 'banlist-controller.js', func: 'init', message: 'Error geting user meta' } );
             errorService.save(err, function() {});
@@ -17,7 +17,7 @@ function ($rootScope, $scope, $modal, $window, moment, authService, sessionServi
             $scope.meta = meta;
             loadBanList();
         }
-    });*/
+    });
 
     $scope.unBan = function(player) {
         var cssClass = 'center';
