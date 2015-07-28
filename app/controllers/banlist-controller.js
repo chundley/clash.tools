@@ -15,7 +15,7 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
         }
         else {
             $scope.meta = meta;
-            loadBanList();
+            //loadBanList();
         }
     });
 
