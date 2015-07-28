@@ -1,5 +1,5 @@
 angular.module('Clashtools.controllers')
-.controller('TestCtrl', ['$rootScope', '$scope', '$modal', '$window', 'moment', 'authService', 'sessionService', 'errorService', 'messagelogService', 'userService', 'playerNotesService', 'banListService', 'utils',
+.controller('BannedCtrl', ['$rootScope', '$scope', '$modal', '$window', 'moment', 'authService', 'sessionService', 'errorService', 'messagelogService', 'userService', 'playerNotesService', 'banListService', 'utils',
 function ($rootScope, $scope, $modal, $window, moment, authService, sessionService, errorService, messagelogService, userService, playerNotesService, banListService, utils) {
     
     $rootScope.title = 'Ban list - clash.tools';
@@ -168,5 +168,5 @@ function ($rootScope, $scope, $modal, $window, moment, authService, sessionServi
             }
         });
     }
-    
+
 }]);
