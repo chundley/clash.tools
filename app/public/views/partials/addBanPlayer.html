@@ -1,0 +1,41 @@
+<div class="modal {{modalOptions.cssClass}}" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Add a player to the ban list
+            </div>
+            <div class="modal-body">
+                <div class="row margin-bottom-big">
+                    <div class="col-xs-12">
+                        <b>NOTE:</b> You should only use this dialog to add someone to the ban list who <b><a href="/roster">isn't on your roster</a></b>. For someone with attack history in your clan you should add them to the ban list from the player notes page.
+                    </div>  
+                </div>
+                <form class="form-horizontal" name="noteForm">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label">IGN</label>
+                        <div class="col-sm-9">
+                            <input class="form-control req-field" ng-model="modalOptions.formData.ign" placeholder="In game name" required>
+                        </div>
+                    </div>    
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label">Player tag</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" ng-model="modalOptions.formData.tag" placeholder="Player tag (if available)">
+                        </div>
+                    </div>                                    
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label">Ban reason</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control req-field" ng-model="modalOptions.formData.note" placeholder="Type a reason" required>
+                            </textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+            <button class="btn btn-emphasis btn-sm" ng-disabled="noteForm.$invalid" ng-click="modalOptions.onYes(modalOptions.formData); $hide();">{{modalOptions.yesBtn}}</button>
+            <button class="btn btn-default btn-sm" ng-click="$hide();">{{modalOptions.noBtn}}</button>
+            </div>
+        </div>
+    </div>
+</div>

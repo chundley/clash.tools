@@ -41,12 +41,12 @@
                                     </div>
                                     <div class="row row-underline-2"></div>
                                     <div ng-repeat="note in notes">
-                                        <div class="row t-row">
+                                        <div class="row t-row small">
                                             <div class="col-sm-2 col-xs-4">
                                                 <i class="icon-cancel action-icon error-red" access-level="leader" title="Delete note" ng-click="deleteNote(note, $index)"></i>{{note.note.ign}}
                                             </div>
                                             <div class="col-sm-2 hidden-xs">
-                                                <span am-time-ago="{{note.created_at}}" class="small"></span>
+                                                <span am-time-ago="{{note.created_at}}"></span>
                                             </div>
                                             <div class="col-sm-8 col-xs-8">
                                                 {{note.note.note}}

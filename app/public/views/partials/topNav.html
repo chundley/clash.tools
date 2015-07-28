@@ -28,6 +28,7 @@
                                     <p class="dropdown-header" ng-if="clanName.length>0">Clan</p>
                                     <li ng-if="clanName.length>0"><a href="/members">Members</a></li>
                                     <li ng-if="clanName.length>0" access-level="coleader"><a href="/roster">Roster</a></li>
+                                    <li ng-if="clanName.length>0" access-level="elder"><a href="/banlist">Ban List</a></li>
                                     <li class="margin-bottom-medium" ng-if="clanName.length>0"><a href="/clan/{{clanId}}">Settings</a></li>
                                     <p class="dropdown-header" ng-if="clanName.length>0">Wars</p>
                                     <li ng-if="clanName.length>0"><a href="/war">War History</a></li>

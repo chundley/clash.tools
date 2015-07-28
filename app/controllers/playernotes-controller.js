@@ -194,7 +194,15 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
                                     $scope.banned = !$scope.banned;
                                     loadNotes();
                                 }
-                            });                            
+                            });
+
+                            // Log this activity
+                            messagelogService.save($scope.meta.current_clan.clan_id, '[ign] was un-banned by ' + $scope.meta.ign, $scope.user.ign, 'member', function (err, msg) {
+                                if (err) {
+                                    err.stack_trace.unshift( { file: 'playernotes-controller.js', func: '$scope.setBanned', message: 'Error saving un-ban message in the log' } );
+                                    errorService.save(err, function() {});
+                                }
+                            });                                                        
                         }
                     });
                 }
@@ -239,6 +247,14 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
                                     loadNotes();
                                 }
                             });
+
+                            // Log this activity
+                            messagelogService.save($scope.meta.current_clan.clan_id, '[ign] was banned by ' + $scope.meta.ign, $scope.user.ign, 'delete', function (err, msg) {
+                                if (err) {
+                                    err.stack_trace.unshift( { file: 'playernotes-controller.js', func: '$scope.setBanned', message: 'Error saving ban message in the log' } );
+                                    errorService.save(err, function() {});
+                                }
+                            });                             
                         }
                     });                    
                 }

@@ -11,11 +11,6 @@ var config = require('../../config/config');
 * Saves a record and returns the resulting record
 */
 exports.save = function(model, callback) {
-
-    if (_.isString(model.user_id)) {
-        model.user_id = new ObjectID.createFromHexString(model.user_id);
-    }
-
     if (_.isString(model.clan_id)) {
         model.clan_id = new ObjectID.createFromHexString(model.clan_id);
     }
@@ -82,10 +77,6 @@ exports.getByUserId = function(clanId, userId, callback) {
         clanId = new ObjectID.createFromHexString(clanId);
     }
 
-    if (_.isString(userId)) {
-        userId = new ObjectID.createFromHexString(userId);
-    }
-
     db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'ban_list', function (err, collection) {
         if (err) {
             callback(err, null);
@@ -106,10 +97,6 @@ exports.getByUserId = function(clanId, userId, callback) {
 exports.delete = function(clanId, userId, callback) {
     if (_.isString(clanId)) {
         clanId = new ObjectID.createFromHexString(clanId);
-    }
-
-    if (_.isString(userId)) {
-        userId = new ObjectID.createFromHexString(userId);
     }
 
     db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'ban_list', function (err, collection) {
