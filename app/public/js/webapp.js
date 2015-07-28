@@ -38,7 +38,7 @@ angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize',
         .when('/members', { controller: 'MembersCtrl', templateUrl: '/views/members.html', access: access.member } )
         .when('/members/:id', { controller: 'MemberCtrl', templateUrl: '/views/profile.html', access: access.coleader } )
         .when('/roster', { controller: 'RosterCtrl', templateUrl: '/views/roster.html', access: access.coleader } )
-        .when('/banlist', { controller: 'BanListCtrl', templateUrl: '/views/banlist.html', access: access.elder } )
+        .when('/bannedlist', { controller: 'BanListCtrl', templateUrl: '/views/banlist.html', access: access.elder } )
         .when('/chat', { controller: 'ChatCtrl', templateUrl: '/views/chat.html', access: access.member } )
         .when('/action/:id', { controller: 'ActionCtrl', templateUrl: '/views/action.html', access: access.member } )
         .when('/admin', { controller: 'AdminHomeCtrl', templateUrl: '/views/admin/admin-home.html', access: access.sadmin } )
