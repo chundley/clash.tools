@@ -1,1 +1,68 @@
-  nada
+<div id="wrapper">
+    <div sidebar></div>
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div top-nav></div>
+            <!-- page content -->
+            <div class="row content-body">
+                <div class="col-sm-12">
+                    <div class="row margin-bottom-big">
+                        <div class="col-xs-8">
+                            <h1>Ban List</h1>
+                            <h3 class="same-line-sub-heading alternate hidden-xs">{{meta.current_clan.name}}</h3>
+                        </div>
+                        <div class="col-xs-4 text-right">
+                            <a class="btn btn-sm btn-default" ng-click="addBan()" access-level="coleader">Add player</a>
+                        </div>
+                    </div>
+                    <div class="row margin-bottom-huge">
+                        <div class="col-xs-12">
+                            <div class="widget">
+                                <div class="widget-body">
+                                    <div class="row t-row">
+                                        <div class="col-sm-3 col-xs-6 t-header">
+                                            Player
+                                        </div>
+                                        <div class="col-sm-2 hidden-xs t-header">
+                                            Tag
+                                        </div>               
+                                        <div class="col-sm-2 hidden-xs t-header">
+                                            When
+                                        </div>
+                                        <div class="col-sm-5 col-xs-6 t-header">
+                                            Reason
+                                        </div>
+                                    </div>
+                                    <div class="row row-underline-2"></div>
+                                    <div ng-repeat="player in banList">
+                                        <div class="row t-row small">
+                                            <div class="col-sm-3 col-xs-6">
+                                                <i class="icon-cancel action-icon error-red" access-level="coleader" title="Un-ban" ng-click="unBan(player)"></i> {{player.ign}} <a href="/playernotes/{{player.user_id}}" access-level="coleader" ng-if="player.user_id.length==24"><i class="icon-attach"></i></a>
+                                            </div>
+                                            <div class="col-sm-2 hidden-xs">
+                                                {{player.player_tag}}
+                                            </div>                                            
+                                            <div class="col-sm-2 hidden-xs">
+                                                <span am-time-ago="{{player.created_at}}"></span>
+                                            </div>
+                                            <div class="col-sm-5 col-xs-6">
+                                                {{player.note.note}}
+                                            </div>
+                                        </div>
+                                        <div class="row row-underline-1" ng-if="$index<banList.length-1"></div>
+                                    </div>
+                                    <div class="row margin-top-big" ng-if="banList.length==0">
+                                        <div class="col-xs-12 primary-20">
+                                        No ban list yet
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- /page content -->
+        </div>
+    </div>  <!-- /#page-content-wrapper -->
+</div>  <!-- /#wrapper -->
