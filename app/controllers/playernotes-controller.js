@@ -9,7 +9,7 @@ angular.module('Clashtools.controllers')
 function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, authService, sessionService, errorService, messagelogService, userService, playerNotesService, banListService) {
 
     $scope.userId = $routeParams.id;
-    
+    $rootScope.title = 'Player notes - clash.tools';
 
     sessionService.getUserMeta(authService.user.id, function (err, meta) {
         if (err) {
