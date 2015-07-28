@@ -180,7 +180,7 @@ exports.authClanAccessByClanId = function(reqUser, reqMethod, clanId, callback) 
     else {
         async.parallel({
             authorized: function (callback_p) {
-                if (reqMethod=='POST') {
+                if (reqMethod=='POST' || reqMethod == 'DELETE') {
                     if (reqUser.role.title=='leader' || reqUser.role.title=='coleader') {
                         callback_p(null, true);
                     }

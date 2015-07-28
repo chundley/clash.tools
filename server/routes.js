@@ -17,6 +17,7 @@ var authCtrl            = require('./controllers/auth-controller'),
     errorCtrl           = require('./controllers/error-controller'),
     messagelogCtrl      = require('./controllers/messagelog-controller'),
     playerNotesCtrl     = require('./controllers/playernotes-controller'),
+    banListCtrl         = require('./controllers/banlist-controller'),
     imageUploadCtrl     = require('./controllers/imageupload-controller'),
     analyticsCtrl       = require('./controllers/analytics-controller'),
     userModel           = require('./models/user-model'),
@@ -128,7 +129,34 @@ var routes = [
         httpMethod: 'DELETE',
         middleware: [authorizeClanIdAccess, playerNotesCtrl.delete],
         accessLevel: accessLevels.coleader
-    },        
+    }, 
+    /*
+    *   Ban list endpoints
+    */
+    {
+        path: '/crud/banlist/:clanId',
+        httpMethod: 'GET',
+        middleware: [authorizeClanIdAccess, banListCtrl.get],
+        accessLevel: accessLevels.elder
+    },    
+    {
+        path: '/crud/banlist/:clanId',
+        httpMethod: 'POST',
+        middleware: [authorizeClanIdAccess, banListCtrl.save],
+        accessLevel: accessLevels.coleader
+    },  
+    {
+        path: '/crud/banlist/:clanId/:userId',
+        httpMethod: 'GET',
+        middleware: [authorizeClanIdAccess, banListCtrl.getByUserId],
+        accessLevel: accessLevels.coleader
+    },    
+    {
+        path: '/crud/banlist/:clanId/:userId',
+        httpMethod: 'DELETE',
+        middleware: [authorizeClanIdAccess, banListCtrl.delete],
+        accessLevel: accessLevels.coleader
+    },             
     /*
     *   Clan endpoints
     */

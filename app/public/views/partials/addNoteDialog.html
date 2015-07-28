@@ -7,9 +7,9 @@
             <div class="modal-body">
                 <form class="form-horizontal" name="noteForm">
                     <div class="form-group">
-                        <label for="name" class="col-sm-3 control-label">Note</label>
+                        <label for="name" class="col-sm-3 control-label">{{modalOptions.label}}</label>
                         <div class="col-sm-9">
-                            <textarea class="form-control req-field" ng-model="modalOptions.formData.note" placeholder="Type note here" required>
+                            <textarea class="form-control req-field" ng-model="modalOptions.formData.note" placeholder="{{modalOptions.placeholder}}" required>
                             </textarea>
                         </div>
                     </div>

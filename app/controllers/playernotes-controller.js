@@ -5,11 +5,11 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('PlayerNotesCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$modal', '$window', 'moment', 'authService', 'sessionService', 'errorService', 'messagelogService', 'userService', 'playerNotesService',
-function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, authService, sessionService, errorService, messagelogService, userService, playerNotesService) {
+.controller('PlayerNotesCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$modal', '$window', 'moment', 'authService', 'sessionService', 'errorService', 'messagelogService', 'userService', 'playerNotesService', 'banListService',
+function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, authService, sessionService, errorService, messagelogService, userService, playerNotesService, banListService) {
 
     $scope.userId = $routeParams.id;
-    $scope.banned = false;
+    
 
     sessionService.getUserMeta(authService.user.id, function (err, meta) {
         if (err) {
@@ -26,9 +26,23 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
                 else {
                     $scope.user = user;
                     loadNotes();
+
+                    banListService.getByUserId($scope.user._id, $scope.meta.current_clan.clan_id, function (err, record) {
+                        if (err) {
+                            err.stack_trace.unshift( { file: 'playernotes-controller.js', func: 'init', message: 'Error geting ban record' } );
+                            errorService.save(err, function() {});
+                        }
+                        else {
+                            if (record == 'null') {
+                                $scope.banned = false;
+                            }
+                            else {
+                                $scope.banned = true;
+                            }
+                        }
+                    });
                 }
             });
-
         }
     });
 
@@ -42,7 +56,9 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
         $scope.modalOptions = {
             yesBtn: 'Save',
             noBtn: 'Cancel',
-            title: 'Add note to ' + $scope.user.ign,
+            title: 'Add note to "' + $scope.user.ign + '"',
+            label: 'Note',
+            placeholder: 'Type your note here',
             cssClass: cssClass,
             formData: {},
             onYes: function(formData) {
@@ -128,10 +144,12 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
     $scope.setBanned = function() {
         var msg = "Are you sure you want to ban \"" + $scope.user.ign + "\"?";
         var yesBtn = "Ban";
+        var label = 'Ban reason';
         if ($scope.banned) {
             // make sure we want to ban this person
             msg = "Un-ban \"" + $scope.user.ign + "\". Are you sure?";
             yesBtn = "Un-ban";
+            label = 'Un-ban reason';
         }
 
         var cssClass = 'center';
@@ -141,6 +159,8 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
 
         $scope.modalOptions = {
             title: msg,
+            label: label,
+            placeholder: 'Type a reason here',            
             yesBtn: yesBtn,
             noBtn: 'Cancel',
             cssClass: cssClass,
@@ -148,55 +168,80 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
             onYes: function(formData) {
                 if ($scope.banned) {
                     // if they were un-banned, add the note to the standard set of notes and delete the ban
-                    var model = {
-                        user_id: $scope.user._id,
-                        clan_id: $scope.meta.current_clan.clan_id,
-                        note: {
-                            user_id: authService.user.id,
-                            ign: $scope.meta.ign,
-                            note: formData.note + ' (player was un-banned)'
-                        }
-                    };
-
-                    playerNotesService.save($scope.user._id, model, function (err, result) {
+                    banListService.delete($scope.user._id, $scope.meta.current_clan.clan_id, function (err, result) {
                         if (err) {
-                            err.stack_trace.unshift( { file: 'playernotes-controller.js', func: '$scope.setBanned', message: 'Error adding un-ban message to user' } );
+                            err.stack_trace.unshift( { file: 'playernotes-controller.js', func: '$scope.setBanned', message: 'Error deleting ban record when un-banning' } );
                             errorService.save(err, function() {});
                         }
                         else {
-                            $rootScope.globalMessage = $scope.user.ign + ' was un-banned';
-                            $scope.banned = !$scope.banned;
-                            loadNotes();
+                            var model = {
+                                user_id: $scope.user._id,
+                                clan_id: $scope.meta.current_clan.clan_id,
+                                note: {
+                                    user_id: authService.user.id,
+                                    ign: $scope.meta.ign,
+                                    note: formData.note + ' (player was un-banned)'
+                                }
+                            };
+
+                            playerNotesService.save($scope.user._id, model, function (err, result) {
+                                if (err) {
+                                    err.stack_trace.unshift( { file: 'playernotes-controller.js', func: '$scope.setBanned', message: 'Error adding un-ban message to user' } );
+                                    errorService.save(err, function() {});
+                                }
+                                else {
+                                    $rootScope.globalMessage = $scope.user.ign + ' was un-banned';
+                                    $scope.banned = !$scope.banned;
+                                    loadNotes();
+                                }
+                            });                            
                         }
                     });
                 }
                 else {
                     // player was banned - save the ban message and ban status
-                    var model = {
+                    var banModel = {
                         user_id: $scope.user._id,
                         clan_id: $scope.meta.current_clan.clan_id,
+                        ign: $scope.user.ign,
+                        player_tag: $scope.user.player_tag,
                         note: {
                             user_id: authService.user.id,
                             ign: $scope.meta.ign,
-                            note: formData.note + ' (player was banned)'
+                            note: formData.note
                         }
                     };
 
-                    playerNotesService.save($scope.user._id, model, function (err, result) {
+                    banListService.save($scope.meta.current_clan.clan_id, banModel, function (err, result) {
                         if (err) {
-                            err.stack_trace.unshift( { file: 'playernotes-controller.js', func: '$scope.setBanned', message: 'Error adding un-ban message to user' } );
+                            err.stack_trace.unshift( { file: 'playernotes-controller.js', func: '$scope.setBanned', message: 'Error saving banned user' } );
                             errorService.save(err, function() {});
                         }
                         else {
-                            $rootScope.globalMessage = $scope.user.ign + ' has been banned';
-                            $scope.banned = !$scope.banned;
-                            loadNotes();
+                            var noteModel = {
+                                user_id: $scope.user._id,
+                                clan_id: $scope.meta.current_clan.clan_id,
+                                note: {
+                                    user_id: authService.user.id,
+                                    ign: $scope.meta.ign,
+                                    note: formData.note + ' (player was banned)'
+                                }
+                            };
+
+                            playerNotesService.save($scope.user._id, noteModel, function (err, result) {
+                                if (err) {
+                                    err.stack_trace.unshift( { file: 'playernotes-controller.js', func: '$scope.setBanned', message: 'Error adding un-ban message to user' } );
+                                    errorService.save(err, function() {});
+                                }
+                                else {
+                                    $rootScope.globalMessage = $scope.user.ign + ' has been banned';
+                                    $scope.banned = !$scope.banned;
+                                    loadNotes();
+                                }
+                            });
                         }
-                    });
+                    });                    
                 }
-
-
-
             }
         };
 
