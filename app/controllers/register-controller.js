@@ -28,6 +28,7 @@ function ($rootScope, $scope, $location, md5, authService, sessionService, mailS
                 avatar: '000000000000000000000000.png',
                 bkUpgrade: tmpExpire,
                 aqUpgrade: tmpExpire,
+                warWeight: 0,
                 buildings: {
                     th: 1,
                     cc: 1

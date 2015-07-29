@@ -41,9 +41,15 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group" ng-if="userId==null">
-                                                    <label for="emailAddress" class="col-md-4 col-sm-5 col-xs-12 control-label">Email Address</label>
+                                                    <label for="emailAddress" class="col-md-4 col-sm-5 col-xs-12 control-label">Email address</label>
                                                     <div class="col-md-5 col-sm-6 col-xs-12">
                                                         <input type="email" class="form-control req-field" id="emailAddress" ng-model="user.email_address" required ng-minlength="1">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="ww" class="col-md-4 col-sm-5 col-xs-12 control-label">War weight <i class="icon-help-circled" popover-placement="right" popover="War weight is your relative base weight in war. It can be calculated by scouting your war base either in a war that's started, or a previous war. Add up all the gold in your gold storages and enter the total here. It is used for matching other clans in arranged wars." popover-append-to-body="true" popover-trigger="mouseenter"></i></label>
+                                                    <div class="col-md-5 col-sm-6 col-xs-12">
+                                                        <input type="text" class="form-control req-field" id="ww" ng-model="user.profile.warWeight" required integer>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
