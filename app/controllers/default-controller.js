@@ -16,7 +16,8 @@ function ($rootScope, $scope, $location, authService, analyticsService, errorSer
         $location.url('/home').replace();
     }
     else {
-        $scope.picIndex = 0;
+        $scope.currentTab = 0;
+        /*$scope.picIndex = 0;
         $scope.pics = [
             {
                 image: 'home-large.png',
@@ -73,7 +74,7 @@ function ($rootScope, $scope, $location, authService, analyticsService, errorSer
                 title: 'And more...',
                 description: 'Get your clan using clash.tools today and start enjoying a full war history log, built-in direct messaging to clan mates, and future features like chat, clan linking, and public clan/member profiles.'
             }
-        ];
+        ];*/
 
         analyticsService.summaryMetrics(function (err, result) {
             if (err) {

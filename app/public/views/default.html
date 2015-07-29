@@ -20,8 +20,241 @@
             </div>
         </div>
 
+        <div class="row content-body home-container">
+            <div class="col-xs-12">
+                <div class="row"> <!-- top section -->
+                    <div class="col-md-5 col-sm-7 col-xs-12 margin-bottom-huge">
+                        Promo video
+                    </div>
+                    <div class="col-xs-12 visible-xs">
+                        <div class="summary-widget-small">
+                            <table width="100%" cellpadding="0" border="0">
+                                <tbody>
+                                    <tr>
+                                    <td><img src="/img/clan-icon.png"></td>
+                                    <td class="text-center">
+                                        <span class="metric">{{metrics.clans | number}}</span><br>
+                                        Clans
+                                    </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="summary-widget-small">
+                            <table width="100%" cellpadding="0" border="0">
+                                <tbody>
+                                    <tr>
+                                    <td><img src="/img/users-icon.png"></td>
+                                    <td class="text-center">
+                                        <span class="metric">{{metrics.members | number}}</span><br>
+                                        Members
+                                    </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div> 
+                    <div class="col-md-4 col-sm-5 col-xs-12 margin-bottom-huge">
+                        <h1>Welcome to clash.tools!</h1>
+                        <p class="intro-text">The clash.tools application is designed from the ground up to be the easiest and most efficient way to manage clan wars in Clash of Clans. There have been a few valiant efforts at capturing the most important aspects of managing wars, but nothing with the capabilities and scale of clash.tools. If you are new here <a href="/help/faq">check out the FAQ</a>.</p>
+                    </div>
+                    <div class="col-md-3 hidden-sm hidden-xs text-right">
+                        <p><h4>Who uses clash.tools?</h4></p>
+                        <div class="summary-widget-small">
+                            <table width="100%" cellpadding="0" border="0">
+                                <tbody>
+                                    <tr>
+                                    <td><img src="/img/clan-icon.png"></td>
+                                    <td class="text-center">
+                                        <span class="metric">{{metrics.clans | number}}</span><br>
+                                        Clans
+                                    </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="summary-widget-small">
+                            <table width="100%" cellpadding="0" border="0">
+                                <tbody>
+                                    <tr>
+                                    <td><img src="/img/users-icon.png"></td>
+                                    <td class="text-center">
+                                        <span class="metric">{{metrics.members | number}}</span><br>
+                                        Members
+                                    </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="summary-widget-small hidden-xs">
+                            <table width="100%" cellpadding="0" border="0">
+                                <tbody>
+                                    <tr>
+                                    <td><img src="/img/attack-icon.png"></td>
+                                    <td class="text-center">
+                                        <span class="metric">{{metrics.attacks | number}}</span><br>
+                                        Attacks
+                                    </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>                        
+                    </div>
+                </div>
+                <div class="row visible-sm hidden-xs">
+                    <div class="col-xs-12 text-center">
+                        <div class="summary-widget-small">
+                            <table width="100%" cellpadding="0" border="0">
+                                <tbody>
+                                    <tr>
+                                    <td><img src="/img/clan-icon.png"></td>
+                                    <td class="text-center">
+                                        <span class="metric">{{metrics.clans | number}}</span><br>
+                                        Clans
+                                    </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="summary-widget-small">
+                            <table width="100%" cellpadding="0" border="0">
+                                <tbody>
+                                    <tr>
+                                    <td><img src="/img/users-icon.png"></td>
+                                    <td class="text-center">
+                                        <span class="metric">{{metrics.members | number}}</span><br>
+                                        Members
+                                    </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="summary-widget-small">
+                            <table width="100%" cellpadding="0" border="0">
+                                <tbody>
+                                    <tr>
+                                    <td><img src="/img/attack-icon.png"></td>
+                                    <td class="text-center">
+                                        <span class="metric">{{metrics.attacks | number}}</span><br>
+                                        Attacks
+                                    </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div> <!-- /topsection -->
+
+                <div class="row"> <!-- start of features -->
+                    <div class="col-xs-12">
+                        <div class="row margin-bottom-big"> 
+                            <div class="col-xs-12 hidden-xs">
+                                <div class="btn-group btn-group-lg">
+                                    <button class="btn btn-default" ng-class="{ 'btn-primary': currentTab==0 }" ng-click="currentTab=0">Clan Management</button>
+                                    <button class="btn btn-default" ng-class="{ 'btn-primary': currentTab==1 }" ng-click="currentTab=1">War Management</button>
+                                    <button class="btn btn-default" ng-class="{ 'btn-primary': currentTab==2 }" ng-click="currentTab=2">Attack History</button>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 visible-xs">
+                                <div class="btn-group">
+                                    <button class="btn btn-default" ng-class="{ 'btn-primary': currentTab==0 }" ng-click="currentTab=0">Clans</button>
+                                    <button class="btn btn-default" ng-class="{ 'btn-primary': currentTab==1 }" ng-click="currentTab=1">Wars</button>
+                                    <button class="btn btn-default" ng-class="{ 'btn-primary': currentTab==2 }" ng-click="currentTab=2">Attacks</button>
+                                </div>
+                            </div>                            
+                        </div>
+                        <div ng-show="currentTab==0"> <!-- clan management -->
+                            <div class="row margin-bottom-huge">
+                                <div class="col-xs-12">
+                                    <div class="feature-container">
+                                        <div class="row">
+                                            <div class="col-lg-7 col-md-8 col-xs-12">
+                                                <img src="/img/home/profile-screen-shot.png" width="690" height="517" class="img-responsive" alt="Clash.tools member profile">
+                                            </div>
+                                            <div class="col-lg-5 col-md-4 xs-12">
+                                                <p class="small visible-sm visible-xs">&nbsp;</p>
+                                                <p><h3>Member profiles</h3></p>
+                                                <p><b class="alternate">Hero status</b> - know when clan mates have hero's down when planning your next war.</p>
+                                                <p><b class="alternate">War weight</b> - use war weights to create a roster for an arranged match.</p>
+                                                <p><b class="alternate">Member avatars</b> - everyone gets a custom look in clash tools.</p>
+                                                <p><b class="alternate">Profile levels</b> - hero, troop, spell, and wall levels are all tracked for easier management.</p>
+                                                <p><b class="alternate">Leader editing</b> - the leader and co-leaders can edit member profiles if necessary to keep them current.</p>                                  
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row margin-bottom-huge">
+                                <div class="col-xs-12">
+                                    <div class="feature-container">
+                                        <div class="row">
+                                            <div class="col-lg-7 col-md-8 col-xs-12">
+                                                <img src="/img/home/joinrequest-screen-shot.png" width="682" height="252" class="img-responsive" alt="Clash.tools clan messaging">
+                                            </div>
+                                            <div class="col-lg-5 col-md-4 xs-12">
+                                                <p class="small visible-sm visible-xs">&nbsp;</p>
+                                                <p><h3>Clan messaging</h3></p>
+                                                <p><b class="alternate">Join requests</b> - players request to join your clan, just like in the game. No insecure clan passwords.</p>
+                                                <p><b class="alternate">General messages</b> - you can send a message to any member of your clan and they will be notified the next time they log in.</p>                                                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                        
+                            <div class="row margin-bottom-huge">
+                                <div class="col-xs-12">
+                                    <div class="feature-container">
+                                        <div class="row">
+                                            <div class="col-lg-7 col-md-8 col-xs-12">
+                                                <img src="/img/home/members-screen-shot.png" width="682" height="462" class="img-responsive" alt="Clash.tools members page">
+                                            </div>
+                                            <div class="col-lg-5 col-md-4 xs-12">
+                                                <p class="small visible-sm visible-xs">&nbsp; </p>
+                                                <p><h3>Member management</h3></p>
+                                                <p><b class="alternate">Who's in</b> - a place where you can always see who's currently in the clan, and how long they've been here.</p>
+                                                <p><b class="alternate">Profiles and results</b> - quick access to member profiles and attack results.</p>
+                                                <p><b class="alternate">Promotions</b> - promote members to elder or co-leader when you need more help managing the clan.</p>
+                                                <p><b class="alternate">Demotions and kicks</b> - demote members  and kick out of the clan when they leave you in the game.</p>                                            
+                                                <p><b class="alternate">Town halls</b> - a visual of how many of each town hall you have in the clan</p>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                      
+                        <!-- /clan management -->
+
+                        <div ng-show="currentTab==1"> <!-- war management -->
+                            <div class="row margin-bottom-huge">
+                                <div class="col-xs-12">
+                                    <div class="feature-container">
+                                        <div class="row">
+                                            <div class="col-lg-7 col-md-8 col-xs-12">
+                                                <img src="/img/home/profile-screen-shot.png" width="690" height="517" class="img-responsive" alt="Clash.tools member profile">
+                                            </div>
+                                            <div class="col-lg-5 col-md-4 xs-12">
+                                                <p class="small visible-sm visible-xs">&nbsp;</p>
+                                                <p><h3>Member profiles</h3></p>
+                                                <p><b class="alternate">Hero status</b> - know when clan mates have hero's down when planning your next war.</p>
+                                                <p><b class="alternate">War weight</b> - use war weights to create a roster for an arranged match.</p>
+                                                <p><b class="alternate">Member avatars</b> - everyone gets a custom look in clash tools.</p>
+                                                <p><b class="alternate">Profile levels</b> - hero, troop, spell, and wall levels are all tracked for easier management.</p>
+                                                <p><b class="alternate">Leader editing</b> - the leader and co-leaders can edit member profiles if necessary to keep them current.</p>                                  
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /war management -->
+                    </div>
+                </div> <!-- /features -->
+            </div>
+        </div>
+
         <!-- page content -->
-        <div class="row content-body">
+        <!-- <div class="row content-body">
             <div class="col-md-9 col-sm-12">
                 <div class="row margin-bottom-big">
                     <div class="col-xs-12">
@@ -141,7 +374,7 @@
                     </div>
                 </div>
             </div>
-        </div> <!-- /page content -->
+        </div> --> <!-- /page content -->
         <div class="row disclaimer">
             <div class="col-xs-12">
                 This content is not affiliated with, endorsed, sponsored, or specifically approved by Supercell and Supercell is not responsible for it. For more information see Supercell’s Fan Content Policy: <a href="http://www.supercell.com/fan-content-policy" target="_blank">www.supercell.com/fan-content-policy</a>.
