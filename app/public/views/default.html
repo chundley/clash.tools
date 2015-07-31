@@ -4,7 +4,9 @@
             <div class="col-xs-12 top-nav-container" style="padding-bottom: 4px;">
                 <div class="row">
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <a href="/"><img class="logo" src="/img/logo-small.png"></a>
+                        <a href="/">
+                            <img class="barb-wrench" src="/img/home/barb-wrench.png">
+                            <img class="home-logo" src="/img/logo-small.png"></a>
                     </div>
                     <div class="col-md-8 col-sm-6 hidden-xs default-nav-buttons text-right">
                         <a href="/help/faq" class="help">View Help</a>
@@ -149,7 +151,7 @@
                     <div class="col-xs-12">
                         <div class="row margin-bottom-big"> 
                             <div class="col-xs-12 hidden-xs">
-                                <div class="btn-group btn-group-lg">
+                                <div class="btn-group">
                                     <button class="btn btn-default" ng-class="{ 'btn-primary': currentTab==0 }" ng-click="currentTab=0">Clan Management</button>
                                     <button class="btn btn-default" ng-class="{ 'btn-primary': currentTab==1 }" ng-click="currentTab=1">War Management</button>
                                     <button class="btn btn-default" ng-class="{ 'btn-primary': currentTab==2 }" ng-click="currentTab=2">Attack History</button>
@@ -231,21 +233,38 @@
                                     <div class="feature-container">
                                         <div class="row">
                                             <div class="col-lg-7 col-md-8 col-xs-12">
-                                                <img src="/img/home/profile-screen-shot.png" width="690" height="517" class="img-responsive" alt="Clash.tools member profile">
+                                                <img src="/img/home/warsettings-screen-shot.png" width="708" height="393" class="img-responsive" alt="Clash.tools war settings">
                                             </div>
                                             <div class="col-lg-5 col-md-4 xs-12">
                                                 <p class="small visible-sm visible-xs">&nbsp;</p>
-                                                <p><h3>Member profiles</h3></p>
-                                                <p><b class="alternate">Hero status</b> - know when clan mates have hero's down when planning your next war.</p>
-                                                <p><b class="alternate">War weight</b> - use war weights to create a roster for an arranged match.</p>
-                                                <p><b class="alternate">Member avatars</b> - everyone gets a custom look in clash tools.</p>
-                                                <p><b class="alternate">Profile levels</b> - hero, troop, spell, and wall levels are all tracked for easier management.</p>
-                                                <p><b class="alternate">Leader editing</b> - the leader and co-leaders can edit member profiles if necessary to keep them current.</p>                                  
+                                                <p><h3>War settings</h3></p>
+                                                <p><b class="alternate">Base assignments</b> - flexibility for clans who assign bases and those that let members sign up for their own targets.</p>
+                                                <p><b class="alternate">Call timers</b> - set call timers for the exact number of hours you will allow. Set different timers for first attacks and cleanups.</p>  
+                                                <p><b class="alternate">Free for all</b> - the end of the war can sometimes be chaotic with everyone scrambling to get their attacks in. Set a free-for all period when you want all bases to be open during the last part of the war.</p>                                                                        
+                                                <p><b class="alternate">Overcalls</b> - if you allow more than one member to sign up for a base throughout the entire war, you can set overcalls to "Yes".</p>                                                                        
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="row margin-bottom-huge">
+                                <div class="col-xs-12">
+                                    <div class="feature-container">
+                                        <div class="row">
+                                            <div class="col-lg-7 col-md-8 col-xs-12">
+                                                <img src="/img/home/warsetup-screen-shot.png" width="671" height="357" class="img-responsive" alt="Clash.tools war settings">
+                                            </div>
+                                            <div class="col-lg-5 col-md-4 xs-12">
+                                                <p class="small visible-sm visible-xs">&nbsp;</p>
+                                                <p><h3>Start a war</h3></p>
+                                                <p><b class="alternate">Opponent</b> - set the clan tag of your opponenent in case you face them again in the future.</p>
+                                                <p><b class="alternate">War timer</b> - set the war timer, and re-set it any time during prep day or war day (good for when Supercell has a maintenance period and freezes timers).</p>  
+                                                <p><b class="alternate">Make visible</b> - if you're the type of clan that collaborates on planning and assignments, you don't want members seeing them too early in case there are changes. Don't make the war visible until you have it set up exactly how you want.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                            
                         </div>
                         <!-- /war management -->
                     </div>
