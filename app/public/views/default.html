@@ -55,10 +55,10 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div> 
+                    </div>
                     <div class="col-md-4 col-sm-5 col-xs-12 margin-bottom-huge">
                         <h1>Welcome to clash.tools!</h1>
-                        <p class="intro-text">The clash.tools application is designed from the ground up to be the easiest and most efficient way to manage clan wars in Clash of Clans. There have been a few valiant efforts at capturing the most important aspects of managing wars, but nothing with the capabilities and scale of clash.tools. If you are new here <a href="/help/faq">check out the FAQ</a>.</p>
+                        <p class="intro-text">The clash.tools application is designed from the ground up to be the easiest and most efficient way to manage clan wars in Clash of Clans. There have been a few valiant efforts at capturing the most important aspects of managing wars, but nothing with the capabilities and scale of clash.tools. If you are new here <a href="/help/faq">check out the FAQ</a>, or browse through the features shown below.</p>
                     </div>
                     <div class="col-md-3 hidden-sm hidden-xs text-right">
                         <p><h4>Who uses clash.tools?</h4></p>
@@ -100,7 +100,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                        </div>                        
+                        </div>
                     </div>
                 </div>
                 <div class="row visible-sm hidden-xs">
@@ -149,21 +149,23 @@
 
                 <div class="row"> <!-- start of features -->
                     <div class="col-xs-12">
-                        <div class="row margin-bottom-big"> 
+                        <div class="row margin-bottom-big">
                             <div class="col-xs-12 hidden-xs">
                                 <div class="btn-group">
                                     <button class="btn btn-default" ng-class="{ 'btn-primary': currentTab==0 }" ng-click="currentTab=0">Clan Management</button>
-                                    <button class="btn btn-default" ng-class="{ 'btn-primary': currentTab==1 }" ng-click="currentTab=1">War Management</button>
-                                    <button class="btn btn-default" ng-class="{ 'btn-primary': currentTab==2 }" ng-click="currentTab=2">Attack History</button>
+                                    <button class="btn btn-default" ng-class="{ 'btn-primary': currentTab==1 }" ng-click="currentTab=1">War Planning</button>
+                                    <button class="btn btn-default" ng-class="{ 'btn-primary': currentTab==2 }" ng-click="currentTab=2">War Management</button>
+                                    <button class="btn btn-default" ng-class="{ 'btn-primary': currentTab==3 }" ng-click="currentTab=3">Attack History</button>
                                 </div>
                             </div>
                             <div class="col-xs-12 visible-xs">
                                 <div class="btn-group">
-                                    <button class="btn btn-default" ng-class="{ 'btn-primary': currentTab==0 }" ng-click="currentTab=0">Clans</button>
-                                    <button class="btn btn-default" ng-class="{ 'btn-primary': currentTab==1 }" ng-click="currentTab=1">Wars</button>
-                                    <button class="btn btn-default" ng-class="{ 'btn-primary': currentTab==2 }" ng-click="currentTab=2">Attacks</button>
+                                    <button class="btn btn-default" ng-class="{ 'btn-primary': currentTab==0 }" ng-click="currentTab=0">Clan</button>
+                                    <button class="btn btn-default" ng-class="{ 'btn-primary': currentTab==1 }" ng-click="currentTab=1">Plan</button>
+                                    <button class="btn btn-default" ng-class="{ 'btn-primary': currentTab==2 }" ng-click="currentTab=2">Wars</button>
+                                    <button class="btn btn-default" ng-class="{ 'btn-primary': currentTab==3 }" ng-click="currentTab=3">Attacks</button>
                                 </div>
-                            </div>                            
+                            </div>
                         </div>
                         <div ng-show="currentTab==0"> <!-- clan management -->
                             <div class="row margin-bottom-huge">
@@ -180,7 +182,7 @@
                                                 <p><b class="alternate">War weight</b> - use war weights to create a roster for an arranged match.</p>
                                                 <p><b class="alternate">Member avatars</b> - everyone gets a custom look in clash tools.</p>
                                                 <p><b class="alternate">Profile levels</b> - hero, troop, spell, and wall levels are all tracked for easier management.</p>
-                                                <p><b class="alternate">Leader editing</b> - the leader and co-leaders can edit member profiles if necessary to keep them current.</p>                                  
+                                                <p><b class="alternate">Leader editing</b> - the leader and co-leaders can edit member profiles if necessary to keep them current.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -197,12 +199,12 @@
                                                 <p class="small visible-sm visible-xs">&nbsp;</p>
                                                 <p><h3>Clan messaging</h3></p>
                                                 <p><b class="alternate">Join requests</b> - players request to join your clan, just like in the game. No insecure clan passwords.</p>
-                                                <p><b class="alternate">General messages</b> - you can send a message to any member of your clan and they will be notified the next time they log in.</p>                                                                               
+                                                <p><b class="alternate">General messages</b> - you can send a message to any member of your clan and they will be notified the next time they log in.</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>                        
+                            </div>
                             <div class="row margin-bottom-huge">
                                 <div class="col-xs-12">
                                     <div class="feature-container">
@@ -216,7 +218,7 @@
                                                 <p><b class="alternate">Who's in</b> - a place where you can always see who's currently in the clan, and how long they've been here.</p>
                                                 <p><b class="alternate">Profiles and results</b> - quick access to member profiles and attack results.</p>
                                                 <p><b class="alternate">Promotions</b> - promote members to elder or co-leader when you need more help managing the clan.</p>
-                                                <p><b class="alternate">Demotions and kicks</b> - demote members  and kick out of the clan when they leave you in the game.</p>                                            
+                                                <p><b class="alternate">Demotions and kicks</b> - demote members  and kick out of the clan when they leave you in the game.</p>
                                                 <p><b class="alternate">Town halls</b> - a visual of how many of each town hall you have in the clan</p>
 
                                             </div>
@@ -224,10 +226,10 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>                      
+                        </div>
                         <!-- /clan management -->
 
-                        <div ng-show="currentTab==1"> <!-- war management -->
+                        <div ng-show="currentTab==1"> <!-- war setup -->
                             <div class="row margin-bottom-huge">
                                 <div class="col-xs-12">
                                     <div class="feature-container">
@@ -239,9 +241,9 @@
                                                 <p class="small visible-sm visible-xs">&nbsp;</p>
                                                 <p><h3>War settings</h3></p>
                                                 <p><b class="alternate">Base assignments</b> - flexibility for clans who assign bases and those that let members sign up for their own targets.</p>
-                                                <p><b class="alternate">Call timers</b> - set call timers for the exact number of hours you will allow. Set different timers for first attacks and cleanups.</p>  
-                                                <p><b class="alternate">Free for all</b> - the end of the war can sometimes be chaotic with everyone scrambling to get their attacks in. Set a free-for all period when you want all bases to be open during the last part of the war.</p>                                                                        
-                                                <p><b class="alternate">Overcalls</b> - if you allow more than one member to sign up for a base throughout the entire war, you can set overcalls to "Yes".</p>                                                                        
+                                                <p><b class="alternate">Call timers</b> - set call timers for the exact number of hours you will allow. Set different timers for first attacks and cleanups.</p>
+                                                <p><b class="alternate">Free for all</b> - the end of the war can sometimes be chaotic with everyone scrambling to get their attacks in. Set a free-for all period when you want all bases to be open during the last part of the war.</p>
+                                                <p><b class="alternate">Overcalls</b> - if you allow more than one member to sign up for a base throughout the entire war, you can set overcalls to "Yes".</p>
                                             </div>
                                         </div>
                                     </div>
@@ -258,142 +260,205 @@
                                                 <p class="small visible-sm visible-xs">&nbsp;</p>
                                                 <p><h3>Start a war</h3></p>
                                                 <p><b class="alternate">Opponent</b> - set the clan tag of your opponenent in case you face them again in the future.</p>
-                                                <p><b class="alternate">War timer</b> - set the war timer, and re-set it any time during prep day or war day (good for when Supercell has a maintenance period and freezes timers).</p>  
+                                                <p><b class="alternate">War timer</b> - set the war timer, and re-set it any time during prep day or war day (good for when Supercell has a maintenance period and freezes timers).</p>
                                                 <p><b class="alternate">Make visible</b> - if you're the type of clan that collaborates on planning and assignments, you don't want members seeing them too early in case there are changes. Don't make the war visible until you have it set up exactly how you want.</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>                            
+                            </div>
+                            <div class="row margin-bottom-huge">
+                                <div class="col-xs-12">
+                                    <div class="feature-container">
+                                        <div class="row">
+                                            <div class="col-lg-7 col-md-8 col-xs-12">
+                                                <img src="/img/home/ourroster-screen-shot.png" width="679" height="255" class="img-responsive" alt="Clash.tools war roster">
+                                            </div>
+                                            <div class="col-lg-5 col-md-4 xs-12">
+                                                <p class="small visible-sm visible-xs">&nbsp;</p>
+                                                <p><h3>Roster</h3></p>
+                                                <p><b class="alternate">Who's in</b> - set the lineup of who's in this war. Clash.tools tracks every attack in detail and keeps a full history of member performance over time.</p>
+                                                <p><b class="alternate">Hero status</b> - when assigning first targets it's important to know if any of your members has a hero down. The roster indicates this for every member.</p>
+                                                <p><b class="alternate">Profile data</b> - if a member has set up their profile, their town hall level is automatically set, reducing the time it takes to set up a new war.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row margin-bottom-huge">
+                                <div class="col-xs-12">
+                                    <div class="feature-container">
+                                        <div class="row">
+                                            <div class="col-lg-7 col-md-8 col-xs-12">
+                                                <img src="/img/home/opponentbases-screen-shot.png" width="679" height="255" class="img-responsive" alt="Clash.tools opponent bases">
+                                            </div>
+                                            <div class="col-lg-5 col-md-4 xs-12">
+                                                <p class="small visible-sm visible-xs">&nbsp;</p>
+                                                <p><h3>Opponent bases</h3></p>
+                                                <p><b class="alternate">Assignments</b> - for organized clans who assign first targets this makes it easy. Only names from the roster are shown as options for assignment.</p>
+                                                <p><b class="alternate">Hero status</b> - just like the roster, the base assignment section will show hero status - super helpful as you plan the war.</p>
+                                                <p><b class="alternate">Town halls</b> - set the opponent town hall levels to keep the interface accurate as well as member and clan statistics tracking.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row margin-bottom-huge">
+                                <div class="col-xs-12">
+                                    <div class="feature-container">
+                                        <div class="row">
+                                            <div class="col-lg-7 col-md-8 col-xs-12">
+                                                <img src="/img/home/basenotes-screen-shot.png" width="604" height="667" class="img-responsive" alt="Clash.tools base notes">
+                                            </div>
+                                            <div class="col-lg-5 col-md-4 xs-12">
+                                                <p class="small visible-sm visible-xs">&nbsp;</p>
+                                                <p><h3>Base notes</h3></p>
+                                                <p><b class="alternate">Post a plan</b> - do you like to draw out your plans and post for comments? Do that here and capture feedback. Text and image notes can be added by any member.</p>
+                                                <p><b class="alternate">CC status</b> - during prep day check in on your opponent cc's and note the number of troops as they fill. Most good war clans do this, now you have one place to capture all the data.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /war setup -->
+                        <div ng-show="currentTab==2"> <!-- war management -->
+                            <div class="row margin-bottom-huge">
+                                <div class="col-xs-12">
+                                    <div class="feature-container">
+                                        <div class="row">
+                                            <div class="col-lg-7 col-md-8 col-xs-12">
+                                                <img src="/img/home/homestatus-screen-shot.png" width="552" height="265" class="img-responsive" alt="Clash.tools home war status">
+                                            </div>
+                                            <div class="col-lg-5 col-md-4 xs-12">
+                                                <p class="small visible-sm visible-xs">&nbsp;</p>
+                                                <p><h3>Default home screen</h3></p>
+                                                <p><b class="alternate">Your targets</b> - see who your targets are, and how long you have left to attack.</p>
+                                                <p><b class="alternate">Open bases</b> - quick access to currently open bases and how many stars have already been taken on each. Ready to reserve your next one? Just click and go.</p>
+                                                <p><b class="alternate">Log results</b> - just click on the stars to log your attack result. Members can literally manage the entire war from this simple interface.</p>
+                                                <p><b class="alternate">War at your fingertips</b> - from here you can navigate to any of the war detail pages - bases, team, and the current war leaders.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row margin-bottom-huge">
+                                <div class="col-xs-12">
+                                    <div class="feature-container">
+                                        <div class="row">
+                                            <div class="col-lg-7 col-md-8 col-xs-12">
+                                                <img src="/img/home/bases-screen-shot.png" width="589" height="331" class="img-responsive" alt="Clash.tools bases war status">
+                                            </div>
+                                            <div class="col-lg-5 col-md-4 xs-12">
+                                                <p class="small visible-sm visible-xs">&nbsp;</p>
+                                                <p><h3>Bases view</h3></p>
+                                                <p><b class="alternate">History</b> - see which bases have been attacked and what the results were for each member.</p>
+                                                <p><b class="alternate">Open bases</b> - the sword icon under the base number tells you which bases are currenlty open. Bases with an active call are grayed out.</p>
+                                                <p><b class="alternate">Call a base</b> - any member can click an active sword icon to reserve a base. Leaders can click the sword icon to assign a base to anyone on the roster.</p>
+                                                <p><b class="alternate">Log attacks</b> - just like the home screen you can click the stars on a base assigned to you to update an attack. Leaders can update any attack and even remove calls from here.</p>
+                                                <p><b class="alternate">Base notes</b> - click the town hall icon to add base notes. The number of notes is indicated next to the paper clip. Post your attack plan for comments, or log cc troop counts during prep day.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row margin-bottom-huge">
+                                <div class="col-xs-12">
+                                    <div class="feature-container">
+                                        <div class="row">
+                                            <div class="col-lg-7 col-md-8 col-xs-12">
+                                                <img src="/img/home/team-screen-shot.png" width="589" height="327" class="img-responsive" alt="Clash.tools team war status">
+                                            </div>
+                                            <div class="col-lg-5 col-md-4 xs-12">
+                                                <p class="small visible-sm visible-xs">&nbsp;</p>
+                                                <p><h3>Team view</h3></p>
+                                                <p><b class="alternate">Attacks</b> - see bases reserved by team member - a convenient way to see who's done both attacks and who has yet to finish (and how much time they have before call(s) expire).</p>
+                                                <p><b class="alternate">Log attacks</b> - just like the bases view you can click the stars on your assignment to update an attack. Leaders can update any attack and even remove calls from here.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row margin-bottom-huge">
+                                <div class="col-xs-12">
+                                    <div class="feature-container">
+                                        <div class="row">
+                                            <div class="col-lg-7 col-md-8 col-xs-12">
+                                                <img src="/img/home/leaders-screen-shot.png" width="562" height="327" class="img-responsive" alt="Clash.tools war leaders">
+                                            </div>
+                                            <div class="col-lg-5 col-md-4 xs-12">
+                                                <p class="small visible-sm visible-xs">&nbsp;</p>
+                                                <p><h3>Leader view</h3></p>
+                                                <p><b class="alternate">MVP's for the war</b> - as the war goes on track who your top hitters are.</p>
+                                                <p><b class="alternate">Attack value</b> - clash.tools uses a custom metric to determine the most valuable attacks during the war. It's based on a number of key factors that are <a href="/help/av">documented here</a>. The attack value for both war attacks is combined to create the overall score for each war.</p>
+                                                <p><b class="alternate">War history</b> - all three war views (bases, team, and leaders) can be viewed for the entire history of the wars you've logged in clash.tools.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /war management -->
+                        <div ng-show="currentTab==3"> <!-- war management -->
+                            <div class="row margin-bottom-huge">
+                                <div class="col-xs-12">
+                                    <div class="feature-container">
+                                        <div class="row">
+                                            <div class="col-lg-7 col-md-8 col-xs-12">
+                                                <img src="/img/home/roster-screen-shot.png" width="577" height="293" class="img-responsive" alt="Clash.tools team roster">
+                                            </div>
+                                            <div class="col-lg-5 col-md-4 xs-12">
+                                                <p class="small visible-sm visible-xs">&nbsp;</p>
+                                                <p><h3>Roster</h3></p>
+                                                <p><b class="alternate">Top performers</b> - sort by three star rate and average attack value to continually evaluate who your top players are, and who needs help.</p>
+                                                <p><b class="alternate">Player notes</b> - click the paperclip icon to add notes to a player. Leaders can log whether someone is struggling or should be considered for promotion, etc.</p>
+                                                <p><b class="alternate">Filter</b> - have an old member re-applying to the clan? Filter to past players to remind yourself how they performed while they were here previously.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row margin-bottom-huge">
+                                <div class="col-xs-12">
+                                    <div class="feature-container">
+                                        <div class="row">
+                                            <div class="col-lg-7 col-md-8 col-xs-12">
+                                                <img src="/img/home/results-screen-shot.png" width="606" height="373" class="img-responsive" alt="Clash.tools personal results">
+                                            </div>
+                                            <div class="col-lg-5 col-md-4 xs-12">
+                                                <p class="small visible-sm visible-xs">&nbsp;</p>
+                                                <p><h3>Personal results</h3></p>
+                                                <p><b class="alternate">Member view</b> - all members of the clan can view their own historical results and keep track of how they are doing.</p>
+                                                <p><b class="alternate">Leader view</b> - leaders can check the results page for all members of the clan. Drill in to every detail and know more than you ever have before.</p>
+                                                <p><b class="alternate">Filter</b> - results can be filtered by clan (if someone has been in multiple family clans), and by town hall level of opponents. Want to know how your top TH9 has done when asked to attack TH10's? Now you can see it any time.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row margin-bottom-huge">
+                                <div class="col-xs-12">
+                                    <div class="feature-container">
+                                        <div class="row">
+                                            <div class="col-lg-7 col-md-8 col-xs-12">
+                                                <img src="/img/home/warhistory-screen-shot.png" width="607" height="313" class="img-responsive" alt="Clash.tools war history">
+                                            </div>
+                                            <div class="col-lg-5 col-md-4 xs-12">
+                                                <p class="small visible-sm visible-xs">&nbsp;</p>
+                                                <p><h3>War history</h3></p>
+                                                <p><b class="alternate">Previous results</b> - re-live past glories and tough defeats. All war history is saved in clash.tools forever.</p>
+                                                <p><b class="alternate">War details</b> - click on a specific war to see the full history of attacks logged and member results.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <!-- /war management -->
                     </div>
                 </div> <!-- /features -->
             </div>
         </div>
-
-        <!-- page content -->
-        <!-- <div class="row content-body">
-            <div class="col-md-9 col-sm-12">
-                <div class="row margin-bottom-big">
-                    <div class="col-xs-12">
-                        <h1>Welcome to clash.tools!</h1>
-                    </div>
-                </div>
-                <div class="row margin-bottom-big">
-                    <div class="col-xs-12">
-                        <p>The clash.tools application is designed from the ground up to be the easiest and most efficient way to manage clan wars in Clash of Clans. There have been a few valiant efforts at capturing the most important aspects of managing wars, but nothing with the capabilities and scale of clash.tools. If you are new here <a href="/help/faq">check out the FAQ</a>.</p>
-                    </div>
-                </div>
-                <div class="row margin-bottom-big visible-sm visible-xs text-center">
-                    <div class="summary-widget-small">
-                        <table width="100%" cellpadding="0" border="0">
-                            <tbody>
-                                <tr>
-                                <td><img src="/img/clan-icon.png"></td>
-                                <td class="text-center">
-                                    <span class="metric">{{metrics.clans | number}}</span><br>
-                                    Clans
-                                </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="summary-widget-small">
-                        <table width="100%" cellpadding="0" border="0">
-                            <tbody>
-                                <tr>
-                                <td><img src="/img/users-icon.png"></td>
-                                <td class="text-center">
-                                    <span class="metric">{{metrics.members | number}}</span><br>
-                                    Members
-                                </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="summary-widget-small hidden-xs">
-                        <table width="100%" cellpadding="0" border="0">
-                            <tbody>
-                                <tr>
-                                <td><img src="/img/attack-icon.png"></td>
-                                <td class="text-center">
-                                    <span class="metric">{{metrics.attacks | number}}</span><br>
-                                    Attacks
-                                </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="row margin-bottom-huge">
-                    <div class="col-xs-12 demo-container">
-                        <div class="row">
-                            <div class="col-md-3 col-sm-4 col-xs-5 dc-description">
-                                <h4>{{pics[picIndex].title}}</h4><br>
-                                {{pics[picIndex].description}}<br><br>
-                                <a class="btn btn-xs btn-default" ng-disabled="picIndex==0" ng-click="picIndex=picIndex-1"><i class="icon-left"></i> <span class="hidden-xs">Prev</span></a>
-                                <a class="btn btn-xs btn-default" ng-disabled="picIndex==pics.length-1"ng-click="picIndex=picIndex+1"><span class="hidden-xs">Next</span> <i class="icon-right"></i></a>
-                            </div>
-                            <div class="col-md-9 col-sm-8 col-xs-7">
-                                <img class="img-responsive" src="/img/{{pics[picIndex].image}}">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row margin-bottom-big">
-                    <div class="col-xs-12">
-                        <p><a href="http://forum.supercell.net/private.php?do=newpm&u=778211" target="_blank">Message minpin on the Supercell forum</a> or participate in the <a href="http://forum.supercell.net/showthread.php/681133-Official-clash-tools-feedback-thread" target="_blank">official feedback thread</a> if you have questions or suggestions.</p><p>Thanks to KARA Rising and KARA Heroes for pushing through all the bugs and getting it shaped up for the community to use.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 hidden-sm hidden-xs text-center">
-                <div class="row">
-                    <div class="col-md-9 col-md-offset-3">
-                        <p><h4>Who uses clash.tools?</h4></p>
-                        <div class="summary-widget-big">
-                            <table width="100%" cellpadding="0" border="0">
-                                <tbody>
-                                    <tr>
-                                    <td><img src="/img/clan-icon.png"></td>
-                                    <td class="text-center">
-                                        <span class="metric">{{metrics.clans | number}}</span><br>
-                                        Clans
-                                    </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="summary-widget-big">
-                            <table width="100%" cellpadding="0" border="0">
-                                <tbody>
-                                    <tr>
-                                    <td><img src="/img/users-icon.png"></td>
-                                    <td class="text-center">
-                                        <span class="metric">{{metrics.members | number}}</span><br>
-                                        Members
-                                    </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="summary-widget-big">
-                            <table width="100%" cellpadding="0" border="0">
-                                <tbody>
-                                    <tr>
-                                    <td><img src="/img/attack-icon.png"></td>
-                                    <td class="text-center">
-                                        <span class="metric">{{metrics.attacks | number}}</span><br>
-                                        Attacks
-                                    </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> --> <!-- /page content -->
         <div class="row disclaimer">
             <div class="col-xs-12">
                 This content is not affiliated with, endorsed, sponsored, or specifically approved by Supercell and Supercell is not responsible for it. For more information see Supercell’s Fan Content Policy: <a href="http://www.supercell.com/fan-content-policy" target="_blank">www.supercell.com/fan-content-policy</a>.
