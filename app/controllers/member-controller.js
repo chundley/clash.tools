@@ -41,7 +41,11 @@ function ($rootScope, $scope, $routeParams, $interval, $modal, $window, moment, 
         saveUserInternal();
     }
 
-
+    $scope.saveWithFeedback = function() {
+        saveUserInternal();
+        $rootScope.globalMessage = 'Member profile saved';
+    }
+    
     $scope.uploadAvatar = function(file) {
         if (file.length > 0) {
             imageUploadService.uploadAvatar($scope.userId, file, function (err, result) {
