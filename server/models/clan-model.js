@@ -9,6 +9,7 @@ var ObjectID = require('mongodb').ObjectID,
 var config            = require('../../config/config'),
     userModel         = require('./user-model'),
     warModel          = require('./war-model'),
+    arrangedWarModel  = require('./arrangedwar-model'),
     emailMessageModel = require('./emailmessage-model');
 
 /*
@@ -273,32 +274,40 @@ exports.arrangeWar = function(clanId, metaData, callback) {
         clanId = new ObjectID.createFromHexString(clanId);
     }
 
-    userModel.usersByClan(metaData.clanId, ['leader', 'coleader'], function (err, members) {
+    arrangedWarModel.newMatch(metaData, function (err, results) {
         if (err) {
             callback(err, null);
         }
         else {
-            _.each(members, function (member) {
-                metaData.email.to_users.push(
-                    {
-                        user_id: member._id,
-                        ign: member.ign,
-                        read: false,
-                        deleted: false
-                    }
-                );
-            });
-
-            emailMessageModel.save(metaData.email, function (err, result) {
+            userModel.usersByClan(metaData.clan_2.clan_id, ['leader', 'coleader'], function (err, members) {
                 if (err) {
                     callback(err, null);
                 }
                 else {
-                    callback(null, true);
+                    _.each(members, function (member) {
+                        metaData.email.to_users.push(
+                            {
+                                user_id: member._id,
+                                ign: member.ign,
+                                read: false,
+                                deleted: false
+                            }
+                        );
+                    });
+
+                    emailMessageModel.save(metaData.email, function (err, result) {
+                        if (err) {
+                            callback(err, null);
+                        }
+                        else {
+                            callback(null, true);
+                        }
+                    });
                 }
-            });
+            });            
         }
     });
+
 }
 
 /*

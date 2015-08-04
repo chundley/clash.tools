@@ -61,13 +61,22 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, 
                 };
 
                 var metaData = {
-                    clanId: clan._id,
+                    clan_1: {
+                        clan_id: $scope.meta.current_clan.clan_id,
+                        clan_name: $scope.meta.current_clan.name,
+                        clan_tag: $scope.meta.current_clan.clan_tag
+                    },
+                    clan_2: {
+                        clan_id: clan._id,
+                        clan_name: clan.name,
+                        clan_tag: clan.clan_tag
+                    },
                     email: emailMsg
                 };
 
                 clanService.arrangedRequest($scope.meta.current_clan.clan_id, metaData, function (err, result) {
                     if (err) {
-                        err.stack_trace.unshift( { file: 'clan-controller.js', func: '$scope.joinClan', message: 'Error with join clan request' } );
+                        err.stack_trace.unshift( { file: 'arrangeddetail-controller.js', func: '$scope.startMatch', message: 'Error with start arranged match request' } );
                         errorService.save(err, function() {});
                     }
                     else {
