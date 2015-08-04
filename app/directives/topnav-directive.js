@@ -8,7 +8,7 @@ function ($location, $interval, moment, authService, sessionService, emailMessag
         templateUrl: '/views/partials/topNav.html',
         link: function(scope, element, attrs) {
 
-            scope.search = function() {
+/*            scope.search = function() {
                 $location.path('/clans/' + scope.searchTerms).replace();
             }
 
@@ -19,7 +19,7 @@ function ($location, $interval, moment, authService, sessionService, emailMessag
                 else if (scope.searchTerms.length > 1) {
                     $location.path('/clans/' + scope.searchTerms).replace();
                 }
-            }
+            }*/
 
             sessionService.getUserMeta(authService.user.id, function (err, meta) {
                 scope.ign = meta.ign;

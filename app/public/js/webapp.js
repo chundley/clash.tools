@@ -39,6 +39,8 @@ angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize',
         .when('/members/:id', { controller: 'MemberCtrl', templateUrl: '/views/profile.html', access: access.coleader } )
         .when('/roster', { controller: 'RosterCtrl', templateUrl: '/views/roster.html', access: access.coleader } )
         .when('/banlist', { controller: 'BannedCtrl', templateUrl: '/views/banned.html', access: access.elder } )
+        .when('/arranged', { controller: 'ArrangedCtrl', templateUrl: '/views/arranged.html', access: access.coleader } )
+        .when('/arranged/:id', { controller: 'ArrangedDetailCtrl', templateUrl: '/views/arrangedDetail.html', access: access.coleader } )
         .when('/chat', { controller: 'ChatCtrl', templateUrl: '/views/chat.html', access: access.member } )
         .when('/action/:id', { controller: 'ActionCtrl', templateUrl: '/views/action.html', access: access.member } )
         .when('/admin', { controller: 'AdminHomeCtrl', templateUrl: '/views/admin/admin-home.html', access: access.sadmin } )
@@ -92,7 +94,8 @@ angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize',
         joinRequest: 'There has just been a request to join the clan from <b>[1]</b>. Please confirm or decline the request by selecting from below:<br/><br/><a href="/action/confirm?id=[2]" class="btn btn-sm btn-emphasis">Confirm</a> <a href="/action/decline?id=[2]" class="btn btn-sm btn-alternate">Decline</a>',
         joinConfirmed: 'Your request to join the clan <b>[1]</b> has been approved by <b>[2]</b>. Refresh your browser if you don\'t see the clan name under your user name',
         joinDeclined: 'Your request to join the clan <b>[1]</b> has been declined',
-        kicked: 'You have been kicked out of the clan by <b>[1]</b>'
+        kicked: 'You have been kicked out of the clan by <b>[1]</b>',
+        arranged: 'There has been a request to start an arranged match with <b>[1]</b>. The match has been created and can be found in the <a href="/arranged">arranged war list</a>. If you don\'t want an arranged war with this clan, you can simply ignore the request and delete it from your arranged war list.'
     }
 );
 

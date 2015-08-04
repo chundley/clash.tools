@@ -65,6 +65,17 @@ function ($http, errorService) {
                 callback(errorService.initMessage('clan-service.js', 'getRoster', status), null);
             });
         },
+        arrangedRequest: function (clanId, metaData, callback) {
+            $http({
+                url: '/crud/clan/' + clanId + '/arrange',
+                method: 'POST',
+                data: metaData
+            }).success(function (data, status, headers, config) {
+                callback(null, data);
+            }).error(function (data, status, headers, config) {
+                callback(errorService.initMessage('clan-service.js', 'arrangedRequest', status), null);
+            });
+        },        
         adminAllData: function(clanId, callback) {
             $http({
                 url: '/crud/admin/clan/' + clanId,

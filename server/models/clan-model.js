@@ -6,9 +6,10 @@ var ObjectID = require('mongodb').ObjectID,
     async    = require('async'),
     _        = require('underscore');
 
-var config    = require('../../config/config'),
-    userModel = require('./user-model'),
-    warModel  = require('./war-model');
+var config            = require('../../config/config'),
+    userModel         = require('./user-model'),
+    warModel          = require('./war-model'),
+    emailMessageModel = require('./emailmessage-model');
 
 /*
 * Upserts a record and returns the resulting record
@@ -259,6 +260,43 @@ exports.getRoster = function(clanId, callback) {
             });
             logger.warn(roster);
             callback(null, roster);
+        }
+    });
+}
+
+
+/*
+*   Set an arranged war between clans
+*/
+exports.arrangeWar = function(clanId, metaData, callback) {
+    if (_.isString(clanId)) {
+        clanId = new ObjectID.createFromHexString(clanId);
+    }
+
+    userModel.usersByClan(metaData.clanId, ['leader', 'coleader'], function (err, members) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            _.each(members, function (member) {
+                metaData.email.to_users.push(
+                    {
+                        user_id: member._id,
+                        ign: member.ign,
+                        read: false,
+                        deleted: false
+                    }
+                );
+            });
+
+            emailMessageModel.save(metaData.email, function (err, result) {
+                if (err) {
+                    callback(err, null);
+                }
+                else {
+                    callback(null, true);
+                }
+            });
         }
     });
 }

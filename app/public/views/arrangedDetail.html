@@ -1,0 +1,54 @@
+<div id="wrapper">
+    <div sidebar></div>
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div top-nav></div>
+            <!-- page content -->
+            <div class="row content-body members-container margin-bottom-huge">
+                <div class="col-xs-12">
+                    <div class="row margin-bottom-huge">
+                        <div class="col-xs-12">
+                            <h1>Arranged War</h1>
+                            <h3 class="same-line-sub-heading alternate">{{meta.current_clan.name}}</h3>
+                        </div>
+                    </div>
+                    <div class="row" ng-if="newWar">
+                        <div class="col-xs-12">
+                            <div class="row clan-search margin-bottom-big">
+                                <div class="col-xs-4 search-box">
+                                    <div class="form-control-group">
+                                        <input class="form-control" type="text" placeholder="Search for a clan by name or tag" ng-model="searchTerms" press-enter="search(searchTerms)">
+                                        <button class="btn btn-search" ng-click="search(searchTerms)"><i class="icon-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="widget">
+                                <div class="widget-body">
+                                    <div class="row">
+                                        <div class="col-sm-4 col-xs-4 t-header">Clan name</div>
+                                        <div class="col-sm-2 col-xs-4 t-header">Clan tag</div>
+                                        <div class="col-sm-2 hidden-xs t-header">Leader</div>
+                                        <div class="col-sm-2 col-xs-2 t-header text-center">Members</div>
+                                    </div>
+                                    <div class="row row-underline-2"></div>
+                                    <div ng-repeat="c in clans">
+                                        <div class="row t-row">
+                                            <div class="col-sm-4 col-xs-4">{{c.name}}</div>
+                                            <div class="col-sm-2 col-xs-4">{{c.clan_tag}}</div>
+                                            <div class="col-sm-2 hidden-xs">{{c.metrics.leader}}</div>
+                                            <div class="col-sm-2 col-xs-2 text-center">{{c.metrics.totalMembers}}</div>
+                                            <div class="col-sm-2 text-right"><button class="btn btn-emphasis btn-xs" ng-click="startMatch(c)">Start Match</button></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- /page content -->
+        </div>
+    </div>  <!-- /#page-content-wrapper -->
+</div>  <!-- /#wrapper -->

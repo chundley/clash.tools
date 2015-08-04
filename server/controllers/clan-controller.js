@@ -103,6 +103,20 @@ exports.getRoster = function(req, res, next) {
 }
 
 /*
+*   Create arranged war
+*/
+exports.arrangedWarRequest = function(req, res, next) {
+    clanModel.arrangeWar(req.params.clanId, req.body, function (err, result) {
+        if (err) {
+            res.send(500, err);
+        }
+        else {
+            res.json(200, { status: result} );
+        }
+    });    
+}
+
+/*
 *   Admin view - get all clan meta data
 */
 exports.adminAllData = function(req, res, next) {

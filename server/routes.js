@@ -190,6 +190,12 @@ var routes = [
         middleware: [clanCtrl.allClans],
         accessLevel: accessLevels.member
     },
+    {
+        path: '/crud/clan/:clanId/arrange',
+        httpMethod: 'POST',
+        middleware: [authorizeClanIdAccess, clanCtrl.arrangedWarRequest],
+        accessLevel: accessLevels.coleader
+    },    
     /*
     *   Attack result endpoints
     */

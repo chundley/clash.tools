@@ -5,13 +5,13 @@
                             <a href="/home"><img class="logo" src="/img/logo-small.png"></a>
                             <div global-message></div>
                         </div>
-                        <div class="col-md-4 hidden-sm hidden-xs search-box">
+<!--                         <div class="col-md-4 hidden-sm hidden-xs search-box">
                             <div class="form-control-group">
                                 <input class="form-control" type="text" placeholder="Search for a clan by name or tag" ng-model="searchTerms" press-enter="search()">
                                 <button class="btn btn-search" ng-click="search()"><i class="icon-search"></i></button>
                             </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6 col-xs-6 text-right icon-notification">
+                        </div> -->
+                        <div class="col-md-8 col-sm-6 col-xs-6 text-right icon-notification">
                             <a href="/mail"><i class="icon-mail"></i></a><span class="count-indicator alternate-bg">{{newMailCount}}</span>
                             <span class="dropdown pull-right" on-toggle="toggled(open)">
                                 <a href class="dropdown-toggle">
@@ -32,6 +32,7 @@
                                     <li class="margin-bottom-medium" ng-if="clanName.length>0"><a href="/clan/{{clanId}}">Settings</a></li>
                                     <p class="dropdown-header" ng-if="clanName.length>0">Wars</p>
                                     <li ng-if="clanName.length>0"><a href="/war">War History</a></li>
+                                    <li ng-if="clanName.length>0" access-level="coleader"><a href="/arranged">Arranged Wars</a></li>  
                                     <li class="divider"></li>
                                     <li access-level="sadmin"><a href="/admin">Admin</a></li>
                                     <li><a href="/logout">Logout</a></li>
