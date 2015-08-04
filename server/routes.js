@@ -18,6 +18,7 @@ var authCtrl            = require('./controllers/auth-controller'),
     messagelogCtrl      = require('./controllers/messagelog-controller'),
     playerNotesCtrl     = require('./controllers/playernotes-controller'),
     banListCtrl         = require('./controllers/banlist-controller'),
+    arrangedWarCtrl     = require('./controllers/arrangedwar-controller'),
     imageUploadCtrl     = require('./controllers/imageupload-controller'),
     analyticsCtrl       = require('./controllers/analytics-controller'),
     userModel           = require('./models/user-model'),
@@ -286,6 +287,21 @@ var routes = [
         middleware: [warCtrl.getHistory],
         accessLevel: accessLevels.member
     },
+    /*
+    *   Arranged war endpoints
+    */
+    {
+        path: '/crud/arranged/:id',
+        httpMethod: 'GET',
+        middleware: [arrangedWarCtrl.getById],
+        accessLevel: accessLevels.member
+    },    
+    {
+        path: '/crud/arranged/clan/:clanId',
+        httpMethod: 'GET',
+        middleware: [authorizeClanIdAccess, arrangedWarCtrl.getByClanId],
+        accessLevel: accessLevels.member
+    },    
     /*
     *   Analytics endpoints
     */

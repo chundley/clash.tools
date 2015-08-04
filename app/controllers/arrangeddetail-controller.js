@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('ArrangedDetailCtrl', ['$rootScope', '$scope', '$window', '$routeParams', '$location', '$modal', 'moment', 'authService', 'sessionService', 'errorService', 'emailMessageService', 'messagelogService', 'clanService', 'CLAN_EMAILS',
-function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, authService, sessionService, errorService, emailMessageService, messagelogService, clanService, CLAN_EMAILS) {
+.controller('ArrangedDetailCtrl', ['$rootScope', '$scope', '$window', '$routeParams', '$location', '$modal', 'moment', 'authService', 'sessionService', 'errorService', 'emailMessageService', 'messagelogService', 'clanService', 'arrangedWarService', 'CLAN_EMAILS',
+function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, authService, sessionService, errorService, emailMessageService, messagelogService, clanService, arrangedWarService, CLAN_EMAILS) {
 
     sessionService.getUserMeta(authService.user.id, function (err, meta) {
         if (err) {
@@ -23,9 +23,51 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, 
             }
             else {
                 $scope.newWar = false;
+                // existing arranged war - get the details
+                arrangedWarService.get($routeParams.id, function (err, war) {
+                    if (err) {
+                        err.stack_trace.unshift( { file: 'arrangeddetail-controller.js', func: 'init', message: 'Error getting war' } );
+                        errorService.save(err, function() {});
+                    }
+                    else {
+                        console.log(war);
+                        $scope.war = war;
+                        if (war.clan_1.clan_id == $scope.meta.current_clan.clan_id) {
+                            $scope.us = war.clan_1; 
+                            $scope.them = war.clan_2;
+                        }
+                        else {
+                            $scope.us = war.clan_2;
+                            $scope.them = war.clan_1;
+                        }
+
+                        clanService.getMembers($scope.us.clan_id, 'all', function (err, members) {
+                            if (err) {
+                                err.stack_trace.unshift( { file: 'arrangeddetail-controller.js', func: 'init', message: 'Error getting clan members' } );
+                                errorService.save(err, function() {});
+                            }
+                            else {
+                                angular.forEach(members, function (member) {
+                                    var heroes = member.profile.heroes.bk + member.profile.heroes.aq;
+                                    member.displayName = member.ign + ' | W-' + member.profile.warWeight/1000 + ' | TH-' + member.profile.buildings.th + ' | H-' + heroes;
+                                });
+                                $scope.members = members;
+                                console.log($scope.members);
+                            }
+                        });
+                    }
+                });
             }
         }
     });
+
+    $scope.addPlayer = function(player) {
+        console.log(player);
+
+        // find the slot where this member should go
+
+
+    }
 
     $scope.search = function(terms) {
         if (terms.length > 0) {

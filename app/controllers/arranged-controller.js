@@ -5,12 +5,12 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('ArrangedCtrl', ['$rootScope', '$scope', '$window', '$routeParams', '$location', '$modal', 'moment', 'authService', 'sessionService', 'errorService', 'emailMessageService', 'messagelogService', 'warService',
-function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, authService, sessionService, errorService, emailMessageService, messagelogService, warService) {
+.controller('ArrangedCtrl', ['$rootScope', '$scope', '$window', '$routeParams', '$location', '$modal', 'moment', 'authService', 'sessionService', 'errorService', 'emailMessageService', 'messagelogService', 'arrangedWarService',
+function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, authService, sessionService, errorService, emailMessageService, messagelogService, arrangedWarService) {
 
     sessionService.getUserMeta(authService.user.id, function (err, meta) {
         if (err) {
-            err.stack_trace.unshift( { file: 'wars-controller.js', func: 'init', message: 'Error getting user meta' } );
+            err.stack_trace.unshift( { file: 'arranged-controller.js', func: 'init', message: 'Error getting user meta' } );
             errorService.save(err, function() {});
         }
         else {
@@ -18,34 +18,26 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, 
             $scope.userId = authService.user.id;
             $rootScope.title = meta.current_clan.name + ' arranged wars';
 
-/*            warService.getHistory(meta.current_clan.clan_id, function (err, wars) {
+            arrangedWarService.getByClanId(meta.current_clan.clan_id, function (err, wars) {
                 if (err) {
-                    err.stack_trace.unshift( { file: 'wars-controller.js', func: 'init', message: 'Error getting war history' } );
+                    err.stack_trace.unshift( { file: 'arranged-controller.js', func: 'init', message: 'Error getting arranged wars' } );
                     errorService.save(err, function() {});
                 }
                 else {
-                    $scope.wins = 0;
-                    $scope.losses = 0;
-                    $scope.ties = 0;
                     angular.forEach(wars, function (war) {
-                        var startDate = new Date(war.start);
-                        startDate = new Date(startDate.getTime() + 24*60*60*1000);
-                        war.ended = new moment(startDate);
-
-                        if (war.result == 0) {
-                            $scope.losses++;
-                        }
-                        else if (war.result == 1) {
-                            $scope.wins++;
+                        war.created_at = new moment(war.created_at);
+                        if (war.clan_1.clan_id == $scope.meta.current_clan.clan_id) {
+                            war.opp = war.clan_2;
                         }
                         else {
-                            $scope.ties++;
+                            war.opp = war.clan_1;
                         }
                     });
 
                     $scope.wars = wars;
+                    console.log(wars);
                 }
-            });*/
+            });
         }
     });
 

@@ -30,8 +30,8 @@ exports.newMatch = function(metaData, callback) {
         created_at: new Date()
     };
 
-    match.clan_1.roster = [];
-    match.clan_2.roster = [];
+    match.clan_1.roster = [{},{},{},{},{},{},{},{},{},{}];
+    match.clan_2.roster = [{},{},{},{},{},{},{},{},{},{}];
 
     db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'matchup', function (err, collection) {
         if (err) {
@@ -46,6 +46,59 @@ exports.newMatch = function(metaData, callback) {
                     callback(null, results);
                 }
             });
+        }
+    });
+}
+
+exports.getById = function(id, callback) {
+
+    if (_.isString(id)) {
+        id = new ObjectID.createFromHexString(id);
+    }
+
+    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'matchup', function (err, collection) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            collection.findOne( { _id: id }, function (err, item) {
+                if (err) {
+                    callback(err, null);
+                }
+                else if (item) {
+                    callback(null, item);
+                }
+                else {
+                    callback(null, null);
+                }
+            });
+        }
+    });
+}
+
+exports.getByClanId = function(clanId, callback) {
+    if (_.isString(clanId)) {
+        clanId = new ObjectID.createFromHexString(clanId);
+    }
+
+    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'matchup', function (err, collection) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            collection.find({ $or: [ { 'clan_1.clan_id': clanId }, { 'clan_2.clan_id': clanId } ] }, { } ).sort({created_at: -1}).toArray(function (err, items) {
+                if (err) {
+                    callback(err, null);
+                }
+                else {
+                    if (items) {
+                        callback(null, items);
+                    }
+                    else {
+                        callback(null, null);
+                    }
+                }
+            });            
         }
     });
 }

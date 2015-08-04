@@ -19,27 +19,25 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="widget">
-                                <div class="widget-body members-table">
+                                <div class="widget-body">
                                     <div class="row t-row">
                                         <div class="col-sm-3 col-xs-5 t-header">Opponent</div>
-                                        <div class="col-sm-3 hidden-xs t-header">Ended</div>
-                                        <div class="col-sm-2 col-xs-2 t-header">Count</div>
-                                        <div class="col-sm-2 col-xs-3 t-header">Score</div>
-                                        <div class="col-sm-2 col-xs-2 t-header">W/L</div>
+                                        <div class="col-sm-2 hidden-xs t-header">Clan Tag</div>
+                                        <div class="col-sm-2 col-xs-4 t-header text-center">War size</div>
+                                        <div class="col-sm-3 hidden-xs t-header">Created</div>
+                                        <div class="col-sm-2 col-xs-3 t-header text-center">Delete</div>
                                     </div>
                                     <div class="row row-underline-2"></div>
-<!--                                         <div ng-repeat="war in wars">
-                                            <div class="row t-row wh-row" ng-class="{'good-green': war.result==1, 'error-red': war.result==0, 'neutral-yellow': war.result==2}" ng-click="warDetail(war._id)">
-                                                <div class="col-sm-3 col-xs-5">{{war.opponent_name}}</div>
-                                                <div class="col-sm-3 hidden-xs"><span am-time-ago="{{war.ended}}"></span></div>
-                                                <div class="col-sm-2 col-xs-2">{{war.player_count}}v{{war.player_count}}</div>
-                                                <div class="col-sm-2 col-xs-3">{{war.stars}} - {{war.opponent_stars}}</div>
-                                                <div class="col-sm-2 col-xs-2" ng-if="war.result==0">Loss</div>
-                                                <div class="col-sm-2 col-xs-2" ng-if="war.result==1">Win</div>
-                                                <div class="col-sm-2 col-xs-2" ng-if="war.result==2">Tie</div>
+                                        <div ng-repeat="war in wars">
+                                            <div class="row t-row">
+                                                <div class="col-sm-3 col-xs-5"><a href="/arranged/{{war._id}}">{{war.opp.clan_name}}</a></div>
+                                                <div class="col-sm-2 hidden-xs">{{war.opp.clan_tag}}</div>
+                                                <div class="col-sm-2 col-xs-4 text-center">{{war.roster_count}}</div>
+                                                <div class="col-sm-3 hidden-xs"><span am-time-ago="{{war.created_at}}"></span></div>
+                                                <div class="col-sm-2 col-xs-3 text-center"><i class="icon-cancel icon-large action-icon error-red" access-level="coleader" title="Delete match" ng-click="deleteMatch(war)"></i></div>                    
                                             </div>
                                             <div class="row row-underline-1" ng-if="$index<wars.length-1"></div>
-                                        </div> -->
+                                        </div>
                                 </div>
                             </div>
                         </div>

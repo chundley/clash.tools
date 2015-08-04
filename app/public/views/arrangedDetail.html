@@ -4,8 +4,85 @@
     <div id="page-content-wrapper">
         <div class="container-fluid">
             <div top-nav></div>
-            <!-- page content -->
-            <div class="row content-body members-container margin-bottom-huge">
+
+
+            <div class="row content-body margin-bottom-huge" ng-if="!newWar">
+                <div class="col-xs-12">
+                    <div class="row margin-bottom-huge">
+                        <div class="col-xs-12">
+                            <h2>{{us.clan_name}} vs. {{them.clan_name}}</h2>
+                        </div>
+                    </div>
+                    <div class="row margin-bottom-huge">
+                        <div class="col-md-6 col-sm-8 col-xs-12">
+                            <div class="widget">
+                                <div class="widget-header">
+                                    Match settings (select a member to add to roster)
+                                </div>
+                                <div class="widget-body">
+                                    <div class="row margin-bottom-medium">
+                                        <div class="col-xs-12 form-horizontal">
+                                            <div class="form-group">
+                                                <label for="playerCount" class="col-md-4 col-sm-5 col-xs-3 control-label">Roster count</label>
+                                                <div class="col-md-8 col-sm-7 col-xs-9">
+                                                <select class="form-control" ng-model="war.roster_count" ng-change='changeRosterCount()' integer>
+                                                    <option value="10">10</option>
+                                                    <option value="15">15</option>
+                                                    <option value="20">20</option>
+                                                    <option value="25">25</option>
+                                                    <option value="30">30</option>
+                                                    <option value="35">35</option>
+                                                    <option value="40">40</option>
+                                                    <option value="45">45</option>
+                                                    <option value="50">50</option>
+                                                </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-xs-12 form-horizontal">
+                                            <div class="form-group">
+                                                <label for="" class="col-md-4 col-sm-5 col-xs-3 control-label">Members</label>
+                                                <div class="col-md-8 col-sm-7 col-xs-9">
+                                                    <select class="form-control" ng-model="addedPlayer" ng-options="member as member.displayName for member in members" ng-change="addPlayer(addedPlayer)"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="widget">
+                                <div class="widget-header">
+                                    Matchup
+                                </div>
+                                <div class="widget-body">
+                                    <div class="row">
+                                        <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2 t-header text-center">#</div>
+                                        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-5 t-header text-center">Player</div>
+                                    </div>
+                                    <div class="row row-underline-2"></div>
+                                    <div class="row" ng-repeat="player in us.roster">
+                                        <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2 t-row text-center">{{$index + 1}}</div>
+                                        <div class="col-lg-11 col-md-11 col-sm-10 col-xs-10 t-row text-center"></div>                                        
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-xs-6">
+                        </div>                        
+                    </div>
+                </div>
+            </div> <!-- /page content -->
+
+            <!-- page content - new war -->
+            <div class="row content-body margin-bottom-huge" ng-if="newWar">
                 <div class="col-xs-12">
                     <div class="row margin-bottom-huge">
                         <div class="col-xs-12">
@@ -13,7 +90,7 @@
                             <h3 class="same-line-sub-heading alternate">{{meta.current_clan.name}}</h3>
                         </div>
                     </div>
-                    <div class="row" ng-if="newWar">
+                    <div class="row">
                         <div class="col-xs-12">
                             <div class="row clan-search margin-bottom-big">
                                 <div class="col-xs-4 search-box">
@@ -48,7 +125,7 @@
                         </div>
                     </div>
                 </div>
-            </div> <!-- /page content -->
+            </div> <!-- /page content - new war -->
         </div>
     </div>  <!-- /#page-content-wrapper -->
 </div>  <!-- /#wrapper -->
