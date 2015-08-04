@@ -52,7 +52,6 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, 
                                     member.displayName = member.ign + ' | W-' + member.profile.warWeight/1000 + ' | TH-' + member.profile.buildings.th + ' | H-' + heroes;
                                 });
                                 $scope.members = members;
-                                console.log($scope.members);
                             }
                         });
                     }
@@ -65,7 +64,28 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, 
         console.log(player);
 
         // find the slot where this member should go
+        var position = 0;
+        var foundPosition = false;
+        for (var idx=0; idx<$scope.us.roster.length; idx++) {
+            if ($scope.us.roster[idx].user_id) {
+                if ($scope.us.roster[idx].weight > player.warWeight) {
+                    
+                }
+            }
+            else {
+                position = idx;
+                break;
+            }
+        }
 
+        $scope.us.roster[position] = {
+            user_id: player._id,
+            ign: player.ign,
+            th: player.profile.buildings.th,
+            weight: player.profile.warWeight,
+            bk: player.profile.heroes.bk,
+            aq: player.profile.heroes.aq
+        };        
 
     }
 
