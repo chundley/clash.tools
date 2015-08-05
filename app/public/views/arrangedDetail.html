@@ -13,8 +13,8 @@
                             <h2>{{us.clan_name}} vs. {{them.clan_name}}</h2>
                         </div>
                     </div>
-                    <div class="row margin-bottom-huge">
-                        <div class="col-md-6 col-sm-8 col-xs-12">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-8 col-xs-12 margin-bottom-huge">
                             <div class="widget">
                                 <div class="widget-header">
                                     Match settings (select a member to add to roster)
@@ -50,7 +50,17 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>                                    
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-4 col-xs-12 margin-bottom-huge">
+                            <div class="widget">
+                                <div class="widget-header">
+                                    Summary
+                                </div>
+                                <div class="widget-body">
+                                    Summary goes here
                                 </div>
                             </div>
                         </div>
@@ -63,20 +73,46 @@
                                 </div>
                                 <div class="widget-body">
                                     <div class="row">
-                                        <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2 t-header text-center">#</div>
-                                        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-5 t-header text-center">Player</div>
+                                        <div class="col-sm-6 col-xs-12">
+                                            <div class="row margin-bottom-big">
+                                                <div class="col-xs-12 text-center">
+                                                    <h4 class="alternate"><strong>{{us.clan_name}}</strong></h4>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 t-header text-center">#</div>
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6 t-header">Player</div>
+                                                <div class="col-xs-1 t-header text-center">TH</div>
+                                                <div class="col-xs-1 t-header text-center">W</div>
+                                                <div class="col-sm-1 hidden-xs t-header text-center">BK</div>
+                                                <div class="col-sm-1 hidden-xs t-header text-center">AQ</div>
+                                                <div class="col-xs-1 t-header text-center">H</div>
+                                            </div>
+                                            <div class="row row-underline-2"></div>
+                                            <div class="row small" ng-repeat="player in us.roster">
+                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 text-center">{{$index + 1}}</div>
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6"><a href="/members/{{player.user_id}}">{{player.ign}}</a></div>
+                                                <div class="col-xs-1 text-center">{{player.th}}</div>
+                                                <div class="col-xs-1 text-center" ng-class="{'error-red': player.warWeight==0}" ng-if="player.ign">{{player.warWeight/1000}}</div>
+                                                <div class="col-sm-1 text-center hidden-xs">{{player.bk}}</div>
+                                                <div class="col-sm-1 text-center hidden-xs">{{player.aq}}</div>
+                                                <div class="col-xs-1 text-center" ng-class="{'error-red': player.bk + player.aq ==0}">{{player.bk + player.aq}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-xs-12">
+
+                                        </div>
                                     </div>
-                                    <div class="row row-underline-2"></div>
-                                    <div class="row" ng-repeat="player in us.roster">
-                                        <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2 t-row text-center">{{$index + 1}}</div>
-                                        <div class="col-lg-11 col-md-11 col-sm-10 col-xs-10 t-row text-center">{{player.ign}}</div>                                        
-                                    </div>
+
+
+
+
                                 </div>
                             </div>
 
                         </div>
                         <div class="col-xs-6">
-                        </div>                        
+                        </div>
                     </div>
                 </div>
             </div> <!-- /page content -->

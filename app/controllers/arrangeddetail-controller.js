@@ -30,10 +30,9 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, 
                         errorService.save(err, function() {});
                     }
                     else {
-                        console.log(war);
                         $scope.war = war;
                         if (war.clan_1.clan_id == $scope.meta.current_clan.clan_id) {
-                            $scope.us = war.clan_1; 
+                            $scope.us = war.clan_1;
                             $scope.them = war.clan_2;
                         }
                         else {
@@ -49,8 +48,34 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, 
                             else {
                                 angular.forEach(members, function (member) {
                                     var heroes = member.profile.heroes.bk + member.profile.heroes.aq;
-                                    member.displayName = member.ign + ' | W-' + member.profile.warWeight/1000 + ' | TH-' + member.profile.buildings.th + ' | H-' + heroes;
+                                    member.displayName = member.profile.warWeight/1000 + ' | TH ' + member.profile.buildings.th + ' | Heroes ' + heroes + ' | ' + member.ign;
                                 });
+
+                                members.sort(function (a, b) {
+                                    if (a.profile.warWeight > b.profile.warWeight) {
+                                        return -1;
+                                    }
+                                    else if (a.profile.warWeight < b.profile.warWeight) {
+                                        return 1;
+                                    }
+                                    else {
+                                        if (a.profile.heroes.bk + a.profile.heroes.aq > b.profile.heroes.bk + b.profile.heroes.aq) {
+                                            return -1;
+                                        }
+                                        else if (a.profile.heroes.bk + a.profile.heroes.aq < b.profile.heroes.bk + b.profile.heroes.aq) {
+                                            return 1;
+                                        }
+                                        else {
+                                            if (a.ign < b.ign) {
+                                                return -1;
+                                            }
+                                            else {
+                                                return 1;
+                                            }
+                                        }
+                                    }
+                                });
+
                                 $scope.members = members;
                             }
                         });
@@ -61,31 +86,57 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, 
     });
 
     $scope.addPlayer = function(player) {
-        console.log(player);
-
         // find the slot where this member should go
-        var position = 0;
-        var foundPosition = false;
+        var position = -1;
+
         for (var idx=0; idx<$scope.us.roster.length; idx++) {
-            if ($scope.us.roster[idx].user_id) {
-                if ($scope.us.roster[idx].weight > player.warWeight) {
-                    
+            if ($scope.us.roster[idx].user_id &&
+                $scope.us.roster[idx].warWeight <= player.profile.warWeight) {
+                // if a user at this location and the user's weight is less than or equal to new player, do something
+                if ($scope.us.roster[idx].warWeight == player.profile.warWeight) {
+                    // if equal, check hero levels
+                    if ($scope.us.roster[idx].bk + $scope.us.roster[idx].aq <= player.profile.heroes.bk + player.profile.heroes.aq) {
+                        position = idx;
+                        break;
+                    }
                 }
+                else {
+                    position = idx;
+                    break;
+                }
+
             }
-            else {
+            else if (!$scope.us.roster[idx].user_id) {
                 position = idx;
                 break;
             }
         }
 
-        $scope.us.roster[position] = {
-            user_id: player._id,
-            ign: player.ign,
-            th: player.profile.buildings.th,
-            weight: player.profile.warWeight,
-            bk: player.profile.heroes.bk,
-            aq: player.profile.heroes.aq
-        };        
+        if (position >= 0) {
+            var newMember = {
+                user_id: player._id,
+                ign: player.ign,
+                th: player.profile.buildings.th,
+                warWeight: player.profile.warWeight,
+                bk: player.profile.heroes.bk,
+                aq: player.profile.heroes.aq
+            };
+
+            if (position == $scope.us.roster.length-1) {
+                // last position in the array, just replace what's there
+                $scope.us.roster[position] = newMember;
+            }
+            else {
+                // need to move everyone down a spot (5 becomes 6, 6 becomes 7, etc.)
+                for (var moveIdx = $scope.us.roster.length-1; moveIdx > position; moveIdx--) {
+                    $scope.us.roster.splice(moveIdx, 0, $scope.us.roster.splice(moveIdx-1, 1)[0]);
+
+                    //this.splice(to, 0, this.splice(from, 1)[0]);
+                }
+                $scope.us.roster[position] = newMember;
+            }
+        }
+        console.log($scope.war);
 
     }
 
@@ -162,7 +213,7 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, 
 
         modalInstance.$promise.then(function() {
             modalInstance.show();
-        });        
+        });
     }
 
 }]);
