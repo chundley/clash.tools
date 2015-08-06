@@ -98,7 +98,7 @@ exports.getByClanId = function(clanId, callback) {
                         callback(null, null);
                     }
                 }
-            });            
+            });
         }
     });
 }
@@ -112,24 +112,17 @@ exports.save = function(model, callback) {
         model._id = new ObjectID.createFromHexString(model._id);
     }
 
-    if (_.isString(model.clan_id)) {
-        model.clan_id = new ObjectID.createFromHexString(model.clan_id);
+    if (_.isString(model.clan_1.clan_id)) {
+        model.clan_1.clan_id = new ObjectID.createFromHexString(model.clan_1.clan_id);
     }
 
-    if (_.isString(model.created_by)) {
-        model.created_by = new ObjectID.createFromHexString(model.created_by);
+    if (_.isString(model.clan_2.clan_id)) {
+        model.clan_2.clan_id = new ObjectID.createFromHexString(model.clan_2.clan_id);
     }
 
-    model.last_updated_at = new Date();
+    model.created_at = new Date(model.created_at);
 
-    if (model.created_at) {
-        model.created_at = new Date(model.created_at);
-    }
-    else {
-        model.created_at = model.last_updated_at;
-    }
-
-    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'war', function (err, collection) {
+    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'matchup', function (err, collection) {
         if (err) {
             callback(err, null);
         }
@@ -149,7 +142,6 @@ exports.save = function(model, callback) {
             });
         }
     });
-
 }
 
 exports.delete = function(warId, callback) {

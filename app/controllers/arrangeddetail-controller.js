@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('ArrangedDetailCtrl', ['$rootScope', '$scope', '$window', '$routeParams', '$location', '$modal', 'moment', 'authService', 'sessionService', 'errorService', 'emailMessageService', 'messagelogService', 'clanService', 'arrangedWarService', 'CLAN_EMAILS',
-function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, authService, sessionService, errorService, emailMessageService, messagelogService, clanService, arrangedWarService, CLAN_EMAILS) {
+.controller('ArrangedDetailCtrl', ['$rootScope', '$scope', '$window', '$routeParams', '$location', '$modal', 'ctSocket', 'moment', 'authService', 'sessionService', 'errorService', 'emailMessageService', 'messagelogService', 'clanService', 'arrangedWarService', 'CLAN_EMAILS',
+function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket, moment, authService, sessionService, errorService, emailMessageService, messagelogService, clanService, arrangedWarService, CLAN_EMAILS) {
 
     sessionService.getUserMeta(authService.user.id, function (err, meta) {
         if (err) {
@@ -40,43 +40,55 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, 
                             $scope.them = war.clan_1;
                         }
 
+                        // when there's a change, animate the changed row
+                        ctSocket.on('arrangedwar:' + $scope.war._id + ':' + $scope.them.clan_id + ':change', function (data) {
+                            $scope.themChange = [];
+                            for (var idx=0; idx<data.roster.length; idx++) {
+                                $scope.themChange.push(false);
+                                var found = false;
+                                for (var idx2=0; idx2<$scope.them.roster.length; idx2++) {
+                                    if (data.roster[idx].user_id &&
+                                        $scope.them.roster[idx2].user_id &&
+                                        $scope.them.roster[idx2].user_id == data.roster[idx].user_id) {
+                                        found = true;
+                                        break;
+                                    }
+                                }
+
+                                if (!found && data.roster[idx].user_id) {
+                                    $scope.themChange[idx] = true;
+                                }
+                            }
+
+                            $scope.them = data;
+                            updateTotals();
+
+                            // if roster grew or shrunk, make sure the UI reflects that
+                            console.log($scope.them.roster.length);
+                            console.log($scope.us.roster.length);
+                            if ($scope.them.roster.length > $scope.us.roster.length) {
+                                for (var idx=$scope.us.roster.length; idx<$scope.them.roster.length; idx++) {
+                                    $scope.us.roster.push({});
+                                }
+                                $scope.war.roster_count = $scope.them.roster.length;
+                            }
+                            else if ($scope.them.roster.length < $scope.us.roster.length) {
+                                $scope.us.roster.splice($scope.them.roster.length, $scope.us.roster.length-1);
+                                $scope.war.roster_count = $scope.them.roster.length;
+                            }
+                        });
+
                         clanService.getMembers($scope.us.clan_id, 'all', function (err, members) {
                             if (err) {
                                 err.stack_trace.unshift( { file: 'arrangeddetail-controller.js', func: 'init', message: 'Error getting clan members' } );
                                 errorService.save(err, function() {});
                             }
                             else {
-                                angular.forEach(members, function (member) {
-                                    var heroes = member.profile.heroes.bk + member.profile.heroes.aq;
-                                    member.displayName = member.profile.warWeight/1000 + ' | TH ' + member.profile.buildings.th + ' | Heroes ' + heroes + ' | ' + member.ign;
-                                });
-
-                                members.sort(function (a, b) {
-                                    if (a.profile.warWeight > b.profile.warWeight) {
-                                        return -1;
-                                    }
-                                    else if (a.profile.warWeight < b.profile.warWeight) {
-                                        return 1;
-                                    }
-                                    else {
-                                        if (a.profile.heroes.bk + a.profile.heroes.aq > b.profile.heroes.bk + b.profile.heroes.aq) {
-                                            return -1;
-                                        }
-                                        else if (a.profile.heroes.bk + a.profile.heroes.aq < b.profile.heroes.bk + b.profile.heroes.aq) {
-                                            return 1;
-                                        }
-                                        else {
-                                            if (a.ign < b.ign) {
-                                                return -1;
-                                            }
-                                            else {
-                                                return 1;
-                                            }
-                                        }
-                                    }
-                                });
-
                                 $scope.members = members;
+
+                                // reset every time we load to update any changes to member weights
+                                resetProfiles();
+                                updateTotals();
                             }
                         });
                     }
@@ -84,6 +96,52 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, 
             }
         }
     });
+
+    $scope.changeRosterCount = function() {
+        if ($scope.war.roster_count > $scope.us.roster.length) {
+            // adding to roster, just extend the arrays for both teams
+            for (var idx=$scope.us.roster.length; idx<$scope.war.roster_count; idx++) {
+                $scope.us.roster.push({});
+                $scope.them.roster.push({});
+            }
+
+            saveInternal();
+        }
+        else {
+            // shortening roster - need to warn before removing names
+            var cssClass = 'center';
+            if ($window.innerWidth < 500) {
+                cssClass = 'mobile';
+            }
+
+            $scope.modalOptions = {
+                title: 'Shorten match roster count?',
+                message: 'Please confirm you want to shorten the roster. If you select "Yes" any names that are cut off will be removed. You can\'t undo this action (for example, shortening from 30 to 25 will remove five names from the end of both rosters).',
+                yesBtn: 'Yes',
+                noBtn: 'Cancel',
+                cssClass: cssClass,
+                onYes: function() {
+                    $scope.us.roster.splice($scope.war.roster_count, $scope.us.roster.length-1);
+                    $scope.them.roster.splice($scope.war.roster_count, $scope.them.roster.length-1);
+                    saveInternal();
+                }
+            };
+
+            var modalInstance = $modal(
+                {
+                    scope: $scope,
+                    animation: 'am-fade-and-slide-top',
+                    placement: 'center',
+                    template: "/views/partials/confirmDialog.html",
+                    show: false
+                }
+            );
+
+            modalInstance.$promise.then(function() {
+                modalInstance.show();
+            });
+        }
+    }
 
     $scope.addPlayer = function(player) {
         // find the slot where this member should go
@@ -136,8 +194,16 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, 
                 $scope.us.roster[position] = newMember;
             }
         }
-        console.log($scope.war);
+        saveInternal();
+        cleanDisplayMembers();
 
+    }
+
+    $scope.removePlayer = function(index) {
+        $scope.us.roster.splice(index, 1);
+        $scope.us.roster.push({});
+        saveInternal();
+        cleanDisplayMembers();
     }
 
     $scope.search = function(terms) {
@@ -214,6 +280,156 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, 
         modalInstance.$promise.then(function() {
             modalInstance.show();
         });
+    }
+
+    // whenever we load this page, let's reset the profiles to make sure to pick up any changes to weights, hero levels, or th
+    function resetProfiles() {
+        var changedSomething = false;
+        for (var idx=0; idx<$scope.us.roster.length; idx++) {
+            for (var idx2=0; idx2<$scope.members.length; idx2++) {
+                if ($scope.us.roster[idx].user_id == $scope.members[idx2]._id) {
+                    //
+                    if ($scope.us.roster[idx].warWeight != $scope.members[idx2].profile.warWeight ||
+                        $scope.us.roster[idx].bk != $scope.members[idx2].profile.heroes.bk ||
+                        $scope.us.roster[idx].aq != $scope.members[idx2].profile.heroes.aq ||
+                        $scope.us.roster[idx].th != $scope.members[idx2].profile.buildings.th) {
+                        // something changed that impacts this view - update the values
+                        changedSomething = true;
+                        $scope.us.roster[idx].warWeight = $scope.members[idx2].profile.warWeight;
+                        $scope.us.roster[idx].bk = $scope.members[idx2].profile.heroes.bk;
+                        $scope.us.roster[idx].aq = $scope.members[idx2].profile.heroes.aq;
+                        $scope.us.roster[idx].th = $scope.members[idx2].profile.buildings.th;
+                    }
+                    break;
+                }
+            }
+        }
+
+
+        angular.forEach($scope.members, function (member) {
+            var heroes = member.profile.heroes.bk + member.profile.heroes.aq;
+            member.displayName = member.profile.warWeight/1000 + ' | TH ' + member.profile.buildings.th + ' | Heroes ' + heroes + ' | ' + member.ign;
+        });
+
+        $scope.members.sort(function (a, b) {
+            if (a.profile.warWeight > b.profile.warWeight) {
+                return -1;
+            }
+            else if (a.profile.warWeight < b.profile.warWeight) {
+                return 1;
+            }
+            else {
+                if (a.profile.heroes.bk + a.profile.heroes.aq > b.profile.heroes.bk + b.profile.heroes.aq) {
+                    return -1;
+                }
+                else if (a.profile.heroes.bk + a.profile.heroes.aq < b.profile.heroes.bk + b.profile.heroes.aq) {
+                    return 1;
+                }
+                else {
+                    if (a.ign < b.ign) {
+                        return -1;
+                    }
+                    else {
+                        return 1;
+                    }
+                }
+            }
+        });
+
+        if (changedSomething) {
+            $scope.us.roster.sort(function (a, b) {
+                if (a.warWeight > b.warWeight) {
+                    return -1;
+                }
+                else if (a.warWeight < b.warWeight) {
+                    return 1;
+                }
+                else {
+                    if (a.bk + a.aq > b.bk + b.aq) {
+                        return -1;
+                    }
+                    else if (a.bk + a.aq < b.bk + b.aq) {
+                        return 1;
+                    }
+                    else {
+                        if (a.ign < b.ign) {
+                            return -1;
+                        }
+                        else {
+                            return 1;
+                        }
+                    }
+                }
+            });
+            saveInternal();
+        }
+        cleanDisplayMembers();
+    }
+
+    function cleanDisplayMembers() {
+        $scope.displayMembers = [];
+        for (var idx=0; idx<$scope.members.length; idx++) {
+            var found = false;
+            for (var idx2=0; idx2<$scope.us.roster.length; idx2++) {
+                if ($scope.members[idx]._id == $scope.us.roster[idx2].user_id) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                $scope.displayMembers.push($scope.members[idx]);
+            }
+        }
+
+        $scope.addedPlayer = {};
+    }
+
+    function saveInternal() {
+        arrangedWarService.save($scope.meta.current_clan.clan_id, $scope.war, function (err, results) {
+            if (err) {
+                err.stack_trace.unshift( { file: 'arrangeddetail-controller.js', func: 'saveInternal', message: 'Error saving arranged war' } );
+                errorService.save(err, function() {});
+            }
+            else {
+                updateTotals();
+            }
+        });
+    }
+
+    function updateTotals() {
+        $scope.totals = {
+            us: {
+                totalWeight: 0,
+                totalBK: 0,
+                totalAQ: 0,
+                totalHeroes: 0
+            },
+            them: {
+                totalWeight: 0,
+                totalBK: 0,
+                totalAQ: 0,
+                totalHeroes: 0
+            }
+        };
+
+        angular.forEach($scope.us.roster, function (member) {
+            if (member.user_id) {
+                $scope.totals.us.totalWeight += member.warWeight;
+                $scope.totals.us.totalBK += member.bk;
+                $scope.totals.us.totalAQ += member.aq;
+                $scope.totals.us.totalHeroes += member.bk + member.aq;
+            }
+        });
+
+        angular.forEach($scope.them.roster, function (member) {
+            if (member.user_id) {
+                $scope.totals.them.totalWeight += member.warWeight;
+                $scope.totals.them.totalBK += member.bk;
+                $scope.totals.them.totalAQ += member.aq;
+                $scope.totals.them.totalHeroes += member.bk + member.aq;
+            }
+        });
+
     }
 
 }]);

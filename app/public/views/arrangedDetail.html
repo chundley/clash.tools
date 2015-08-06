@@ -14,18 +14,18 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6 col-sm-8 col-xs-12 margin-bottom-huge">
+                        <div class="col-md-4 col-sm-5 col-xs-12 margin-bottom-huge">
                             <div class="widget">
                                 <div class="widget-header">
-                                    Match settings (select a member to add to roster)
+                                    Match settings
                                 </div>
                                 <div class="widget-body">
                                     <div class="row margin-bottom-medium">
                                         <div class="col-xs-12 form-horizontal">
                                             <div class="form-group">
-                                                <label for="playerCount" class="col-md-4 col-sm-5 col-xs-3 control-label">Roster count</label>
+                                                <label for="playerCount" class="col-md-4 col-sm-5 col-xs-3 control-label small">Count</label>
                                                 <div class="col-md-8 col-sm-7 col-xs-9">
-                                                <select class="form-control" ng-model="war.roster_count" ng-change='changeRosterCount()' integer>
+                                                <select class="form-control-small" ng-model="war.roster_count" ng-change='changeRosterCount()' integer>
                                                     <option value="10">10</option>
                                                     <option value="15">15</option>
                                                     <option value="20">20</option>
@@ -44,9 +44,9 @@
                                     <div class="row">
                                         <div class="col-xs-12 form-horizontal">
                                             <div class="form-group">
-                                                <label for="" class="col-md-4 col-sm-5 col-xs-3 control-label">Members</label>
+                                                <label for="" class="col-md-4 col-sm-5 col-xs-3 control-label small">Members</label>
                                                 <div class="col-md-8 col-sm-7 col-xs-9">
-                                                    <select class="form-control" ng-model="addedPlayer" ng-options="member as member.displayName for member in members" ng-change="addPlayer(addedPlayer)"></select>
+                                                    <select class="form-control-small" ng-model="addedPlayer" ng-options="member as member.displayName for member in displayMembers" ng-change="addPlayer(addedPlayer)"></select>
                                                 </div>
                                             </div>
                                         </div>
@@ -54,7 +54,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 col-sm-4 col-xs-12 margin-bottom-huge">
+                        <div class="col-md-8 col-sm-7 col-xs-12 margin-bottom-huge">
                             <div class="widget">
                                 <div class="widget-header">
                                     Summary
@@ -76,31 +76,72 @@
                                         <div class="col-sm-6 col-xs-12">
                                             <div class="row margin-bottom-big">
                                                 <div class="col-xs-12 text-center">
-                                                    <h4 class="alternate"><strong>{{us.clan_name}}</strong></h4>
+                                                    <h4 class="emphasis"><strong>{{us.clan_name}}</strong></h4>
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 t-header text-center">#</div>
-                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6 t-header">Player</div>
-                                                <div class="col-xs-1 t-header text-center">TH</div>
-                                                <div class="col-xs-1 t-header text-center">W</div>
-                                                <div class="col-sm-1 hidden-xs t-header text-center">BK</div>
-                                                <div class="col-sm-1 hidden-xs t-header text-center">AQ</div>
-                                                <div class="col-xs-1 t-header text-center">H</div>
+                                            <div class="row arranged-row strong">
+                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 text-center">#</div>
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6">Player</div>
+                                                <div class="col-xs-1 text-center">TH</div>
+                                                <div class="col-xs-1 text-center">W</div>
+                                                <div class="col-sm-1 hidden-xs text-center">BK</div>
+                                                <div class="col-sm-1 hidden-xs text-center">AQ</div>
+                                                <div class="col-xs-1 text-center">H</div>
                                             </div>
                                             <div class="row row-underline-2"></div>
-                                            <div class="row small" ng-repeat="player in us.roster">
+                                            <div class="row arranged-row" ng-repeat="player in us.roster">
                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 text-center">{{$index + 1}}</div>
-                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6"><a href="/members/{{player.user_id}}">{{player.ign}}</a></div>
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6 no-wrap"><i class="icon-cancel action-icon primary-20" access-level="leader" ng-if="player.ign" title="Remove player" ng-click="removePlayer($index)"></i> <a href="/members/{{player.user_id}}">{{player.ign}}</a></div>
                                                 <div class="col-xs-1 text-center">{{player.th}}</div>
                                                 <div class="col-xs-1 text-center" ng-class="{'error-red': player.warWeight==0}" ng-if="player.ign">{{player.warWeight/1000}}</div>
                                                 <div class="col-sm-1 text-center hidden-xs">{{player.bk}}</div>
                                                 <div class="col-sm-1 text-center hidden-xs">{{player.aq}}</div>
                                                 <div class="col-xs-1 text-center" ng-class="{'error-red': player.bk + player.aq ==0}">{{player.bk + player.aq}}</div>
                                             </div>
+                                            <div class="row row-underline-2"></div>
+                                            <div class="row arranged-row strong">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8 text-right">Totals</div>
+                                                <div class="col-xs-1 text-center"></div>
+                                                <div class="col-xs-1 text-center" ng-class="{'error-red': totals.us.totalWeight < totals.them.totalWeight, 'good-green': totals.us.totalWeight > totals.them.totalWeight}">{{totals.us.totalWeight/1000}}</div>
+                                                <div class="col-sm-1 hidden-xs text-center" ng-class="{'error-red': totals.us.totalBK < totals.them.totalBK, 'good-green': totals.us.totalBK > totals.them.totalBK}">{{totals.us.totalBK}}</div>
+                                                <div class="col-sm-1 hidden-xs text-center" ng-class="{'error-red': totals.us.totalAQ < totals.them.totalAQ, 'good-green': totals.us.totalAQ > totals.them.totalAQ}">{{totals.us.totalAQ}}</div>
+                                                <div class="col-xs-1 text-center" ng-class="{'error-red': totals.us.totalHeroes < totals.them.totalHeroes, 'good-green': totals.us.totalHeroes > totals.them.totalHeroes}">{{totals.us.totalHeroes}}</div>
+                                            </div>
                                         </div>
                                         <div class="col-sm-6 col-xs-12">
-
+                                            <div class="row margin-bottom-big">
+                                                <div class="col-xs-12 text-center">
+                                                    <h4 class="alternate"><strong>{{them.clan_name}}</strong></h4>
+                                                </div>
+                                            </div>
+                                            <div class="row arranged-row strong">
+                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 text-center">#</div>
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6 ">Player</div>
+                                                <div class="col-xs-1 text-center">TH</div>
+                                                <div class="col-xs-1 text-center">W</div>
+                                                <div class="col-sm-1 hidden-xs text-center">BK</div>
+                                                <div class="col-sm-1 hidden-xs text-center">AQ</div>
+                                                <div class="col-xs-1 text-center">H</div>
+                                            </div>
+                                            <div class="row row-underline-2"></div>
+                                            <div class="row arranged-row" ng-repeat="player in them.roster" ng-class="{'animate-row': themChange[$index]==true}">
+                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 text-center">{{$index + 1}}</div>
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6 no-wrap">{{player.ign}}</div>
+                                                <div class="col-xs-1 text-center">{{player.th}}</div>
+                                                <div class="col-xs-1 text-center" ng-class="{'error-red': player.warWeight==0}" ng-if="player.ign">{{player.warWeight/1000}}</div>
+                                                <div class="col-sm-1 text-center hidden-xs">{{player.bk}}</div>
+                                                <div class="col-sm-1 text-center hidden-xs">{{player.aq}}</div>
+                                                <div class="col-xs-1 text-center" ng-class="{'error-red': player.bk + player.aq ==0}">{{player.bk + player.aq}}</div>
+                                            </div>
+                                            <div class="row row-underline-2"></div>
+                                            <div class="row arranged-row strong">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8 text-right">Totals</div>
+                                                <div class="col-xs-1 text-center"></div>
+                                                <div class="col-xs-1 text-center" ng-class="{'error-red': totals.us.totalWeight > totals.them.totalWeight, 'good-green': totals.us.totalWeight < totals.them.totalWeight}">{{totals.them.totalWeight/1000}}</div>
+                                                <div class="col-sm-1 hidden-xs text-center" ng-class="{'error-red': totals.us.totalBK > totals.them.totalBK, 'good-green': totals.us.totalBK < totals.them.totalBK}">{{totals.them.totalBK}}</div>
+                                                <div class="col-sm-1 hidden-xs text-center" ng-class="{'error-red': totals.us.totalAQ > totals.them.totalAQ, 'good-green': totals.us.totalAQ < totals.them.totalAQ}">{{totals.them.totalAQ}}</div>
+                                                <div class="col-xs-1 text-center" ng-class="{'error-red': totals.us.totalHeroes > totals.them.totalHeroes, 'good-green': totals.us.totalHeroes < totals.them.totalHeroes}">{{totals.them.totalHeroes}}</div>
+                                            </div>
                                         </div>
                                     </div>
 

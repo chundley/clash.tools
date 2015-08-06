@@ -1,5 +1,5 @@
 /*
-*   Ban list endpoints
+*   Arranged war endpoints
 */
 
 var arrangedWarModel = require('../models/arrangedwar-model');
@@ -7,16 +7,25 @@ var arrangedWarModel = require('../models/arrangedwar-model');
 /*
 *   Save an message
 */
-/*exports.save = function(req, res, next) {
-    banlistModel.save(req.body, function (err, banned) {
+exports.save = function(req, res, next) {
+    arrangedWarModel.save(req.body, function (err, model) {
         if (err) {
             res.send(500, err);
         }
         else {
-            res.json(200, banned);
+            var retData = null;
+            if (req.params.clanId == model.clan_1.clan_id) {
+                retData = model.clan_1;
+            }
+
+            else {
+                retData = model.clan_2;
+            }
+            socket.emit('arrangedwar:' + model._id + ':' + retData.clan_id + ':change', retData);
+            res.json(200, { result: 'success'} );
         }
     });
-};*/
+};
 
 /*
 *   Get by Id

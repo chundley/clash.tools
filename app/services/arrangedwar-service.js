@@ -1,7 +1,7 @@
 'use strict';
 
 /*
-*  Service for player notes
+*  Service for arranged wars
 */
 
 angular.module('Clashtools.services')
@@ -17,12 +17,12 @@ function ($http, $rootScope, authService, errorService) {
             }).error(function (data, status, headers, config) {
                 callback(errorService.initMessage('arrangedwar-service.js', 'get', status), null);
             });
-        },        
-        save: function(userId, note, callback) {
+        },
+        save: function(clanId, model, callback) {
             $http({
-                url: '/crud/playernotes/' + userId,
+                url: '/crud/arranged/' + clanId,
                 method: 'POST',
-                data: note,
+                data: model,
                 headers: {'Content-Type': 'application/json'}
             }).success(function (data, status, headers, config) {
                 callback(null, data);
@@ -37,18 +37,18 @@ function ($http, $rootScope, authService, errorService) {
             }).success(function (data, status, headers, config) {
                 callback(null, data);
             }).error(function (data, status, headers, config) {
-                callback(errorService.initMessage('arrangedwar-service.js', 'get', status), null);
+                callback(errorService.initMessage('arrangedwar-service.js', 'getByClanId', status), null);
             });
         },
-        delete: function(clanId, noteId, callback) {
+        delete: function(clanId, modelId, callback) {
             $http({
-                url: '/crud/playernotes/' + clanId + '/' + noteId,
+                url: '/crud/arranged/' + clanId + '/' + modelId,
                 method: 'DELETE'
             }).success(function (data, status, headers, config) {
                 callback(null, data);
             }).error(function (data, status, headers, config) {
-                callback(errorService.initMessage('arrangedwar-service.js', 'get', status), null);
+                callback(errorService.initMessage('arrangedwar-service.js', 'delete', status), null);
             });
-        }        
+        }
     }
 }]);

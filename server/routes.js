@@ -56,7 +56,7 @@ var routes = [
         httpMethod: 'GET',
         middleware: [authorizeUserIdAccess, userCtrl.getByIdLimited],
         accessLevel: accessLevels.member
-    },    
+    },
     {
         path: '/crud/user/:userId',
         httpMethod: 'POST',
@@ -118,19 +118,19 @@ var routes = [
         httpMethod: 'GET',
         middleware: [authorizeUserIdAccess, playerNotesCtrl.get],
         accessLevel: accessLevels.coleader
-    },    
+    },
     {
         path: '/crud/playernotes/:userId',
         httpMethod: 'POST',
         middleware: [authorizeUserIdAccess, playerNotesCtrl.save],
         accessLevel: accessLevels.coleader
-    },  
+    },
     {
         path: '/crud/playernotes/:clanId/:noteId',
         httpMethod: 'DELETE',
         middleware: [authorizeClanIdAccess, playerNotesCtrl.delete],
         accessLevel: accessLevels.coleader
-    }, 
+    },
     /*
     *   Ban list endpoints
     */
@@ -139,25 +139,25 @@ var routes = [
         httpMethod: 'GET',
         middleware: [authorizeClanIdAccess, banListCtrl.get],
         accessLevel: accessLevels.elder
-    },    
+    },
     {
         path: '/crud/banlist/:clanId',
         httpMethod: 'POST',
         middleware: [authorizeClanIdAccess, banListCtrl.save],
         accessLevel: accessLevels.coleader
-    },  
+    },
     {
         path: '/crud/banlist/:clanId/:userId',
         httpMethod: 'GET',
         middleware: [authorizeClanIdAccess, banListCtrl.getByUserId],
         accessLevel: accessLevels.coleader
-    },    
+    },
     {
         path: '/crud/banlist/:clanId/:userId',
         httpMethod: 'DELETE',
         middleware: [authorizeClanIdAccess, banListCtrl.delete],
         accessLevel: accessLevels.coleader
-    },             
+    },
     /*
     *   Clan endpoints
     */
@@ -196,7 +196,7 @@ var routes = [
         httpMethod: 'POST',
         middleware: [authorizeClanIdAccess, clanCtrl.arrangedWarRequest],
         accessLevel: accessLevels.coleader
-    },    
+    },
     /*
     *   Attack result endpoints
     */
@@ -217,7 +217,7 @@ var routes = [
         httpMethod: 'GET',
         middleware: [authorizeUserIdAccess, attackResultsCtrl.findByUserId],
         accessLevel: accessLevels.member
-    },    
+    },
     /*
     *   War endpoints
     */
@@ -295,13 +295,19 @@ var routes = [
         httpMethod: 'GET',
         middleware: [arrangedWarCtrl.getById],
         accessLevel: accessLevels.member
-    },    
+    },
+    {
+        path: '/crud/arranged/:clanId',
+        httpMethod: 'POST',
+        middleware: [authorizeClanIdAccess, arrangedWarCtrl.save],
+        accessLevel: accessLevels.coleader
+    },
     {
         path: '/crud/arranged/clan/:clanId',
         httpMethod: 'GET',
         middleware: [authorizeClanIdAccess, arrangedWarCtrl.getByClanId],
         accessLevel: accessLevels.member
-    },    
+    },
     /*
     *   Analytics endpoints
     */
@@ -426,7 +432,7 @@ var routes = [
         httpMethod: 'GET',
         middleware: [clanCtrl.adminAllClans],
         accessLevel: accessLevels.sadmin
-    },    
+    },
     {
         path: '/crud/admin/clan/:clanId',
         httpMethod: 'GET',
