@@ -40,8 +40,25 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
                             $scope.them = war.clan_1;
                         }
 
+                        // pull members for dropdown
+                        clanService.getMembers($scope.us.clan_id, 'all', function (err, members) {
+                            if (err) {
+                                err.stack_trace.unshift( { file: 'arrangeddetail-controller.js', func: 'init', message: 'Error getting clan members' } );
+                                errorService.save(err, function() {});
+                            }
+                            else {
+                                $scope.members = members;
+
+                                // reset every time we load to update any changes to member weights
+                                resetProfiles();
+                                updateTotals();
+                            }
+                        });
+
                         // when there's a change, animate the changed row
                         ctSocket.on('arrangedwar:' + $scope.war._id + ':' + $scope.them.clan_id + ':change', function (data) {
+
+                            // determine which (if any) members were added for animation
                             $scope.themChange = [];
                             for (var idx=0; idx<data.roster.length; idx++) {
                                 $scope.themChange.push(false);
@@ -60,12 +77,10 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
                                 }
                             }
 
+                            // their new roster is returned from the socket push, set it after changes have been captured
                             $scope.them = data;
-                            updateTotals();
 
                             // if roster grew or shrunk, make sure the UI reflects that
-                            console.log($scope.them.roster.length);
-                            console.log($scope.us.roster.length);
                             if ($scope.them.roster.length > $scope.us.roster.length) {
                                 for (var idx=$scope.us.roster.length; idx<$scope.them.roster.length; idx++) {
                                     $scope.us.roster.push({});
@@ -76,20 +91,17 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
                                 $scope.us.roster.splice($scope.them.roster.length, $scope.us.roster.length-1);
                                 $scope.war.roster_count = $scope.them.roster.length;
                             }
-                        });
 
-                        clanService.getMembers($scope.us.clan_id, 'all', function (err, members) {
-                            if (err) {
-                                err.stack_trace.unshift( { file: 'arrangeddetail-controller.js', func: 'init', message: 'Error getting clan members' } );
-                                errorService.save(err, function() {});
+                            
+                            // need to set the war correctly so when it saves the other clan's changes don't get hammered
+                            if (war.clan_1.clan_id == $scope.meta.current_clan.clan_id) {
+                                $scope.war.clan_2 = $scope.them;
                             }
                             else {
-                                $scope.members = members;
-
-                                // reset every time we load to update any changes to member weights
-                                resetProfiles();
-                                updateTotals();
+                                $scope.war.clan_1 = $scope.them;
                             }
+
+                            updateTotals();
                         });
                     }
                 });
@@ -402,13 +414,49 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
                 totalWeight: 0,
                 totalBK: 0,
                 totalAQ: 0,
-                totalHeroes: 0
+                totalHeroes: 0,
+                th10: {
+                    totalWeight: 0,
+                    totalBK: 0,
+                    totalAQ: 0,
+                    totalHeroes: 0,                        
+                },
+                th9: {
+                    totalWeight: 0,
+                    totalBK: 0,
+                    totalAQ: 0,
+                    totalHeroes: 0,                          
+                },
+                th8: {
+                    totalWeight: 0,
+                    totalBK: 0,
+                    totalAQ: 0,
+                    totalHeroes: 0,                          
+                }
             },
             them: {
                 totalWeight: 0,
                 totalBK: 0,
                 totalAQ: 0,
-                totalHeroes: 0
+                totalHeroes: 0,
+                th10: {
+                    totalWeight: 0,
+                    totalBK: 0,
+                    totalAQ: 0,
+                    totalHeroes: 0,                        
+                },
+                th9: {
+                    totalWeight: 0,
+                    totalBK: 0,
+                    totalAQ: 0,
+                    totalHeroes: 0,                          
+                },
+                th8: {
+                    totalWeight: 0,
+                    totalBK: 0,
+                    totalAQ: 0,
+                    totalHeroes: 0,                          
+                }              
             }
         };
 
@@ -418,6 +466,25 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
                 $scope.totals.us.totalBK += member.bk;
                 $scope.totals.us.totalAQ += member.aq;
                 $scope.totals.us.totalHeroes += member.bk + member.aq;
+
+                if (member.th==10) {
+                    $scope.totals.us.th10.totalWeight += member.warWeight;
+                    $scope.totals.us.th10.totalBK += member.bk;
+                    $scope.totals.us.th10.totalAQ += member.aq;
+                    $scope.totals.us.th10.totalHeroes += member.bk + member.aq;                    
+                }
+                else if (member.th==9) {
+                    $scope.totals.us.th9.totalWeight += member.warWeight;
+                    $scope.totals.us.th9.totalBK += member.bk;
+                    $scope.totals.us.th9.totalAQ += member.aq;
+                    $scope.totals.us.th9.totalHeroes += member.bk + member.aq;                    
+                } 
+                else if (member.th==8) {
+                    $scope.totals.us.th8.totalWeight += member.warWeight;
+                    $scope.totals.us.th8.totalBK += member.bk;
+                    $scope.totals.us.th8.totalAQ += member.aq;
+                    $scope.totals.us.th8.totalHeroes += member.bk + member.aq;                    
+                }                                
             }
         });
 
@@ -427,9 +494,27 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
                 $scope.totals.them.totalBK += member.bk;
                 $scope.totals.them.totalAQ += member.aq;
                 $scope.totals.them.totalHeroes += member.bk + member.aq;
+
+                if (member.th==10) {
+                    $scope.totals.them.th10.totalWeight += member.warWeight;
+                    $scope.totals.them.th10.totalBK += member.bk;
+                    $scope.totals.them.th10.totalAQ += member.aq;
+                    $scope.totals.them.th10.totalHeroes += member.bk + member.aq;                    
+                }
+                else if (member.th==9) {
+                    $scope.totals.them.th9.totalWeight += member.warWeight;
+                    $scope.totals.them.th9.totalBK += member.bk;
+                    $scope.totals.them.th9.totalAQ += member.aq;
+                    $scope.totals.them.th9.totalHeroes += member.bk + member.aq;                    
+                } 
+                else if (member.th==8) {
+                    $scope.totals.them.th8.totalWeight += member.warWeight;
+                    $scope.totals.them.th8.totalBK += member.bk;
+                    $scope.totals.them.th8.totalAQ += member.aq;
+                    $scope.totals.them.th8.totalHeroes += member.bk + member.aq;                    
+                }                  
             }
         });
-
     }
 
 }]);

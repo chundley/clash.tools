@@ -54,13 +54,114 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-8 col-sm-7 col-xs-12 margin-bottom-huge">
+                        <div class="col-md-8 col-sm-7 col-xs-12 margin-bottom-huge arranged-summary-container">
                             <div class="widget">
-                                <div class="widget-header">
-                                    Summary
-                                </div>
                                 <div class="widget-body">
-                                    Summary goes here
+                                    <div class="row">
+                                        <div class="col-xs-4 col-xs-offset-2 text-center"><h4 class="emphasis"><strong>{{us.clan_name}}</strong></h4></div>
+                                        <div class="col-xs-4 col-xs-offset-1 text-center"><h4 class="alternate"><strong>{{them.clan_name}}</strong></h4></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-1 col-xs-offset-2 text-center">
+                                            <strong>TH10</strong>
+                                        </div>
+                                        <div class="col-xs-1 text-center">
+                                            <strong>TH9</strong>
+                                        </div>  
+                                        <div class="col-xs-1 text-center">
+                                            <strong>TH8</strong>
+                                        </div>
+                                        <div class="col-xs-1 text-center">
+                                            <strong>Tot</strong>
+                                        </div>                                                                                    
+                                        <div class="col-xs-1 col-xs-offset-1 text-center">
+                                            <strong>TH10</strong>
+                                        </div>
+                                        <div class="col-xs-1 text-center">
+                                            <strong>TH9</strong>
+                                        </div>  
+                                        <div class="col-xs-1 text-center">
+                                            <strong>TH8</strong>
+                                        </div>
+                                        <div class="col-xs-1 text-center">
+                                            <strong>Tot</strong>
+                                        </div>                                                                              
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-2">
+                                            <strong>Weight</strong>
+                                        </div>
+                                        <div class="col-xs-1 text-center">
+                                            {{totals.us.th10.totalWeight/1000}}
+                                        </div>
+                                        <div class="col-xs-1 text-center">
+                                            {{totals.us.th9.totalWeight/1000}}
+                                        </div>
+                                        <div class="col-xs-1 text-center">
+                                            {{totals.us.th8.totalWeight/1000}}
+                                        </div>
+                                        <div class="col-xs-1 text-center">
+                                            {{totals.us.totalWeight/1000}}
+                                        </div>                                                                                    
+                                        <div class="col-xs-1 col-xs-offset-1 text-center">
+                                            {{totals.them.th10.totalWeight/1000}}
+                                        </div>   
+                                        <div class="col-xs-1 text-center">
+                                            {{totals.them.th9.totalWeight/1000}}
+                                        </div>
+                                        <div class="col-xs-1 text-center">
+                                            {{totals.them.th8.totalWeight/1000}}
+                                        </div>
+                                        <div class="col-xs-1 text-center">
+                                            {{totals.them.totalWeight/1000}}
+                                        </div>                                                                                                                
+                                    </div>                                          
+                                    <div class="row">
+                                        <div class="col-xs-2">
+                                            <strong>Heroes</strong>
+                                        </div>
+                                        <div class="col-xs-1 text-center">
+                                            {{totals.us.th10.totalHeroes}}
+                                        </div>
+                                        <div class="col-xs-1 text-center">
+                                            {{totals.us.th9.totalHeroes}}
+                                        </div> 
+                                        <div class="col-xs-1 text-center">
+                                            {{totals.us.th8.totalHeroes}}
+                                        </div>
+                                        <div class="col-xs-1 text-center">
+                                            {{totals.us.totalHeroes}}
+                                        </div>                                                                                    
+                                        <div class="col-xs-1 col-xs-offset-1 text-center">
+                                            {{totals.them.th10.totalHeroes}}
+                                        </div>
+                                        <div class="col-xs-1 text-center">
+                                            {{totals.them.th9.totalHeroes}}
+                                        </div> 
+                                        <div class="col-xs-1 text-center">
+                                            {{totals.them.th8.totalHeroes}}
+                                        </div>
+                                        <div class="col-xs-1 text-center">
+                                            {{totals.them.totalHeroes}}
+                                        </div>                             
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-2">
+                                            <strong>Totals</strong>
+                                        </div>                                        
+                                        <div class="col-xs-2 text-center">
+                                            <strong ng-class="{'error-red': totals.us.totalWeight < totals.them.totalWeight, 'good-green': totals.us.totalWeight > totals.them.totalWeight}">W (<span ng-if="totals.us.totalWeight - totals.them.totalWeight>0">+</span>{{ (totals.us.totalWeight - totals.them.totalWeight)/1000 }})</strong>
+                                        </div>
+                                        <div class="col-xs-2 text-center">
+                                            <strong ng-class="{'error-red': totals.us.totalHeroes < totals.them.totalHeroes, 'good-green': totals.us.totalHeroes > totals.them.totalHeroes}">H (<span ng-if="totals.us.totalHeroes - totals.them.totalHeroes>0">+</span>{{ totals.us.totalHeroes - totals.them.totalHeroes }})</strong>
+                                        </div>
+                                        <div class="col-xs-2 col-xs-offset-1 text-center">
+                                            <strong ng-class="{'error-red': totals.us.totalWeight > totals.them.totalWeight, 'good-green': totals.us.totalWeight < totals.them.totalWeight}">W (<span ng-if="totals.them.totalWeight - totals.us.totalWeight>0">+</span>{{ (totals.them.totalWeight - totals.us.totalWeight)/1000 }})</strong>
+                                        </div>
+                                        <div class="col-xs-2 text-center">
+                                            <strong ng-class="{'error-red': totals.us.totalHeroes > totals.them.totalHeroes, 'good-green': totals.us.totalHeroes < totals.them.totalHeroes}">H (<span ng-if="totals.them.totalHeroes - totals.us.totalHeroes>0">+</span>{{ totals.them.totalHeroes - totals.us.totalHeroes }})</strong>
+                                        </div>                                        
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -91,7 +192,8 @@
                                             <div class="row row-underline-2"></div>
                                             <div class="row arranged-row" ng-repeat="player in us.roster">
                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 text-center">{{$index + 1}}</div>
-                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6 no-wrap"><i class="icon-cancel action-icon primary-20" access-level="leader" ng-if="player.ign" title="Remove player" ng-click="removePlayer($index)"></i> <a href="/members/{{player.user_id}}">{{player.ign}}</a></div>
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6 no-wrap" ng-if="player.ign"><i class="icon-cancel action-icon primary-20" access-level="leader" ng-if="player.ign" title="Remove player" ng-click="removePlayer($index)"></i> <a href="/members/{{player.user_id}}">{{player.ign}}</a></div>
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6" ng-if="!player.ign"><i>-- empty --</i></div>
                                                 <div class="col-xs-1 text-center">{{player.th}}</div>
                                                 <div class="col-xs-1 text-center" ng-class="{'error-red': player.warWeight==0}" ng-if="player.ign">{{player.warWeight/1000}}</div>
                                                 <div class="col-sm-1 text-center hidden-xs">{{player.bk}}</div>
@@ -111,7 +213,7 @@
                                         <div class="col-sm-6 col-xs-12">
                                             <div class="row margin-bottom-big">
                                                 <div class="col-xs-12 text-center">
-                                                    <h4 class="alternate"><strong>{{them.clan_name}}</strong></h4>
+                                                    <h4 class="primary-dark"><strong>{{them.clan_name}}</strong></h4>
                                                 </div>
                                             </div>
                                             <div class="row arranged-row strong">
@@ -126,7 +228,8 @@
                                             <div class="row row-underline-2"></div>
                                             <div class="row arranged-row" ng-repeat="player in them.roster" ng-class="{'animate-row': themChange[$index]==true}">
                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 text-center">{{$index + 1}}</div>
-                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6 no-wrap">{{player.ign}}</div>
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6 no-wrap" ng-if="player.ign">{{player.ign}}</div>
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6" ng-if="!player.ign"><i>-- empty --</i></div>                                                
                                                 <div class="col-xs-1 text-center">{{player.th}}</div>
                                                 <div class="col-xs-1 text-center" ng-class="{'error-red': player.warWeight==0}" ng-if="player.ign">{{player.warWeight/1000}}</div>
                                                 <div class="col-sm-1 text-center hidden-xs">{{player.bk}}</div>
@@ -144,10 +247,6 @@
                                             </div>
                                         </div>
                                     </div>
-
-
-
-
                                 </div>
                             </div>
 
