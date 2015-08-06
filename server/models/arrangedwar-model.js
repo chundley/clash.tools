@@ -6,10 +6,9 @@ var ObjectID = require('mongodb').ObjectID,
     async    = require('async'),
     _        = require('underscore');
 
-var config            = require('../../config/config');
-    //clanModel         = require('./clan-model'),
-    //attackResultModel = require('./attackresult-model');
-
+var config            = require('../../config/config'),
+    userModel         = require('./user-model'),
+    emailMessageModel = require('./emailmessage-model');
 
 /*
 *   Create a new arranged match
@@ -144,50 +143,95 @@ exports.save = function(model, callback) {
     });
 }
 
-exports.delete = function(warId, callback) {
+exports.delete = function(warId, emailMsg, callback) {
     if (_.isString(warId)) {
         warId = new ObjectID.createFromHexString(warId);
     }
 
-    async.waterfall([
-        function (callback_w) {
-            // delete attack results
-            attackResultModel.deleteWar(warId, function (err, count) {
+    exports.getById(warId, function (err, war) {
+        if (err) {
+            callback(err, null);
+        }
+        else if (!war) {
+            callback(null, null);
+        }
+        else {
+            // first, delete the war
+            db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'matchup', function (err, collection) {
                 if (err) {
-                    callback_w(err, null);
-                }
-                else {
-                    callback_w(null, count);
-                }
-            });
-        },
-        function (count, callback_w) {
-            // delete the war
-            db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'war', function (err, collection) {
-                if (err) {
-                    callback_w(err, null);
+                    callback(err, null);
                 }
                 else {
                     collection.remove( { _id: warId }, function (err, count) {
                         if (err) {
-                            callback_w(err, null);
+                            callback(err, null);
                         }
                         else {
-                            callback_w(null, count);
+
+                            // now send leaders from both clans an email
+                            async.parallel({
+                                clanOne: function(callback_p) {
+                                    userModel.usersByClan(war.clan_1.clan_id, ['leader', 'coleader'], function (err, members) {
+                                        if (err) {
+                                            callback_p(err, null);
+                                        }
+                                        else {
+                                            callback_p(null, members);
+                                        }
+                                    });
+                                },
+                                clanTwo: function(callback_p) {
+                                    userModel.usersByClan(war.clan_2.clan_id, ['leader', 'coleader'], function (err, members) {
+                                        if (err) {
+                                            callback_p(err, null);
+                                        }
+                                        else {
+                                            callback_p(null, members);
+                                        }
+                                    });
+                                }
+                            }, function (err, results) {
+                                if (err) {
+                                    callback(err, null);
+                                }
+                                else {
+                                    _.each(results.clanOne, function (member) {
+                                        emailMsg.to_users.push(
+                                            {
+                                                user_id: member._id,
+                                                ign: member.ign,
+                                                read: false,
+                                                deleted: false
+                                            }
+                                        );
+                                    });
+
+                                    _.each(results.clanTwo, function (member) {
+                                        emailMsg.to_users.push(
+                                            {
+                                                user_id: member._id,
+                                                ign: member.ign,
+                                                read: false,
+                                                deleted: false
+                                            }
+                                        );
+                                    });  
+
+                                    emailMessageModel.save(emailMsg, function (err, result) {
+                                        if (err) {
+                                            callback(err, null);
+                                        }
+                                        else {
+                                            callback(null, true);
+                                        }
+                                    });                                                                      
+                                }
+                            });
                         }
                     });
                 }
-            });
-        }
-    ], function (err, results) {
-        if (err) {
-            callback(err, null)
-        }
-        else {
-            callback(null, results);
+            }); 
         }
     });
 }
-
-
 

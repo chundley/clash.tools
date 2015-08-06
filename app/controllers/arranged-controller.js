@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('ArrangedCtrl', ['$rootScope', '$scope', '$window', '$routeParams', '$location', '$modal', 'moment', 'authService', 'sessionService', 'errorService', 'emailMessageService', 'messagelogService', 'arrangedWarService',
-function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, authService, sessionService, errorService, emailMessageService, messagelogService, arrangedWarService) {
+.controller('ArrangedCtrl', ['$rootScope', '$scope', '$window', '$routeParams', '$location', '$modal', 'moment', 'authService', 'sessionService', 'errorService', 'emailMessageService', 'messagelogService', 'arrangedWarService', 'CLAN_EMAILS',
+function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, authService, sessionService, errorService, emailMessageService, messagelogService, arrangedWarService, CLAN_EMAILS) {
 
     sessionService.getUserMeta(authService.user.id, function (err, meta) {
         if (err) {
@@ -35,14 +35,62 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, 
                     });
 
                     $scope.wars = wars;
-                    console.log(wars);
                 }
             });
         }
     });
 
-    $scope.warDetail = function(warId) {
-        $location.url('/war/summary/' + warId);
+    $scope.deleteMatch = function(war, index) {
+        var cssClass = 'center';
+        if ($window.innerWidth < 500) {
+            cssClass = 'mobile';
+        }
+
+        $scope.modalOptions = {
+            title: 'Delete arranged war?',
+            message: 'Please confirm you want delete the arranged war between "' + war.clan_1.clan_name + '" and "' + war.clan_2.clan_name + '".',
+            yesBtn: 'Delete',
+            noBtn: 'Cancel',
+            cssClass: cssClass,
+            onYes: function() {
+
+                var emailMsg = {
+                    subject: $scope.meta.current_clan.name + ' deleted an arranged war with you',
+                    message: CLAN_EMAILS.arrangedRemove.replace(/\[1\]/g, war.clan_1.clan_name + ' and ' + war.clan_2.clan_name).replace(/\[2\]/g, $scope.meta.ign),
+                    from_user: {
+                        user_id: null, // looks screwey if in the outbox
+                        ign: $scope.ign,
+                        deleted: false
+                    },
+                    to_users: []
+                };
+
+                arrangedWarService.delete($scope.meta.current_clan.clan_id, war._id, emailMsg, function (err, result) {
+                    if (err) {
+                        err.stack_trace.unshift( { file: 'arrangeddetail-controller.js', func: '$scope.deleteMatch', message: 'Error with deleting arranged match' } );
+                        errorService.save(err, function() {});
+                    }
+                    else {
+                        $scope.wars.splice(index, 1);
+                        $rootScope.globalMessage = 'Arranged match has been deleted.';
+                    }
+                });
+            }
+        };
+
+        var modalInstance = $modal(
+            {
+                scope: $scope,
+                animation: 'am-fade-and-slide-top',
+                placement: 'center',
+                template: "/views/partials/confirmDialog.html",
+                show: false
+            }
+        );
+
+        modalInstance.$promise.then(function() {
+            modalInstance.show();
+        });
     }
 
 }]);

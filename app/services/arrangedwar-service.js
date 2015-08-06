@@ -40,10 +40,12 @@ function ($http, $rootScope, authService, errorService) {
                 callback(errorService.initMessage('arrangedwar-service.js', 'getByClanId', status), null);
             });
         },
-        delete: function(clanId, modelId, callback) {
+        delete: function(clanId, modelId, emailMsg, callback) {
             $http({
                 url: '/crud/arranged/' + clanId + '/' + modelId,
-                method: 'DELETE'
+                method: 'POST',
+                data: emailMsg,
+                headers: {'Content-Type': 'application/json'}                
             }).success(function (data, status, headers, config) {
                 callback(null, data);
             }).error(function (data, status, headers, config) {

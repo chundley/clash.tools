@@ -95,7 +95,8 @@ angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize',
         joinConfirmed: 'Your request to join the clan <b>[1]</b> has been approved by <b>[2]</b>. Refresh your browser if you don\'t see the clan name under your user name',
         joinDeclined: 'Your request to join the clan <b>[1]</b> has been declined',
         kicked: 'You have been kicked out of the clan by <b>[1]</b>',
-        arranged: 'There has been a request to start an arranged war with <b>[1]</b>. The match has been created and can be found in the <a href="/arranged">arranged war list</a>. If you don\'t want an arranged war with this clan, you can simply ignore the request and delete it from your arranged war list.'
+        arranged: 'There has been a request to start an arranged war with <b>[1]</b>. The match has been created and can be found in the <a href="/arranged">arranged war list</a>. If you don\'t want an arranged war with this clan, you can simply ignore the request and delete it from your arranged war list.',
+        arrangedRemove: 'The arranged match between <b>[1]</b> has been deleted by <b>[2]</b>'
     }
 );
 

@@ -56,10 +56,10 @@ exports.getByClanId = function(req, res, next) {
 };
 
 /*
-*   Take player off ban list
+*   Delete an arranged war
 */
-/*exports.delete = function(req, res, next) {
-    banlistModel.delete(req.params.clanId, req.params.userId, function (err, result) {
+exports.delete = function(req, res, next) {
+    arrangedWarModel.delete(req.params.id, req.body, function (err, result) {
         if (err) {
             res.send(500, err);
         }
@@ -67,4 +67,4 @@ exports.getByClanId = function(req, res, next) {
             res.json(200, 'Success');
         }
     });
-};*/
+};

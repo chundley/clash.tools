@@ -308,6 +308,12 @@ var routes = [
         middleware: [authorizeClanIdAccess, arrangedWarCtrl.getByClanId],
         accessLevel: accessLevels.member
     },
+    {
+        path: '/crud/arranged/:clanId/:id',
+        httpMethod: 'POST',
+        middleware: [authorizeClanIdAccess, arrangedWarCtrl.delete],
+        accessLevel: accessLevels.coleader
+    },    
     /*
     *   Analytics endpoints
     */
