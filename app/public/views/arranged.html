@@ -34,7 +34,7 @@
                                                 <div class="col-sm-2 hidden-xs">{{war.opp.clan_tag}}</div>
                                                 <div class="col-sm-2 col-xs-4 text-center">{{war.roster_count}}</div>
                                                 <div class="col-sm-3 hidden-xs"><span am-time-ago="{{war.created_at}}"></span></div>
-                                                <div class="col-sm-2 col-xs-3 text-center"><i class="icon-cancel icon-large action-icon error-red" access-level="coleader" title="Delete match" ng-click="deleteMatch(war)"></i></div>                    
+                                                <div class="col-sm-2 col-xs-3 text-center"><i class="icon-cancel icon-large action-icon error-red" access-level="coleader" title="Delete match" ng-click="deleteMatch(war, $index)"></i></div>                    
                                             </div>
                                             <div class="row row-underline-1" ng-if="$index<wars.length-1"></div>
                                         </div>
