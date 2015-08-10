@@ -31,8 +31,6 @@ App = function() {
             theApp.use(express.cookieParser('secret'));
             theApp.use(log4js.connectLogger(logger));
             theApp.use(express.bodyParser());
-            //theApp.use(require('prerender-node'));
-            theApp.use(require('prerender-node').set('prerenderToken', 'e5ySuFm0W1blSk65ytqS'));
             theApp.use(express.cookieSession(
                 {
                     secret: config.env[process.env.NODE_ENV].cookieSecret
@@ -55,6 +53,9 @@ App = function() {
             });
 
             // web app
+            //theApp.use(require('prerender-node'));
+            theApp.use(require('prerender-node').set('prerenderToken', 'e5ySuFm0W1blSk65ytqS'));
+                        
             theApp.use('/', express.static(__dirname + '/public'));
             theApp.use('/vendor/css', express.static(__dirname + '/public/vendor/css'));
             theApp.use('/vendor/font', express.static(__dirname + '/public/vendor/font'));
