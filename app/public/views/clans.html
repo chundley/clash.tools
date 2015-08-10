@@ -7,12 +7,14 @@
             <!-- page content -->
             <div class="row content-body">
                 <div class="col-xs-12">
-                    <div class="row margin-bottom-huge clan-search">
-                        <div class="col-md-12 col-sm-6 hidden-xs">
+                    <div class="row margin-bottom-big">
+                        <div class="col-xs-12">
                             <h1>Find a clan</h1>
                             <h3 class="same-line-sub-heading alternate">{{ign}}</h3>
                         </div>
-                        <div class="col-sm-6 col-xs-12 hidden-lg hidden-md search-box">
+                    </div>
+                    <div class="row margin-bottom-big clan-search">
+                        <div class="col-xs-12 search-box">
                             <div class="form-control-group">
                                 <input class="form-control" type="text" placeholder="Search for a clan by name or tag" ng-model="localSearchTerms" press-enter="searchLocal()">
                                 <button class="btn btn-search" ng-click="searchLocal()"><i class="icon-search"></i></button>
