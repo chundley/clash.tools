@@ -148,10 +148,15 @@
                                             <p>As with the roster, you aren't required to fill in town hall levels but it's <b>highly recommended</b></p>
                                             <p>Once the war starts you will only be able to change TH level - assignments will be done through the <a href="/war/{{war._id}}">normal war interface</a>.</p>
                                             <p>Note that when you change TH level the change will cascade down to the rest of the bases. For example, if you set base 1 to TH10, all bases below will be set to TH10. This design makes it easier to complete TH levels without having to pick every single base. Because of this, <b>you should start at the TOP of the list</b> and work your way down. To disable this feature, un-check the Cascade option below.</p>
-                                                <div class="ws-cascade">
-                                                    <form name="cascadeForm">
-                                                    <input type="checkbox" class="ws-cascade-cb" ng-model="cascade" ng-click="wtf()"> <span class="ws-cascade-label">Cascade TH changes</span>
-                                                    </form>
+                                                <div class="row">
+                                                    <div class="col-xs-6 ws-cascade">
+                                                        <form name="cascadeForm">
+                                                        <input type="checkbox" class="ws-cascade-cb" ng-model="cascade" ng-click="wtf()"> <span class="ws-cascade-label">Cascade TH changes</span>
+                                                        </form>
+                                                    </div>
+                                                    <div class="col-xs-6 text-right">
+                                                        <a class="btn btn-xs btn-default" ng-click="assignMirrors()">Assign mirrors</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

@@ -463,6 +463,8 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
                             }
                         });
                     }
+
+                    loadWar();
                 });
             }
         };

@@ -313,7 +313,24 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
         return new Array($scope.war.player_count);
     }
 
+    $scope.assignMirrors = function() {
+        for (var idx=0; idx<$scope.war.bases.length; idx++) {
+            if ($scope.war.team[idx] && $scope.war.team[idx].u) {
+                assignInternal(idx, $scope.war.team[idx].u);
+            }
+        }
+        saveWarInternal();
+    }
+
     $scope.assignBase = function(baseNum, userId) {
+        assignInternal(baseNum, userId);
+        saveWarInternal();
+    }
+
+    /*
+    *   Internal function - because we don't want to save on mass assignments (like mirror)
+    */
+    function assignInternal(baseNum, userId) {
         var startTime = new Date($scope.war.start);
         var expires = new Date(startTime.getTime() + ($scope.clan.war_config.first_attack_time * 60 * 60 * 1000));
         for (var idx=0; idx<$scope.members.length; idx++) {
@@ -327,8 +344,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                 };
                 break;
             }
-        }
-        saveWarInternal();
+        }        
     }
 
     $scope.assignRoster = function(baseNum, userId) {
