@@ -103,9 +103,8 @@ function ($http, $rootScope, $cookieStore, md5, sessionService, cacheService, er
             // mixpanel
             if (!$rootScope.isSpoofing) {
                 sessionService.getUserMeta(user.id, function (err, meta) {
-                    //console.log(meta);
+                    console.log(meta);
                     var dt = new Date(meta.created_at);
-                    //console.log(parseInt(dt.getTime()/1000));
 
                     Intercom("boot", {
                         app_id: "w1zkoqk9",
@@ -115,7 +114,9 @@ function ($http, $rootScope, $cookieStore, md5, sessionService, cacheService, er
                         user_id: user.id,
                         widget: {
                             activator: "#IntercomDefaultWidget"
-                        }
+                        },
+                        clan: meta.current_clan.name ? meta.current_clan.name : 'none',
+                        role: meta.role
                     });
 
                     callback();
@@ -126,6 +127,7 @@ function ($http, $rootScope, $cookieStore, md5, sessionService, cacheService, er
             }
         }
         else {
+            Intercom('shutdown');
             callback();
         }
     }
