@@ -87,6 +87,30 @@ angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize',
             }
         }
     });
+
+    $rootScope.$on("$stateChangeStart", function (event, curr, prev){
+
+        console.log(event);
+        console.log(curr);
+        console.log(prev);
+/*      if (curr.authenticate && AuthService.authed() == false) {
+        // User isn’t authenticated
+        $state.transitionTo("login");
+      } else {
+        if (AuthService.getCurrentUser() != null) {
+          Intercom("boot", {
+            app_id: "YOURAPPID",
+            email: AuthService.getCurrentUser().email,
+            created_at: AuthService.getCurrentUser().created_at,
+            name: AuthService.getCurrentUser().full_name,
+            user_id: AuthService.getCurrentUser().id,
+            widget: {
+              activator: "#IntercomDefaultWidget"
+            }
+         });
+       }
+     }*/
+    });    
 })
 
 .constant('CLAN_EMAILS',

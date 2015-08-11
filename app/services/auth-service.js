@@ -101,15 +101,29 @@ function ($http, $rootScope, $cookieStore, md5, sessionService, cacheService, er
         angular.extend(currentUser, { id: user.id, email: user.email, role: user.role });
         if (loggedIn()) {
             // mixpanel
-/*            if (!$rootScope.isSpoofing) {
-                mixpanel.identify(currentUser.id);
-                mixpanel.people.set({
-                    "$first_name": currentUser.email,
-                    "$email": currentUser.email
-                });
-            }*/
+            if (!$rootScope.isSpoofing) {
+                sessionService.getUserMeta(user.id, function (err, meta) {
+                    //console.log(meta);
+                    var dt = new Date(meta.created_at);
+                    //console.log(parseInt(dt.getTime()/1000));
 
-            callback();
+                    Intercom("boot", {
+                        app_id: "w1zkoqk9",
+                        email: meta.email_address,
+                        created_at: parseInt(dt.getTime()/1000),
+                        name: meta.ign,
+                        user_id: user.id,
+                        widget: {
+                            activator: "#IntercomDefaultWidget"
+                        }
+                    });
+
+                    callback();
+                });
+            }
+            else {
+                callback();
+            }
         }
         else {
             callback();

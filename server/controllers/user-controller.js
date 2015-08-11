@@ -205,7 +205,8 @@ exports.getMeta = function(req, res, next) {
                 bkLevel: user.profile.heroes.bk,
                 aqLevel: user.profile.heroes.aq,
                 bkUpgrade: user.profile.bkUpgrade,
-                aqUpgrade: user.profile.aqUpgrade
+                aqUpgrade: user.profile.aqUpgrade,
+                created_at: user.created_at
             };
             res.json(200, ret);
         }
