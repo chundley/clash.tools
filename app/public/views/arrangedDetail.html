@@ -105,28 +105,28 @@
                                             <strong>Weight</strong>
                                         </div>
                                         <div class="col-xs-1 text-center">
-                                            {{totals.us.th10.totalWeight/1000}}
+                                            {{totals.us.th10.totalWeight}}
                                         </div>
                                         <div class="col-xs-1 text-center">
-                                            {{totals.us.th9.totalWeight/1000}}
+                                            {{totals.us.th9.totalWeight}}
                                         </div>
                                         <div class="col-xs-1 text-center">
-                                            {{totals.us.th8.totalWeight/1000}}
+                                            {{totals.us.th8.totalWeight}}
                                         </div>
                                         <div class="col-xs-1 text-center">
-                                            {{totals.us.totalWeight/1000}}
+                                            {{totals.us.totalWeight}}
                                         </div>                                                                                    
                                         <div class="col-xs-1 col-xs-offset-1 text-center">
-                                            {{totals.them.th10.totalWeight/1000}}
+                                            {{totals.them.th10.totalWeight}}
                                         </div>   
                                         <div class="col-xs-1 text-center">
-                                            {{totals.them.th9.totalWeight/1000}}
+                                            {{totals.them.th9.totalWeight}}
                                         </div>
                                         <div class="col-xs-1 text-center">
-                                            {{totals.them.th8.totalWeight/1000}}
+                                            {{totals.them.th8.totalWeight}}
                                         </div>
                                         <div class="col-xs-1 text-center">
-                                            {{totals.them.totalWeight/1000}}
+                                            {{totals.them.totalWeight}}
                                         </div>                                                                                                                
                                     </div>                                          
                                     <div class="row">
@@ -163,13 +163,13 @@
                                             <strong>Totals</strong>
                                         </div>                                        
                                         <div class="col-xs-2 text-center">
-                                            <strong ng-class="{'error-red': totals.us.totalWeight < totals.them.totalWeight, 'good-green': totals.us.totalWeight > totals.them.totalWeight}">W (<span ng-if="totals.us.totalWeight - totals.them.totalWeight>0">+</span>{{ (totals.us.totalWeight - totals.them.totalWeight)/1000 }})</strong>
+                                            <strong ng-class="{'error-red': totals.us.totalWeight < totals.them.totalWeight, 'good-green': totals.us.totalWeight > totals.them.totalWeight}">W (<span ng-if="totals.us.totalWeight - totals.them.totalWeight>0">+</span>{{ (totals.us.totalWeight - totals.them.totalWeight) }})</strong>
                                         </div>
                                         <div class="col-xs-2 text-center">
                                             <strong ng-class="{'error-red': totals.us.totalHeroes < totals.them.totalHeroes, 'good-green': totals.us.totalHeroes > totals.them.totalHeroes}">H (<span ng-if="totals.us.totalHeroes - totals.them.totalHeroes>0">+</span>{{ totals.us.totalHeroes - totals.them.totalHeroes }})</strong>
                                         </div>
                                         <div class="col-xs-2 col-xs-offset-1 text-center">
-                                            <strong ng-class="{'error-red': totals.us.totalWeight > totals.them.totalWeight, 'good-green': totals.us.totalWeight < totals.them.totalWeight}">W (<span ng-if="totals.them.totalWeight - totals.us.totalWeight>0">+</span>{{ (totals.them.totalWeight - totals.us.totalWeight)/1000 }})</strong>
+                                            <strong ng-class="{'error-red': totals.us.totalWeight > totals.them.totalWeight, 'good-green': totals.us.totalWeight < totals.them.totalWeight}">W (<span ng-if="totals.them.totalWeight - totals.us.totalWeight>0">+</span>{{ (totals.them.totalWeight - totals.us.totalWeight) }})</strong>
                                         </div>
                                         <div class="col-xs-2 text-center">
                                             <strong ng-class="{'error-red': totals.us.totalHeroes > totals.them.totalHeroes, 'good-green': totals.us.totalHeroes < totals.them.totalHeroes}">H (<span ng-if="totals.them.totalHeroes - totals.us.totalHeroes>0">+</span>{{ totals.them.totalHeroes - totals.us.totalHeroes }})</strong>
@@ -208,7 +208,7 @@
                                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6 no-wrap" ng-if="player.ign"><i class="icon-cancel action-icon primary-20" access-level="leader" ng-if="player.ign" title="Remove player" ng-click="removePlayer($index)"></i> <a href="/members/{{player.user_id}}">{{player.ign}}</a></div>
                                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6" ng-if="!player.ign"><i>-- empty --</i></div>
                                                 <div class="col-xs-1 text-center">{{player.th}}</div>
-                                                <div class="col-xs-1 text-center" ng-class="{'error-red': player.warWeight==0}" ng-if="player.ign">{{player.warWeight/1000}}</div>
+                                                <div class="col-xs-1 text-center" ng-class="{'error-red': player.warWeight==0}" ng-if="player.ign">{{player.warWeight}}</div>
                                                 <div class="col-sm-1 text-center hidden-xs">{{player.bk}}</div>
                                                 <div class="col-sm-1 text-center hidden-xs">{{player.aq}}</div>
                                                 <div class="col-xs-1 text-center" ng-class="{'error-red': player.bk + player.aq ==0}">{{player.bk + player.aq}}</div>
@@ -217,7 +217,7 @@
                                             <div class="row arranged-row strong">
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8 text-right">Totals</div>
                                                 <div class="col-xs-1 text-center"></div>
-                                                <div class="col-xs-1 text-center" ng-class="{'error-red': totals.us.totalWeight < totals.them.totalWeight, 'good-green': totals.us.totalWeight > totals.them.totalWeight}">{{totals.us.totalWeight/1000}}</div>
+                                                <div class="col-xs-1 text-center" ng-class="{'error-red': totals.us.totalWeight < totals.them.totalWeight, 'good-green': totals.us.totalWeight > totals.them.totalWeight}">{{totals.us.totalWeight}}</div>
                                                 <div class="col-sm-1 hidden-xs text-center" ng-class="{'error-red': totals.us.totalBK < totals.them.totalBK, 'good-green': totals.us.totalBK > totals.them.totalBK}">{{totals.us.totalBK}}</div>
                                                 <div class="col-sm-1 hidden-xs text-center" ng-class="{'error-red': totals.us.totalAQ < totals.them.totalAQ, 'good-green': totals.us.totalAQ > totals.them.totalAQ}">{{totals.us.totalAQ}}</div>
                                                 <div class="col-xs-1 text-center" ng-class="{'error-red': totals.us.totalHeroes < totals.them.totalHeroes, 'good-green': totals.us.totalHeroes > totals.them.totalHeroes}">{{totals.us.totalHeroes}}</div>
@@ -244,7 +244,7 @@
                                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6 no-wrap" ng-if="player.ign">{{player.ign}}</div>
                                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6" ng-if="!player.ign"><i>-- empty --</i></div>                                                
                                                 <div class="col-xs-1 text-center">{{player.th}}</div>
-                                                <div class="col-xs-1 text-center" ng-class="{'error-red': player.warWeight==0}" ng-if="player.ign">{{player.warWeight/1000}}</div>
+                                                <div class="col-xs-1 text-center" ng-class="{'error-red': player.warWeight==0}" ng-if="player.ign">{{player.warWeight}}</div>
                                                 <div class="col-sm-1 text-center hidden-xs">{{player.bk}}</div>
                                                 <div class="col-sm-1 text-center hidden-xs">{{player.aq}}</div>
                                                 <div class="col-xs-1 text-center" ng-class="{'error-red': player.bk + player.aq ==0}">{{player.bk + player.aq}}</div>
@@ -253,7 +253,7 @@
                                             <div class="row arranged-row strong">
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8 text-right">Totals</div>
                                                 <div class="col-xs-1 text-center"></div>
-                                                <div class="col-xs-1 text-center" ng-class="{'error-red': totals.us.totalWeight > totals.them.totalWeight, 'good-green': totals.us.totalWeight < totals.them.totalWeight}">{{totals.them.totalWeight/1000}}</div>
+                                                <div class="col-xs-1 text-center" ng-class="{'error-red': totals.us.totalWeight > totals.them.totalWeight, 'good-green': totals.us.totalWeight < totals.them.totalWeight}">{{totals.them.totalWeight}}</div>
                                                 <div class="col-sm-1 hidden-xs text-center" ng-class="{'error-red': totals.us.totalBK > totals.them.totalBK, 'good-green': totals.us.totalBK < totals.them.totalBK}">{{totals.them.totalBK}}</div>
                                                 <div class="col-sm-1 hidden-xs text-center" ng-class="{'error-red': totals.us.totalAQ > totals.them.totalAQ, 'good-green': totals.us.totalAQ < totals.them.totalAQ}">{{totals.them.totalAQ}}</div>
                                                 <div class="col-xs-1 text-center" ng-class="{'error-red': totals.us.totalHeroes > totals.them.totalHeroes, 'good-green': totals.us.totalHeroes < totals.them.totalHeroes}">{{totals.them.totalHeroes}}</div>

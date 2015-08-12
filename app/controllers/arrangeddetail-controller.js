@@ -396,7 +396,7 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
 
         angular.forEach($scope.members, function (member) {
             var heroes = member.profile.heroes.bk + member.profile.heroes.aq;
-            member.displayName = member.profile.warWeight/1000 + ' | TH ' + member.profile.buildings.th + ' | Heroes ' + heroes + ' | ' + member.ign;
+            member.displayName = member.profile.warWeight + ' | TH ' + member.profile.buildings.th + ' | Heroes ' + heroes + ' | ' + member.ign;
         });
 
         $scope.members.sort(function (a, b) {
