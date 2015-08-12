@@ -96,11 +96,11 @@
                                                                     <img src="/img/icons/stars-tiny-3.png" ng-if="a.s==3">
                                                                 </a>
                                                                 <ul class="dropdown-menu">
-                                                                    <li><a href ng-click="changeStars($index, base.b, a.u, a.i, 0)"><img src="/img/icons/stars-0.png"></a></li>
-                                                                    <li><a href ng-click="changeStars($index, base.b, a.u, a.i, 1)"><img src="/img/icons/stars-1.png"></a></li>
-                                                                    <li><a href ng-click="changeStars($index, base.b, a.u, a.i, 2)"><img src="/img/icons/stars-2.png"></a></li>
-                                                                    <li><a href ng-click="changeStars($index, base.b, a.u, a.i, 3)"><img src="/img/icons/stars-3.png"></a></li>
-                                                                    <li><a href ng-click="deleteCall($index, base.b, a.u, a.i)"><img src="/img/icons/delete-call.png"></a></li>
+                                                                    <li><a href ng-click="changeStars($index, base.b, a.u, a.i, 0)" track="logged-attack" track-meta='{"stars": 0, "view": "bases", "ign": "{{a.i}}"}'><img src="/img/icons/stars-0.png"></a></li>
+                                                                    <li><a href ng-click="changeStars($index, base.b, a.u, a.i, 1)" track="logged-attack" track-meta='{"stars": 1, "view": "bases", "ign": "{{a.i}}"}'><img src="/img/icons/stars-1.png"></a></li>
+                                                                    <li><a href ng-click="changeStars($index, base.b, a.u, a.i, 2)" track="logged-attack" track-meta='{"stars": 2, "view": "bases", "ign": "{{a.i}}"}'><img src="/img/icons/stars-2.png"></a></li>
+                                                                    <li><a href ng-click="changeStars($index, base.b, a.u, a.i, 3)" track="logged-attack" track-meta='{"stars": 3, "view": "bases", "ign": "{{a.i}}"}'><img src="/img/icons/stars-3.png"></a></li>
+                                                                    <li><a href ng-click="deleteCall($index, base.b, a.u, a.i)" track="deleted-target" track-meta='{"view": "bases", "ign": "{{a.i}}"}'><img src="/img/icons/delete-call.png"></a></li>
                                                                 </ul>
                                                             </span>
                                                         </div>

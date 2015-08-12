@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('MembersCtrl', ['$rootScope', '$scope', '$window', '$routeParams', '$location', '$modal', 'moment', 'authService', 'sessionService', 'errorService', 'emailMessageService', 'messagelogService', 'clanService', 'userService', 'CLAN_EMAILS',
-function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, authService, sessionService, errorService, emailMessageService, messagelogService, clanService, userService, CLAN_EMAILS) {
+.controller('MembersCtrl', ['$rootScope', '$scope', '$window', '$routeParams', '$location', '$modal', 'moment', 'authService', 'sessionService', 'errorService', 'emailMessageService', 'messagelogService', 'clanService', 'userService', 'trackService', 'CLAN_EMAILS',
+function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, authService, sessionService, errorService, emailMessageService, messagelogService, clanService, userService, trackService, CLAN_EMAILS) {
 
     sessionService.getUserMeta(authService.user.id, function (err, meta) {
         if (err) {
@@ -118,6 +118,7 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, 
                             }
                         });
 
+                        trackService.track('kicked-member', { "ign": member.ign } );
                         $rootScope.globalMessage = member.ign + ' was kicked from the clan.';
                     }
                 });

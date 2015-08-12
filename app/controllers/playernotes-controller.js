@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('PlayerNotesCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$modal', '$window', 'moment', 'authService', 'sessionService', 'errorService', 'messagelogService', 'userService', 'playerNotesService', 'banListService',
-function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, authService, sessionService, errorService, messagelogService, userService, playerNotesService, banListService) {
+.controller('PlayerNotesCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$modal', '$window', 'moment', 'authService', 'sessionService', 'errorService', 'messagelogService', 'userService', 'playerNotesService', 'banListService', 'trackService',
+function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, authService, sessionService, errorService, messagelogService, userService, playerNotesService, banListService, trackService) {
 
     $scope.userId = $routeParams.id;
     $rootScope.title = 'Player notes - clash.tools';
@@ -78,6 +78,7 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
                         errorService.save(err, function() {});
                     }
                     else {
+                        trackService.track('saved-playernote', { "ign": $scope.user.ign } );
                         $rootScope.globalMessage = 'Note added for ' + $scope.user.ign;
                         loadNotes();
                     }
@@ -119,6 +120,7 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
                         errorService.save(err, function() {});
                     }
                     else {
+                        trackService.track('deleted-playernote', { "ign": $scope.user.ign } );
                         $rootScope.globalMessage = 'Note deleted';
                         loadNotes();
                     }
@@ -160,7 +162,7 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
         $scope.modalOptions = {
             title: msg,
             label: label,
-            placeholder: 'Type a reason here',            
+            placeholder: 'Type a reason here',
             yesBtn: yesBtn,
             noBtn: 'Cancel',
             cssClass: cssClass,
@@ -190,6 +192,7 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
                                     errorService.save(err, function() {});
                                 }
                                 else {
+                                    trackService.track('unbanned-player', { "ign": $scope.user.ign } );
                                     $rootScope.globalMessage = $scope.user.ign + ' was un-banned';
                                     $scope.banned = !$scope.banned;
                                     loadNotes();
@@ -202,7 +205,7 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
                                     err.stack_trace.unshift( { file: 'playernotes-controller.js', func: '$scope.setBanned', message: 'Error saving un-ban message in the log' } );
                                     errorService.save(err, function() {});
                                 }
-                            });                                                        
+                            });
                         }
                     });
                 }
@@ -242,6 +245,7 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
                                     errorService.save(err, function() {});
                                 }
                                 else {
+                                    trackService.track('banned-player', { "ign": $scope.user.ign } );
                                     $rootScope.globalMessage = $scope.user.ign + ' has been banned';
                                     $scope.banned = !$scope.banned;
                                     loadNotes();
@@ -254,9 +258,9 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
                                     err.stack_trace.unshift( { file: 'playernotes-controller.js', func: '$scope.setBanned', message: 'Error saving ban message in the log' } );
                                     errorService.save(err, function() {});
                                 }
-                            });                             
+                            });
                         }
-                    });                    
+                    });
                 }
             }
         };

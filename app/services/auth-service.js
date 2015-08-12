@@ -102,8 +102,8 @@ function ($http, $rootScope, $cookieStore, md5, sessionService, cacheService, er
         if (loggedIn()) {
             // mixpanel
             if (!$rootScope.isSpoofing) {
+                // boot intercom on login
                 sessionService.getUserMeta(user.id, function (err, meta) {
-                    console.log(meta);
                     var dt = new Date(meta.created_at);
 
                     Intercom("boot", {

@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('ProfileCtrl', ['$rootScope', '$scope', '$interval', '$modal', '$window', 'moment', 'authService', 'cacheService', 'sessionService', 'errorService', 'userService', 'Upload', 'imageUploadService',
-function ($rootScope, $scope, $interval, $modal, $window, moment, authService, cacheService, sessionService, errorService, userService, Upload, imageUploadService) {
+.controller('ProfileCtrl', ['$rootScope', '$scope', '$interval', '$modal', '$window', 'moment', 'authService', 'cacheService', 'sessionService', 'errorService', 'userService', 'Upload', 'imageUploadService', 'trackService',
+function ($rootScope, $scope, $interval, $modal, $window, moment, authService, cacheService, sessionService, errorService, userService, Upload, imageUploadService, trackService) {
     // initialize
     $rootScope.title = 'Profile - clash.tools';
 
@@ -59,6 +59,7 @@ function ($rootScope, $scope, $interval, $modal, $window, moment, authService, c
                     $scope.meta.avatar = result.newFile + '?' + new Date().getTime();
                     $scope.avatarError = null;
                     $rootScope.globalMessage = 'Your avatar has been changed - you should see it in the next few seconds.';
+                    trackService.track('saved-avatar', { "file": result.newFile } );
                 }
             });
         }
@@ -83,9 +84,11 @@ function ($rootScope, $scope, $interval, $modal, $window, moment, authService, c
                 var now = new Date();
                 if (isBK) {
                     $scope.user.profile.bkUpgrade = new Date(now.getTime() + ((formData.finishedDays*24*60 + formData.finishedHours*60)*60000));
+                    trackService.track('upgraded-bk');
                 }
                 else {
                     $scope.user.profile.aqUpgrade = new Date(now.getTime() + ((formData.finishedDays*24*60 + formData.finishedHours*60)*60000));
+                    trackService.track('upgraded-aq');
                 }
                 saveUserInternal();
 

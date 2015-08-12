@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('WarSummaryCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$interval', '$window', '$modal', 'ctSocket', 'authService', 'sessionService', 'errorService', 'messagelogService', 'clanService', 'warService', 'attackResultService',
-function ($rootScope, $scope, $routeParams, $location, $interval, $window, $modal, ctSocket, authService, sessionService, errorService, messagelogService, clanService, warService, attackResultService) {
+.controller('WarSummaryCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$interval', '$window', '$modal', 'ctSocket', 'authService', 'sessionService', 'errorService', 'messagelogService', 'clanService', 'warService', 'attackResultService', 'trackService',
+function ($rootScope, $scope, $routeParams, $location, $interval, $window, $modal, ctSocket, authService, sessionService, errorService, messagelogService, clanService, warService, attackResultService, trackService) {
 
     $scope.warId = $routeParams.id;
     $scope.activeWar = false;
@@ -64,6 +64,8 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                             callback();
                         }
                         else {
+                            trackService.track('deleted-war', { "opponent": $scope.war.opponent_name } );
+                            $rootScope.globalMessage = 'War with "' + $scope.war.opponent_name + '" has been deleted.';
                             $location.url('/war').replace();
                         }
                     });

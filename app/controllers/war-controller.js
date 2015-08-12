@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('WarCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$interval', '$window', '$modal', 'ctSocket', 'authService', 'sessionService', 'errorService', 'messagelogService', 'clanService', 'warService',
-function ($rootScope, $scope, $routeParams, $location, $interval, $window, $modal, ctSocket, authService, sessionService, errorService, messagelogService, clanService, warService) {
+.controller('WarCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$interval', '$window', '$modal', 'ctSocket', 'authService', 'sessionService', 'errorService', 'messagelogService', 'clanService', 'warService', 'trackService',
+function ($rootScope, $scope, $routeParams, $location, $interval, $window, $modal, ctSocket, authService, sessionService, errorService, messagelogService, clanService, warService, trackService) {
 
     $scope.warId = $routeParams.id;
     $scope.activeWar = false;
@@ -332,6 +332,7 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                         });
 
                         $rootScope.globalMessage = 'Base #' + baseNum + ' was assigned to ' + ign;
+                        trackService.track('assigned-target', { "view": "bases", "ign": ign} );
                         refreshInterface();
                     }
                 });
@@ -479,6 +480,7 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                                 });
 
                                 $rootScope.globalMessage = 'You reserved base # ' + baseNum;
+                                trackService.track('reserved-target', { "view": "bases"} );
                                 refreshInterface();
                             }
                         });

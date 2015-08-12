@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('HomeCtrl', ['$rootScope', '$scope', '$window', '$interval', '$modal', 'moment', 'ctSocket', 'authService', 'userService', 'sessionService', 'errorService', 'messagelogService', 'warService', 'clanService',
-function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, authService, userService, sessionService, errorService, messagelogService, warService, clanService) {
+.controller('HomeCtrl', ['$rootScope', '$scope', '$window', '$interval', '$modal', 'moment', 'ctSocket', 'authService', 'userService', 'sessionService', 'errorService', 'messagelogService', 'warService', 'clanService', 'trackService',
+function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, authService, userService, sessionService, errorService, messagelogService, warService, clanService, trackService) {
     // initialize
     $rootScope.title = 'Dashboard - clash.tools';
 
@@ -217,6 +217,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
                                     }
                                 });
 
+                                trackService.track('reserved-target', { "view": "home"} );
                                 $rootScope.globalMessage = 'Your call on base #' + baseNum + ' has been saved.';
 
                                 // do this after the assignment - will ensure that if a double assign happens the UI will fix itself
@@ -348,6 +349,8 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
 
                         // clear meta data so the clan gets refreshed
                         sessionService.clearUserMeta();
+
+                        trackService.track('left-clan');
 
                         sessionService.getUserMeta(authService.user.id, function (err, meta) {
                             if (err) {

@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('BaseNotesCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$modal', '$window', 'moment', 'authService', 'sessionService', 'errorService', 'messagelogService', 'warService', 'imageUploadService', 'ctSocket',
-function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, authService, sessionService, errorService, messagelogService, warService, imageUploadService, ctSocket) {
+.controller('BaseNotesCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$modal', '$window', 'moment', 'authService', 'sessionService', 'errorService', 'messagelogService', 'warService', 'imageUploadService', 'ctSocket', 'trackService',
+function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, authService, sessionService, errorService, messagelogService, warService, imageUploadService, ctSocket, trackService) {
 
     $scope.warId = $routeParams.id;
     $scope.baseNum = $routeParams.baseNum;
@@ -46,6 +46,7 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
                             errorService.save(err, function() {});
                         }
                         else {
+                            trackService.track('saved-baseimage', { "file": result.newFile } );
                             messagelogService.save($scope.meta.current_clan.clan_id, '[ign] added image to base #' + $scope.baseNum, $scope.meta.ign, 'note', function (err, msg) {
                                 if (err) {
                                     err.stack_trace.unshift( { file: 'basenotes-controller.js', func: '$scope.uploadBaseImg', message: 'Error saving note message in the log' } );
@@ -54,7 +55,7 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
                                 else {
                                     // nothing to do here
                                 }
-                            });                            
+                            });
                         }
                     });
                 }
@@ -83,6 +84,7 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
                         errorService.save(err, function() {});
                     }
                     else {
+                        trackService.track('deleted-baseimage', { "file": result.newFile } );
                         messagelogService.save($scope.meta.current_clan.clan_id, '[ign] deleted image from base #' + $scope.baseNum, $scope.meta.ign, 'note', function (err, msg) {
                             if (err) {
                                 err.stack_trace.unshift( { file: 'basenotes-controller.js', func: '$scope.deleteImage', message: 'Error saving note message in the log' } );
@@ -91,9 +93,9 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
                             else {
                                 // nothing to do here
                             }
-                        });                            
+                        });
                     }
-                });                
+                });
             }
         };
 
@@ -123,7 +125,7 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
             noBtn: 'Cancel',
             title: 'Add note to base # ' + $scope.baseNum,
             label: 'Note',
-            placeholder: 'Type your note here',            
+            placeholder: 'Type your note here',
             cssClass: cssClass,
             baseNum: $scope.baseNum,
             formData: {},
@@ -142,6 +144,8 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
                         errorService.save(err, function() {});
                     }
                     else {
+                        $rootScope.globalMessage = 'Note was saved';
+                        trackService.track('saved-basenote');
                         messagelogService.save($scope.meta.current_clan.clan_id, '[ign] added a note to base #' + $scope.baseNum, $scope.meta.ign, 'note', function (err, msg) {
                             if (err) {
                                 err.stack_trace.unshift( { file: 'basenotes-controller.js', func: '$scope.addNote', message: 'Error saving note message in the log' } );
@@ -150,7 +154,7 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
                             else {
                                 // nothing to do here
                             }
-                        });                            
+                        });
                     }
                 });
             }
@@ -187,7 +191,7 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
                         type: 'image',
                         content: result.newFile,
                         created_at: new Date()
-                    }; 
+                    };
 
                     warService.saveBaseNote($scope.war._id, $scope.baseNum, model, function (err, result) {
                         if (err) {
@@ -195,6 +199,8 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
                             errorService.save(err, function() {});
                         }
                         else {
+                            trackService.track('saved-basenoteimage', { "file": result.newFile } );
+                            $rootScope.globalMessage = 'Image note was saved';
                             messagelogService.save($scope.meta.current_clan.clan_id, '[ign] added a note to base #' + $scope.baseNum, $scope.meta.ign, 'note', function (err, msg) {
                                 if (err) {
                                     err.stack_trace.unshift( { file: 'basenotes-controller.js', func: '$scope.addImageNote', message: 'Error saving note message in the log' } );
@@ -203,7 +209,7 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
                                 else {
                                     // nothing to do here
                                 }
-                            });                            
+                            });
                         }
                     });
                 }
@@ -231,6 +237,8 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
                         errorService.save(err, function() {});
                     }
                     else {
+                        $rootScope.globalMessage = 'Note was deleted';
+                        trackService.track('deleted-basenote');
                         messagelogService.save($scope.meta.current_clan.clan_id, '[ign] deleted ' + note.i + '\'s note from base #' + $scope.baseNum, $scope.meta.ign, 'note', function (err, msg) {
                             if (err) {
                                 err.stack_trace.unshift( { file: 'basenotes-controller.js', func: '$scope.deleteNote', message: 'Error saving note message in the log' } );
@@ -239,9 +247,9 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
                             else {
                                 // nothing to do here
                             }
-                        });                            
+                        });
                     }
-                });                
+                });
             }
         };
 

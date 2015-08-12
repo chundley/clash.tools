@@ -77,6 +77,27 @@ angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize',
 })
 
 .run(function ($rootScope, $location, $http, authService, sessionService, cacheService) {
+
+    // on a manual page reload we need to re-boot Intercom
+    if (authService.isLoggedIn() && !$rootScope.isSpoofing) {
+        sessionService.getUserMeta(authService.user.id, function (err, meta) {
+            var dt = new Date(meta.created_at);
+
+            Intercom("boot", {
+                app_id: "w1zkoqk9",
+                email: meta.email_address,
+                created_at: parseInt(dt.getTime()/1000),
+                name: meta.ign,
+                user_id: authService.user.id,
+                widget: {
+                    activator: "#IntercomDefaultWidget"
+                },
+                clan: meta.current_clan.name ? meta.current_clan.name : 'none',
+                role: meta.role
+            });
+        });
+    }
+
     $rootScope.$on("$routeChangeStart", function (event, next, current) {
         if (!next.access || !authService.authorize(next.access.title)) {
             if(authService.isLoggedIn()) {
@@ -86,31 +107,10 @@ angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize',
                 $location.path('/login');
             }
         }
+        else if (authService.isLoggedIn()) {
+            Intercom('trackEvent', 'page-view', { "path": next.$$route.originalPath });
+        }
     });
-
-    $rootScope.$on("$stateChangeStart", function (event, curr, prev){
-
-        console.log(event);
-        console.log(curr);
-        console.log(prev);
-/*      if (curr.authenticate && AuthService.authed() == false) {
-        // User isn’t authenticated
-        $state.transitionTo("login");
-      } else {
-        if (AuthService.getCurrentUser() != null) {
-          Intercom("boot", {
-            app_id: "YOURAPPID",
-            email: AuthService.getCurrentUser().email,
-            created_at: AuthService.getCurrentUser().created_at,
-            name: AuthService.getCurrentUser().full_name,
-            user_id: AuthService.getCurrentUser().id,
-            widget: {
-              activator: "#IntercomDefaultWidget"
-            }
-         });
-       }
-     }*/
-    });    
 })
 
 .constant('CLAN_EMAILS',
