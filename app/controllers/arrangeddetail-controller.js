@@ -48,7 +48,6 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
                             }
                             else {
                                 $scope.members = members;
-
                                 // reset every time we load to update any changes to member weights
                                 resetProfiles();
                                 updateTotals();
@@ -156,59 +155,152 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
     }
 
     $scope.addPlayer = function(player) {
-        // find the slot where this member should go
-        var position = -1;
+        if (player._id) {
+            // find the slot where this member should go
+            var position = -1;
 
-        for (var idx=0; idx<$scope.us.roster.length; idx++) {
-            if ($scope.us.roster[idx].user_id &&
-                $scope.us.roster[idx].warWeight <= player.profile.warWeight) {
-                // if a user at this location and the user's weight is less than or equal to new player, do something
-                if ($scope.us.roster[idx].warWeight == player.profile.warWeight) {
-                    // if equal, check hero levels
-                    if ($scope.us.roster[idx].bk + $scope.us.roster[idx].aq <= player.profile.heroes.bk + player.profile.heroes.aq) {
+            for (var idx=0; idx<$scope.us.roster.length; idx++) {
+                if ($scope.us.roster[idx].user_id &&
+                    $scope.us.roster[idx].warWeight <= player.profile.warWeight) {
+                    // if a user at this location and the user's weight is less than or equal to new player, do something
+                    if ($scope.us.roster[idx].warWeight == player.profile.warWeight) {
+                        // if equal, check hero levels
+                        if ($scope.us.roster[idx].bk + $scope.us.roster[idx].aq <= player.profile.heroes.bk + player.profile.heroes.aq) {
+                            position = idx;
+                            break;
+                        }
+                    }
+                    else {
                         position = idx;
                         break;
                     }
+
                 }
-                else {
+                else if (!$scope.us.roster[idx].user_id) {
                     position = idx;
                     break;
                 }
-
             }
-            else if (!$scope.us.roster[idx].user_id) {
-                position = idx;
-                break;
-            }
-        }
 
-        if (position >= 0) {
-            var newMember = {
-                user_id: player._id,
-                ign: player.ign,
-                th: player.profile.buildings.th,
-                warWeight: player.profile.warWeight,
-                bk: player.profile.heroes.bk,
-                aq: player.profile.heroes.aq
-            };
+            if (position >= 0) {
+                var newMember = {
+                    user_id: player._id,
+                    ign: player.ign,
+                    th: player.profile.buildings.th,
+                    warWeight: player.profile.warWeight,
+                    bk: player.profile.heroes.bk,
+                    aq: player.profile.heroes.aq
+                };
 
-            if (position == $scope.us.roster.length-1) {
-                // last position in the array, just replace what's there
-                $scope.us.roster[position] = newMember;
+                if (position == $scope.us.roster.length-1) {
+                    // last position in the array, just replace what's there
+                    $scope.us.roster[position] = newMember;
+                }
+                else {
+                    // need to move everyone down a spot (5 becomes 6, 6 becomes 7, etc.)
+                    for (var moveIdx = $scope.us.roster.length-1; moveIdx > position; moveIdx--) {
+                        $scope.us.roster.splice(moveIdx, 0, $scope.us.roster.splice(moveIdx-1, 1)[0]);
+
+                        //this.splice(to, 0, this.splice(from, 1)[0]);
+                    }
+                    $scope.us.roster[position] = newMember;
+                }
+                saveInternal();
+                cleanDisplayMembers();                
             }
             else {
-                // need to move everyone down a spot (5 becomes 6, 6 becomes 7, etc.)
-                for (var moveIdx = $scope.us.roster.length-1; moveIdx > position; moveIdx--) {
-                    $scope.us.roster.splice(moveIdx, 0, $scope.us.roster.splice(moveIdx-1, 1)[0]);
-
-                    //this.splice(to, 0, this.splice(from, 1)[0]);
-                }
-                $scope.us.roster[position] = newMember;
+                $rootScope.globalMessage = 'Player\'s weight was lower than everone else on the roster so they were not added.';
             }
         }
-        saveInternal();
-        cleanDisplayMembers();
+        else {
+            // placeholder
+            var cssClass = 'center';
+            if ($window.innerWidth < 500) {
+                cssClass = 'mobile';
+            }
 
+            $scope.modalOptions = {
+                yesBtn: 'Add',
+                noBtn: 'Cancel',
+                cssClass: cssClass,
+                formData: {
+                    warWeight: 0,
+                    th: 1,
+                    bk: 1,
+                    aq: 1
+                },
+                onYes: function(formData) {
+                    var position = -1;
+
+                    for (var idx=0; idx<$scope.us.roster.length; idx++) {
+                        if ($scope.us.roster[idx].user_id &&
+                            $scope.us.roster[idx].warWeight <= formData.warWeight) {
+                            // if a user at this location and the user's weight is less than or equal to new player, do something
+                            if ($scope.us.roster[idx].warWeight == formData.warWeight) {
+                                // if equal, check hero levels
+                                if ($scope.us.roster[idx].bk + $scope.us.roster[idx].aq <= formData.bk + formData.aq) {
+                                    position = idx;
+                                    break;
+                                }
+                            }
+                            else {
+                                position = idx;
+                                break;
+                            }
+
+                        }
+                        else if (!$scope.us.roster[idx].user_id) {
+                            position = idx;
+                            break;
+                        }
+                    }
+
+                    if (position >= 0) {
+                        var newMember = {
+                            user_id: 1,
+                            ign: formData.ign,
+                            th: formData.th,
+                            warWeight: formData.warWeight,
+                            bk: formData.bk,
+                            aq: formData.aq
+                        };
+
+                        if (position == $scope.us.roster.length-1) {
+                            // last position in the array, just replace what's there
+                            $scope.us.roster[position] = newMember;
+                        }
+                        else {
+                            // need to move everyone down a spot (5 becomes 6, 6 becomes 7, etc.)
+                            for (var moveIdx = $scope.us.roster.length-1; moveIdx > position; moveIdx--) {
+                                $scope.us.roster.splice(moveIdx, 0, $scope.us.roster.splice(moveIdx-1, 1)[0]);
+                            }
+                            $scope.us.roster[position] = newMember;
+                        }
+                        saveInternal();
+                        cleanDisplayMembers();
+                        trackService.track('saved-arrangedph');
+                    }
+                    else {
+                        $rootScope.globalMessage = 'Player\'s weight was lower than everone else on the roster so they were not added.';
+                    }
+
+                }
+            };
+
+            var modalInstance = $modal(
+                {
+                    scope: $scope,
+                    animation: 'am-fade-and-slide-top',
+                    placement: 'center',
+                    template: "/views/partials/arrangedPlaceholder.html",
+                    show: false
+                }
+            );
+
+            modalInstance.$promise.then(function() {
+                modalInstance.show();
+            });
+        }
     }
 
     $scope.removePlayer = function(index) {
@@ -232,25 +324,33 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
             cssClass: cssClass,
             onYes: function() {
                 $scope.members.sort(function (a, b) {
-                    if (a.profile.warWeight > b.profile.warWeight) {
+                    if (a.profile.buildings.th > b.profile.buildings.th) {
                         return -1;
                     }
-                    else if (a.profile.warWeight < b.profile.warWeight) {
+                    else if (a.profile.buildings.th < b.profile.buildings.th) {
                         return 1;
                     }
                     else {
-                        if (a.profile.heroes.bk + a.profile.heroes.aq > b.profile.heroes.bk + b.profile.heroes.aq) {
+                        if (a.profile.warWeight > b.profile.warWeight) {
                             return -1;
                         }
-                        else if (a.profile.heroes.bk + a.profile.heroes.aq < b.profile.heroes.bk + b.profile.heroes.aq) {
+                        else if (a.profile.warWeight < b.profile.warWeight) {
                             return 1;
                         }
                         else {
-                            if (a.ign < b.ign) {
+                            if (a.profile.heroes.bk + a.profile.heroes.aq > b.profile.heroes.bk + b.profile.heroes.aq) {
                                 return -1;
                             }
-                            else {
+                            else if (a.profile.heroes.bk + a.profile.heroes.aq < b.profile.heroes.bk + b.profile.heroes.aq) {
                                 return 1;
+                            }
+                            else {
+                                if (a.ign < b.ign) {
+                                    return -1;
+                                }
+                                else {
+                                    return 1;
+                                }
                             }
                         }
                     }
@@ -400,43 +500,24 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
         });
 
         $scope.members.sort(function (a, b) {
-            if (a.profile.warWeight > b.profile.warWeight) {
+            if (a.profile.buildings.th > b.profile.buildings.th) {
                 return -1;
             }
-            else if (a.profile.warWeight < b.profile.warWeight) {
+            else if (a.profile.buildings.th < b.profile.buildings.th) {
                 return 1;
             }
             else {
-                if (a.profile.heroes.bk + a.profile.heroes.aq > b.profile.heroes.bk + b.profile.heroes.aq) {
+                if (a.profile.warWeight > b.profile.warWeight) {
                     return -1;
                 }
-                else if (a.profile.heroes.bk + a.profile.heroes.aq < b.profile.heroes.bk + b.profile.heroes.aq) {
+                else if (a.profile.warWeight < b.profile.warWeight) {
                     return 1;
                 }
                 else {
-                    if (a.ign < b.ign) {
+                    if (a.profile.heroes.bk + a.profile.heroes.aq > b.profile.heroes.bk + b.profile.heroes.aq) {
                         return -1;
                     }
-                    else {
-                        return 1;
-                    }
-                }
-            }
-        });
-
-        if (changedSomething) {
-            $scope.us.roster.sort(function (a, b) {
-                if (a.warWeight > b.warWeight) {
-                    return -1;
-                }
-                else if (a.warWeight < b.warWeight) {
-                    return 1;
-                }
-                else {
-                    if (a.bk + a.aq > b.bk + b.aq) {
-                        return -1;
-                    }
-                    else if (a.bk + a.aq < b.bk + b.aq) {
+                    else if (a.profile.heroes.bk + a.profile.heroes.aq < b.profile.heroes.bk + b.profile.heroes.aq) {
                         return 1;
                     }
                     else {
@@ -448,6 +529,41 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
                         }
                     }
                 }
+            }
+        });
+
+        if (changedSomething) {
+            $scope.us.roster.sort(function (a, b) {
+                if (a.th > b.th) {
+                    return -1;
+                }
+                else if (a.th < b.th) {
+                    return 1;
+                }
+                else {
+                    if (a.warWeight > b.warWeight) {
+                        return -1;
+                    }
+                    else if (a.warWeight < b.warWeight) {
+                        return 1;
+                    }
+                    else {
+                        if (a.bk + a.aq > b.bk + b.aq) {
+                            return -1;
+                        }
+                        else if (a.bk + a.aq < b.bk + b.aq) {
+                            return 1;
+                        }
+                        else {
+                            if (a.ign < b.ign) {
+                                return -1;
+                            }
+                            else {
+                                return 1;
+                            }
+                        }
+                    }
+                }
             });
             saveInternal();
         }
@@ -456,6 +572,25 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
 
     function cleanDisplayMembers() {
         $scope.displayMembers = [];
+
+        var placeHolder = {
+            _id: null,
+            ign: '',
+            profile: {
+                warWeight: 0,
+                buildings: {
+                    th: 1
+                },
+                heroes: {
+                    bk: 0,
+                    aq: 0
+                }
+            },
+            displayName: '[ Add Placeholder Member ]'
+        };
+        $scope.displayMembers.push(placeHolder);   
+
+
         for (var idx=0; idx<$scope.members.length; idx++) {
             var found = false;
             for (var idx2=0; idx2<$scope.us.roster.length; idx2++) {
@@ -469,7 +604,8 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
             }
         }
 
-        $scope.addedPlayer = {};
+
+        //$scope.addedPlayer = -1;
     }
 
     function saveInternal() {
@@ -592,5 +728,4 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
             }
         });
     }
-
 }]);

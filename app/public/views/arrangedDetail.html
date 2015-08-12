@@ -46,7 +46,11 @@
                                             <div class="form-group">
                                                 <label for="" class="col-md-4 col-sm-5 col-xs-3 control-label small">Members</label>
                                                 <div class="col-md-8 col-sm-7 col-xs-9">
-                                                    <select class="form-control-small" ng-model="addedPlayer" ng-options="member as member.displayName for member in displayMembers" ng-change="addPlayer(addedPlayer)"></select>
+<!--                                                     <select class="form-control-small" ng-model="addedPlayer" ng-change="addPlayer(addedPlayer)">
+                                                        <option value="10000">[ Add Placeholder Member ]</option>
+                                                        <option ng-repeat="member in displayMembers" value="{{$index}}">{{member.displayName}}</option>
+                                                    </select>       --> 
+                                                    <select class="form-control-small" ng-model="addedPlayer" ng-options="member as member.displayName for member in displayMembers" ng-change="addPlayer(addedPlayer)"></select>                                                                                         
                                                 </div>
                                             </div>
                                         </div>
@@ -54,9 +58,9 @@
                                     <div class="row">
                                         <div class="col-xs-12 form-horizontal">
                                             <div class="form-group">
-                                                <label for="" class="col-md-4 col-sm-5 col-xs-3 control-label small">Fill Roster</label>
+                                                <label for="" class="col-md-4 col-sm-5 col-xs-3 control-label small">Auto-fill</label>
                                                 <div class="col-md-8 col-sm-7 col-xs-9">
-                                                    <a class="btn btn-default btn-xs" ng-click="fillRoster()">Fill</a>
+                                                    <a class="btn btn-default btn-xs" ng-click="fillRoster()">Auto-fill Roster</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -205,7 +209,11 @@
                                             <div class="row row-underline-2"></div>
                                             <div class="row arranged-row" ng-repeat="player in us.roster">
                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 text-center">{{$index + 1}}</div>
-                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6 no-wrap" ng-if="player.ign"><i class="icon-cancel action-icon primary-20" access-level="leader" ng-if="player.ign" title="Remove player" ng-click="removePlayer($index)"></i> <a href="/members/{{player.user_id}}">{{player.ign}}</a></div>
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6 no-wrap" ng-if="player.ign">
+                                                    <i class="icon-cancel action-icon primary-20" access-level="leader" ng-if="player.ign" title="Remove player" ng-click="removePlayer($index)"></i>
+                                                    <a href="/members/{{player.user_id}}" ng-if="player.user_id != 1">{{player.ign}}</a>
+                                                    <span ng-if="player.user_id == 1">{{player.ign}}</span>
+                                                </div>
                                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6" ng-if="!player.ign"><i>-- empty --</i></div>
                                                 <div class="col-xs-1 text-center">{{player.th}}</div>
                                                 <div class="col-xs-1 text-center" ng-class="{'error-red': player.warWeight==0}" ng-if="player.ign">{{player.warWeight}}</div>

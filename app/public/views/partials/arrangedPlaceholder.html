@@ -1,0 +1,142 @@
+<div class="modal {{modalOptions.cssClass}}" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Add placeholder member
+            </div>
+            <div class="modal-body">
+                <div class="row margin-bottom-big">
+                    <div class="col-sm-12">
+                        <p>You are adding a placeholder member to this arranged war. This is provided for convenience in case you're bringing someone in who doesn't have a clash.tools account.</p>
+                    </div>
+                </div>
+                <form class="form-horizontal" name="placeholderForm">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label">In game name</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control req-field" ng-model="modalOptions.formData.ign" placeholder="In game name" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="ww" class="col-sm-3 control-label">War weight <i class="icon-help-circled" popover-placement="right" popover="Only values between 0 and 99 are accepted." popover-append-to-body="true" popover-trigger="mouseenter"></i></label>
+                        <div class="col-sm-9">
+                            <input type="number" min="0" max="99" class="form-control req-field" id="ww" ng-model="modalOptions.formData.warWeight" required integer>
+                        </div>
+                    </div> 
+                    <div class="form-group">
+                        <label for="th" class="col-sm-3 control-label">Town Hall</label>
+                        <div class="col-sm-9">
+                            <select class="form-control req-field" ng-model="modalOptions.formData.th" required integer>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>                                
+                            </select>
+                        </div>
+                    </div>   
+                    <div class="form-group">
+                        <label for="heroes" class="col-sm-3 control-label" style="margin-top: 16px;">Heroes</label>
+                        <div class="col-sm-4"><span class="small">BK</span>
+                            <select class="form-control req-field col-sm-3" ng-model="modalOptions.formData.bk" required integer>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                                <option>11</option>
+                                <option>12</option>
+                                <option>13</option>
+                                <option>14</option>
+                                <option>15</option>
+                                <option>16</option>
+                                <option>17</option>
+                                <option>18</option>
+                                <option>19</option>
+                                <option>20</option>
+                                <option>21</option>
+                                <option>22</option>
+                                <option>23</option>
+                                <option>24</option>
+                                <option>25</option>
+                                <option>26</option>
+                                <option>27</option>
+                                <option>28</option>
+                                <option>29</option>
+                                <option>30</option>
+                                <option>31</option>
+                                <option>32</option>
+                                <option>33</option>
+                                <option>34</option>
+                                <option>35</option>
+                                <option>36</option>
+                                <option>37</option>
+                                <option>38</option>
+                                <option>39</option>
+                                <option>40</option>                              
+                            </select>
+                        </div>
+                        <div class="col-sm-4"><span class="small">AQ</span>
+                            <select class="form-control req-field" ng-model="modalOptions.formData.aq" required integer>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                                <option>11</option>
+                                <option>12</option>
+                                <option>13</option>
+                                <option>14</option>
+                                <option>15</option>
+                                <option>16</option>
+                                <option>17</option>
+                                <option>18</option>
+                                <option>19</option>
+                                <option>20</option>
+                                <option>21</option>
+                                <option>22</option>
+                                <option>23</option>
+                                <option>24</option>
+                                <option>25</option>
+                                <option>26</option>
+                                <option>27</option>
+                                <option>28</option>
+                                <option>29</option>
+                                <option>30</option>
+                                <option>31</option>
+                                <option>32</option>
+                                <option>33</option>
+                                <option>34</option>
+                                <option>35</option>
+                                <option>36</option>
+                                <option>37</option>
+                                <option>38</option>
+                                <option>39</option>
+                                <option>40</option>                                 
+                            </select>
+                        </div>                        
+                    </div>                                                         
+                </form>
+            </div>
+            <div class="modal-footer">
+            <button class="btn btn-emphasis btn-sm" ng-disabled="placeholderForm.$invalid" ng-click="modalOptions.onYes(modalOptions.formData); $hide();">{{modalOptions.yesBtn}}</button>
+            <button class="btn btn-default btn-sm" ng-click="$hide();">{{modalOptions.noBtn}}</button>
+            </div>
+        </div>
+    </div>
+</div>
