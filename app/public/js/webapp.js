@@ -84,7 +84,7 @@ angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize',
             var dt = new Date(meta.created_at);
 
             Intercom("boot", {
-                app_id: "w1zkoqk9",
+                app_id: "gxb1pj9u",
                 email: meta.email_address,
                 created_at: parseInt(dt.getTime()/1000),
                 name: meta.ign,
@@ -122,49 +122,9 @@ angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize',
         arranged: 'There has been a request to start an arranged war with <b>[1]</b>. The match has been created and can be found in the <a href="/arranged">arranged war list</a>. If you don\'t want an arranged war with this clan, you can simply ignore the request and delete it from your arranged war list.',
         arrangedRemove: 'The arranged match between <b>[1]</b> has been deleted by <b>[2]</b>'
     }
-);
-
-/*
-*   Response types supported by Siftrock
-*/
-/*.constant('RESPONSE_TYPES',
+)
+.constant('INTERCOM',
     {
-        bounce: { type: 'bounce', displayCaps: 'Bounce', displaySmall: 'bounce' },
-        changed: { type: 'changed', displayCaps: 'Changed', displaySmall: 'changed' },
-        general: { type: 'general', displayCaps: 'General', displaySmall: 'general' },
-        human: { type: 'human', displayCaps: 'Human', displaySmall: 'human' },
-        left: { type: 'left', displayCaps: 'Left Company', displaySmall: 'left company' },
-        spamshield: { type: 'spamshield', displayCaps: 'Spam Shield', displaySmall: 'spam shield' },
-        system: { type: 'system', displayCaps: 'System', displaySmall: 'system' },
-        unknown: { type: 'unknown', displayCaps: 'Unknown', displaySmall: 'unknown' },
-        vacation: { type: 'vacation', displayCaps: 'Vacation', displaySmall: 'vacation' }
+        key: 'gxb1pj9u'
     }
-)*/
-
-/*
-*   These fields are support in integrations
-*/
-/*.constant('SIFTROCK_FIELDS',
-    [
-        {
-            fieldName: 'siftrock.replyType',
-            description: 'email reply type',
-            filter: false
-        },
-        {
-            fieldName: 'siftrock.originalRecipient',
-            description: 'original recipient email address',
-            filter: true
-        },
-        {
-            fieldName: 'siftrock.replyText',
-            description: 'email reply text',
-            filter: true
-        },
-        {
-            fieldName: 'siftrock.sentFrom',
-            description: 'email address used to send',
-            filter: true
-        }
-    ]
-);*/
+);

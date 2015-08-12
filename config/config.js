@@ -37,6 +37,7 @@ config.env = {
         cookieSecret: 'clashtools_bab',
         logLevel: 'debug',
         mandrill: 'hYM_1Xl4pPKbF2EZR-pnmA',
+        intercom: 'gxb1pj9u',
         s3: {
             accessKeyId: 'AKIAJAFS45XYTNTOIAGA',
             secretAccessKey: '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',
@@ -75,6 +76,7 @@ config.env = {
         cookieSecret: 'clashtools_kak',
         logLevel: 'info',
         mandrill: 'IAO8H52xJO-Lk-4_zBFcEQ',
+        intercom: 'w1zkoqk9',        
         s3: {
             accessKeyId: 'AKIAJAFS45XYTNTOIAGA',
             secretAccessKey: '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',

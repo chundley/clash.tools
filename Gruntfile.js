@@ -153,9 +153,6 @@ module.exports = function(grunt) {
                             content = content.replace(key, val.data.newFileName);
                         });
 
-                        // replace dev/test analytics key with production key
-                        //content = content.replace(config.env.development.mixpanel, config.env.production.mixpanel);
-
                         return content;
                     }
                 }
@@ -163,7 +160,19 @@ module.exports = function(grunt) {
             server: {
                 src:  'server.js',
                 dest: '<%= paths.build %>/clashtools-prod.js'
-            }
+            },
+            intercom_webapp: {
+                src:  'app/public/js/webapp.js',
+                dest: '<%= paths.build %>/app/public/js/webapp.js',
+                options: {
+                    processContent: function(content, srcPath) {
+                        // replace dev/test analytics key with production key
+                        var reg = new RegExp(config.env.development.intercom, 'g');
+                        content = content.replace(reg, config.env.production.intercom);
+                        return content;
+                    }
+                }
+            }            
         },
         compress: {
             build: {
@@ -198,7 +207,17 @@ module.exports = function(grunt) {
     grunt.registerTask('init', ['less:dev', 'concat', 'uglify:prod']);
 
     // Production build / release
-    grunt.registerTask('build', ['less:prod', 'uglify:prod', 'clean:build', 'copy:build', 'cachebuster:prod', 'copy:index', 'copy:server', 'cachebust-rename', 'compress:build']);
+    grunt.registerTask('build', ['less:prod', 
+                                 'uglify:prod', 
+                                 'clean:build', 
+                                 'copy:build',                                 
+                                 'cachebuster:prod', 
+                                 'copy:index', 
+                                 'copy:server', 
+                                 'copy:intercom_webapp',                               
+                                 'cachebust-rename', 
+                                 'compress:build'
+                                 ]);
 
     // Run unit tests
     grunt.registerTask('unit-test', ['mochacli:unit']);
@@ -218,8 +237,10 @@ module.exports = function(grunt) {
         cacheBustMap = helperGetCacheBust();
         var totRenamed = 0;
 
+        //grunt.log.writeln(JSON.stringify(cacheBustMap));
         async.each(Object.keys(cacheBustMap), function (cb, callback) {
             var path = buildLocation + cacheBustMap[cb].data.path;
+            //grunt.log.writeln(path);
             fs.rename(path + cb, path + cacheBustMap[cb].data.newFileName, function (err) {
                 if (err) {
                     grunt.log.warn('File ' + cb + ' not found for cache busting');
@@ -240,24 +261,39 @@ module.exports = function(grunt) {
 *  Helper function to get cachebuster file names for use in various build tasks
 */
 function helperGetCacheBust() {
-
     if (cacheBustMap.length > 0) {
         return cacheBustMap;
     }
 
     var data = JSON.parse(fs.readFileSync(buildLocation + '/config/cachebuster.json', 'utf8'));
     _.each(data, function (value, key) {
-        var pathparts = key.split('/');
+        pathparts = null;
+
+        if (process.platform == 'win32') {
+            pathparts = key.split('\\');
+        }
+        else {
+            pathparts = key.split('/');
+        }
+
         var fileparts = pathparts[pathparts.length-1].split('.');
+
+        var newPath = null;
+        if (process.platform == 'win32') {
+            newPath = key.replace(pathparts[pathparts.length-1], '').replace('..\\', '\\')
+        }
+        else {
+            newPath = key.replace(pathparts[pathparts.length-1], '').replace('../', '/');
+        }
 
         cacheBustMap[pathparts[pathparts.length-1]] = {
             data:
                 {
-                    path: key.replace(pathparts[pathparts.length-1], '').replace('../', '/'),
+                    path: newPath,
                     newFileName: value + '.' + fileparts[fileparts.length-1]
                 }
         };
-    });
 
+    });
     return cacheBustMap;
 }

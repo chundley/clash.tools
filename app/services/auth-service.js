@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.services')
-.factory('authService', ['$http', '$rootScope', '$cookieStore', 'md5', 'sessionService', 'cacheService', 'errorService',
-function ($http, $rootScope, $cookieStore, md5, sessionService, cacheService, errorService) {
+.factory('authService', ['$http', '$rootScope', '$cookieStore', 'md5', 'sessionService', 'cacheService', 'errorService', 'INTERCOM',
+function ($http, $rootScope, $cookieStore, md5, sessionService, cacheService, errorService, INTERCOM) {
     var accessLevels = roleConfig.accessLevels;
     var userRoles = roleConfig.userRoles;
     var currentUser = $cookieStore.get('clashtools_user') || { id: null, email: null, role: userRoles.public };
@@ -107,7 +107,7 @@ function ($http, $rootScope, $cookieStore, md5, sessionService, cacheService, er
                     var dt = new Date(meta.created_at);
 
                     Intercom("boot", {
-                        app_id: "w1zkoqk9",
+                        app_id: INTERCOM.key,
                         email: meta.email_address,
                         created_at: parseInt(dt.getTime()/1000),
                         name: meta.ign,
