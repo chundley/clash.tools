@@ -72,7 +72,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="col-xs-12 text-right">
-                                                <span ng-show="warSettingsForm.$dirty" class="error-red"><b>Changes not saved!</b></span><button class="btn btn-emphasis btn-sm save-btn" ng-disabled="warSettingsForm.$invalid">Save</button>
+                                                <span ng-show="warSettingsForm.$dirty" class="error-red"><b>Changes not saved!</b></span><button class="btn btn-emphasis btn-sm save-btn" ng-disabled="warSettingsForm.$invalid" track="saved-warsetup">Save</button>
                                             </div>
                                         </div>
                                     </form>
@@ -155,7 +155,7 @@
                                                         </form>
                                                     </div>
                                                     <div class="col-xs-6 text-right">
-                                                        <a class="btn btn-xs btn-default" ng-click="assignMirrors()">Assign mirrors</a>
+                                                        <a class="btn btn-xs btn-default" ng-disabled="warStarted" ng-click="assignMirrors()">Assign mirrors</a>
                                                     </div>
                                                 </div>
                                             </div>

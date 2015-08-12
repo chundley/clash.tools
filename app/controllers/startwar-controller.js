@@ -5,9 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('StartWarCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$window', '$modal', 'authService', 'sessionService', 'errorService', 'messagelogService', 'clanService', 'warService', 'utils',
-function ($rootScope, $scope, $routeParams, $location, $window, $modal, authService, sessionService, errorService, messagelogService, clanService, warService, utils) {
-    //$scope.helpLink = 'http://www.siftrock.com/help/dashboard/';
+.controller('StartWarCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$window', '$modal', 'authService', 'sessionService', 'errorService', 'messagelogService', 'clanService', 'warService', 'utils', 'trackService',
+function ($rootScope, $scope, $routeParams, $location, $window, $modal, authService, sessionService, errorService, messagelogService, clanService, warService, utils, trackService) {
 
     var warId = $routeParams.id;
 
@@ -290,6 +289,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
 
                 }
 
+                trackService.track('set-wartimer');
                 $scope.warSettingsForm.$setDirty();
             }
         };
@@ -314,12 +314,43 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
     }
 
     $scope.assignMirrors = function() {
-        for (var idx=0; idx<$scope.war.bases.length; idx++) {
-            if ($scope.war.team[idx] && $scope.war.team[idx].u) {
-                assignInternal(idx, $scope.war.team[idx].u);
-            }
+
+        var cssClass = 'center';
+        if ($window.innerWidth < 500) {
+            cssClass = 'mobile';
         }
-        saveWarInternal();
+
+        $scope.modalOptions = {
+            title: 'Assign all members to their mirror?',
+            message: 'Please confirm you want to assign all members on the roster to their mirror target. This will overwrite any assignments you\'ve already got set.',
+            yesBtn: 'Assign Mirrors',
+            noBtn: 'Cancel',
+            cssClass: cssClass,
+            onYes: function() {
+                for (var idx=0; idx<$scope.war.bases.length; idx++) {
+                    if ($scope.war.team[idx] && $scope.war.team[idx].u) {
+                        assignInternal(idx, $scope.war.team[idx].u);
+                    }
+                }
+                saveWarInternal();
+                trackService.track('assigned-mirrors');
+                $rootScope.globalMessage = 'Mirror assignments saved.';
+            }
+        };
+
+        var modalInstance = $modal(
+            {
+                scope: $scope,
+                animation: 'am-fade-and-slide-top',
+                placement: 'center',
+                template: "/views/partials/confirmDialog.html",
+                show: false
+            }
+        );
+
+        modalInstance.$promise.then(function() {
+            modalInstance.show();
+        });
     }
 
     $scope.assignBase = function(baseNum, userId) {
