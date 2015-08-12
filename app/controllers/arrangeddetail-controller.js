@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('ArrangedDetailCtrl', ['$rootScope', '$scope', '$window', '$routeParams', '$location', '$modal', 'ctSocket', 'moment', 'authService', 'sessionService', 'errorService', 'emailMessageService', 'messagelogService', 'clanService', 'arrangedWarService', 'CLAN_EMAILS',
-function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket, moment, authService, sessionService, errorService, emailMessageService, messagelogService, clanService, arrangedWarService, CLAN_EMAILS) {
+.controller('ArrangedDetailCtrl', ['$rootScope', '$scope', '$window', '$routeParams', '$location', '$modal', 'ctSocket', 'moment', 'authService', 'sessionService', 'errorService', 'emailMessageService', 'messagelogService', 'clanService', 'arrangedWarService', 'CLAN_EMAILS', 'trackService',
+function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket, moment, authService, sessionService, errorService, emailMessageService, messagelogService, clanService, arrangedWarService, CLAN_EMAILS, trackService) {
 
     sessionService.getUserMeta(authService.user.id, function (err, meta) {
         if (err) {
@@ -218,8 +218,83 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
         cleanDisplayMembers();
     }
 
+    $scope.fillRoster = function() {
+        var cssClass = 'center';
+        if ($window.innerWidth < 500) {
+            cssClass = 'mobile';
+        }
+
+        $scope.modalOptions = {
+            title: 'Fill roster with clan members?',
+            message: 'Selecting "Yes" will fill the war roster with members from your clan from highest war weight to lowest. This will overwrite the current roster.',
+            yesBtn: 'Yes',
+            noBtn: 'Cancel',
+            cssClass: cssClass,
+            onYes: function() {
+                $scope.members.sort(function (a, b) {
+                    if (a.profile.warWeight > b.profile.warWeight) {
+                        return -1;
+                    }
+                    else if (a.profile.warWeight < b.profile.warWeight) {
+                        return 1;
+                    }
+                    else {
+                        if (a.profile.heroes.bk + a.profile.heroes.aq > b.profile.heroes.bk + b.profile.heroes.aq) {
+                            return -1;
+                        }
+                        else if (a.profile.heroes.bk + a.profile.heroes.aq < b.profile.heroes.bk + b.profile.heroes.aq) {
+                            return 1;
+                        }
+                        else {
+                            if (a.ign < b.ign) {
+                                return -1;
+                            }
+                            else {
+                                return 1;
+                            }
+                        }
+                    }
+                });
+
+                for (var idx=0; idx<$scope.us.roster.length; idx++) {
+                    if (idx < $scope.members.length) {
+                        var newMember = {
+                            user_id: $scope.members[idx]._id,
+                            ign: $scope.members[idx].ign,
+                            th: $scope.members[idx].profile.buildings.th,
+                            warWeight: $scope.members[idx].profile.warWeight,
+                            bk: $scope.members[idx].profile.heroes.bk,
+                            aq: $scope.members[idx].profile.heroes.aq
+                        };
+
+                        $scope.us.roster[idx] = newMember;
+                    }
+                }   
+                saveInternal();
+                updateTotals();
+                $rootScope.globalMessage = 'The roster has been filled with your team';
+                trackService.track('filled-arrangedroster');
+            }
+        };
+
+        var modalInstance = $modal(
+            {
+                scope: $scope,
+                animation: 'am-fade-and-slide-top',
+                placement: 'center',
+                template: "/views/partials/confirmDialog.html",
+                show: false
+            }
+        );
+
+        modalInstance.$promise.then(function() {
+            modalInstance.show();
+        });
+    }
+
     $scope.search = function(terms) {
         if (terms.length > 0) {
+            trackService.track('search-arrangedwar', { "term": terms } );
             clanService.allClans(terms, 20, function (err, clans) {
                 $scope.clans = clans;
             });
@@ -271,6 +346,7 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
                         errorService.save(err, function() {});
                     }
                     else {
+                        trackService.track('started-arrangedwar', { "clan": clan.name } );
                         $rootScope.globalMessage = 'Your request for an arranged war with "' + clan.name + '" has been sent.';
                     }
                 });

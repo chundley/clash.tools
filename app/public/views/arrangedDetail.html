@@ -20,7 +20,7 @@
                                     Match settings
                                 </div>
                                 <div class="widget-body">
-                                    <div class="row margin-bottom-medium">
+                                    <div class="row">
                                         <div class="col-xs-12 form-horizontal">
                                             <div class="form-group">
                                                 <label for="playerCount" class="col-md-4 col-sm-5 col-xs-3 control-label small">Count</label>
@@ -51,11 +51,24 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 form-horizontal">
+                                            <div class="form-group">
+                                                <label for="" class="col-md-4 col-sm-5 col-xs-3 control-label small">Fill Roster</label>
+                                                <div class="col-md-8 col-sm-7 col-xs-9">
+                                                    <a class="btn btn-default btn-xs" ng-click="fillRoster()">Fill</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                                    
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-8 col-sm-7 col-xs-12 margin-bottom-huge arranged-summary-container">
                             <div class="widget">
+                                <div class="widget-header">
+                                    Summary
+                                </div>
                                 <div class="widget-body">
                                     <div class="row">
                                         <div class="col-xs-4 col-xs-offset-2 text-center"><h4 class="emphasis"><strong>{{us.clan_name}}</strong></h4></div>

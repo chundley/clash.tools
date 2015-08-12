@@ -5,8 +5,8 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('ArrangedCtrl', ['$rootScope', '$scope', '$window', '$routeParams', '$location', '$modal', 'moment', 'authService', 'sessionService', 'errorService', 'emailMessageService', 'messagelogService', 'arrangedWarService', 'CLAN_EMAILS',
-function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, authService, sessionService, errorService, emailMessageService, messagelogService, arrangedWarService, CLAN_EMAILS) {
+.controller('ArrangedCtrl', ['$rootScope', '$scope', '$window', '$routeParams', '$location', '$modal', 'moment', 'authService', 'sessionService', 'errorService', 'emailMessageService', 'messagelogService', 'arrangedWarService', 'CLAN_EMAILS', 'trackService',
+function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, authService, sessionService, errorService, emailMessageService, messagelogService, arrangedWarService, CLAN_EMAILS, trackService) {
 
     sessionService.getUserMeta(authService.user.id, function (err, meta) {
         if (err) {
@@ -72,6 +72,7 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, 
                     }
                     else {
                         $scope.wars.splice(index, 1);
+                        trackService.track('deleted-arrangedwar');
                         $rootScope.globalMessage = 'Arranged match has been deleted.';
                     }
                 });
