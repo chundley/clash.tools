@@ -44,7 +44,7 @@
                                         <div class="col-xs-2 t-header text-right"></div>
                                     </div>
                                     <div class="row row-underline-2"></div>
-                                    <div ng-repeat="message in activeMessages">
+                                    <div ng-repeat="message in activeMessages track by $index">
                                         <div class="row t-row">
                                             <div class="col-xs-2" ng-class="{'unread-message': message.read==false}" ng-if="folder=='inbox'">
                                                 <a href="/mail/{{message._id}}?folder={{folder}}">{{message.from_user.ign}}</a>
