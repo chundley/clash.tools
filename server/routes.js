@@ -445,6 +445,12 @@ var routes = [
         middleware: [clanCtrl.adminAllData],
         accessLevel: accessLevels.sadmin
     },
+    {
+        path: '/crud/admin/bounces',
+        httpMethod: 'POST',
+        middleware: [userCtrl.adminSetBounces],
+        accessLevel: accessLevels.sadmin
+    },    
 /*    {
         path: '/config/hubspot',
         httpMethod: 'GET',

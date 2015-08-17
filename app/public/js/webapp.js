@@ -45,6 +45,7 @@ angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize',
         .when('/action/:id', { controller: 'ActionCtrl', templateUrl: '/views/action.html', access: access.member } )
         .when('/admin', { controller: 'AdminHomeCtrl', templateUrl: '/views/admin/admin-home.html', access: access.sadmin } )
         .when('/admin/clan/:id', { controller: 'AdminClanCtrl', templateUrl: '/views/admin/admin-clan.html', access: access.sadmin } )
+        .when('/admin/bounce', { controller: 'AdminBounceCtrl', templateUrl: '/views/admin/admin-bounce.html', access: access.sadmin } )
 /*        .when('/messages', { controller: 'MessagesCtrl', templateUrl: '/views/messages.html', access: access.user } )
         .when('/admin', { controller: 'AdminCtrl', templateUrl: '/views/admin/home.html', access: access.sadmin } )
         .when('/admin/unspoof', { controller: 'AdminCtrl', templateUrl: '/views/admin/home.html', access: access.admin } )

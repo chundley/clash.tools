@@ -250,6 +250,17 @@ exports.saveUserSession = function(req, res, next) {
     });
 }
 
+exports.adminSetBounces = function(req, res, next) {
+    model.adminSetBounces(req.body, function (err, results) {
+        if (err) {
+            res.send(500, err);
+        }
+        else {
+            res.json(200, { records_updated: results } );
+        }        
+    });
+}
+
 /*
 *   Get users for account
 */

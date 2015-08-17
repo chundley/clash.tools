@@ -151,6 +151,18 @@ function ($http, errorService) {
             }).error(function (data, status, headers, config) {
                 callback(errorService.initMessage('user-service.js', 'saveSession', status), null);
             });
+        },
+        adminSetBounces: function(bounces, callback) {
+             $http({
+                url: '/crud/admin/bounces',
+                method: "POST",
+                data: bounces,
+                headers: {'Content-Type': 'application/json'}
+            }).success(function (data, status, headers, config) {
+                callback(null, data);
+            }).error(function (data, status, headers, config) {
+                callback(errorService.initMessage('user-service.js', 'adminSetBounces', status), null);
+            });           
         }
     }
 }]);

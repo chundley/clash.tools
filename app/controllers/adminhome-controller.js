@@ -12,7 +12,7 @@ function ($rootScope, $scope, $location, moment, userService, authService, sessi
 
     sessionService.getUserMeta(authService.user.id, function (err, meta) {
         $scope.meta = meta;
-        runSearch('*');
+        //runSearch('*');
     });
 
     $scope.searchLocal = function() {
@@ -23,7 +23,7 @@ function ($rootScope, $scope, $location, moment, userService, authService, sessi
         }
         else {
             //$scope.query = '*';
-            runSearch('*');
+            runSearch('');
         }
     }
 
@@ -43,13 +43,18 @@ function ($rootScope, $scope, $location, moment, userService, authService, sessi
     }
 
     function runSearch(query) {
-        clanService.adminAllClans(query, 10000, function (err, clans) {
-            angular.forEach(clans, function (clan) {
-                clan.started = new moment(new Date(clan.created_at));
-            });
+        if (query.length > 0) {
+            clanService.adminAllClans(query, 10000, function (err, clans) {
+                angular.forEach(clans, function (clan) {
+                    clan.started = new moment(new Date(clan.created_at));
+                });
 
-            $scope.clans = clans;
-        });
+                $scope.clans = clans;
+            });
+        }
+        else {
+            $scope.clans = [];
+        }
     }
 
 }]);

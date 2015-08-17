@@ -1,0 +1,49 @@
+<div id="wrapper">
+    <div sidebar></div>
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div top-nav></div>
+            <!-- page content -->
+            <div class="row content-body">
+                <div class="col-xs-12">
+                    <div class="row margin-bottom-huge">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-10">
+                            <h1>Bounce admin</h1>
+                        </div>
+                    </div>
+                    <div class="row margin-bottom-huge">
+                        <div class="col-xs-8">
+                            <textarea class="form-control" rows="10" ng-model="addresses"></textarea>
+                        </div>
+                        <div class="col-xs-4">
+                            <a class="btn btn-default col-xs-6" ng-click="parse(addresses)" ng-enabled="addresses.length>0">Parse</a><br/><br/>
+                            <a class="btn btn-alternate col-xs-6" ng-click="upload()">Upload</a> <br/><br/>
+                            <strong>{{resultMessage}}</strong>
+                        </div>
+                    </div>
+                    <div class="row margin-bottom-medium">
+                        <div class="col-xs-12">
+                            <h3>Parsed</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <div class="widget">
+                                <div class="widget-body">
+                                    <div ng-repeat="address in all track by $index">
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                {{address}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- /page content -->
+        </div>
+    </div>  <!-- /#page-content-wrapper -->
+</div>  <!-- /#wrapper -->

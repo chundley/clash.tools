@@ -668,6 +668,43 @@ exports.getByAccount = function(account_id, callback) {
     });
 }
 
+exports.adminSetBounces = function(bounces, callback) {
+
+    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'user', function (err, collection) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            var count = 0;
+            async.each(bounces.emails, function (email, callback_each) {
+                collection.update(
+                    { email_address: email },
+                    { $set: { mail_settings: { enabled: false, bounced: true } } },
+                    { upsert: false },
+                    function (err, result) {
+                        if (err) {
+                            callback_each(err, null);
+                        }
+                        else {
+                            if (result.result.nModified > 0) {
+                                count++;
+                            }                            
+                            callback_each(null, result);
+                        }
+                    }
+                );
+            }, function (err) {
+                if (err) {
+                    callback(err, null);
+                }
+                else {
+                    callback(null, count);
+                }
+            });
+        }
+    });
+}
+
 /*
 *   Get all users
 */
