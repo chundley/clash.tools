@@ -22,6 +22,7 @@ function ($rootScope, $scope, $interval, $modal, $window, moment, authService, c
         }
         else {
             $scope.user = user;
+            $scope.originalEmail = user.email_address;
             setCountdownTimers();
 
             // set countdown timers to refresh every three minutes
@@ -36,9 +37,19 @@ function ($rootScope, $scope, $interval, $modal, $window, moment, authService, c
         $scope.meta = meta;
     });
 
+
+    /*
+    *   Special case for top form which has a $dirty error
+    */
+    $scope.saveTop = function() {
+        saveUserInternal();
+        $scope.nameForm.$setPristine();        
+        $rootScope.globalMessage = 'Profile was saved.';
+    }
+
     $scope.saveWithFeedback = function() {
         saveUserInternal();
-        $rootScope.globalMessage = 'Profile was saved.'
+        $rootScope.globalMessage = 'Profile was saved.';
     }
 
     $scope.saveUser = function() {
@@ -111,6 +122,73 @@ function ($rootScope, $scope, $interval, $modal, $window, moment, authService, c
         });
     }
 
+    $scope.changeEmailStatus = function() {
+        console.log($scope.nameForm);
+        if ($scope.user.mail_settings.enabled) {
+            // setting to true. if they have a bounce, let them know
+            if ($scope.user.mail_settings.bounced) {
+                $scope.user.mail_settings.enabled = false;
+
+                var cssClass = 'center';
+                if ($window.innerWidth < 500) {
+                    cssClass = 'mobile';
+                }
+
+                $scope.modalOptions = {
+                    title: 'Bad email address',
+                    message: 'Clash.tools has attempted to send you email at your configured address and failed. Please update your email address to something valid.',
+                    cssClass: cssClass
+                };
+
+                var modalInstance = $modal(
+                    {
+                        scope: $scope,
+                        animation: 'am-fade-and-slide-top',
+                        placement: 'center',
+                        template: "/views/partials/notifyDialog.html",
+                        show: false
+                    }
+                );
+
+                modalInstance.$promise.then(function() {
+                    modalInstance.show();
+                });                
+            }
+        }
+        else {
+            $scope.user.mail_settings.enabled = true;
+            var cssClass = 'center';
+            if ($window.innerWidth < 500) {
+                cssClass = 'mobile';
+            }
+
+            $scope.modalOptions = {
+                title: 'Disable email?',
+                message: 'Please confirm you want to stop receiving emails from clash.tools. You will no longer be sent any email from the app if you choose "Disable".',
+                yesBtn: 'Disable',
+                noBtn: 'Cancel',
+                cssClass: cssClass,
+                onYes: function() {
+                    $scope.user.mail_settings.enabled = false;
+                }
+            };
+
+            var modalInstance = $modal(
+                {
+                    scope: $scope,
+                    animation: 'am-fade-and-slide-top',
+                    placement: 'center',
+                    template: "/views/partials/confirmDialog.html",
+                    show: false
+                }
+            );
+
+            modalInstance.$promise.then(function() {
+                modalInstance.show();
+            });            
+        }
+    }
+
     $scope.wallDD = function() {
         var options = [];
         for (var idx=0; idx<=250; idx++) {
@@ -122,6 +200,11 @@ function ($rootScope, $scope, $interval, $modal, $window, moment, authService, c
     function saveUserInternal() {
         // clear meta data in case the UI needs bits refreshed
         sessionService.clearUserMeta();
+
+        if ($scope.user.email_address != $scope.originalEmail) {
+            $scope.user.verified = false;
+            $scope.user.mail_settings.bounced = false;
+        }
 
         userService.update($scope.user._id, $scope.user, function (err, newUser) {
             if (err) {

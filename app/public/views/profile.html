@@ -25,9 +25,9 @@
                                     Member profile - {{user.ign}}
                                 </div>
                                 <div class="widget-body">
-                                    <div class="row">
+                                    <div class="row profile-container">
                                         <div class="col-md-8 col-sm-9 col-xs-8">
-                                            <form name="nameForm" class="form-horizontal" ng-submit="saveWithFeedback()">
+                                            <form name="nameForm" class="form-horizontal" ng-submit="saveTop()">
                                                 <div class="form-group">
                                                     <label for="ign" class="col-md-4 col-sm-5 col-xs-12 control-label">In game name</label>
                                                     <div class="col-md-5 col-sm-6 col-xs-12">
@@ -52,9 +52,15 @@
                                                         <input type="number" min="0" max="99" class="form-control req-field" id="ww" ng-model="user.profile.warWeight" required integer>
                                                     </div>
                                                 </div>
+                                                <div class="form-group" ng-if="userId==null">
+                                                    <label for="emailUpdates" class="col-md-4 col-sm-5 col-xs-12 control-label">Email updates <i class="icon-help-circled" popover-placement="right" popover="Check this box to make sure you get important notifications from clash.tools." popover-append-to-body="true" popover-trigger="mouseenter"></i></label>
+                                                    <div class="col-md-5 col-sm-6 col-xs-12">
+                                                        <input type="checkbox" id="emailUpdates" ng-model="user.mail_settings.enabled" ng-change="changeEmailStatus()">
+                                                    </div>
+                                                </div>                                                
                                                 <div class="form-group">
                                                     <div class="col-md-4 col-md-offset-4 col-sm-5 col-sm-offset-5 col-xs-12">
-                                                        <button class="btn btn-emphasis btn-sm save-btn" ng-disabled="nameForm.$invalid || !nameForm.$dirty" track="saved-profile">Save</button>
+                                                        <button class="btn btn-emphasis btn-sm save-btn" ng-disabled="nameForm.$invalid || !nameForm.$dirty" track="saved-profile">Save</button> <span ng-show="nameForm.$dirty" class="error-red"><b>Changes not saved!</b></span>
                                                     </div>
                                                 </div>
                                             </form>
@@ -95,7 +101,7 @@
                     <div class="row margin-bottom-huge">
                         <div class="col-xs-12">
                             <div class="widget">
-                                <div class="widget-header">Heroes <a href class="btn btn-emphasis btn-xs pull-right" ng-click="saveWithFeedback()" track="saved-profile">Save</a></div>
+                                <div class="widget-header">Heroes (changes auto-saved)</div>
                                 <div class="widget-body">
                                     <div class="row">
                                         <div class="col-xs-12 profile-hero-ug">
@@ -220,7 +226,7 @@
                     <div class="row margin-bottom-huge">
                         <div class="col-xs-12">
                             <div class="widget">
-                                <div class="widget-header">Buildings, spells, and troops <a href class="btn btn-emphasis btn-xs pull-right" ng-click="saveWithFeedback()" track="saved-profile">Save</a></div>
+                                <div class="widget-header">Buildings, spells, and troops (changes auto saved)</div>
                                 <div class="widget-body">
                                     <div class="row margin-bottom-medium">
                                         <div class="col-sm-4 col-xs-6">
@@ -669,7 +675,7 @@
                     <div class="row margin-bottom-huge">
                         <div class="col-xs-12">
                             <div class="widget">
-                                <div class="widget-header">Walls <a href class="btn btn-emphasis btn-xs pull-right" ng-click="saveWithFeedback()" track="saved-profile">Save</a></div>
+                                <div class="widget-header">Walls (changes auto-saved)</div>
                                 <div class="widget-body">
                                     <div class="row">
                                         <div class="col-sm-1 col-xs-3">

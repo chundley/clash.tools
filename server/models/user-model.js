@@ -50,6 +50,10 @@ exports.addUser = function(user, callback) {
             },*/
             ui_flags: {}
         },
+        mail_settings: {
+            enabled: true,
+            bounced: false
+        },
         last_login: now,
         created_at: now,
         last_updated_at: now
