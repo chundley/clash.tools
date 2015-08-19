@@ -21,6 +21,7 @@ var config          = require('./config/config'),
     mongoCache      = require('./app/shared/mongo-cache'),
     App             = require('./app/app'),
     warModel        = require('./server/models/war-model'),
+    sendEmailAll    = require('./server/jobs/sendemailall-job'),
     purgeEmail      = require('./server/jobs/emailmessagepurge-job'),
     purgeMessagelog = require('./server/jobs/messagelogpurge-job');
 
@@ -80,6 +81,7 @@ var purgeMessagelogJob = new cronJob(config.env[process.env.NODE_ENV].jobSchedul
 });
 purgeMessagelogJob.start();
 
+
 /*
  * The app
 */
@@ -120,4 +122,25 @@ app.init(function(err) {
             //warModel.backfillAllWars(function(err, result){ logger.info('Attack result backfill finished')});
         }
     );
+
+
+    /*
+    *   Send a mass email to everyone in the system
+    *   -------------------------------------------------------------------------------------------------
+
+    *   1. Place a file called "all-*.html" and optionally "all-*.txt" in server/email_templates/updates
+    *   2. Re-start service
+    *   3. The process will run, send emails, and rename the file(s) to *.html and *.txt
+    */
+    sendEmailAll.runJob(function (err, didRun) {
+        if (err) {
+            logger.error(err);
+        }
+        else if (didRun) {
+            logger.info('sendEmailAll job ran successfully');
+        }
+        else {
+            logger.info('sendEmailAll job did not find a file to process');
+        }
+    });
 });

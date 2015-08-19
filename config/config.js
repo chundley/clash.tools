@@ -76,7 +76,7 @@ config.env = {
         cookieSecret: 'clashtools_kak',
         logLevel: 'info',
         mandrill: 'IAO8H52xJO-Lk-4_zBFcEQ',
-        intercom: 'w1zkoqk9',        
+        intercom: 'w1zkoqk9',
         s3: {
             accessKeyId: 'AKIAJAFS45XYTNTOIAGA',
             secretAccessKey: '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',

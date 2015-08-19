@@ -226,6 +226,49 @@ exports.genericMail = function(recipients, subject, content, callback) {
 }
 
 /*
+*   Send a canned email (product update, downtime notice, etc.)
+*/
+exports.cannedMail = function(recipient, ign, subject, contentHtml, contentText, callback) {
+    var msg = new MailMessage();
+
+    // do any swapping of tokens here
+    if (contentHtml) {
+        contentHtml = contentHtml.replace('[ign]', ign);
+    }
+
+    if (contentText) {
+        contentText = contentText.replace('[ign]', ign);
+    }
+
+    // set the content of the message
+    msg.setHtml(contentHtml);
+    if (!contentText) {
+        msg.setText('This email from clash.tools does not support plain text');
+    }
+    else {
+        msg.setText(contentText);
+    }
+
+    // set any other meta data
+    msg.setSubject(subject);
+    msg.addRecipient(recipient, ign, 'to');
+    msg.addTags(['canned', appVersion]);
+
+    // use mandrill client library to send an email
+    var mandrill_client = new mandrill.Mandrill(config.env[process.env.NODE_ENV].mandrill);
+    mandrill_client.messages.send({"message": msg.createMessage(), "async": false, "ip_pool": null, "send_at": null}, function (result) {
+        logger.info('Sent canned email to: ' + recipient);
+        callback(null);
+    },
+    function (e) {
+        // Mandrill returns the error as an object with name and message keys
+        logger.error('A mandrill error occurred: ' + e.name + ' - ' + e.message);
+        callback(e.message);
+    });
+
+}
+
+/*
 *   Form submitted from web site
 */
 exports.wwwForm = function(formData, callback) {
@@ -386,7 +429,7 @@ function MailMessage() {
     this.html = '';
     this.text = '';
     this.subject = '';
-    this.from_email = 'noreply@clash.tools';
+    this.from_email = 'hello@mail.clash.tools';
     this.from_name = 'clash.tools';
     this.to = [];
     this.headers = {};

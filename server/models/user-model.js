@@ -668,8 +668,10 @@ exports.getByAccount = function(account_id, callback) {
     });
 }
 
+/*
+*   Set email updates enabled to false and bounces true for email addresses that have bounced in the past
+*/
 exports.adminSetBounces = function(bounces, callback) {
-
     db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'user', function (err, collection) {
         if (err) {
             callback(err, null);
@@ -688,7 +690,7 @@ exports.adminSetBounces = function(bounces, callback) {
                         else {
                             if (result.result.nModified > 0) {
                                 count++;
-                            }                            
+                            }
                             callback_each(null, result);
                         }
                     }
@@ -704,6 +706,33 @@ exports.adminSetBounces = function(bounces, callback) {
         }
     });
 }
+
+/*
+*   Gets all users in the system with an enabled and non bounced email address
+*/
+exports.allUsersValidEmail = function(callback) {
+    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'user', function (err, collection) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            collection.find({ 'mail_settings.enabled': true, 'mail_settings.bounced': false, email_address: 'chundley@gmail.com' }, {ign: 1, email_address: 1}).toArray(function (err, items) {
+                if (err) {
+                    callback(err, null);
+                }
+                else {
+                    if (items) {
+                        callback(null, items);
+                    }
+                    else {
+                        callback(null, null);
+                    }
+                }
+            });
+        }
+    });
+}
+
 
 /*
 *   Get all users
