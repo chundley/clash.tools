@@ -140,7 +140,7 @@ app.init(function(err) {
             logger.info('sendEmailAll job ran successfully');
         }
         else {
-            logger.info('sendEmailAll job did not find a file to process');
+            logger.info('sendEmailAll job ran but did not find a file to send (this is normal)');
         }
     });
 });

@@ -1,0 +1,103 @@
+Hi [ign],
+
+This is your clash.tools product update where I recap news and features since last time and talk a little about what's next.
+
+NEWS
+----
+On August 15th the app passed 5,000 total members subscribed and is growing at more than 100 new accounts per day! Thanks everyone for all of your support and patience as bugs get worked out and scale problems are dealt with.
+
+Speaking of that - in order to scale with the tremendous popularity of clash.tools I've created a few ways you can help keep the lights on. Several servers have been added in production, including a bigger database server and load balanced sets of application servers to handle the traffic all you nice people are generating.
+
+I intend to keep clash.tools free for all to use and many of you have already reached out asking how you can help offset the mounting costs:
+
+Affiliate Links
+---------------
+You'll start to see affiliate links and banners from companies like Amazon.com and Apple. If you're already planning to buy something from one of my affiliates just click through any banner on clash.tools first.
+
+This doesn't cost you anything extra and it'll help a ton with continuing support of the app.
+
+Paypal donations
+----------------
+Many of you have reached out directly to ask if there's a way to donate to the cause. I've set up a Paypal donation link that you'll see in the app going forward. If you feel like donating just click through the donate button - thanks in advance!
+
+New Features
+------------
+Since this is the first product update there is a lot to cover - especially for you folks who signed up early and may not have been back to the site to check things out recently.
+
+    Result History
+    --------------
+    All members of clash.tools can view their personal results page. The clan leader and co-leaders can view the results page for any current member of their clan. Filter this view by clan (if someone has been in more than one) and opponent town hall level.
+
+    Base Notes
+    ----------
+    Add text and image notes to bases before and during the war. Clans are using this feature to post attack plans and note cc counts during prep day to track what "might" be in the opponent's clan castle.
+
+    Player Notes
+    ------------
+    Add notes to current and past members of your clan. Leaders can keep track of things like who's being considered for promotion, kick, etc.
+
+    In addition you can add people to a managed ban list with a note indicating why they've been banned.
+
+    Arranged Wars
+    -------------
+    War weight was added to member profiles in order to support the arranged war feature.
+
+    Set up arranged wars against other clans that use clash.tools and leverage the data already in your member profiles to create matching rosters.
+
+    Smaller updates and bug fixes
+    -----------------------------
+    - War setup has a shortcut button for assigning mirror bases
+
+    - Added dark elixir spells to member profiles
+
+    - Added shortcut button in arranged wars to auto-fill with a starting roster
+
+    - Added message notifications on every action across the app
+    
+    - Bug fix: duplicate in-app emails were causing issues
+    
+    - Bug fix: in mobile view level 0 BK and level 0 AQ were not available
+
+
+Upcoming Features
+-----------------
+Here is a list of some of the planned features coming soon to clash.tools. If you have feedback or additional suggestions there are a variety of ways to get in touch with me listed below.
+
+- Add saved rosters to the arranged war area to allow clans to set up known war rosters as a starting point
+- 
+- Enable public sharing of a saved war roster to help arrange wars with clans that don't use clash.tools
+
+- Range setting for base calls (eg +/- a certain number of positions from my position)
+                
+- Let leaders create accounts for members and replace placeholder function in war setup
+
+- Build a new interface for war setup that makes redundant tasks easier
+
+
+That's it for this time around, have fun and clash hard!
+
+
+
+Stay in touch
+-------------
+Twitter: https://twitter.com/intent/follow?&screen_name=clash_tools
+
+YouTube: https://www.youtube.com/channel/UCy-OjUcor0Tn5uX8It1zM9g
+
+Feedback group: https://app.groupme.com/join_group/14211426/H1xnYE
+
+Supercell forum: http://forum.supercell.net/showthread.php/681133-Official-clash-tools-feedback-thread
+
+
+Help keep clash.tools free
+--------------------------
+
+Paypal: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=chundley%40gmail%2ecom&lc=US&item_name=Clash%20Tools&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted
+
+Amazon: http://www.amazon.com/ref=as_li_ss_tl?_encoding=UTF8&camp=1789&creative=390957&linkCode=ur2&tag=ct-email-20&linkId=GX6RTETIDUGZURTS
+
+
+------------------------
+We hate spam as much as you do. Your email address is used strictly for clash.tools notifications which can be disabled in your member profile.
+------------------------
+This content is not affiliated with, endorsed, sponsored, or specifically approved by Supercell and Supercell is not responsible for it. For more information see Supercell's Fan Content Policy: http://www.supercell.com/fan-content-policy
