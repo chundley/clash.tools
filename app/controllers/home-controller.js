@@ -405,9 +405,17 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
             angular.forEach(base.a, function (assignment) {
                 if (assignment.s != null) {
                     totAttacks++;
-                    missingAttacks[assignment.u].missing--;
-                    if (assignment.s > maxStars) {
-                        maxStars = assignment.s;
+                    //console.log(assignment.u);
+
+                    if (!missingAttacks[assignment.u]) {
+                        console.log(assignment);
+                    }
+
+                    else {  
+                        missingAttacks[assignment.u].missing--;
+                        if (assignment.s > maxStars) {
+                            maxStars = assignment.s;
+                        }
                     }
                 }
             });

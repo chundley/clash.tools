@@ -1,0 +1,149 @@
+<div id="wrapper">
+    <div sidebar></div>
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div top-nav></div>
+            <!-- page content -->
+            <div class="row content-body war-container">
+                <div class="col-xs-12">
+                    <div class="row">
+                        <div class="col-sm-6 col-xs-12 margin-bottom-medium">
+                            <h2 class="hidden-xs">End War vs. <b>{{war.opponent_name}}</b></h2>
+                            <h3 class="visible-xs">End War vs. <b>{{war.opponent_name}}</b></h3>
+                        </div>
+                    </div>
+                    <div class="row margin-bottom-huge">
+                        <div class="col-xs-12">
+                            <a href="/war/{{war._id}}" class="btn btn-default btn-sm"><img src="/img/icons/swords-icon.png"> Bases</a>
+                            <a href="/war/team/{{war._id}}" class="btn btn-default btn-sm"><img src="/img/icons/team-icon.png"> Team</a>
+                            <a href="/war/summary/{{war._id}}" class="btn btn-default btn-sm"><img src="/img/icons/trophy-icon.png"> Leaders</a>
+                        </div>
+                    </div>
+                    <div class="row margin-bottom-huge">
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                            <div class="widget">
+                                <div class="widget-header">
+                                    Missing attacks
+                                </div>
+                                <div class="widget-body">
+                                    <div class="row margin-bottom-medium">
+                                        <div class="col-xs-12">
+                                            This is your <strong>last chance</strong> to correct any missing attack data. Once you end the war you can't change any attack history.
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-6 t-header">
+                                            Member
+                                        </div>
+                                        <div class="col-xs-3 t-header text-center">
+                                            # missing
+                                        </div>
+                                        <div class="col-xs-3 t-header text-center">
+                                            Add attack
+                                        </div>
+                                    </div>
+                                    <div class="row row-underline-2"></div>
+                                    <div ng-repeat="missing in missingAttacks" ng-if="missing.missing>0">
+                                        <div class="row" >
+                                            <div class="col-xs-6">
+                                                {{missing.i}}
+                                            </div>
+                                            <div class="col-xs-3 text-center">
+                                                <b>{{missing.missing}}</b>
+                                            </div>
+                                            <div class="col-xs-3 text-center">
+                                                <a href ng-click="addAttack(missing)">Add</a>
+                                            </div>                                        
+                                        </div>
+                                    </div>                                        
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>
+
+                    <div class="row margin-bottom-huge">
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                            <div class="widget">
+                                <div class="widget-header">
+                                    Invalid attacks
+                                </div>
+                                <div class="widget-body">
+                                    <div class="row margin-bottom-medium">
+                                        <div class="col-xs-12">
+                                            These are attacks that were logged by a player who is not on the final war roster. They are invalid attacks and should be removed from the system before ending the war.
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-6 t-header">
+                                            Member
+                                        </div>
+                                        <div class="col-xs-3 t-header text-center">
+                                            Base #
+                                        </div>
+                                        <div class="col-xs-3 t-header text-center">
+                                            Stars
+                                        </div>
+                                    </div>
+                                    <div class="row row-underline-2"></div>
+                                    <div ng-repeat="invalid in invalidAttacks">
+                                        <div class="row" >
+                                            <div class="col-xs-6">
+                                                {{invalid.i}}
+                                            </div>
+                                            <div class="col-xs-3 text-center">
+                                                {{invalid.b}}
+                                            </div>
+                                            <div class="col-xs-3 text-center">
+                                                {{invalid.s}}
+                                            </div>                                        
+                                        </div>
+                                    </div>
+                                    <div class="row margin-top-big">
+                                        <div class="col-xs-12">
+                                            <a href class="btn btn-default btn-sm">Delete invalid attacks</a>
+                                        </div>
+                                    </div>                                        
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>
+                    <form name="warEndForm" class="form-horizontal">
+                    <div class="row">
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                            <div class="widget">
+                                <div class="widget-header">
+                                    Final Stats
+                                </div>
+                                <div class="widget-body">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label for="totStars" class="col-sm-4 col-xs-12 control-label">Your total stars</label>
+                                            <div class="col-sm-3 col-xs-6">
+                                                <input type="number" class="form-control" ng-model="totalStars" integer readonly>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="enemyStars" class="col-sm-4 col-xs-12 control-label">Enemy total stars</label>
+                                            <div class="col-sm-3 col-xs-6">
+                                                <input type="number" class="form-control req-field" ng-model="enemyStars" min="0" max="150" required integer>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="name" class="col-sm-4 col-xs-12 control-label">Attacks logged</label>
+                                            <div class="col-sm-8 col-xs-12 war-end-dialog-no-form" ng-class="{'error-red': totalAttacks != possibleAttacks}">
+                                                <b>{{totalAttacks}}</b> of a possible <b>{{possibleAttacks}}</b>
+                                            </div>
+                                        </div>                                        
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div> <!-- /page content -->
+        </div>
+    </div>  <!-- /#page-content-wrapper -->
+</div>  <!-- /#wrapper -->

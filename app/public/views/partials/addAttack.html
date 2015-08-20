@@ -1,0 +1,42 @@
+<div class="modal {{modalOptions.cssClass}}" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Log attack for {{modalOptions.formData.ign}}
+            </div>
+            <div class="modal-body">
+                <div class="row margin-bottom-big">
+                    <div class="col-sm-12">
+                        <p>Select a base and the number of stars to add an attack for {{modalOptions.formData.ign}}.</p>
+                    </div>
+                </div>
+                <form class="form-horizontal" name="attackForm">
+                    <div class="form-group">
+                        <label for="base" class="col-xs-3 control-label">Base</label>
+                        <div class="col-xs-6">
+                            <select class="form-control" ng-model="modalOptions.formData.base" integer required>
+                                <option ng-repeat="t in modalOptions.formData.team" value="{{$index}}">{{$index+1}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="base" class="col-xs-3 control-label">Stars</label>
+                        <div class="col-xs-6">
+                            <select class="form-control" ng-model="modalOptions.formData.stars" integer required>
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </div>
+                    </div>                    
+                </form>
+            </div>
+            <div class="modal-footer">
+            <button class="btn btn-emphasis btn-sm" ng-disabled="attackForm.$invalid" ng-click="modalOptions.onYes(modalOptions.formData); $hide();">{{modalOptions.yesBtn}}</button>
+            <button class="btn btn-default btn-sm" ng-click="$hide();">{{modalOptions.noBtn}}</button>
+            </div>
+        </div>
+    </div>
+</div>

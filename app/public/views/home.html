@@ -34,7 +34,7 @@
                                                     <div class="war-vs-header">
                                                         <span class="visible-xs margin-bottom-medium" access-level="coleader">
                                                             <a ng-if="war" href="/startwar/{{war._id}}" class="btn btn-alternate btn-sm">Leader setup</a>
-                                                            <a ng-if="warEnded" href class="btn btn-alternate btn-sm" ng-click="endWar()">End War</a>
+                                                            <a ng-if="warEnded" href="/war/end/{{war._id}}" class="btn btn-alternate btn-sm">End War</a>
                                                         </span>
                                                         <a href="/war/{{war._id}}" class="btn btn-default btn-sm"><img src="/img/icons/swords-icon.png"> Bases</a>
                                                         <a href="/war/team/{{war._id}}" class="btn btn-default btn-sm"><img src="/img/icons/team-icon.png"> Team</a>
@@ -47,7 +47,7 @@
                                                     <b>{{hours}}</b> hour{{hoursS}}, <b>{{minutes}}</b> minute{{minutesS}}<span class="hidden-xs">, <b>{{seconds}}</b> second{{secondsS}}</span>
                                                     </timer>
                                                     </div>
-                                                    <div ng-if="warEnded" access-level="coleader"><a href class="btn btn-alternate btn-sm pull-right hidden-xs" ng-click="endWar()">End War</a></div>
+                                                    <div ng-if="warEnded" access-level="coleader"><a href="/war/end/{{war._id}}" class="btn btn-alternate btn-sm pull-right hidden-xs">End War</a></div>
                                                 </div>
                                             </div>
 
