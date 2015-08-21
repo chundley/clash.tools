@@ -7,16 +7,15 @@
             <div class="modal-body">
                 <div class="row margin-bottom-big">
                     <div class="col-sm-12">
-                        <p>Select a base and the number of stars to add an attack for {{modalOptions.formData.ign}}.</p>
+                        <p>Select a base and the number of stars to log an attack for {{modalOptions.formData.ign}}.</p>
+                        <p ng-if="modalOptions.formData.hasBase"><b>Note</b>: player is currently assigned a base. If you change the base here to something else and log an attack the existing assignment on base <b>{{modalOptions.formData.base}}</b> will be removed.</p>
                     </div>
                 </div>
                 <form class="form-horizontal" name="attackForm">
                     <div class="form-group">
                         <label for="base" class="col-xs-3 control-label">Base</label>
                         <div class="col-xs-6">
-                            <select class="form-control" ng-model="modalOptions.formData.base" integer required>
-                                <option ng-repeat="t in modalOptions.formData.team" value="{{$index}}">{{$index+1}}
-                                </option>
+                            <select class="form-control" ng-model="modalOptions.formData.base" ng-options="base as base for base in modalOptions.formData.bases" integer required>
                             </select>
                         </div>
                     </div>
@@ -30,7 +29,7 @@
                                 <option value="3">3</option>
                             </select>
                         </div>
-                    </div>                    
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">

@@ -20,49 +20,9 @@
                             <a href="/war/summary/{{war._id}}" class="btn btn-default btn-sm"><img src="/img/icons/trophy-icon.png"> Leaders</a>
                         </div>
                     </div>
-                    <div class="row margin-bottom-huge">
-                        <div class="col-md-8 col-sm-8 col-xs-12">
-                            <div class="widget">
-                                <div class="widget-header">
-                                    Missing attacks
-                                </div>
-                                <div class="widget-body">
-                                    <div class="row margin-bottom-medium">
-                                        <div class="col-xs-12">
-                                            This is your <strong>last chance</strong> to correct any missing attack data. Once you end the war you can't change any attack history.
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xs-6 t-header">
-                                            Member
-                                        </div>
-                                        <div class="col-xs-3 t-header text-center">
-                                            # missing
-                                        </div>
-                                        <div class="col-xs-3 t-header text-center">
-                                            Add attack
-                                        </div>
-                                    </div>
-                                    <div class="row row-underline-2"></div>
-                                    <div ng-repeat="missing in missingAttacks" ng-if="missing.missing>0">
-                                        <div class="row" >
-                                            <div class="col-xs-6">
-                                                {{missing.i}}
-                                            </div>
-                                            <div class="col-xs-3 text-center">
-                                                <b>{{missing.missing}}</b>
-                                            </div>
-                                            <div class="col-xs-3 text-center">
-                                                <a href ng-click="addAttack(missing)">Add</a>
-                                            </div>                                        
-                                        </div>
-                                    </div>                                        
-                                </div>
-                            </div>
-                        </div>                        
-                    </div>
 
-                    <div class="row margin-bottom-huge">
+
+                    <div class="row margin-bottom-huge" ng-if="invalidAttacks.length > 0">
                         <div class="col-md-8 col-sm-8 col-xs-12">
                             <div class="widget">
                                 <div class="widget-header">
@@ -71,7 +31,7 @@
                                 <div class="widget-body">
                                     <div class="row margin-bottom-medium">
                                         <div class="col-xs-12">
-                                            These are attacks that were logged by a player who is not on the final war roster. They are invalid attacks and should be removed from the system before ending the war.
+                                            These are attacks that were logged by a player who is not on the final war roster. They are invalid and should be removed from the system before ending the war.
                                         </div>
                                     </div>
                                     <div class="row">
@@ -96,18 +56,62 @@
                                             </div>
                                             <div class="col-xs-3 text-center">
                                                 {{invalid.s}}
-                                            </div>                                        
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row margin-top-big">
                                         <div class="col-xs-12">
-                                            <a href class="btn btn-default btn-sm">Delete invalid attacks</a>
+                                            <a href class="btn btn-default btn-sm" ng-click="removeInvalid()">Remove invalid attacks</a>
                                         </div>
-                                    </div>                                        
+                                    </div>
                                 </div>
                             </div>
-                        </div>                        
+                        </div>
                     </div>
+
+                    <div class="row margin-bottom-huge" ng-if="missingAttacks.length > 0">
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                            <div class="widget">
+                                <div class="widget-header">
+                                    Missing attacks
+                                </div>
+                                <div class="widget-body">
+                                    <div class="row margin-bottom-medium">
+                                        <div class="col-xs-12">
+                                            This is your <strong>last chance</strong> to correct any missing attack data. Once you end the war you can't change any attack history.
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-6 t-header">
+                                            Member
+                                        </div>
+                                        <div class="col-xs-3 t-header text-center">
+                                            # missing
+                                        </div>
+                                        <div class="col-xs-3 t-header text-center">
+                                            Add attack
+                                        </div>
+                                    </div>
+                                    <div class="row row-underline-2"></div>
+                                    <div ng-repeat="missing in missingAttacks" ng-if="missing.missing>0">
+                                        <div class="row t-row">
+                                            <div class="col-xs-6">
+                                                <b>#{{missing.b}}</b> {{missing.i}}
+                                            </div>
+                                            <div class="col-xs-3 text-center">
+                                                {{missing.missing}}
+                                            </div>
+                                            <div class="col-xs-3 text-center">
+                                                <a href class="btn btn-default btn-xs" ng-click="addAttack(missing)">Add</a>
+                                            </div>
+                                        </div>
+                                        <div class="row row-underline-1" ng-if="$index<missingAttacks.length-1"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <form name="warEndForm" class="form-horizontal">
                     <div class="row">
                         <div class="col-md-8 col-sm-8 col-xs-12">
@@ -134,7 +138,7 @@
                                             <div class="col-sm-8 col-xs-12 war-end-dialog-no-form" ng-class="{'error-red': totalAttacks != possibleAttacks}">
                                                 <b>{{totalAttacks}}</b> of a possible <b>{{possibleAttacks}}</b>
                                             </div>
-                                        </div>                                        
+                                        </div>
                                     </div>
                                     </form>
                                 </div>
