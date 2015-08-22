@@ -55,6 +55,39 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                     }
                 });
 
+                $scope.members.sort(function (a, b) {
+                    if (a.profile.buildings.th > b.profile.buildings.th) {
+                        return -1;
+                    }
+                    else if (a.profile.buildings.th < b.profile.buildings.th) {
+                        return 1;
+                    }
+                    else {
+                        if (a.profile.warWeight > b.profile.warWeight) {
+                            return -1;
+                        }
+                        else if (a.profile.warWeight < b.profile.warWeight) {
+                            return 1;
+                        }
+                        else {
+                            if (a.profile.heroes.bk + a.profile.heroes.aq > b.profile.heroes.bk + b.profile.heroes.aq) {
+                                return -1;
+                            }
+                            else if (a.profile.heroes.bk + a.profile.heroes.aq < b.profile.heroes.bk + b.profile.heroes.aq) {
+                                return 1;
+                            }
+                            else {
+                                if (a.ign < b.ign) {
+                                    return -1;
+                                }
+                                else {
+                                    return 1;
+                                }
+                            }
+                        }
+                    }                    
+                });
+                
                 $scope.members.push(
                     {
                         id: null,

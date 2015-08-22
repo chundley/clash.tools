@@ -114,7 +114,7 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                                             }
                                             else {
                                                 $rootScope.globalMessage ='Attack was logged for ' + member.i + ' on base ' + (formData.base + 1);
-                                                loadWar();
+                                                loadWar(function(){});
                                             }
                                         });
                                     }
@@ -131,7 +131,7 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                             }
                             else {
                                 $rootScope.globalMessage ='Attack was logged for ' + member.i + ' on base ' + (formData.base+1);
-                                loadWar();
+                                loadWar(function(){});
                             }
                         });
                     }
@@ -150,7 +150,6 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                                 $rootScope.globalMessage = member.i + " already has an attack logged for base " + (formData.base + 1);
                             }
                             else {
-                                console.log(err);
                                 err.stack_trace.unshift( { file: 'endwar-controller.js', func: '$scope.addAttack', message: 'Error adding call' } );
                                 errorService.save(err, function() {});
                             }
@@ -165,7 +164,7 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                                 }
                                 else {
                                     $rootScope.globalMessage ='Attack was logged for ' + member.i + ' on base ' + (formData.base+1);
-                                    loadWar();
+                                    loadWar(function(){});
                                 }
                             });
                         }
@@ -190,6 +189,89 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
     }
 
     $scope.removeInvalid = function() {
+        angular.forEach($scope.invalidAttacks, function (invalid) {
+            removeCall(invalid.u, invalid.i, invalid.b-1, function (err) {
+                if (err) {
+                    err.stack_trace.unshift( { file: 'endwar-controller.js', func: '$scope.removeInvalid', message: 'Error removing invalid call' } );
+                    errorService.save(err, function() {});
+                }
+                else {
+                    $rootScope.globalMessage = 'Invalid attacks removed';
+                    loadWar(function(){});
+                }
+            });           
+        });
+    }
+
+    $scope.endWar = function() {
+        var cssClass = 'center';
+        if ($window.innerWidth < 500) {
+            cssClass = 'mobile';
+        }
+
+        $scope.modalOptions = {
+            title: 'End war against ' + $scope.war.opponent_name + '?',
+            message: 'Please confirm that you would like to end the war. You can\'t undo this action, and the war can\'t be edited once you end it.',
+            yesBtn: 'End War',
+            noBtn: 'Cancel',
+            cssClass: cssClass,
+            onYes: function(formData) {
+                var resultCode = 0;
+                if ($scope.totalStars > $scope.enemyStars) {
+                    resultCode = 1;
+                }
+                else if ($scope.totalStars == $scope.enemyStars) {
+                    resultCode = 2;
+                }
+
+                $scope.war.result = {
+                    stars: $scope.totalStars,
+                    opponentStars: $scope.enemyStars,
+                    result: resultCode
+                };
+
+                $scope.war.active = false;
+                $scope.war.visible = true;
+
+                var opponentName = $scope.war.opponent_name;
+
+                warService.save($scope.war, function (err, war) {
+                    if (err) {
+                        err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.endWar', message: 'Error ending war' } );
+                        errorService.save(err, function() {});
+                    }
+                    else {
+                        $scope.war = null;
+                        messagelogService.save($scope.meta.current_clan.clan_id, '[ign] ended the war against ' + opponentName, $scope.meta.ign, 'special', function (err, msg) {
+                            if (err) {
+                                err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.endWar', message: 'Error saving end war message' } );
+                                errorService.save(err, function() {});
+                            }
+                            else {
+                            }
+                        });
+                    }
+
+                    // do somethin gelse here
+                    $rootScope.globalMessage = 'War ended successfully';
+                    $location.url('/home').replace();
+                });
+            }
+        };
+
+        var modalInstance = $modal(
+            {
+                scope: $scope,
+                animation: 'am-fade-and-slide-top',
+                placement: 'center',
+                template: "/views/partials/confirmDialog.html",
+                show: false
+            }
+        );
+
+        modalInstance.$promise.then(function() {
+            modalInstance.show();
+        });
 
     }
 

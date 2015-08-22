@@ -161,6 +161,7 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                 eligibleMembers.push({
                     u: member.u,
                     i: member.i,
+                    t: member.t,
                     count: 0
                 });
             }
@@ -181,11 +182,19 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
         });
 
         eligibleMembers.sort(function (a, b) {
-            if (a.i.toLowerCase() < b.i.toLowerCase()) {
-                return -1;
+            if (a.t > b.t) {
+                return -1
+            }
+            else if (a.t < b.t) {
+                return 1;
             }
             else {
-                return 1;
+                if (a.i.toLowerCase() < b.i.toLowerCase()) {
+                    return -1;
+                }
+                else {
+                    return 1;
+                }
             }
         });
 
