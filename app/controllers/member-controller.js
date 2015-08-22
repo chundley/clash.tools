@@ -41,6 +41,15 @@ function ($rootScope, $scope, $routeParams, $interval, $modal, $window, moment, 
         saveUserInternal();
     }
 
+    /*
+    *   Special case for top form which has a $dirty error
+    */
+    $scope.saveTop = function() {
+        saveUserInternal();
+        $scope.nameForm.$setPristine();        
+        $rootScope.globalMessage = 'Profile was saved.';
+    }
+
     $scope.saveWithFeedback = function() {
         saveUserInternal();
         $rootScope.globalMessage = 'Member profile saved';
