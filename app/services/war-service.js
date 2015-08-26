@@ -140,7 +140,7 @@ function ($http, errorService) {
             var warStart = new Date(war.start);
             var possibleExpireDate = new Date(now.getTime() + (warConfig.cleanup_attack_time*60*60*1000));
             var freeForAllDate = new Date(warStart.getTime() + ((24 - warConfig.free_for_all_time)*60*60*1000));
-            var warEnd = new Date(warStart.getTime() + (24*60*60*1000)); 
+            var warEnd = new Date(warStart.getTime() + (24*60*60*1000));
 
             // override if assignment is happening before the war starts
             if (now.getTime() < warStart.getTime()) { // if not called yet, use first attack timer
@@ -152,7 +152,7 @@ function ($http, errorService) {
 
                 // first, set possible expire time as war start time + first attack time
                 var possibleExpireDateFirst = new Date(warStart.getTime() + (warConfig.first_attack_time*60*60*1000));
-                
+
                 // at this point if the war is already 14 hours old and the first attack timer is set at 12 hours,
                 // the call will be incorrectly expired
                 if (possibleExpireDateFirst.getTime() < now.getTime()) {
@@ -169,12 +169,6 @@ function ($http, errorService) {
 
             }
 
-            console.log('now: ' + now);
-            console.log('start: ' + warStart);
-            console.log('possible: ' + possibleExpireDate);
-            console.log('freeforall: ' + freeForAllDate);
-            console.log('end: ' + warEnd);
-
             // At this point the possible expire date is correct, but not the final answer. A
             // variety of overrides can happen (free for all time, war ends sooner than expire date, etc.)
             var expireDate = null;
@@ -182,20 +176,17 @@ function ($http, errorService) {
             if (now.getTime() >= freeForAllDate.getTime()) {
                 // already passed the free for all time
                 expireDate = null;
-                console.log('freeforall');
             }
 
             else if (possibleExpireDate.getTime() >= warEnd.getTime()) {
                 // possible expire date is already greater than war end
                 expireDate = warEnd;
-                console.log('warend');
             }
 
             else {
                 expireDate = possibleExpireDate;
-                console.log('else');
             }
-            return expireDate;                   
+            return expireDate;
         }
     }
 }]);

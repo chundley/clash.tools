@@ -233,7 +233,7 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
     function assignInternal(baseNum, userId, ign) {
         // re-load the war to reduce chances of a double assign
         loadWar(function() {
-            
+
             var now = new Date();
             var warStart = new Date($scope.war.start);
             var freeForAllDate = new Date(warStart.getTime() + ((24 - $scope.clan.war_config.free_for_all_time)*60*60*1000));
@@ -572,6 +572,9 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                 if (assignment.e != null) {
                     var expireTime = new Date(assignment.e);
                     expires = expireTime.getTime();
+                    if (now > freeForAllDate) {
+                        expires = 0;
+                    }
                 }
                 if (assignment.s != null && assignment.s > maxStars) {
                     maxStars = assignment.s;
