@@ -53,7 +53,6 @@ exports.activeWar = function(clanId, visibleRequired, callback) {
 * Upserts a record and returns the record
 */
 exports.save = function(model, callback) {
-
     if (model._id && _.isString(model._id)) {
         model._id = new ObjectID.createFromHexString(model._id);
     }

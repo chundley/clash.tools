@@ -233,24 +233,13 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
     function assignInternal(baseNum, userId, ign) {
         // re-load the war to reduce chances of a double assign
         loadWar(function() {
-            var open = false;
+            
             var now = new Date();
             var warStart = new Date($scope.war.start);
             var freeForAllDate = new Date(warStart.getTime() + ((24 - $scope.clan.war_config.free_for_all_time)*60*60*1000));
-            var warEnd = new Date(warStart.getTime() + (24*60*60*1000));
 
-            // possible expire date is either the cleanup time, or first attack time depending on whether the war has started
-            var possibleExpireDate = new Date(now.getTime() + ($scope.clan.war_config.cleanup_attack_time*60*60*1000));
-            if (now.getTime() < warStart.getTime()
-                || $scope.war.bases[baseNum-1].a.length == 0) { // if not called yet, use first attack timer
-                var firstAttackTime = new Date(warStart.getTime() + ($scope.clan.war_config.first_attack_time*60*60*1000));
-
-                // make sure first attack timer is greater than cleanup timer (for cases when assignment happens in hour 11, for example)
-                if (firstAttackTime.getTime() > possibleExpireDate.getTime()) {
-                    possibleExpireDate = firstAttackTime;
-                }
-            }
-
+            // determine if the base is open
+            var open = false;
             if ($scope.clan.war_config.overcalls) {
                 // if overcalls are allowed we don't care if the base has already been reserved
                 open = true;
@@ -291,24 +280,7 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
             });
 
             if (open && numReserved < 2) {
-
-                // calculate when this call expires. this is based on a lot of factors, including the configured cleanup time allowed, free for all
-                // time allowed, and whether the reservation time crosses the end of the war
-                var expireDate = null;
-
-                if (now.getTime() >= freeForAllDate.getTime()) {
-                    // already passed the free for all time
-                    expireDate = null;
-                }
-
-                else if (possibleExpireDate.getTime() >= warEnd) {
-                    // possible expire date is already greater than war end
-                    expireDate = warEnd;
-                }
-                else {
-                    expireDate = possibleExpireDate;
-                }
-
+                var expireDate = warService.callExpiration($scope.war, $scope.clan.war_config, baseNum);
                 var model =
                 {
                     bIndex: baseNum -1,
@@ -381,21 +353,13 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
         // first double-check that someone else hasn't reserved the target - load war and verify to reduce
         // the changes that two people sign up for the same target
         loadWar(function() {
-            var open = false;
-
             var now = new Date();
             var warStart = new Date($scope.war.start);
-            var possibleExpireDate = new Date(now.getTime() + ($scope.clan.war_config.cleanup_attack_time*60*60*1000));
             var freeForAllDate = new Date(warStart.getTime() + ((24 - $scope.clan.war_config.free_for_all_time)*60*60*1000));
-            var warEnd = new Date(warStart.getTime() + (24*60*60*1000));
 
-            // possible expire date is either the cleanup time, or first attack time depending on whether the war has started
-            var possibleExpireDate = new Date(now.getTime() + ($scope.clan.war_config.cleanup_attack_time*60*60*1000));
-            if (now.getTime() < warStart.getTime()
-                || $scope.war.bases[baseNum-1].a.length == 0) { // if not called yet, use first attack timer
-                possibleExpireDate = new Date(warStart.getTime() + ($scope.clan.war_config.first_attack_time*60*60*1000));
-            }
 
+            // determine if the base is open
+            var open = false;
             if ($scope.clan.war_config.overcalls) {
                 // if overcalls are allowed we don't care if the base has already been reserved
                 open = true;
@@ -438,25 +402,7 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
                     noBtn: 'Cancel',
                     cssClass: cssClass,
                     onYes: function(formData) {
-
-                        // calculate when this call expires. this is based on a lot of factors, including the configured cleanup time allowed, free for all
-                        // time allowed, and whether the reservation time crosses the end of the war
-                        var expireDate = null;
-
-
-                        if (now.getTime() >= freeForAllDate.getTime()) {
-                            // already passed the free for all time
-                            expireDate = null;
-                        }
-
-                        else if (possibleExpireDate.getTime() >= warEnd) {
-                            // possible expire date is already greater than war end
-                            expireDate = warEnd;
-                        }
-                        else {
-                            expireDate = possibleExpireDate;
-                        }
-
+                        var expireDate = warService.callExpiration($scope.war, $scope.clan.war_config, baseNum);
                         var model =
                         {
                             bIndex: baseNum -1,
@@ -597,7 +543,6 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
     function refreshInterface() {
         var now = new Date();
         var warStart = new Date($scope.war.start);
-        var possibleExpireDate = new Date(now.getTime() + ($scope.clan.war_config.cleanup_attack_time*60*60*1000));
         var freeForAllDate = new Date(warStart.getTime() + ((24 - $scope.clan.war_config.free_for_all_time)*60*60*1000));
         var warEnd = new Date(warStart.getTime() + (24*60*60*1000));
 
