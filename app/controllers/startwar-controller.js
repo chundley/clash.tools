@@ -671,6 +671,67 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
         });        
     }
 
+    $scope.fillFromLast = function() {
+        var cssClass = 'center';
+        if ($window.innerWidth < 500) {
+            cssClass = 'mobile';
+        }
+
+        $scope.modalOptions = {
+            title: 'Fill roster with members from the previous war?',
+            message: 'Selecting "Yes" will fill the war roster with members from your previous war. This will overwrite the current roster.',
+            yesBtn: 'Yes',
+            noBtn: 'Cancel',
+            cssClass: cssClass,
+            onYes: function() {
+                warService.getHistory($scope.meta.current_clan.clan_id, function (err, history) {
+                    if (err) {
+                        err.stack_trace.unshift( { file: 'startwar-controller.js', func: '$scope.fillFromLast', message: 'Error getting war history' } );
+                        errorService.save(err, function() {});
+                    }
+                    else {
+                        if (history && history.length > 0) {
+                            warService.getById(history[0]._id, function (err, previousWar) {
+                                if (err) {
+                                    err.stack_trace.unshift( { file: 'startwar-controller.js', func: '$scope.fillFromLast', message: 'Error getting previous war' } );
+                                    errorService.save(err, function() {});
+                                }
+                                else {
+                                    for (var idx=0; idx<$scope.war.team.length; idx++) {
+                                        if (previousWar.team[idx]) {
+                                            $scope.war.team[idx] = previousWar.team[idx];
+                                        }
+                                    }
+
+                                    saveWarInternal();
+                                    updateInterface();
+                                    $rootScope.globalMessage = "Roster was filled from last war.";
+                                }                        
+                            });
+                        }
+                        else {
+                            $rootScope.globalMessage = "You do not have any wars logged yet.";
+                        }
+                    }
+                });
+            }
+        };
+
+        var modalInstance = $modal(
+            {
+                scope: $scope,
+                animation: 'am-fade-and-slide-top',
+                placement: 'center',
+                template: "/views/partials/confirmDialog.html",
+                show: false
+            }
+        );
+
+        modalInstance.$promise.then(function() {
+            modalInstance.show();
+        });    
+    }
+
     $scope.assignRoster = function(baseNum, userId) {
         if (userId) {
             for (var idx=0; idx<$scope.members.length; idx++) {
