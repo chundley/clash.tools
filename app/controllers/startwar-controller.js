@@ -39,76 +39,79 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
             $scope.meta = meta;
 
             clanService.getMembers($scope.meta.current_clan.clan_id, 'all', function (err, members) {
-                $scope.members = members;
-                var now = new Date();
 
-                // set hero status for members
-                angular.forEach($scope.members, function (member) {
-                    var bkFinishTime = new Date(member.profile.bkUpgrade);
-                    bkFinishTime = bkFinishTime.getTime();
-
-                    if (bkFinishTime > now.getTime()) {
-                        var hoursLeft = parseInt((bkFinishTime - now.getTime())/1000/60/60);
-                        member.bkDays = parseInt(hoursLeft / 24);
-                        member.bkHours = parseInt(hoursLeft % 24);
-                    }
-                    else {
-                        member.bkDays = 0;
-                        member.bkHours = 0;
-                    }
-
-                    var aqFinishTime = new Date(member.profile.aqUpgrade);
-                    aqFinishTime = aqFinishTime.getTime();
-
-                    if (aqFinishTime > now.getTime()) {
-                        var hoursLeft = parseInt((aqFinishTime - now.getTime())/1000/60/60);
-                        member.aqDays = parseInt(hoursLeft / 24);
-                        member.aqHours = parseInt(hoursLeft % 24);
-                    }
-                    else {
-                        member.aqDays = 0;
-                        member.aqHours = 0;
-                    }
-                });
-
-                $scope.members.sort(function (a, b) {
-                    if (a.profile.buildings.th > b.profile.buildings.th) {
-                        return -1;
-                    }
-                    else if (a.profile.buildings.th < b.profile.buildings.th) {
-                        return 1;
-                    }
-                    else {
-                        if (a.profile.warWeight > b.profile.warWeight) {
-                            return -1;
-                        }
-                        else if (a.profile.warWeight < b.profile.warWeight) {
-                            return 1;
-                        }
-                        else {
-                            if (a.profile.heroes.bk + a.profile.heroes.aq > b.profile.heroes.bk + b.profile.heroes.aq) {
-                                return -1;
-                            }
-                            else if (a.profile.heroes.bk + a.profile.heroes.aq < b.profile.heroes.bk + b.profile.heroes.aq) {
-                                return 1;
-                            }
-                            else {
-                                if (a.ign < b.ign) {
-                                    return -1;
-                                }
-                                else {
-                                    return 1;
-                                }
-                            }
-                        }
-                    }                    
-                });
 
                 if (err) {
                     err.stack_trace.unshift( { file: 'startwar-controller.js', func: 'init', message: 'Error getting clan members' } );
                     errorService.save(err, function() {});
                 }
                 else {
+                    $scope.members = members;
+                    var now = new Date();
+
+                    // set hero status for members
+                    angular.forEach($scope.members, function (member) {
+                        var bkFinishTime = new Date(member.profile.bkUpgrade);
+                        bkFinishTime = bkFinishTime.getTime();
+
+                        if (bkFinishTime > now.getTime()) {
+                            var hoursLeft = parseInt((bkFinishTime - now.getTime())/1000/60/60);
+                            member.bkDays = parseInt(hoursLeft / 24);
+                            member.bkHours = parseInt(hoursLeft % 24);
+                        }
+                        else {
+                            member.bkDays = 0;
+                            member.bkHours = 0;
+                        }
+
+                        var aqFinishTime = new Date(member.profile.aqUpgrade);
+                        aqFinishTime = aqFinishTime.getTime();
+
+                        if (aqFinishTime > now.getTime()) {
+                            var hoursLeft = parseInt((aqFinishTime - now.getTime())/1000/60/60);
+                            member.aqDays = parseInt(hoursLeft / 24);
+                            member.aqHours = parseInt(hoursLeft % 24);
+                        }
+                        else {
+                            member.aqDays = 0;
+                            member.aqHours = 0;
+                        }
+                    });
+
+                    $scope.members.sort(function (a, b) {
+                        if (a.profile.buildings.th > b.profile.buildings.th) {
+                            return -1;
+                        }
+                        else if (a.profile.buildings.th < b.profile.buildings.th) {
+                            return 1;
+                        }
+                        else {
+                            if (a.profile.warWeight > b.profile.warWeight) {
+                                return -1;
+                            }
+                            else if (a.profile.warWeight < b.profile.warWeight) {
+                                return 1;
+                            }
+                            else {
+                                if (a.profile.heroes.bk + a.profile.heroes.aq > b.profile.heroes.bk + b.profile.heroes.aq) {
+                                    return -1;
+                                }
+                                else if (a.profile.heroes.bk + a.profile.heroes.aq < b.profile.heroes.bk + b.profile.heroes.aq) {
+                                    return 1;
+                                }
+                                else {
+                                    if (a.ign < b.ign) {
+                                        return -1;
+                                    }
+                                    else {
+                                        return 1;
+                                    }
+                                }
+                            }
+                        }                    
+                    });
+
+
                     if (warId !== 'new') {
                         warService.getById(warId, function (err, war) {
                             if (err) {
@@ -477,6 +480,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                     }
                     $scope.war.team[position] = teamMember;
                 }
+
                 saveWarInternal();
                 updateInterface();                
             }
@@ -496,66 +500,27 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                 noBtn: 'Cancel',
                 cssClass: cssClass,
                 formData: {
-                    warWeight: 0,
-                    th: 1,
-                    bk: 1,
-                    aq: 1
                 },
                 onYes: function(formData) {
-                    var position = -1;
-
-                    for (var idx=0; idx<$scope.us.roster.length; idx++) {
-                        if ($scope.us.roster[idx].user_id &&
-                            $scope.us.roster[idx].warWeight <= formData.warWeight) {
-                            // if a user at this location and the user's weight is less than or equal to new player, do something
-                            if ($scope.us.roster[idx].warWeight == formData.warWeight) {
-                                // if equal, check hero levels
-                                if ($scope.us.roster[idx].bk + $scope.us.roster[idx].aq <= formData.bk + formData.aq) {
-                                    position = idx;
-                                    break;
-                                }
-                            }
-                            else {
-                                position = idx;
-                                break;
-                            }
-
-                        }
-                        else if (!$scope.us.roster[idx].user_id) {
-                            position = idx;
-                            break;
+                    var lastPosition = 0;
+                    for (var idx=0; idx<$scope.war.team.length; idx++) {
+                        if ($scope.war.team[idx].u) {
+                            lastPosition = idx;
                         }
                     }
 
-                    if (position >= 0) {
-                        var newMember = {
-                            user_id: 1,
-                            ign: formData.ign,
-                            th: formData.th,
-                            warWeight: formData.warWeight,
-                            bk: formData.bk,
-                            aq: formData.aq
-                        };
-
-                        if (position == $scope.us.roster.length-1) {
-                            // last position in the array, just replace what's there
-                            $scope.us.roster[position] = newMember;
-                        }
-                        else {
-                            // need to move everyone down a spot (5 becomes 6, 6 becomes 7, etc.)
-                            for (var moveIdx = $scope.us.roster.length-1; moveIdx > position; moveIdx--) {
-                                $scope.us.roster.splice(moveIdx, 0, $scope.us.roster.splice(moveIdx-1, 1)[0]);
-                            }
-                            $scope.us.roster[position] = newMember;
-                        }
-                        saveInternal();
-                        cleanDisplayMembers();
-                        trackService.track('saved-arrangedph');
-                    }
-                    else {
-                        $rootScope.globalMessage = 'Player\'s weight was lower than everone else on the roster so they were not added.';
+                    if (lastPosition == $scope.war.team.length - 1) {
+                        lastPosition -= 1;
                     }
 
+                    $scope.war.team[lastPosition + 1] = {
+                        b: lastPosition+2,
+                        t: formData.th,
+                        u: utils.createGUID(),
+                        i: formData.ign                      
+                    };
+                    saveWarInternal();
+                    updateInterface();
                 }
             };
 
@@ -564,7 +529,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                     scope: $scope,
                     animation: 'am-fade-and-slide-top',
                     placement: 'center',
-                    template: "/views/partials/arrangedPlaceholder.html",
+                    template: "/views/partials/placeholderMember.html",
                     show: false
                 }
             );
@@ -656,14 +621,24 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                 });
 
                 for (var idx=0; idx<$scope.war.team.length; idx++) {
-                    var teamMember = {
-                        b: idx+1,
-                        t: $scope.members[idx].profile.buildings.th,
-                        u: $scope.members[idx]._id,
-                        i: $scope.members[idx].ign
-                    };
+                    if ($scope.members[idx]) {
+                        var teamMember = {
+                            b: idx+1,
+                            t: $scope.members[idx].profile.buildings.th,
+                            u: $scope.members[idx]._id,
+                            i: $scope.members[idx].ign
+                        };
 
-                    $scope.war.team[idx] = teamMember;
+                        $scope.war.team[idx] = teamMember;
+                    }
+                    else {
+                        $scope.war.team[idx] = {
+                            b: idx+1,
+                            t: 1,
+                            u: null,
+                            i: ''
+                        };                        
+                    }
                 }   
                 saveWarInternal();
                 updateInterface();
@@ -716,6 +691,14 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                                     for (var idx=0; idx<$scope.war.team.length; idx++) {
                                         if (previousWar.team[idx]) {
                                             $scope.war.team[idx] = previousWar.team[idx];
+                                        }
+                                        else {
+                                            $scope.war.team[idx] = {
+                                                b: idx+1,
+                                                t: 1,
+                                                u: null,
+                                                i: ''
+                                            };
                                         }
                                     }
 
@@ -784,88 +767,6 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
         }
     }
 
-    $scope.assignRoster = function(baseNum, userId) {
-        if (userId) {
-            for (var idx=0; idx<$scope.members.length; idx++) {
-                if ($scope.members[idx]._id == userId) {
-                    $scope.war.team[baseNum].u = $scope.members[idx]._id;
-                    $scope.war.team[baseNum].i = $scope.members[idx].ign;
-                    $scope.war.team[baseNum].t = $scope.members[idx].profile.buildings.th > 1 ? $scope.members[idx].profile.buildings.th :
-                    $scope.war.team[baseNum].t > 1 ? $scope.war.team[baseNum].t : 1;
-                }
-            }
-            saveWarInternal();
-        }
-        else {
-            // placeholder team member
-            var cssClass = 'center';
-            if ($window.innerWidth < 500) {
-                cssClass = 'mobile';
-            }
-
-            $scope.modalOptions = {
-                yesBtn: 'Set',
-                noBtn: 'Cancel',
-                cssClass: cssClass,
-                formData: {},
-                onYes: function(formData) {
-                    $scope.war.team[baseNum].u = utils.createGUID();
-                    $scope.war.team[baseNum].i = formData.ign;
-                    $scope.war.team[baseNum].t = 1;
-
-                    // also need to add to members for the dropdowns to function
-                    $scope.members.push(
-                        {
-                            _id: $scope.war.team[baseNum].u,
-                            ign: $scope.war.team[baseNum].i,
-                            profile: {
-                                buildings: {
-                                    th: 1
-                                }
-                            }
-                        }
-                    );
-                    saveWarInternal();
-                }
-            };
-
-            var modalInstance = $modal(
-                {
-                    scope: $scope,
-                    animation: 'am-fade-and-slide-top',
-                    placement: 'center',
-                    template: "/views/partials/placeholderMember.html",
-                    show: false
-                }
-            );
-
-            modalInstance.$promise.then(function() {
-                modalInstance.show();
-            });
-        }
-        // check for duplicates
-/*        var sorted = $scope.war.team.sort(function (a, b) {
-            if (a.user_id < b.user_id) {
-                return -1;
-            }
-            else if (a.user_id > b.user_id) {
-                return 1;
-            }
-            else {
-                return 0;
-            }
-        });
-
-        $scope.rosterError = [];
-        for (var idx=0; idx<sorted.length-1; idx++) {
-            if (sorted[idx].user_id && (sorted[idx].user_id == sorted[idx+1].user_id)) {
-
-            }
-        }*/
-
-
-    }
-
     $scope.deleteAssignment = function(baseNum) {
         $scope.war.bases[baseNum].a = [];
         saveWarInternal();
@@ -913,13 +814,12 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
 
     function updateInterface() {
         $scope.heroesUpgrading = [];
-        $scope.teamHeroesUpgrading = [];
         $scope.roster = [];
 
         // set up roster for display
         for (var teamIdx=0; teamIdx<$scope.war.team.length; teamIdx++) {
             var rosterMember = {};
-            if ($scope.war.team[teamIdx].i.length > 0) {
+            if ($scope.war.team[teamIdx].u && $scope.war.team[teamIdx].u.length == 24) {
                 for (var idx=0; idx<$scope.members.length; idx++) {
                     if ($scope.members[idx]._id == $scope.war.team[teamIdx].u) {
                         rosterMember = {
@@ -929,7 +829,8 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                             th: $scope.members[idx].profile.buildings.th,
                             w: $scope.members[idx].profile.warWeight,
                             bk: $scope.members[idx].profile.heroes.bk,
-                            aq: $scope.members[idx].profile.heroes.aq
+                            aq: $scope.members[idx].profile.heroes.aq,
+                            editable: true
                         };
 
 
@@ -952,6 +853,20 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
 
                 }
             }
+            else if ($scope.war.team[teamIdx].i.length > 0) {
+                // placeholder member
+                rosterMember = {
+                    u: $scope.war.team[teamIdx].u,
+                    ign: $scope.war.team[teamIdx].i,
+                    b: teamIdx + 1,
+                    th: $scope.war.team[teamIdx].t,
+                    w: 100,
+                    bk: 0,
+                    aq: 0,
+                    editable: false
+                };                
+            }
+
             $scope.roster.push(rosterMember);
         }        
 
@@ -982,30 +897,6 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
             $scope.heroesUpgrading.push(hUpgrade);
         }
 
-        for (var idx=0; idx<$scope.war.team.length; idx++) {
-            var thUpgrade = {};
-            for (var memberIdx=0; memberIdx<$scope.members.length; memberIdx++) {
-                if ($scope.members[memberIdx]._id == $scope.war.team[idx].u) {
-                    // set hero upgrade status on base
-                    if ($scope.members[memberIdx].bkDays > 0 || $scope.members[memberIdx].bkHours > 0) {
-                        thUpgrade.bkDown = { days: $scope.members[memberIdx].bkDays, hours: $scope.members[memberIdx].bkHours};
-                    }
-                    else {
-                        thUpgrade.bkDown = { days: 0, hours: 0};
-                    }
-
-                    if ($scope.members[memberIdx].aqDays > 0 || $scope.members[memberIdx].aqHours > 0) {
-                        thUpgrade.aqDown = { days: $scope.members[memberIdx].aqDays, hours: $scope.members[memberIdx].aqHours};
-                    }
-                    else {
-                        thUpgrade.aqDown = { days: 0, hours: 0};
-                    }
-                    break;
-                }
-            }
-            $scope.teamHeroesUpgrading.push(thUpgrade);
-        }
-
         // set up display members
         $scope.displayMembers = [];
         var placeHolder = {
@@ -1023,7 +914,6 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
             },
             displayName: '[ Add Placeholder Member ]'
         };
-        $scope.displayMembers.push(placeHolder); 
 
         angular.forEach($scope.members, function (member) {
             var used = false;
@@ -1036,13 +926,19 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
 
             if (!used) {
                 var heroes = member.profile.heroes.bk + member.profile.heroes.aq;
-                member.displayName = member.profile.warWeight + ' | TH ' + member.profile.buildings.th + ' | Heroes ' + heroes + ' | ' + member.ign;
+                member.displayName = member.profile.warWeight + ' | TH ' + member.profile.buildings.th + ' | Heroes ' + member.profile.heroes.bk + '/' + member.profile.heroes.aq + ' | ' + member.ign;
                 $scope.displayMembers.push(member);
             }
         });
+        $scope.displayMembers.push(placeHolder); 
     }
 
     function saveWarInternal() {
+        // re-set base numbers because players have probably moved around
+        for (var idx=0; idx<$scope.war.team.length; idx++) {
+            $scope.war.team[idx].b = idx+1;
+        }
+
         warService.save($scope.war, function (err, war) {
             if (err) {
                 err.stack_trace.unshift( { file: 'startwar-controller.js', func: 'saveWarInternal', message: 'Error saving war' } );

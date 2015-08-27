@@ -92,7 +92,7 @@
                                             <div class="well well-sm">
                                                 <p>Set your team's roster in this section. Add members to the war roster by selecting them from the dropdown.</p>
                                                 <p>Use the Auto fill buttons as a starting point - either fill from your clan's war weights or from your last war and then apply any changes from there.</p>
-                                                <p>Use [Add Placeholder Member] if you want to add someone to the roster who's not in clash.tools yet. Only use this <b>as a last resort</b> - stats won't be tracked for placeholder members.</p>
+                                                <p>Use [Add Placeholder Member] if you want to add someone to the roster who's not in clash.tools yet. Only use this <b>as a last resort</b> - stats won't be tracked for placeholder members and you will not be able to edit them once added to the roster.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -110,7 +110,7 @@
                                         <div class="col-xs-12 form-inline">
                                             <div class="form-group">
                                                 <label for="addedPlayer">Members</label>
-                                                <select class="form-control" ng-model="addedPlayer" ng-options="member as member.displayName for member in displayMembers" ng-change="addPlayer(addedPlayer)"></select>
+                                                <select class="form-control member-select" ng-model="addedPlayer" ng-options="member as member.displayName for member in displayMembers" ng-change="addPlayer(addedPlayer)"></select>
                                             </div>
                                         </div>
                                     </div>
@@ -136,13 +136,17 @@
                                                 {{player.ign}}
                                             </div>
                                             <div class="col-sm-4 col-xs-6" ng-if="!player.ign"><i>-- empty --</i></div>
-                                            <div class="col-xs-1 text-center" style="z-index:50;"><a href="#" editable-select="player.th" e-ng-options="th for th in th" onaftersave="updatePlayerData($index, player)">{{player.th}}</a></div>
-                                            <div class="col-sm-1 hidden-xs text-center" ng-if="player.ign" style="z-index:40;"><a href="#" editable-select="player.w" e-ng-options="wt for wt in wt" onaftersave="updatePlayerData($index, player)">{{player.w}}</a></div>
-                                            <div class="col-sm-1 hidden-xs text-center" style="z-index:30;"><a href="#" editable-select="player.bk" e-ng-options="hl for hl in hl" onaftersave="updatePlayerData($index, player)">{{player.bk}}</a></div>
-                                            <div class="col-sm-1 hidden-xs text-center" style="z-index:20;"><a href="#" editable-select="player.aq" e-ng-options="hl for hl in hl" onaftersave="updatePlayerData($index, player)">{{player.aq}}</a></div>
-                                            <div class="col-sm-3 col-xs-4 text-center">
+                                            <div class="col-xs-1 text-center" style="z-index:50;" ng-if="player.editable"><a href="#" editable-select="player.th" e-ng-options="th for th in th" onaftersave="updatePlayerData($index, player)">{{player.th}}</a></div>
+                                            <div class="col-xs-1 text-center" style="z-index:50;" ng-if="!player.editable && player.ign">{{player.th}}</div>
+                                            <div class="col-sm-1 hidden-xs text-center" ng-if="player.editable" style="z-index:40;"><a href="#" editable-select="player.w" e-ng-options="wt for wt in wt" onaftersave="updatePlayerData($index, player)">{{player.w}}</a></div>
+                                            <div class="col-sm-1 hidden-xs text-center" style="z-index:30;" ng-if="player.editable"><a href="#" editable-select="player.bk" e-ng-options="hl for hl in hl" onaftersave="updatePlayerData($index, player)">{{player.bk}}</a></div>
+                                            <div class="col-sm-1 hidden-xs text-center" style="z-index:20;" ng-if="player.editable"><a href="#" editable-select="player.aq" e-ng-options="hl for hl in hl" onaftersave="updatePlayerData($index, player)">{{player.aq}}</a></div>
+                                            <div class="col-sm-3 col-xs-4 text-center" ng-if="player.editable">
                                                 <span ng-if="player.bkDown.days > 0 || player.bkDown.hours > 0"><b>BK</b>: <b class="alternate">{{player.bkDown.days}}</b>d <b class="alternate">{{player.bkDown.hours}}</b>h</span>
                                                 <span ng-if="player.aqDown.days > 0 || player.aqDown.hours > 0"><b>AQ</b>: <b class="alternate">{{player.aqDown.days}}</b>d <b class="alternate">{{player.aqDown.hours}}</b>h</span>
+                                            </div>
+                                            <div class="col-sm-6 col-xs-4 text-center primary-60-bg" ng-if="!player.editable && player.ign">
+                                                <i>placeholder</i>
                                             </div>
                                         </div>
                                 </div>
@@ -162,58 +166,57 @@
                                             <p>As with the roster, you aren't required to fill in town hall levels but it's <b>highly recommended</b></p>
                                             <p>Once the war starts you will only be able to change TH level - assignments will be done through the <a href="/war/{{war._id}}">normal war interface</a>.</p>
                                             <p>Note that when you change TH level the change will cascade down to the rest of the bases. For example, if you set base 1 to TH10, all bases below will be set to TH10. This design makes it easier to complete TH levels without having to pick every single base. Because of this, <b>you should start at the TOP of the list</b> and work your way down. To disable this feature, un-check the Cascade option below.</p>
-                                                <div class="row">
-                                                    <div class="col-xs-6 ws-cascade">
-                                                        <form name="cascadeForm">
-                                                        <input type="checkbox" class="ws-cascade-cb" ng-model="cascade" ng-click="wtf()"> <span class="ws-cascade-label">Cascade TH changes</span>
-                                                        </form>
-                                                    </div>
-                                                    <div class="col-xs-6 text-right">
-                                                        <a class="btn btn-xs btn-default" ng-disabled="warStarted" ng-click="assignMirrors()">Assign mirrors</a>
-                                                    </div>
-                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
-                                    <form name="opponentSettingsForm" class="form-horizontal" novalidate>
-                                        <div class="row">
-                                            <div class="col-lg-1 col-md-1 col-sm-2 hidden-xs t-header text-center">Base</div>
-                                            <div class="hidden-lg hidden-md hidden-sm col-xs-1 t-header text-center">#</div>
-                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3 t-header">Town hall</div>
-                                            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4 t-header">Assign to</div>
-                                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
-                                            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-3 t-header">Heroes Down</div>
+                                    <div class="row margin-bottom-huge">
+                                        <div class="col-xs-6">
+                                            <a class="btn btn-default hidden-xs" ng-disabled="warStarted" ng-click="assignMirrors()">Assign mirrors</a>
+                                            <a class="btn btn-sm btn-default visible-xs" ng-disabled="warStarted" ng-click="assignMirrors()">Assign mirrors</a>
+                                        </div>                                        
+                                        <div class="col-xs-6 ws-cascade text-right">
+                                            <form name="cascadeForm">
+                                            <input type="checkbox" class="ws-cascade-cb" ng-model="cascade" ng-click="wtf()"> <span class="ws-cascade-label">Cascade TH changes</span>
+                                            </form>
                                         </div>
-                                        <div class="row row-underline-2"></div>
-                                        <div class="row" ng-repeat="base in war.bases">
-                                            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-1 t-row text-center">{{base.b}}</div>
-                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
-                                                <select class="form-control-small" ng-class="{'th-warning': base.t==1}" ng-model="base.t" ng-change="oppTH(base.b)" integer>
-                                                    <option>10</option>
-                                                    <option>9</option>
-                                                    <option>8</option>
-                                                    <option>7</option>
-                                                    <option>6</option>
-                                                    <option>5</option>
-                                                    <option>4</option>
-                                                    <option>3</option>
-                                                    <option>2</option>
-                                                    <option>1</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4">
-                                               <select class="form-control-small" ng-model="base.a[0].u" ng-options="tm.u as tm.i for tm in war.team | filter: filterTeam" ng-change="assignBase($index, base.a[0].u)" ng-disabled="warStarted">
-                                                </select>
-                                            </div>
-                                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 icon-remove">
-                                                <a href ng-click="deleteAssignment($index)" ng-if="base.a.length>0 && !warStarted"><i class="icon-cancel error-red" title="Remove assignment"></i></a>
-                                            </div>
-                                            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-3 hero-down">
-                                                <span ng-if="heroesUpgrading[$index].bkDown.days > 0 || heroesUpgrading[$index].bkDown.hours > 0"><b>BK</b>: <b class="alternate">{{heroesUpgrading[$index].bkDown.days}}</b>d <b class="alternate">{{heroesUpgrading[$index].bkDown.hours}}</b>h</span>
-                                                <span ng-if="heroesUpgrading[$index].aqDown.days > 0 || heroesUpgrading[$index].aqDown.hours > 0"><b>AQ</b>: <b class="alternate">{{heroesUpgrading[$index].aqDown.days}}</b>d <b class="alternate">{{heroesUpgrading[$index].aqDown.hours}}</b>h</span>
-                                            </div>
+                                    </div>                                    
+                                    <div class="row small strong">
+                                        <div class="col-lg-1 col-md-1 col-sm-2 col-xs-1 text-center">#</div>
+                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">Town hall</div>
+                                        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4">Assign to</div>
+                                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+                                        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-3">Heroes Down</div>
+                                    </div>
+                                    <div class="row row-underline-2"></div>
+                                    <div class="row assign-row small" ng-repeat="base in war.bases">
+                                        <div class="col-lg-1 col-md-1 col-sm-2 col-xs-1 text-center">{{base.b}}</div>
+                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                            <select class="form-control-small" ng-class="{'th-warning': base.t==1}" ng-model="base.t" ng-change="oppTH(base.b)" integer>
+                                                <option>10</option>
+                                                <option>9</option>
+                                                <option>8</option>
+                                                <option>7</option>
+                                                <option>6</option>
+                                                <option>5</option>
+                                                <option>4</option>
+                                                <option>3</option>
+                                                <option>2</option>
+                                                <option>1</option>
+                                            </select>
                                         </div>
-                                    </form>
+                                        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4">
+                                           <select class="form-control-small" ng-model="base.a[0].u" ng-options="tm.u as tm.i for tm in war.team | filter: filterTeam" ng-change="assignBase($index, base.a[0].u)" ng-disabled="warStarted">
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 icon-remove">
+                                            <a href ng-click="deleteAssignment($index)" ng-if="base.a.length>0 && !warStarted"><i class="icon-cancel error-red" title="Remove assignment"></i></a>
+                                        </div>
+                                        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-3 hero-down">
+                                            <span ng-if="heroesUpgrading[$index].bkDown.days > 0 || heroesUpgrading[$index].bkDown.hours > 0"><b>BK</b>: <b class="alternate">{{heroesUpgrading[$index].bkDown.days}}</b>d <b class="alternate">{{heroesUpgrading[$index].bkDown.hours}}</b>h</span>
+                                            <span ng-if="heroesUpgrading[$index].aqDown.days > 0 || heroesUpgrading[$index].aqDown.hours > 0"><b>AQ</b>: <b class="alternate">{{heroesUpgrading[$index].aqDown.days}}</b>d <b class="alternate">{{heroesUpgrading[$index].aqDown.hours}}</b>h</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
