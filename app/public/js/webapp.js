@@ -4,7 +4,7 @@ angular.module('Clashtools.controllers', []);
 angular.module('Clashtools.services', []);
 angular.module('Clashtools.directives', []);
 
-angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize', 'Clashtools.controllers', 'Clashtools.services', 'Clashtools.directives', 'angular-md5', 'angularMoment', 'webStorageService', 'mgcrea.ngStrap', 'ui.bootstrap.dropdown', 'ui.bootstrap.buttons', 'ui.bootstrap.accordion', 'ui.bootstrap.collapse', 'ui.bootstrap.transition', 'ui.bootstrap.typeahead', 'ui.bootstrap.popover', 'ngTagsInput', 'ngFileUpload', 'timer', 'btford.socket-io'])
+angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize', 'Clashtools.controllers', 'Clashtools.services', 'Clashtools.directives', 'angular-md5', 'angularMoment', 'webStorageService', 'mgcrea.ngStrap', 'ui.bootstrap.dropdown', 'ui.bootstrap.buttons', 'ui.bootstrap.accordion', 'ui.bootstrap.collapse', 'ui.bootstrap.transition', 'ui.bootstrap.typeahead', 'ui.bootstrap.popover', 'ngTagsInput', 'ngFileUpload', 'timer', 'btford.socket-io', 'xeditable'])
 .config(function ($locationProvider, $routeProvider, $httpProvider) {
 
     $locationProvider.html5Mode(true);
@@ -78,7 +78,8 @@ angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize',
         $httpProvider.responseInterceptors.push(interceptor);
 })
 
-.run(function ($rootScope, $location, $http, authService, sessionService, cacheService) {
+.run(function ($rootScope, $location, $http, authService, sessionService, cacheService, editableOptions) {
+    //editableOptions.theme = 'bs3';
 
     // on a manual page reload we need to re-boot Intercom
     if (authService.isLoggedIn() && !$rootScope.isSpoofing) {

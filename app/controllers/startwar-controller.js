@@ -5,14 +5,30 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('StartWarCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$window', '$modal', 'authService', 'sessionService', 'errorService', 'messagelogService', 'clanService', 'warService', 'utils', 'trackService',
-function ($rootScope, $scope, $routeParams, $location, $window, $modal, authService, sessionService, errorService, messagelogService, clanService, warService, utils, trackService) {
+.controller('StartWarCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$window', '$modal', 'authService', 'sessionService', 'errorService', 'messagelogService', 'clanService', 'warService', 'userService', 'utils', 'trackService',
+function ($rootScope, $scope, $routeParams, $location, $window, $modal, authService, sessionService, errorService, messagelogService, clanService, warService, userService, utils, trackService) {
 
     var warId = $routeParams.id;
 
     $scope.newWar = true;
     $scope.warStarted = false;
     $scope.cascade = true;
+
+    // needed for inline dropdown lists
+    $scope.th = [];
+    for (var idx=10; idx>0; idx--) {
+        $scope.th.push(idx);
+    }
+
+    $scope.hl = [];
+    for (var idx=40; idx>=0; idx--) {
+        $scope.hl.push(idx);
+    }
+
+    $scope.wt = [];
+    for (var idx=99; idx>=0; idx--) {
+        $scope.wt.push(idx);
+    }
 
     sessionService.getUserMeta(authService.user.id, function (err, meta) {
         if (err) {
@@ -732,6 +748,42 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
         });    
     }
 
+
+    $scope.updatePlayerData = function(index, player) {
+        if (player.u.length == 24) {
+            // real player, update accordingly
+            var model = {
+                th: player.th,
+                w: player.w,
+                bk: player.bk,
+                aq: player.aq
+            }
+
+            userService.updateFromRoster(player.u, model, function (err, user) {
+                if (err) {
+                    err.stack_trace.unshift( { file: 'startwar-controller.js', func: '$scope.updatePlayerData', message: 'Error updating roster data' } );
+                    errorService.save(err, function() {});
+                }
+                else {
+                    $scope.war.team[index].t = player.th;
+                    saveWarInternal();
+
+                    for (var idx=0; idx<$scope.members.length; idx++) {
+                        if ($scope.members[idx]._id == player.u) {
+                            $scope.members[idx].profile.buildings.th = player.th;
+                            $scope.members[idx].profile.warWeight = player.w;
+                            $scope.members[idx].profile.heroes.bk = player.bk;
+                            $scope.members[idx].profile.heroes.aq = player.aq;
+                            break;
+                        }
+                    }
+                    updateInterface(); 
+                    $rootScope.globalMessage = 'Member profile updated';                
+                }                
+            });
+        }
+    }
+
     $scope.assignRoster = function(baseNum, userId) {
         if (userId) {
             for (var idx=0; idx<$scope.members.length; idx++) {
@@ -739,9 +791,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                     $scope.war.team[baseNum].u = $scope.members[idx]._id;
                     $scope.war.team[baseNum].i = $scope.members[idx].ign;
                     $scope.war.team[baseNum].t = $scope.members[idx].profile.buildings.th > 1 ? $scope.members[idx].profile.buildings.th :
-                        $scope.war.team[baseNum].t > 1 ? $scope.war.team[baseNum].t : 1;
-
-
+                    $scope.war.team[baseNum].t > 1 ? $scope.war.team[baseNum].t : 1;
                 }
             }
             saveWarInternal();

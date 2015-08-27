@@ -76,6 +76,12 @@ var routes = [
         accessLevel: accessLevels.member
     },
     {
+        path: '/crud/user/:userId/roster',
+        httpMethod: 'POST',
+        middleware: [authorizeUserIdAccess, userCtrl.updateFromRoster],
+        accessLevel: accessLevels.member
+    },    
+    {
         path: '/crud/user/:userId/pw',
         httpMethod: 'POST',
         middleware: [userCtrl.changePassword]

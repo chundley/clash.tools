@@ -117,6 +117,23 @@ exports.updateRole = function(req, res, next) {
 }
 
 /*
+*   Updates roster data
+*/
+exports.updateFromRoster = function(req, res, next) {
+    model.updateFromRoster(req.params.userId, req.body, function (err, user) {
+        if (err) {
+            res.send(500, err);
+        }
+        else if (user) {
+            res.json(200, {result: 'success'});
+        }
+        else {
+            res.send(404, 'not found');
+        }
+    });
+}
+
+/*
 *   Save a user model. Note this should be used for update only. New users are always
 *   created through the auth workflow
 */

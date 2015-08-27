@@ -114,7 +114,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <form name="opponentSettingsForm" class="form-horizontal" ng-submit="saveWar()" novalidate>
+                                    
                                         <div class="row arranged-row strong">
                                             <div class="col-xs-1 text-center">#</div>
                                             <div class="col-sm-4    col-xs-6">Player</div>
@@ -128,25 +128,23 @@
                                         <div class="row arranged-row" ng-repeat="player in roster">
                                             <div class="col-xs-1 text-center">{{$index+1}}</div>
                                             <div class="col-sm-4 col-xs-6 no-wrap" ng-if="player.ign">
-                                                <i class="icon-up action-icon primary-20" ng-if="player.ign && $index > 0" title="Move up" ng-click="moveUp($index)"></i>
+                                                <i class="icon-up action-icon emphasis" ng-if="player.ign && $index > 0" title="Move up" ng-click="moveUp($index)"></i>
                                                 <i class="icon-up primary-60" ng-if="player.ign && $index == 0" title="Move up"></i>
-                                                <i class="icon-down action-icon primary-20" ng-if="player.ign && $index < roster.length-1" title="Move down" ng-click="moveDown($index)"></i>
+                                                <i class="icon-down action-icon emphasis" ng-if="player.ign && $index < roster.length-1" title="Move down" ng-click="moveDown($index)"></i>
                                                 <i class="icon-down primary-60" ng-if="player.ign && $index >= roster.length-1" title="Move down"></i>
                                                 <i class="icon-cancel action-icon error-red" ng-if="player.ign" title="Remove player" ng-click="removePlayer($index)"></i>
-                                                <a href="/members/{{player.u}}" ng-if="player.u != 1">{{player.ign}}</a>
-                                                <span ng-if="player.u == 1">{{player.ign}}</span>
+                                                {{player.ign}}
                                             </div>
                                             <div class="col-sm-4 col-xs-6" ng-if="!player.ign"><i>-- empty --</i></div>
-                                            <div class="col-xs-1 text-center">{{player.th}}</div>
-                                            <div class="col-sm-1 hidden-xs text-center" ng-if="player.ign">{{player.w}}</div>
-                                            <div class="col-sm-1 hidden-xs text-center">{{player.bk}}</div>
-                                            <div class="col-sm-1 hidden-xs text-center">{{player.aq}}</div>
+                                            <div class="col-xs-1 text-center" style="z-index:50;"><a href="#" editable-select="player.th" e-ng-options="th for th in th" onaftersave="updatePlayerData($index, player)">{{player.th}}</a></div>
+                                            <div class="col-sm-1 hidden-xs text-center" ng-if="player.ign" style="z-index:40;"><a href="#" editable-select="player.w" e-ng-options="wt for wt in wt" onaftersave="updatePlayerData($index, player)">{{player.w}}</a></div>
+                                            <div class="col-sm-1 hidden-xs text-center" style="z-index:30;"><a href="#" editable-select="player.bk" e-ng-options="hl for hl in hl" onaftersave="updatePlayerData($index, player)">{{player.bk}}</a></div>
+                                            <div class="col-sm-1 hidden-xs text-center" style="z-index:20;"><a href="#" editable-select="player.aq" e-ng-options="hl for hl in hl" onaftersave="updatePlayerData($index, player)">{{player.aq}}</a></div>
                                             <div class="col-sm-3 col-xs-4 text-center">
                                                 <span ng-if="player.bkDown.days > 0 || player.bkDown.hours > 0"><b>BK</b>: <b class="alternate">{{player.bkDown.days}}</b>d <b class="alternate">{{player.bkDown.hours}}</b>h</span>
                                                 <span ng-if="player.aqDown.days > 0 || player.aqDown.hours > 0"><b>AQ</b>: <b class="alternate">{{player.aqDown.days}}</b>d <b class="alternate">{{player.aqDown.hours}}</b>h</span>
                                             </div>
                                         </div>
-                                    </form>
                                 </div>
                             </div>
                         </div>

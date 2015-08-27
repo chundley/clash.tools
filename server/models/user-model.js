@@ -164,6 +164,42 @@ function changeRole(userId, role, callback) {
     });
 }
 
+exports.updateFromRoster = function(userId, model, callback) {
+    if (_.isString(userId)) {
+        userId = new ObjectID.createFromHexString(userId);
+    }
+
+    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'user', function (err, collection) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            collection.update(
+                { _id: userId },
+                { $set: { 
+                            'profile.warWeight': model.w,
+                            'profile.buildings.th': model.th,
+                            'profile.heroes.bk': model.bk,
+                            'profile.heroes.aq': model.aq 
+                        } 
+                },
+                { upsert: false },
+                function (err, result) {
+                    if (err) {
+                        callback(err, null);
+                    }
+                    else {
+                        exports.findById(userId, function (err, u) {
+                            callback(null, u);
+                        });
+
+                    }
+                }
+            );
+        }
+    });
+}
+
 /*
 *   Does a join request for a clan. This was moved to the back-end from the front end to plug security
 *   holes where the front-end would need a list of clan leaders in order to execute a join request

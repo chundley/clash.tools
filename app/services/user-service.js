@@ -96,6 +96,18 @@ function ($http, errorService) {
                 callback(errorService.initMessage('user-service.js', 'update', status), null);
             });
         },
+        updateFromRoster: function(id, model, callback) {
+            $http({
+                url: '/crud/user/' + id + '/roster',
+                method: 'POST',
+                data: model,
+                headers: {'Content-Type': 'application/json'}
+            }).success(function (data, status, headers, config) {
+                callback(null, data);
+            }).error(function (data, status, headers, config) {
+                callback(errorService.initMessage('user-service.js', 'updateFromRoster', status), null);
+            });
+        },
         changePassword: function (id, password, callback) {
             $http({
                 url: '/crud/user/' + id + '/pw',
