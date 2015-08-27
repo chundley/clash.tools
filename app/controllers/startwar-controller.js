@@ -87,13 +87,6 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                         }
                     }                    
                 });
-                
-                $scope.members.push(
-                    {
-                        id: null,
-                        ign: '<< Placeholder >>'
-                    }
-                );
 
                 if (err) {
                     err.stack_trace.unshift( { file: 'startwar-controller.js', func: 'init', message: 'Error getting clan members' } );
@@ -411,6 +404,273 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
         }        
     }
 
+    $scope.addPlayer = function(player) {
+        if (player._id) {
+            // find the slot where this member should go
+            var position = -1;
+
+            // determine the last index of a valid player (so a member doesn't fill a gap)
+            var lastPosition = -1;
+            for (var idx=0; idx<$scope.war.team.length; idx++) {
+                if ($scope.war.team[idx].u) {
+                    lastPosition = idx;
+                }
+            }
+
+            for (var idx=0; idx<$scope.roster.length; idx++) {
+                if ($scope.roster[idx].u &&
+                    $scope.roster[idx].w <= player.profile.warWeight) {
+                    // if a user at this location and the user's weight is less than or equal to new player, do something
+                    if ($scope.roster[idx].w == player.profile.warWeight) {
+                        // if equal, check hero levels
+                        if ($scope.roster[idx].bk + $scope.roster[idx].aq <= player.profile.heroes.bk + player.profile.heroes.aq) {
+                            position = idx;
+                            break;
+                        }
+                    }
+                    else {
+                        position = idx;
+                        break;
+                    }
+
+                }
+                else if (!$scope.roster[idx].u &&
+                         idx > lastPosition) {
+
+                    position = idx;
+                    break;
+                }
+            }
+
+            if (position >= 0) {
+                var teamMember = {
+                    b: position+1,
+                    t: player.profile.buildings.th,
+                    u: player._id,
+                    i: player.ign
+                };
+
+                if (position == $scope.war.team.length-1) {
+                    // last position in the array, just replace what's there
+                    $scope.war.team[position] = teamMember;
+                }
+                else {
+                    // need to move everyone down a spot (5 becomes 6, 6 becomes 7, etc.)
+                    for (var moveIdx = $scope.war.team.length-1; moveIdx > position; moveIdx--) {
+                        $scope.war.team.splice(moveIdx, 0, $scope.war.team.splice(moveIdx-1, 1)[0]);
+                    }
+                    $scope.war.team[position] = teamMember;
+                }
+                saveWarInternal();
+                updateInterface();                
+            }
+            else {
+                $rootScope.globalMessage = 'Player\'s weight was lower than everone else on the roster so they were not added.';
+            }
+        }
+        else {
+            // placeholder
+            var cssClass = 'center';
+            if ($window.innerWidth < 500) {
+                cssClass = 'mobile';
+            }
+
+            $scope.modalOptions = {
+                yesBtn: 'Add',
+                noBtn: 'Cancel',
+                cssClass: cssClass,
+                formData: {
+                    warWeight: 0,
+                    th: 1,
+                    bk: 1,
+                    aq: 1
+                },
+                onYes: function(formData) {
+                    var position = -1;
+
+                    for (var idx=0; idx<$scope.us.roster.length; idx++) {
+                        if ($scope.us.roster[idx].user_id &&
+                            $scope.us.roster[idx].warWeight <= formData.warWeight) {
+                            // if a user at this location and the user's weight is less than or equal to new player, do something
+                            if ($scope.us.roster[idx].warWeight == formData.warWeight) {
+                                // if equal, check hero levels
+                                if ($scope.us.roster[idx].bk + $scope.us.roster[idx].aq <= formData.bk + formData.aq) {
+                                    position = idx;
+                                    break;
+                                }
+                            }
+                            else {
+                                position = idx;
+                                break;
+                            }
+
+                        }
+                        else if (!$scope.us.roster[idx].user_id) {
+                            position = idx;
+                            break;
+                        }
+                    }
+
+                    if (position >= 0) {
+                        var newMember = {
+                            user_id: 1,
+                            ign: formData.ign,
+                            th: formData.th,
+                            warWeight: formData.warWeight,
+                            bk: formData.bk,
+                            aq: formData.aq
+                        };
+
+                        if (position == $scope.us.roster.length-1) {
+                            // last position in the array, just replace what's there
+                            $scope.us.roster[position] = newMember;
+                        }
+                        else {
+                            // need to move everyone down a spot (5 becomes 6, 6 becomes 7, etc.)
+                            for (var moveIdx = $scope.us.roster.length-1; moveIdx > position; moveIdx--) {
+                                $scope.us.roster.splice(moveIdx, 0, $scope.us.roster.splice(moveIdx-1, 1)[0]);
+                            }
+                            $scope.us.roster[position] = newMember;
+                        }
+                        saveInternal();
+                        cleanDisplayMembers();
+                        trackService.track('saved-arrangedph');
+                    }
+                    else {
+                        $rootScope.globalMessage = 'Player\'s weight was lower than everone else on the roster so they were not added.';
+                    }
+
+                }
+            };
+
+            var modalInstance = $modal(
+                {
+                    scope: $scope,
+                    animation: 'am-fade-and-slide-top',
+                    placement: 'center',
+                    template: "/views/partials/arrangedPlaceholder.html",
+                    show: false
+                }
+            );
+
+            modalInstance.$promise.then(function() {
+                modalInstance.show();
+            });
+        }
+    }
+
+    $scope.removePlayer = function(index) {
+
+        // slide everyone up one slot
+        $scope.war.team.splice(index, 1);
+        $scope.war.team.push(
+            {
+                b: index+1,
+                t: 1,
+                u: null,
+                i: ''
+            }
+        );
+        saveWarInternal();
+        updateInterface();
+    }
+
+    $scope.moveUp = function(index) {
+        var temp = $scope.war.team[index-1];
+        $scope.war.team[index-1] = $scope.war.team[index];
+        $scope.war.team[index] = temp;
+
+        saveWarInternal();
+        updateInterface();
+    }
+
+    $scope.moveDown = function(index) {
+        var temp = $scope.war.team[index+1];
+        $scope.war.team[index+1] = $scope.war.team[index];
+        $scope.war.team[index] = temp;
+        
+        saveWarInternal();
+        updateInterface();
+    }
+
+    $scope.fillByWeight = function() {
+        var cssClass = 'center';
+        if ($window.innerWidth < 500) {
+            cssClass = 'mobile';
+        }
+
+        $scope.modalOptions = {
+            title: 'Fill roster with clan members?',
+            message: 'Selecting "Yes" will fill the war roster with members from your clan from highest war weight to lowest. This will overwrite the current roster.',
+            yesBtn: 'Yes',
+            noBtn: 'Cancel',
+            cssClass: cssClass,
+            onYes: function() {
+                $scope.members.sort(function (a, b) {
+                    if (a.profile.buildings.th > b.profile.buildings.th) {
+                        return -1;
+                    }
+                    else if (a.profile.buildings.th < b.profile.buildings.th) {
+                        return 1;
+                    }
+                    else {
+                        if (a.profile.warWeight > b.profile.warWeight) {
+                            return -1;
+                        }
+                        else if (a.profile.warWeight < b.profile.warWeight) {
+                            return 1;
+                        }
+                        else {
+                            if (a.profile.heroes.bk + a.profile.heroes.aq > b.profile.heroes.bk + b.profile.heroes.aq) {
+                                return -1;
+                            }
+                            else if (a.profile.heroes.bk + a.profile.heroes.aq < b.profile.heroes.bk + b.profile.heroes.aq) {
+                                return 1;
+                            }
+                            else {
+                                if (a.ign < b.ign) {
+                                    return -1;
+                                }
+                                else {
+                                    return 1;
+                                }
+                            }
+                        }
+                    }
+                });
+
+                for (var idx=0; idx<$scope.war.team.length; idx++) {
+                    var teamMember = {
+                        b: idx+1,
+                        t: $scope.members[idx].profile.buildings.th,
+                        u: $scope.members[idx]._id,
+                        i: $scope.members[idx].ign
+                    };
+
+                    $scope.war.team[idx] = teamMember;
+                }   
+                saveWarInternal();
+                updateInterface();
+                $rootScope.globalMessage = 'The roster has been filled with your team';
+                trackService.track('filled-autobyweight');
+            }
+        };
+
+        var modalInstance = $modal(
+            {
+                scope: $scope,
+                animation: 'am-fade-and-slide-top',
+                placement: 'center',
+                template: "/views/partials/confirmDialog.html",
+                show: false
+            }
+        );
+
+        modalInstance.$promise.then(function() {
+            modalInstance.show();
+        });        
+    }
+
     $scope.assignRoster = function(baseNum, userId) {
         if (userId) {
             for (var idx=0; idx<$scope.members.length; idx++) {
@@ -543,7 +803,46 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
     function updateInterface() {
         $scope.heroesUpgrading = [];
         $scope.teamHeroesUpgrading = [];
-        $scope.availableRoster = [];
+        $scope.roster = [];
+
+        // set up roster for display
+        for (var teamIdx=0; teamIdx<$scope.war.team.length; teamIdx++) {
+            var rosterMember = {};
+            if ($scope.war.team[teamIdx].i.length > 0) {
+                for (var idx=0; idx<$scope.members.length; idx++) {
+                    if ($scope.members[idx]._id == $scope.war.team[teamIdx].u) {
+                        rosterMember = {
+                            u: $scope.members[idx]._id,
+                            ign: $scope.members[idx].ign,
+                            b: teamIdx + 1,
+                            th: $scope.members[idx].profile.buildings.th,
+                            w: $scope.members[idx].profile.warWeight,
+                            bk: $scope.members[idx].profile.heroes.bk,
+                            aq: $scope.members[idx].profile.heroes.aq
+                        };
+
+
+                        // set hero upgrade status on base
+                        if ($scope.members[idx].bkDays > 0 || $scope.members[idx].bkHours > 0) {
+                            rosterMember.bkDown = { days: $scope.members[idx].bkDays, hours: $scope.members[idx].bkHours};
+                        }
+                        else {
+                            rosterMember.bkDown = { days: 0, hours: 0};
+                        }
+
+                        if ($scope.members[idx].aqDays > 0 || $scope.members[idx].aqHours > 0) {
+                            rosterMember.aqDown = { days: $scope.members[idx].aqDays, hours: $scope.members[idx].aqHours};
+                        }
+                        else {
+                            rosterMember.aqDown = { days: 0, hours: 0};
+                        }
+                        break;
+                    }
+
+                }
+            }
+            $scope.roster.push(rosterMember);
+        }        
 
         for (var baseNum=0; baseNum<$scope.war.bases.length; baseNum++) {
             var hUpgrade = {};
@@ -596,6 +895,25 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
             $scope.teamHeroesUpgrading.push(thUpgrade);
         }
 
+        // set up display members
+        $scope.displayMembers = [];
+        var placeHolder = {
+            _id: null,
+            ign: '',
+            profile: {
+                warWeight: 0,
+                buildings: {
+                    th: 1
+                },
+                heroes: {
+                    bk: 0,
+                    aq: 0
+                }
+            },
+            displayName: '[ Add Placeholder Member ]'
+        };
+        $scope.displayMembers.push(placeHolder); 
+
         angular.forEach($scope.members, function (member) {
             var used = false;
             for (var idx=0; idx<$scope.war.team.length; idx++) {
@@ -606,7 +924,9 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
             }
 
             if (!used) {
-                $scope.availableRoster.push(member);
+                var heroes = member.profile.heroes.bk + member.profile.heroes.aq;
+                member.displayName = member.profile.warWeight + ' | TH ' + member.profile.buildings.th + ' | Heroes ' + heroes + ' | ' + member.ign;
+                $scope.displayMembers.push(member);
             }
         });
     }

@@ -90,44 +90,62 @@
                                     <div class="row">
                                         <div class="col-xs-12">
                                             <div class="well well-sm">
-                                            <p>You don't have to fill out town hall levels. It is highly recommended, however, for performance tracking. For example, a TH9 attacking a TH10 will get more credit.</p>
-                                            <p>If a member of your team has filled out their profile, their TH level will be automatically selected. Also note the member dropdown sorts by Townhall, then War Weight. If these are set correctly in member profiles the dropdown should be in the same order as your war map.</p>
-                                            If a member hasn't joined the clan yet, you can still add a name to the roster as a placeholder. Note that <b>stats will not be tracked</b> for this placeholder user once the war ends.
+                                                <p>Set your team's roster in this section. Add members to the war roster by selecting them from the dropdown.</p>
+                                                <p>Use the Auto fill buttons as a starting point - either fill from your clan's war weights or from your last war and then apply any changes from there.</p>
+                                                <p>Use [Add Placeholder Member] if you want to add someone to the roster who's not in clash.tools yet. Only use this <b>as a last resort</b> - stats won't be tracked for placeholder members.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row margin-bottom-big">
+                                        <div class="col-sm-12 hidden-xs">
+                                            <a href class="btn btn-default" ng-click="fillByWeight()">Auto fill by weight</a>
+                                            <a class="btn btn-default">Auto fill from last war</a>
+                                        </div>
+                                        <div class="col-xs-12 visible-xs">
+                                            <a href class="btn btn-sm btn-default" ng-click="fillByWeight()">Auto fill by weight</a>
+                                            <a class="btn btn-sm btn-default">Auto fill from last war</a>
+                                        </div>                                        
+                                    </div>
+                                    <div class="row margin-bottom-huge">
+                                        <div class="col-xs-12 form-inline">
+                                            <div class="form-group">
+                                                <label for="addedPlayer">Members</label>
+                                                <select class="form-control" ng-model="addedPlayer" ng-options="member as member.displayName for member in displayMembers" ng-change="addPlayer(addedPlayer)"></select>
                                             </div>
                                         </div>
                                     </div>
                                     <form name="opponentSettingsForm" class="form-horizontal" ng-submit="saveWar()" novalidate>
-                                        <div class="row">
-                                            <div class="col-lg-1 col-md-1 col-sm-2 hidden-xs t-header text-center">Base</div>
-                                            <div class="hidden-lg hidden-md hidden-sm col-xs-1 t-header text-center">#</div>
-                                            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-5 t-header">Member</div>
-                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3 t-header">Town hall</div>
-                                            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-3 t-header">Heroes Down</div>
+
+
+                                        <div class="row arranged-row strong">
+                                            <div class="col-xs-1 text-center">#</div>
+                                            <div class="col-sm-4    col-xs-6">Player</div>
+                                            <div class="col-xs-1 text-center">TH</div>
+                                            <div class="col-sm-1 hidden-xs text-center">W</div>
+                                            <div class="col-sm-1 hidden-xs text-center">BK</div>
+                                            <div class="col-sm-1 hidden-xs text-center">AQ</div>
+                                            <div class="col-sm-3 col-xs-4 text-center">Heroes down</div>
                                         </div>
                                         <div class="row row-underline-2"></div>
-                                        <div class="row" ng-repeat="tm in war.team">
-                                            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-1 t-row text-center">{{tm.b}}</div>
-                                            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-5">
-                                               <select class="form-control-small" ng-model="tm.u" ng-options="member._id as member.ign for member in members" ng-change="assignRoster($index, tm.u)">
-                                                </select>
+                                        <div class="row arranged-row" ng-repeat="player in roster">
+                                            <div class="col-xs-1 text-center">{{$index+1}}</div>
+                                            <div class="col-sm-4 col-xs-6 no-wrap" ng-if="player.ign">
+                                                <i class="icon-up action-icon primary-20" ng-if="player.ign && $index > 0" title="Move up" ng-click="moveUp($index)"></i>
+                                                <i class="icon-up primary-60" ng-if="player.ign && $index == 0" title="Move up"></i>
+                                                <i class="icon-down action-icon primary-20" ng-if="player.ign && $index < roster.length-1" title="Move down" ng-click="moveDown($index)"></i>
+                                                <i class="icon-down primary-60" ng-if="player.ign && $index >= roster.length-1" title="Move down"></i>
+                                                <i class="icon-cancel action-icon error-red" ng-if="player.ign" title="Remove player" ng-click="removePlayer($index)"></i>
+                                                <a href="/members/{{player.u}}" ng-if="player.u != 1">{{player.ign}}</a>
+                                                <span ng-if="player.u == 1">{{player.ign}}</span>
                                             </div>
-                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
-                                                <select class="form-control-small" ng-class="{'th-warning': tm.t==1}" ng-model="tm.t" ng-change="saveWar()" integer>
-                                                    <option>10</option>
-                                                    <option>9</option>
-                                                    <option>8</option>
-                                                    <option>7</option>
-                                                    <option>6</option>
-                                                    <option>5</option>
-                                                    <option>4</option>
-                                                    <option>3</option>
-                                                    <option>2</option>
-                                                    <option>1</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-3 hero-down">
-                                                <span ng-if="teamHeroesUpgrading[$index].bkDown.days > 0 || teamHeroesUpgrading[$index].bkDown.hours > 0"><b>BK</b>: <b class="alternate">{{teamHeroesUpgrading[$index].bkDown.days}}</b>d <b class="alternate">{{teamHeroesUpgrading[$index].bkDown.hours}}</b>h</span>
-                                                <span ng-if="teamHeroesUpgrading[$index].aqDown.days > 0 || teamHeroesUpgrading[$index].aqDown.hours > 0"><b>AQ</b>: <b class="alternate">{{teamHeroesUpgrading[$index].aqDown.days}}</b>d <b class="alternate">{{teamHeroesUpgrading[$index].aqDown.hours}}</b>h</span>
+                                            <div class="col-sm-4 col-xs-6" ng-if="!player.ign"><i>-- empty --</i></div>
+                                            <div class="col-xs-1 text-center">{{player.th}}</div>
+                                            <div class="col-sm-1 hidden-xs text-center" ng-if="player.ign">{{player.w}}</div>
+                                            <div class="col-sm-1 hidden-xs text-center">{{player.bk}}</div>
+                                            <div class="col-sm-1 hidden-xs text-center">{{player.aq}}</div>
+                                            <div class="col-sm-3 col-xs-4 text-center">
+                                                <span ng-if="player.bkDown.days > 0 || player.bkDown.hours > 0"><b>BK</b>: <b class="alternate">{{player.bkDown.days}}</b>d <b class="alternate">{{player.bkDown.hours}}</b>h</span>
+                                                <span ng-if="player.aqDown.days > 0 || player.aqDown.hours > 0"><b>AQ</b>: <b class="alternate">{{player.aqDown.days}}</b>d <b class="alternate">{{player.aqDown.hours}}</b>h</span>
                                             </div>
                                         </div>
                                     </form>
