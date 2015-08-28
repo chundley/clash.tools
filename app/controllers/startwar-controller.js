@@ -108,7 +108,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                                     }
                                 }
                             }
-                        }                    
+                        }
                     });
 
 
@@ -420,10 +420,13 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                 };
                 break;
             }
-        }        
+        }
     }
 
     $scope.addPlayer = function(player) {
+
+        var emptySlots = [];
+
         if (player._id) {
             // find the slot where this member should go
             var position = -1;
@@ -434,9 +437,57 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                 if ($scope.war.team[idx].u) {
                     lastPosition = idx;
                 }
+                else {
+                    emptySlots.push(idx);
+                }
             }
 
             for (var idx=0; idx<$scope.roster.length; idx++) {
+                if ($scope.roster[idx].u) {
+                    // determine where to put this member by first checking TH, then weight, then hero levels
+                    var isBigger = true;
+
+                    if (player.profile.buildings.th < $scope.roster[idx].th) {
+                        isBigger = false;
+                    }
+
+                    else if (player.profile.warWeight > 0
+                             && $scope.roster[idx].w > 0
+                             && player.profile.warWeight <= $scope.roster[idx].w) {
+                        // if a user at this location and the user's weight is less than or equal to new player, do something
+                        if ($scope.roster[idx].w == player.profile.warWeight) {
+                            // same war weight, check hero levels
+                            if ($scope.roster[idx].bk + $scope.roster[idx].aq > player.profile.heroes.bk + player.profile.heroes.aq) {
+                                isBigger = false
+                            }
+                        }
+                        else {
+                            // bigger war weight
+                            isBigger = false;
+                        }
+                    }
+                    else if (player.profile.warWeight == 0) {
+                        // zero war weight, check heros (best we can do)
+                        if ($scope.roster[idx].bk + $scope.roster[idx].aq > player.profile.heroes.bk + player.profile.heroes.aq) {
+                            isBigger = false
+                        }
+                    }
+
+                    if (isBigger) {
+                        position = idx;
+                        break;
+                    }
+                }
+                else if (!$scope.roster[idx].u &&
+                     idx > lastPosition) {
+                    // empty slot at the end
+                    position = idx;
+                    break;
+                }
+            }
+
+
+/*            for (var idx=0; idx<$scope.roster.length; idx++) {
                 if ($scope.roster[idx].u &&
                     $scope.roster[idx].w <= player.profile.warWeight) {
                     // if a user at this location and the user's weight is less than or equal to new player, do something
@@ -459,7 +510,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                     position = idx;
                     break;
                 }
-            }
+            }*/
 
             if (position >= 0) {
                 var teamMember = {
@@ -480,12 +531,32 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                     }
                     $scope.war.team[position] = teamMember;
                 }
-
+                $scope.newIndex = position;
                 saveWarInternal();
-                updateInterface();                
             }
             else {
-                $rootScope.globalMessage = 'Player\'s weight was lower than everone else on the roster so they were not added.';
+                // player's weight was too low for last person on roster, but check open slots
+                var openIndex = emptySlots[emptySlots.length-1]; // always use the last open slot to insert
+                if (emptySlots.length > 0) {
+                    var teamMember = {
+                        b: openIndex + 1,
+                        t: player.profile.buildings.th,
+                        u: player._id,
+                        i: player.ign
+                    };
+
+                    // need to move everyone up a spot (5 becomes 6, 6 becomes 7, etc.)
+                    for (var moveIdx = openIndex+1; moveIdx < $scope.war.team.length; moveIdx++) {
+                        $scope.war.team.splice(moveIdx-1, 0, $scope.war.team.splice(moveIdx, 1)[0]);
+                    }
+
+                    $scope.war.team[$scope.war.team.length-1] = teamMember;
+                    $scope.newIndex = $scope.war.team.length-1;
+                    saveWarInternal();
+                }
+                else {
+                    $rootScope.globalMessage = 'Player\'s weight was lower than everone else on the roster so they were not added.';
+                }
             }
         }
         else {
@@ -517,10 +588,9 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                         b: lastPosition+2,
                         t: formData.th,
                         u: utils.createGUID(),
-                        i: formData.ign                      
+                        i: formData.ign
                     };
                     saveWarInternal();
-                    updateInterface();
                 }
             };
 
@@ -552,8 +622,8 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                 i: ''
             }
         );
+        $scope.newIndex = -1;
         saveWarInternal();
-        updateInterface();
     }
 
     $scope.moveUp = function(index) {
@@ -561,17 +631,17 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
         $scope.war.team[index-1] = $scope.war.team[index];
         $scope.war.team[index] = temp;
 
+        $scope.newIndex = -1;
         saveWarInternal();
-        updateInterface();
     }
 
     $scope.moveDown = function(index) {
         var temp = $scope.war.team[index+1];
         $scope.war.team[index+1] = $scope.war.team[index];
         $scope.war.team[index] = temp;
-        
+
+        $scope.newIndex = -1;
         saveWarInternal();
-        updateInterface();
     }
 
     $scope.fillByWeight = function() {
@@ -637,11 +707,10 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                             t: 1,
                             u: null,
                             i: ''
-                        };                        
+                        };
                     }
-                }   
+                }
                 saveWarInternal();
-                updateInterface();
                 $rootScope.globalMessage = 'The roster has been filled with your team';
                 trackService.track('filled-autobyweight');
             }
@@ -659,7 +728,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
 
         modalInstance.$promise.then(function() {
             modalInstance.show();
-        });        
+        });
     }
 
     $scope.fillFromLast = function() {
@@ -689,10 +758,20 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                                 }
                                 else {
                                     for (var idx=0; idx<$scope.war.team.length; idx++) {
+                                        var added = false;
                                         if (previousWar.team[idx]) {
-                                            $scope.war.team[idx] = previousWar.team[idx];
+                                            // make sure this person is still a member of the clan
+                                            for (var idxM=0; idxM < $scope.members.length; idxM++) {
+                                                if (previousWar.team[idx].u == $scope.members[idxM]._id) {
+                                                    $scope.war.team[idx] = previousWar.team[idx];
+                                                    added = true;
+                                                    break;
+                                                }
+                                            }
                                         }
-                                        else {
+
+                                        // either this war is bigger, or a member left the clan, add an empty
+                                        if (!added) {
                                             $scope.war.team[idx] = {
                                                 b: idx+1,
                                                 t: 1,
@@ -703,9 +782,8 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                                     }
 
                                     saveWarInternal();
-                                    updateInterface();
                                     $rootScope.globalMessage = "Roster was filled from last war.";
-                                }                        
+                                }
                             });
                         }
                         else {
@@ -728,7 +806,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
 
         modalInstance.$promise.then(function() {
             modalInstance.show();
-        });    
+        });
     }
 
 
@@ -749,7 +827,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                 }
                 else {
                     $scope.war.team[index].t = player.th;
-                    saveWarInternal();
+
 
                     for (var idx=0; idx<$scope.members.length; idx++) {
                         if ($scope.members[idx]._id == player.u) {
@@ -760,9 +838,9 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                             break;
                         }
                     }
-                    updateInterface(); 
-                    $rootScope.globalMessage = 'Member profile updated';                
-                }                
+                    saveWarInternal();
+                    $rootScope.globalMessage = 'Member profile updated';
+                }
             });
         }
     }
@@ -818,10 +896,12 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
 
         // set up roster for display
         for (var teamIdx=0; teamIdx<$scope.war.team.length; teamIdx++) {
+            var found = false;
             var rosterMember = {};
             if ($scope.war.team[teamIdx].u && $scope.war.team[teamIdx].u.length == 24) {
                 for (var idx=0; idx<$scope.members.length; idx++) {
                     if ($scope.members[idx]._id == $scope.war.team[teamIdx].u) {
+                        found = true;
                         rosterMember = {
                             u: $scope.members[idx]._id,
                             ign: $scope.members[idx].ign,
@@ -850,7 +930,6 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                         }
                         break;
                     }
-
                 }
             }
             else if ($scope.war.team[teamIdx].i.length > 0) {
@@ -864,11 +943,29 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                     bk: 0,
                     aq: 0,
                     editable: false
-                };                
+                };
             }
 
-            $scope.roster.push(rosterMember);
-        }        
+            if (found) {
+                $scope.roster.push(rosterMember);
+            }
+            else {
+                // in this case the person on the team is no longer in the clan and shouldn't be on the roster
+                // this happens when someone brings the previous war roster forward and someone has left
+                //
+                // NOTE: This has been patched and must be removed once the bad wars get cleared
+                //
+                // FURTHER NOTE: the war must be saved at some point after this in order for the change to stick
+                $scope.roster.push({});
+                $scope.war.team[teamIdx] =
+                    {
+                        b: teamIdx+1,
+                        t: 1,
+                        u: null,
+                        i: ''
+                    };
+            }
+        }
 
         for (var baseNum=0; baseNum<$scope.war.bases.length; baseNum++) {
             var hUpgrade = {};
@@ -930,7 +1027,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                 $scope.displayMembers.push(member);
             }
         });
-        $scope.displayMembers.push(placeHolder); 
+        $scope.displayMembers.push(placeHolder);
     }
 
     function saveWarInternal() {
