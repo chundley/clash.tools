@@ -5,8 +5,24 @@
 */
 
 angular.module('Clashtools.controllers')
-.controller('ArrangedDetailCtrl', ['$rootScope', '$scope', '$window', '$routeParams', '$location', '$modal', 'ctSocket', 'moment', 'authService', 'sessionService', 'errorService', 'emailMessageService', 'messagelogService', 'clanService', 'arrangedWarService', 'CLAN_EMAILS', 'trackService',
-function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket, moment, authService, sessionService, errorService, emailMessageService, messagelogService, clanService, arrangedWarService, CLAN_EMAILS, trackService) {
+.controller('ArrangedDetailCtrl', ['$rootScope', '$scope', '$window', '$routeParams', '$location', '$modal', 'ctSocket', 'moment', 'authService', 'sessionService', 'errorService', 'emailMessageService', 'messagelogService', 'clanService', 'userService', 'arrangedWarService', 'CLAN_EMAILS', 'trackService',
+function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket, moment, authService, sessionService, errorService, emailMessageService, messagelogService, clanService, userService, arrangedWarService, CLAN_EMAILS, trackService) {
+
+    // needed for inline dropdown lists
+    $scope.th = [];
+    for (var idx=10; idx>0; idx--) {
+        $scope.th.push(idx);
+    }
+
+    $scope.hl = [];
+    for (var idx=40; idx>=0; idx--) {
+        $scope.hl.push(idx);
+    }
+
+    $scope.wt = [];
+    for (var idx=99; idx>=0; idx--) {
+        $scope.wt.push(idx);
+    }
 
     sessionService.getUserMeta(authService.user.id, function (err, meta) {
         if (err) {
@@ -91,7 +107,7 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
                                 $scope.war.roster_count = $scope.them.roster.length;
                             }
 
-                            
+
                             // need to set the war correctly so when it saves the other clan's changes don't get hammered
                             if (war.clan_1.clan_id == $scope.meta.current_clan.clan_id) {
                                 $scope.war.clan_2 = $scope.them;
@@ -206,7 +222,7 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
                     $scope.us.roster[position] = newMember;
                 }
                 saveInternal();
-                cleanDisplayMembers();                
+                cleanDisplayMembers();
             }
             else {
                 $rootScope.globalMessage = 'Player\'s weight was lower than everone else on the roster so they were not added.';
@@ -369,7 +385,7 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
 
                         $scope.us.roster[idx] = newMember;
                     }
-                }   
+                }
                 saveInternal();
                 updateTotals();
                 $rootScope.globalMessage = 'The roster has been filled with your team';
@@ -390,6 +406,57 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
         modalInstance.$promise.then(function() {
             modalInstance.show();
         });
+    }
+
+    $scope.updatePlayerData = function(index, player) {
+        if (player.user_id.length == 24) {
+            // real player, update accordingly
+            var model = {
+                th: player.th,
+                w: player.warWeight,
+                bk: player.bk,
+                aq: player.aq
+            }
+
+            userService.updateFromRoster(player.user_id, model, function (err, user) {
+                if (err) {
+                    err.stack_trace.unshift( { file: 'arrangeddetail-controller.js', func: '$scope.updatePlayerData', message: 'Error updating roster data' } );
+                    errorService.save(err, function() {});
+                }
+                else {
+
+                    // need to update local members array
+                    for (var idx=0; idx<$scope.members.length; idx++) {
+                        if ($scope.members[idx]._id == player.user_id) {
+                            $scope.members[idx].profile.buildings.th = player.th;
+                            $scope.members[idx].profile.warWeight = player.warweight;
+                            $scope.members[idx].profile.heroes.bk = player.bk;
+                            $scope.members[idx].profile.heroes.aq = player.aq;
+                            break;
+                        }
+                    }
+
+                    $scope.us.roster[index].th = player.th;
+                    $scope.us.roster[index].warWeight = player.warWeight;
+                    $scope.us.roster[index].bk = player.bk;
+                    $scope.us.roster[index].aq = player.aq;
+
+                    sortRoster();
+                    cleanDisplayMembers();
+                    saveInternal();
+                    $rootScope.globalMessage = 'Member profile updated';
+                }
+            });
+        }
+        else {
+            $scope.us.roster[index].th = player.th;
+            $scope.us.roster[index].warWeight = player.warWeight;
+            $scope.us.roster[index].bk = player.bk;
+            $scope.us.roster[index].aq = player.aq;
+            sortRoster();
+            cleanDisplayMembers();
+            saveInternal();
+        }
     }
 
     $scope.search = function(terms) {
@@ -521,41 +588,16 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
                         return 1;
                     }
                     else {
-                        if (a.ign < b.ign) {
-                            return -1;
-                        }
-                        else {
-                            return 1;
-                        }
-                    }
-                }
-            }
-        });
-
-        if (changedSomething) {
-            $scope.us.roster.sort(function (a, b) {
-                if (a.th > b.th) {
-                    return -1;
-                }
-                else if (a.th < b.th) {
-                    return 1;
-                }
-                else {
-                    if (a.warWeight > b.warWeight) {
-                        return -1;
-                    }
-                    else if (a.warWeight < b.warWeight) {
-                        return 1;
-                    }
-                    else {
-                        if (a.bk + a.aq > b.bk + b.aq) {
-                            return -1;
-                        }
-                        else if (a.bk + a.aq < b.bk + b.aq) {
-                            return 1;
-                        }
-                        else {
+                        if (a.ign && b.ign) {
                             if (a.ign < b.ign) {
+                                return -1;
+                            }
+                            else {
+                                return 1;
+                            }
+                        }
+                        else {
+                            if (!b.ign) {
                                 return -1;
                             }
                             else {
@@ -564,10 +606,59 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
                         }
                     }
                 }
-            });
+            }
+        });
+
+        if (changedSomething) {
+            sortRoster();
             saveInternal();
         }
         cleanDisplayMembers();
+    }
+
+    function sortRoster() {
+        $scope.us.roster.sort(function (a, b) {
+            if (a.th > b.th) {
+                return -1;
+            }
+            else if (a.th < b.th) {
+                return 1;
+            }
+            else {
+                if (a.warWeight > b.warWeight) {
+                    return -1;
+                }
+                else if (a.warWeight < b.warWeight) {
+                    return 1;
+                }
+                else {
+                    if (a.bk + a.aq > b.bk + b.aq) {
+                        return -1;
+                    }
+                    else if (a.bk + a.aq < b.bk + b.aq) {
+                        return 1;
+                    }
+                    else {
+                        if (a.ign && b.ign) {
+                            if (a.ign < b.ign) {
+                                return -1;
+                            }
+                            else {
+                                return 1;
+                            }
+                        }
+                        else {
+                            if (!b.ign) {
+                                return -1;
+                            }
+                            else {
+                                return 1;
+                            }
+                        }
+                    }
+                }
+            }
+        });
     }
 
     function cleanDisplayMembers() {
@@ -588,7 +679,7 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
             },
             displayName: '[ Add Placeholder Member ]'
         };
-        $scope.displayMembers.push(placeHolder);   
+        $scope.displayMembers.push(placeHolder);
 
 
         for (var idx=0; idx<$scope.members.length; idx++) {
@@ -631,19 +722,19 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
                     totalWeight: 0,
                     totalBK: 0,
                     totalAQ: 0,
-                    totalHeroes: 0,                        
+                    totalHeroes: 0,
                 },
                 th9: {
                     totalWeight: 0,
                     totalBK: 0,
                     totalAQ: 0,
-                    totalHeroes: 0,                          
+                    totalHeroes: 0,
                 },
                 th8: {
                     totalWeight: 0,
                     totalBK: 0,
                     totalAQ: 0,
-                    totalHeroes: 0,                          
+                    totalHeroes: 0,
                 }
             },
             them: {
@@ -655,20 +746,20 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
                     totalWeight: 0,
                     totalBK: 0,
                     totalAQ: 0,
-                    totalHeroes: 0,                        
+                    totalHeroes: 0,
                 },
                 th9: {
                     totalWeight: 0,
                     totalBK: 0,
                     totalAQ: 0,
-                    totalHeroes: 0,                          
+                    totalHeroes: 0,
                 },
                 th8: {
                     totalWeight: 0,
                     totalBK: 0,
                     totalAQ: 0,
-                    totalHeroes: 0,                          
-                }              
+                    totalHeroes: 0,
+                }
             }
         };
 
@@ -683,20 +774,20 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
                     $scope.totals.us.th10.totalWeight += member.warWeight;
                     $scope.totals.us.th10.totalBK += member.bk;
                     $scope.totals.us.th10.totalAQ += member.aq;
-                    $scope.totals.us.th10.totalHeroes += member.bk + member.aq;                    
+                    $scope.totals.us.th10.totalHeroes += member.bk + member.aq;
                 }
                 else if (member.th==9) {
                     $scope.totals.us.th9.totalWeight += member.warWeight;
                     $scope.totals.us.th9.totalBK += member.bk;
                     $scope.totals.us.th9.totalAQ += member.aq;
-                    $scope.totals.us.th9.totalHeroes += member.bk + member.aq;                    
-                } 
+                    $scope.totals.us.th9.totalHeroes += member.bk + member.aq;
+                }
                 else if (member.th==8) {
                     $scope.totals.us.th8.totalWeight += member.warWeight;
                     $scope.totals.us.th8.totalBK += member.bk;
                     $scope.totals.us.th8.totalAQ += member.aq;
-                    $scope.totals.us.th8.totalHeroes += member.bk + member.aq;                    
-                }                                
+                    $scope.totals.us.th8.totalHeroes += member.bk + member.aq;
+                }
             }
         });
 
@@ -711,20 +802,20 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
                     $scope.totals.them.th10.totalWeight += member.warWeight;
                     $scope.totals.them.th10.totalBK += member.bk;
                     $scope.totals.them.th10.totalAQ += member.aq;
-                    $scope.totals.them.th10.totalHeroes += member.bk + member.aq;                    
+                    $scope.totals.them.th10.totalHeroes += member.bk + member.aq;
                 }
                 else if (member.th==9) {
                     $scope.totals.them.th9.totalWeight += member.warWeight;
                     $scope.totals.them.th9.totalBK += member.bk;
                     $scope.totals.them.th9.totalAQ += member.aq;
-                    $scope.totals.them.th9.totalHeroes += member.bk + member.aq;                    
-                } 
+                    $scope.totals.them.th9.totalHeroes += member.bk + member.aq;
+                }
                 else if (member.th==8) {
                     $scope.totals.them.th8.totalWeight += member.warWeight;
                     $scope.totals.them.th8.totalBK += member.bk;
                     $scope.totals.them.th8.totalAQ += member.aq;
-                    $scope.totals.them.th8.totalHeroes += member.bk + member.aq;                    
-                }                  
+                    $scope.totals.them.th8.totalHeroes += member.bk + member.aq;
+                }
             }
         });
     }

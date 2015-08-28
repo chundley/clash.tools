@@ -207,14 +207,13 @@
                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 text-center">{{$index + 1}}</div>
                                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6 no-wrap" ng-if="player.ign">
                                                     <i class="icon-cancel action-icon primary-20" access-level="coleader" ng-if="player.ign" title="Remove player" ng-click="removePlayer($index)"></i>
-                                                    <a href="/members/{{player.user_id}}" ng-if="player.user_id != 1">{{player.ign}}</a>
-                                                    <span ng-if="player.user_id == 1">{{player.ign}}</span>
+                                                    {{player.ign}}
                                                 </div>
                                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6" ng-if="!player.ign"><i>-- empty --</i></div>
-                                                <div class="col-xs-1 text-center">{{player.th}}</div>
-                                                <div class="col-xs-1 text-center" ng-class="{'error-red': player.warWeight==0}" ng-if="player.ign">{{player.warWeight}}</div>
-                                                <div class="col-sm-1 text-center hidden-xs">{{player.bk}}</div>
-                                                <div class="col-sm-1 text-center hidden-xs">{{player.aq}}</div>
+                                                <div class="col-xs-1 text-center" style="z-index:50;"><a href="#" editable-select="player.th" e-ng-options="th for th in th" onaftersave="updatePlayerData($index, player)">{{player.th}}</a></div>
+                                                <div class="col-xs-1 text-center" style="z-index:40;"><a href="#" ng-class="{'error-red': player.warWeight==0}" editable-select="player.warWeight" e-ng-options="wt for wt in wt" onaftersave="updatePlayerData($index, player)">{{player.warWeight}}</a></div>
+                                                <div class="col-sm-1 text-center hidden-xs" style="z-index:30;"><a href="#" editable-select="player.bk" e-ng-options="hl for hl in hl" onaftersave="updatePlayerData($index, player)">{{player.bk}}</a></div>
+                                                <div class="col-sm-1 text-center hidden-xs" style="z-index:20;"><a href="#" editable-select="player.aq" e-ng-options="hl for hl in hl" onaftersave="updatePlayerData($index, player)">{{player.aq}}</a></div>
                                                 <div class="col-xs-1 text-center" ng-class="{'error-red': player.bk + player.aq ==0}">{{player.bk + player.aq}}</div>
                                             </div>
                                             <div class="row row-underline-2"></div>
