@@ -16,10 +16,22 @@ function ($rootScope, $scope, $routeParams, $location, authService) {
 
     $scope.helpContent = [
         {
+            path: 'links',
+            title: 'Useful Links',
+            order: 50,
+            template: '/views/help/links.html'
+        },
+        {
             path: 'faq',
-            title: 'FAQ',
+            title: 'General FAQ',
             order: 100,
-            template: '/views/help/faq.html'
+            template: '/views/help/general-faq.html'
+        },
+        {
+            path: 'leaders',
+            title: 'Leader FAQ',
+            order: 105,
+            template: '/views/help/leader-faq.html'
         },
         {
             path: 'war-setup',
