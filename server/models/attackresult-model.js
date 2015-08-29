@@ -38,6 +38,36 @@ var rankBands = [16, 12, 10, 8, 6, 4, 3, 2, 1, 0];
 // bonus applied if it was the first attack
 var firstAttackBonus = [0, 1, 3, 8];
 
+// Bonus and penalties for getting 3, 2, 1 stars on TH higher, equal, or lower
+//
+//      An example showing the bonus for 3-starring (eg, TH10 3 stars TH10 gets 15 extra points)
+//
+//       Opponent | TH10 | TH9  | TH8
+//      ----------|------|------|-----
+//       TH10     |   15 |  30  |  50
+//      ----------|------|------|-----
+//        TH9     |   -3 |   5  |  30
+//      ----------|------|------|-----
+//        TH8     |   -9 |  -3  |   0
+
+var thBonus = [  0,
+                 [
+                   [0, 0, 8],
+                   [-16, 0, 4],
+                   [-30, -16, 0]
+                 ],
+                 [
+                   [0, 8, 16],
+                   [-8, 0, 8],
+                   [-16, -8, 0]
+                 ],
+                 [
+                   [16, 30, 50],
+                   [-4, 4, 16],
+                   [-8, -4, 0]
+                 ]
+               ];
+
 /*
 * Upserts a record and returns the record
 */
@@ -138,14 +168,21 @@ exports.save = function(warId, model, callback) {
                 }
             }
 
-            // added or subtracted value based on attacking a higher or lower TH level
-            if (model.t < model.ot) {
-                attackValue += parseInt(starVal[model.stars] * .50);
-                avParts.push( { c: 'thDelta', v: parseInt(starVal[model.stars] * .50)});
+            // use the new way of calculating TH/TH bonuses
+            if (model.t > 7 && model.ot > 7) {
+                var aIndex = model.t-3;
+                var oIndex = model.ot-7;
             }
-            else if (model.t > model.ot) {
-                attackValue -= parseInt(starValInversed[model.stars] * .30);
-                avParts.push( { c: 'thDelta', v: parseInt(starValInversed[model.stars] * (-.30))});
+            else {
+                // use the old defaults for TH7 and below
+                if (model.t < model.ot) {
+                    attackValue += parseInt(starVal[model.stars] * .50);
+                    avParts.push( { c: 'thDelta', v: parseInt(starVal[model.stars] * .50)});
+                }
+                else if (model.t > model.ot) {
+                    attackValue -= parseInt(starValInversed[model.stars] * .30);
+                    avParts.push( { c: 'thDelta', v: parseInt(starValInversed[model.stars] * (-.30))});
+                }
             }
 
             // max is 150
