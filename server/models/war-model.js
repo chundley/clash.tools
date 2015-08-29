@@ -643,6 +643,7 @@ exports.backfillAllWars = function(callback) {
                 }
                 else {
                     if (wars) {
+                        var warCount = wars.length;
                         async.each(wars, function (war, callback_each) {
                             exports.backfillAttackResults(war._id, function (err, result) {
                                 if (err) {
@@ -650,6 +651,8 @@ exports.backfillAllWars = function(callback) {
                                     callback('backfill failed');
                                 }
                                 else {
+                                    warCount--;
+                                    logger.info('Attack result backfill: ' + warCount +  ' wars left');
                                     callback_each(null);
                                 }
                             });

@@ -57,7 +57,7 @@ var thBonus = [  0,
                    [-30, -16, 0]
                  ],
                  [
-                   [0, 8, 16],
+                   [4, 12, 16],
                    [-8, 0, 8],
                    [-16, -8, 0]
                  ],
@@ -169,9 +169,10 @@ exports.save = function(warId, model, callback) {
             }
 
             // use the new way of calculating TH/TH bonuses
-            if (model.t > 7 && model.ot > 7) {
-                var aIndex = model.t-3;
-                var oIndex = model.ot-7;
+            if (model.stars > 0 && model.t > 7 && model.ot > 7) {
+                attackValue += thBonus[model.stars][10-model.ot][10-model.t];
+                avParts.push( { c: 'thDelta', v: thBonus[model.stars][10-model.ot][10-model.t] } );
+
             }
             else {
                 // use the old defaults for TH7 and below
@@ -264,6 +265,7 @@ exports.save = function(warId, model, callback) {
                     v: parseInt(attackValue),
                     av_parts: avParts
                 };
+
 
                 db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'attack_result', function (err, collection) {
                     if (err) {
