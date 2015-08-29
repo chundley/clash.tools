@@ -1023,7 +1023,6 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
             }
 
             if (!used) {
-                console.log(member);
                 var heroes = member.profile.heroes.bk + member.profile.heroes.aq;
                 member.displayName = member.profile.warWeight + ' | TH ' + member.profile.buildings.th + ' | Heroes ' + member.profile.heroes.bk + '/' + member.profile.heroes.aq + ' | ' + member.ign;
                 $scope.displayMembers.push(member);
