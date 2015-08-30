@@ -580,6 +580,7 @@ exports.backfillAttackResults = function(warId, callback) {
                     callback(err, null);
                 }
                 else {
+                    var count = 0;
                     var endDate = new Date(war.start);
                     endDate = new Date(endDate.getTime() + 24*60*60*1000);
                     _.each(war.bases, function (base) {
@@ -614,7 +615,7 @@ exports.backfillAttackResults = function(warId, callback) {
                                             logger.error(err);
                                         }
                                         else {
-
+                                            logger.info('WarId: ' + warId + 'Attack result saved for base ' + base.b);
                                         }
                                     });
                                 }
@@ -652,7 +653,7 @@ exports.backfillAllWars = function(callback) {
                                 }
                                 else {
                                     warCount--;
-                                    logger.info('Attack result backfill: ' + warCount +  ' wars left');
+                                    logger.info('WarId: ' + war._id +  ' started, ' + warCount +  ' wars left');
                                     callback_each(null);
                                 }
                             });
