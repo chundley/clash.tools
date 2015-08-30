@@ -568,64 +568,81 @@ exports.getFullHistory = function(clanId, callback) {
     });
 }
 
-exports.backfillAttackResults = function(warId, callback) {
-    exports.findById(warId, function (err, war) {
+exports.backfillAttackResults = function(war, callback) {
+    clanModel.findById(war.clan_id, function (err, clan) {
         if (err) {
             callback(err, null);
         }
-        else {
+        else if (clan) {
+            var count = 0;
+            var endDate = new Date(war.start);
+            endDate = new Date(endDate.getTime() + 24*60*60*1000);
 
-            clanModel.findById(war.clan_id, function (err, clan) {
-                if (err) {
-                    callback(err, null);
-                }
-                else {
-                    var count = 0;
-                    var endDate = new Date(war.start);
-                    endDate = new Date(endDate.getTime() + 24*60*60*1000);
-                    _.each(war.bases, function (base) {
-                        _.each(base.a, function (assignment) {
-                            if (assignment.s != null) {
-                                // only process if stars have been logged
-                                var playerIndex = -1;
-                                for (var idx=0; idx<war.team.length; idx++) {
-                                    if (war.team[idx].u == assignment.u) {
-                                        playerIndex = idx;
-                                    }
-                                }
-
-                                // make sure nothing strange happened to the team
-                                if (playerIndex >= 0) {
-                                    var update = {
-                                        bIndex: base.b-1,
-                                        pIndex: playerIndex,
-                                        stars: assignment.s,
-                                        c: war.clan_id,
-                                        cn: clan.name,
-                                        on: war.opponent_name,
-                                        u: assignment.u,
-                                        i: assignment.i,
-                                        t: war.team[playerIndex].t,
-                                        ot: parseInt(base.t),
-                                        we: endDate
-                                    };
-
-                                    attackResultModel.save(warId, update, function (err, result) {
-                                        if (err) {
-                                            logger.error(err);
-                                        }
-                                        else {
-                                            logger.info('WarId: ' + warId + 'Attack result saved for base ' + base.b);
-                                        }
-                                    });
-                                }
-                            }
-                        });
-                    });
-
-                    callback(null, null);
-                }
+            var q = async.queue(function (model, callback_q) {
+                attackResultModel.save(war._id, model, function (err, result) {
+                    if (err) {
+                        logger.error(err);
+                        callback_q(err);
+                    }
+                    else {
+                        logger.info('WarId: ' + war._id + ' attack result saved for base ' + (model.bIndex + 1));
+                        callback_q(null);
+                    }
+                });
             });
+
+            q.drain = function() {
+                logger.info('Done processing attack result queue');
+                callback(null, null);
+            }
+
+            var resultArray = [];
+            _.each(war.bases, function (base) {
+                _.each(base.a, function (assignment) {
+                    if (assignment.s != null) {
+                        // only process if stars have been logged
+                        var playerIndex = -1;
+                        for (var idx=0; idx<war.team.length; idx++) {
+                            if (war.team[idx].u == assignment.u) {
+                                playerIndex = idx;
+                            }
+                        }
+                        // make sure nothing strange happened to the team
+                        if (playerIndex >= 0) {
+                            var update = {
+                                bIndex: base.b-1,
+                                pIndex: playerIndex,
+                                stars: assignment.s,
+                                c: war.clan_id,
+                                cn: clan.name,
+                                on: war.opponent_name,
+                                u: assignment.u,
+                                i: assignment.i,
+                                t: war.team[playerIndex].t,
+                                ot: parseInt(base.t),
+                                we: endDate
+                            };
+
+                            resultArray.push(update);
+                        }
+                    }
+                });
+            });
+
+            if (resultArray.length > 0) {
+                q.push(resultArray, function (err) {
+                    if (err) {
+                        logger.error(err);
+                    }
+                });
+            }
+            else {
+                callback(null, null);
+            }
+        }
+        else {
+            logger.warn('No clan found for war ' + war._id);
+            callback(null, null);
         }
     });
 }
@@ -636,7 +653,7 @@ exports.backfillAllWars = function(callback) {
             callback(err, null);
         }
         else {
-            collection.find( { }, { _id: 1 } )
+            collection.find( { } )
             .sort( {created_at: -1} )
             .toArray(function (err, wars) {
                 if (err) {
@@ -645,15 +662,15 @@ exports.backfillAllWars = function(callback) {
                 else {
                     if (wars) {
                         var warCount = wars.length;
-                        async.each(wars, function (war, callback_each) {
-                            exports.backfillAttackResults(war._id, function (err, result) {
+                        async.eachSeries(wars, function (war, callback_each) {
+                            exports.backfillAttackResults(war, function (err, result) {
                                 if (err) {
                                     logger.error('Could not backfill war ' + war._id);
                                     callback('backfill failed');
                                 }
                                 else {
                                     warCount--;
-                                    logger.info('WarId: ' + war._id +  ' started, ' + warCount +  ' wars left');
+                                    logger.info('WarId: ' + war._id +  ' done, ' + warCount +  ' wars left');
                                     callback_each(null);
                                 }
                             });
