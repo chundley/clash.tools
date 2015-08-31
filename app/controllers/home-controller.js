@@ -39,7 +39,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
                 }
                 else {
                     $scope.clan = clan;
-
+                    console.log($scope.clan);
                     // load war initially
                     loadWar(function() {
                         // and after that any time a change is broadcast by socket.io (if there is a war active)
@@ -301,68 +301,114 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
     }
 
     $scope.leaveClan = function() {
-        var cssClass = 'center';
-        if ($window.innerWidth < 500) {
-            cssClass = 'mobile';
-        }
+        if ($scope.meta.role == 'leader') {
+            // if the leader is trying to leave, there are two possibilities:
+            //      1. The clan has more members and they need to assign leadership
+            //      2. They are the last one in the clan and should get the "clan will be deleted" warning
+            clanService.getMembers($scope.meta.current_clan.clan_id, 'all', function (err, members) {
+                if (err) {
+                    err.stack_trace.unshift( { file: 'war-controller.js', func: '$scope.leaveClan', message: 'Error getting clan members' } );
+                    errorService.save(err, function() {});
+                }
+                else {
+                    if (members.length > 1) {
+                        // This clan has more members - this person needs to assign leadership before leaving
+                        var cssClass = 'center';
+                        if ($window.innerWidth < 500) {
+                            cssClass = 'mobile';
+                        }
 
-        $scope.modalOptions = {
-            title: 'Leave clan?',
-            message: 'Please confirm you want to leave the clan "' + $scope.meta.current_clan.name + '"',
-            yesBtn: 'Leave',
-            noBtn: 'Cancel',
-            cssClass: cssClass,
-            onYes: function() {
-                userService.updateClan(authService.user.id, {}, function (err, m) {
-                    if (err) {
-                        err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.leaveClan', message: 'Error leaving clan' } );
-                        errorService.save(err, function() {});
+                        $scope.modalOptions = {
+                            title: 'Promote someone else to leader before you leave the clan',
+                            message: 'Every clan needs a leader! Before you leave, please promote another member to leader through the members page.',
+                            cssClass: cssClass
+                        };
+
+                        var modalInstance = $modal(
+                            {
+                                scope: $scope,
+                                animation: 'am-fade-and-slide-top',
+                                placement: 'center',
+                                template: "/views/partials/notifyDialog.html",
+                                show: false
+                            }
+                        );
+
+                        modalInstance.$promise.then(function() {
+                            modalInstance.show();
+                        });
                     }
                     else {
-                        messagelogService.save($scope.meta.current_clan.clan_id, '[ign] left the clan', $scope.meta.ign, 'member', function (err, msg) {
-                            if (err) {
-                                err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.leaveClan', message: 'Error saving left clan message' } );
-                                errorService.save(err, function() {});
-                            }
-                            else {
-                                // nothing to do
-                            }
-                        });
 
-                        // clear meta data so the clan gets refreshed
-                        sessionService.clearUserMeta();
-
-                        trackService.track('left-clan');
-
-                        sessionService.getUserMeta(authService.user.id, function (err, meta) {
-                            if (err) {
-                                err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.leaveClan', message: 'Error loading user meta' } );
-                                errorService.save(err, function() {});
-                            }
-                            else {
-                                $scope.meta = meta;
-                            }
-                        });
-                        $scope.nullState = true;
-                        refreshInterface();
                     }
-                });
-            }
-        };
+                }
+            });
+        }
 
-        var modalInstance = $modal(
-            {
-                scope: $scope,
-                animation: 'am-fade-and-slide-top',
-                placement: 'center',
-                template: "/views/partials/confirmDialog.html",
-                show: false
+        else {
+            var cssClass = 'center';
+            if ($window.innerWidth < 500) {
+                cssClass = 'mobile';
             }
-        );
 
-        modalInstance.$promise.then(function() {
-            modalInstance.show();
-        });
+            $scope.modalOptions = {
+                title: 'Leave clan?',
+                message: 'Please confirm you want to leave the clan "' + $scope.meta.current_clan.name + '"',
+                yesBtn: 'Leave',
+                noBtn: 'Cancel',
+                cssClass: cssClass,
+                onYes: function() {
+                    userService.updateClan(authService.user.id, {}, function (err, m) {
+                        if (err) {
+                            err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.leaveClan', message: 'Error leaving clan' } );
+                            errorService.save(err, function() {});
+                        }
+                        else {
+                            messagelogService.save($scope.meta.current_clan.clan_id, '[ign] left the clan', $scope.meta.ign, 'member', function (err, msg) {
+                                if (err) {
+                                    err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.leaveClan', message: 'Error saving left clan message' } );
+                                    errorService.save(err, function() {});
+                                }
+                                else {
+                                    // nothing to do
+                                }
+                            });
+
+                            // clear meta data so the clan gets refreshed
+                            sessionService.clearUserMeta();
+
+                            trackService.track('left-clan');
+
+                            sessionService.getUserMeta(authService.user.id, function (err, meta) {
+                                if (err) {
+                                    err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.leaveClan', message: 'Error loading user meta' } );
+                                    errorService.save(err, function() {});
+                                }
+                                else {
+                                    $scope.meta = meta;
+                                }
+                            });
+                            $scope.nullState = true;
+                            refreshInterface();
+                        }
+                    });
+                }
+            };
+
+            var modalInstance = $modal(
+                {
+                    scope: $scope,
+                    animation: 'am-fade-and-slide-top',
+                    placement: 'center',
+                    template: "/views/partials/confirmDialog.html",
+                    show: false
+                }
+            );
+
+            modalInstance.$promise.then(function() {
+                modalInstance.show();
+            });
+        }
     }
 
     function loadClanMessages() {

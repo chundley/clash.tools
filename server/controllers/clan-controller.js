@@ -113,7 +113,21 @@ exports.arrangedWarRequest = function(req, res, next) {
         else {
             res.json(200, { status: result} );
         }
-    });    
+    });
+}
+
+/*
+*   Deletes a clan and associated data
+*/
+exports.delete = function(req, res, next) {
+    clanModel.delete(req.params.clanId, function (err, result) {
+        if (err) {
+            res.send(500, err);
+        }
+        else {
+            res.json(200, { result: 'success' } );
+        }
+    });
 }
 
 /*

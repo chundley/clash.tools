@@ -304,10 +304,154 @@ exports.arrangeWar = function(clanId, metaData, callback) {
                         }
                     });
                 }
-            });            
+            });
         }
     });
 
+}
+
+/*
+*   Delete a clan and associated data
+*/
+exports.delete = function(clanId, callback) {
+    if (_.isString(clanId)) {
+        clanId = new ObjectID.createFromHexString(clanId);
+    }
+
+    // need to delete from a variety of collections to remove a clan from the system
+    async.parallel({
+        attack_result: function(callback_p) {
+            db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'attack_result', function (err, collection) {
+                if (err) {
+                    callback_p(err, null);
+                }
+                else {
+                    collection.remove( { c: clanId }, { multi: true }, function (err, res) {
+                        if (err) {
+                            callback_p(err, null);
+                        }
+                        else {
+                            callback_p(null, res.result.n);
+                        }
+                    });
+                }
+            });
+        },
+        ban_list: function(callback_p) {
+            db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'ban_list', function (err, collection) {
+                if (err) {
+                    callback_p(err, null);
+                }
+                else {
+                    collection.remove( { clan_id: clanId }, { multi: true }, function (err, res) {
+                        if (err) {
+                            callback_p(err, null);
+                        }
+                        else {
+                            callback_p(null, res.result.n);
+                        }
+                    });
+                }
+            });
+        },
+        message_log: function(callback_p) {
+            db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'message_log', function (err, collection) {
+                if (err) {
+                    callback_p(err, null);
+                }
+                else {
+                    collection.remove( { clan_id: clanId.toString() }, { multi: true }, function (err, res) {
+                        if (err) {
+                            callback_p(err, null);
+                        }
+                        else {
+                            callback_p(null, res.result.n);
+                        }
+                    });
+                }
+            });
+        },
+        player_notes: function(callback_p) {
+            db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'player_notes', function (err, collection) {
+                if (err) {
+                    callback_p(err, null);
+                }
+                else {
+                    collection.remove( { clan_id: clanId }, { multi: true }, function (err, res) {
+                        if (err) {
+                            callback_p(err, null);
+                        }
+                        else {
+                            callback_p(null, res.result.n);
+                        }
+                    });
+                }
+            });
+        },
+        war: function(callback_p) {
+            db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'war', function (err, collection) {
+                if (err) {
+                    callback_p(err, null);
+                }
+                else {
+                    collection.remove( { clan_id: clanId }, { multi: true }, function (err, res) {
+                        if (err) {
+                            callback_p(err, null);
+                        }
+                        else {
+                            callback_p(null, res.result.n);
+                        }
+                    });
+                }
+            });
+        },
+        clan: function(callback_p) {
+            db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'clan', function (err, collection) {
+                if (err) {
+                    callback_p(err, null);
+                }
+                else {
+                    collection.remove( { _id: clanId }, function (err, res) {
+                        if (err) {
+                            callback_p(err, null);
+                        }
+                        else {
+                            callback_p(null, res.result.n);
+                        }
+                    });
+                }
+            });
+        },
+        user: function(callback_p) {
+            db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'user', function (err, collection) {
+                if (err) {
+                    callback(err, null);
+                }
+                else {
+                    collection.update(
+                        { 'current_clan.clan_id': clanId },
+                        { $set: { current_clan: {}, role: { bitMask: 2, title: 'member'} } },
+                        { multi: true },
+                        function (err, res) {
+                            if (err) {
+                                callback_p(err, null);
+                            }
+                            else {
+                                callback_p(null, res.result.n);
+                            }
+                        }
+                    );
+                }
+            });
+        }
+    }, function (err, results) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            callback(null, true);
+        }
+    });
 }
 
 /*
@@ -453,7 +597,7 @@ function adminClanMetrics(clanId, callback) {
                 }
                 else {
                     callback_p(null, wars);
-                }                
+                }
             });
         }
     }, function (err, results) {

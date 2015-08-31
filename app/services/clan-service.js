@@ -75,7 +75,17 @@ function ($http, errorService) {
             }).error(function (data, status, headers, config) {
                 callback(errorService.initMessage('clan-service.js', 'arrangedRequest', status), null);
             });
-        },        
+        },
+        deleteClan: function(clanId, callback) {
+            $http({
+                url: '/crud/clan/' + clanId,
+                method: 'DELETE'
+            }).success(function (data, status, headers, config) {
+                callback(null, data);
+            }).error(function (data, status, headers, config) {
+                callback(errorService.initMessage('clan-service.js', 'deleteClan', status), null);
+            });
+        },
         adminAllData: function(clanId, callback) {
             $http({
                 url: '/crud/admin/clan/' + clanId,
@@ -95,6 +105,6 @@ function ($http, errorService) {
             }).error(function (data, status, headers, config) {
                 callback(errorService.initMessage('clan-service.js', 'allClans', status), null);
             });
-        }        
+        }
     }
 }]);

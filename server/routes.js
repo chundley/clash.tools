@@ -80,7 +80,7 @@ var routes = [
         httpMethod: 'POST',
         middleware: [authorizeUserIdAccess, userCtrl.updateFromRoster],
         accessLevel: accessLevels.member
-    },    
+    },
     {
         path: '/crud/user/:userId/pw',
         httpMethod: 'POST',
@@ -177,6 +177,12 @@ var routes = [
         path: '/crud/clan/:clanId',
         httpMethod: 'GET',
         middleware: [authorizeClanIdAccess, clanCtrl.getById],
+        accessLevel: accessLevels.member
+    },
+    {
+        path: '/crud/clan/:clanId',
+        httpMethod: 'DELETE',
+        middleware: [authorizeClanIdAccess, clanCtrl.delete],
         accessLevel: accessLevels.member
     },
     {
@@ -319,7 +325,7 @@ var routes = [
         httpMethod: 'POST',
         middleware: [authorizeClanIdAccess, arrangedWarCtrl.delete],
         accessLevel: accessLevels.coleader
-    },    
+    },
     /*
     *   Analytics endpoints
     */
@@ -456,7 +462,7 @@ var routes = [
         httpMethod: 'POST',
         middleware: [userCtrl.adminSetBounces],
         accessLevel: accessLevels.sadmin
-    },    
+    },
 /*    {
         path: '/config/hubspot',
         httpMethod: 'GET',
