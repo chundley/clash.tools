@@ -1,0 +1,29 @@
+<div class="modal {{modalOptions.cssClass}}" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Leave clan and delete from system?
+            </div>
+            <div class="modal-body">
+                <div class="row margin-bottom-big">
+                    <div class="col-sm-12">
+                        <p>You are the last person in this clan. If you leave, all data including wars, attack history, ban list, and player notes will be deleted.</p>
+                        <p>This action <b>can't be undone</b>. Please verify you really want to do this by typing <b class="alternate">confirm</b> in the box below.</p>                        
+                    </div>
+                </div>
+                <form class="form-horizontal" name="confirmForm">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label">Confirm?</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control req-field" ng-model="modalOptions.formData.confirm" placeholder="confirm" ng-pattern="/confirm/i" required>
+                        </div>
+                    </div>                   
+                </form>
+            </div>
+            <div class="modal-footer">
+            <button class="btn btn-emphasis btn-sm" ng-disabled="confirmForm.$invalid" ng-click="modalOptions.onYes(modalOptions.formData); $hide();">{{modalOptions.yesBtn}}</button>
+            <button class="btn btn-default btn-sm" ng-click="$hide();">{{modalOptions.noBtn}}</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -75,6 +75,9 @@ http {
         server ct-app2:7997 max_fails=1 fail_timeout=30s;
     }
 
+    # For file uploading
+    client_max_body_size 10m;
+    
     .
     .
     .

@@ -39,7 +39,6 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
                 }
                 else {
                     $scope.clan = clan;
-                    console.log($scope.clan);
                     // load war initially
                     loadWar(function() {
                         // and after that any time a change is broadcast by socket.io (if there is a war active)
@@ -320,7 +319,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
 
                         $scope.modalOptions = {
                             title: 'Promote someone else to leader before you leave the clan',
-                            message: 'Every clan needs a leader! Before you leave, please promote another member to leader through the members page.',
+                            message: 'Every clan needs a leader! Before you leave, promote another member to leader through the members page.',
                             cssClass: cssClass
                         };
 
@@ -339,7 +338,52 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
                         });
                     }
                     else {
+                        // leader is the last member of the clan. Let them leave, but verify first and delete the clan
+                        var cssClass = 'center';
+                        if ($window.innerWidth < 500) {
+                            cssClass = 'mobile';
+                        }
 
+                        $scope.modalOptions = {
+                            yesBtn: 'Leave',
+                            noBtn: 'Cancel',
+                            modalOptions: {
+
+                            },
+                            cssClass: cssClass,
+                            onYes: function() {
+                                clanService.deleteClan($scope.meta.current_clan.clan_id, function (err, result) {
+                                    if (err) {
+                                        err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.leaveClan', message: 'Error deleting clan' } );
+                                        errorService.save(err, function() {});
+                                    }
+                                    else {
+                                        $rootScope.globalMessage = 'Clan ' + $scope.meta.current_clan.name + ' was deleted.';
+                                        trackService.track('left-clan');
+                                        trackService.track('deleted-clan', { clan: $scope.meta.current_clan.name });
+
+                                        // clear meta data so the clan gets refreshed
+                                        sessionService.clearUserMeta();
+                                        $window.location.reload();                       
+                                    }
+                                });
+
+                            }
+                        };
+
+                        var modalInstance = $modal(
+                            {
+                                scope: $scope,
+                                animation: 'am-fade-and-slide-top',
+                                placement: 'center',
+                                template: "/views/partials/deleteClanDialog.html",
+                                show: false
+                            }
+                        );
+
+                        modalInstance.$promise.then(function() {
+                            modalInstance.show();
+                        });                        
                     }
                 }
             });
@@ -376,20 +420,8 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
 
                             // clear meta data so the clan gets refreshed
                             sessionService.clearUserMeta();
-
                             trackService.track('left-clan');
-
-                            sessionService.getUserMeta(authService.user.id, function (err, meta) {
-                                if (err) {
-                                    err.stack_trace.unshift( { file: 'home-controller.js', func: '$scope.leaveClan', message: 'Error loading user meta' } );
-                                    errorService.save(err, function() {});
-                                }
-                                else {
-                                    $scope.meta = meta;
-                                }
-                            });
-                            $scope.nullState = true;
-                            refreshInterface();
+                            $window.location.reload();
                         }
                     });
                 }
