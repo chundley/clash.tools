@@ -20,7 +20,7 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
     }
 
     $scope.wt = [];
-    for (var idx=99; idx>=0; idx--) {
+    for (var idx=100; idx>=0; idx--) {
         $scope.wt.push(idx);
     }
 
