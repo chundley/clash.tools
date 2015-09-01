@@ -96,7 +96,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row margin-bottom-big">
+                                    <div class="row margin-bottom-huge">
                                         <div class="col-sm-12 hidden-xs">
                                             <a href class="btn btn-default" ng-click="fillByWeight()">Auto fill by profile</a>
                                             <a class="btn btn-default" ng-click="fillFromLast()">Auto fill from last war</a>
@@ -106,15 +106,6 @@
                                             <a class="btn btn-sm btn-default" ng-click="fillFromLast()">Auto fill from last war</a>
                                         </div>
                                     </div>
-                                    <div class="row margin-bottom-huge">
-                                        <div class="col-xs-12 form-inline">
-                                            <div class="form-group">
-                                                <label for="addedPlayer">Members</label>
-                                                <select class="form-control member-select" ng-model="addedPlayer" ng-options="member as member.displayName for member in displayMembers" ng-change="addPlayer(addedPlayer)"></select>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                         <div class="row arranged-row strong">
                                             <div class="col-xs-1 text-center">#</div>
                                             <div class="col-sm-4 col-xs-6">Player</div>
@@ -125,17 +116,17 @@
                                             <div class="col-sm-3 col-xs-4 text-center">Heroes down</div>
                                         </div>
                                         <div class="row row-underline-2"></div>
-                                        <div class="row arranged-row" ng-class="{'last-added': $index==newIndex}" ng-repeat="player in roster">
+                                        <div class="row arranged-row" ng-repeat="player in roster">
                                             <div class="col-xs-1 text-center">{{$index+1}}</div>
-                                            <div class="col-sm-4 col-xs-6 no-wrap" ng-if="player.ign">
+                                            <div class="col-sm-4 col-xs-6 no-wrap" ng-if="player.ign" style="z-index:60;">
                                                 <i class="icon-up action-icon emphasis" ng-if="player.ign && $index > 0" title="Move up" ng-click="moveUp($index)"></i>
                                                 <i class="icon-up primary-60" ng-if="player.ign && $index == 0" title="Move up"></i>
                                                 <i class="icon-down action-icon emphasis" ng-if="player.ign && $index < roster.length-1" title="Move down" ng-click="moveDown($index)"></i>
                                                 <i class="icon-down primary-60" ng-if="player.ign && $index >= roster.length-1" title="Move down"></i>
                                                 <i class="icon-cancel action-icon error-red" ng-if="player.ign" title="Remove player" ng-click="removePlayer($index)"></i>
-                                                {{player.ign}}
+                                                <a href="#" editable-select="member" e-ng-options="member.displayName for member in displayMembers" onaftersave="addToRoster($index, member)">{{player.ign}}</a>
                                             </div>
-                                            <div class="col-sm-4 col-xs-6" ng-if="!player.ign"><i>-- empty --</i></div>
+                                            <div class="col-sm-4 col-xs-6" ng-if="!player.ign"><select class="form-control-small member-select" ng-model="addedPlayer" ng-options="member as member.displayName for member in displayMembers" ng-change="addToRoster($index, addedPlayer)"></select></div>
                                             <div class="col-xs-1 text-center" style="z-index:50;" ng-if="player.editable"><a href="#" editable-select="player.th" e-ng-options="th for th in th" onaftersave="updatePlayerData($index, player)">{{player.th}}</a></div>
                                             <div class="col-xs-1 text-center" style="z-index:50;" ng-if="!player.editable && player.ign">{{player.th}}</div>
                                             <div class="col-sm-1 hidden-xs text-center" ng-if="player.editable" style="z-index:40;"><a href="#" editable-select="player.w" e-ng-options="wt for wt in wt" onaftersave="updatePlayerData($index, player)">{{player.w}}</a></div>

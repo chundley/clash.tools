@@ -423,7 +423,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
         }
     }
 
-    $scope.addPlayer = function(player) {
+/*    $scope.addPlayer = function(player) {
 
         var emptySlots = [];
 
@@ -486,32 +486,6 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                 }
             }
 
-
-/*            for (var idx=0; idx<$scope.roster.length; idx++) {
-                if ($scope.roster[idx].u &&
-                    $scope.roster[idx].w <= player.profile.warWeight) {
-                    // if a user at this location and the user's weight is less than or equal to new player, do something
-                    if ($scope.roster[idx].w == player.profile.warWeight) {
-                        // if equal, check hero levels
-                        if ($scope.roster[idx].bk + $scope.roster[idx].aq <= player.profile.heroes.bk + player.profile.heroes.aq) {
-                            position = idx;
-                            break;
-                        }
-                    }
-                    else {
-                        position = idx;
-                        break;
-                    }
-
-                }
-                else if (!$scope.roster[idx].u &&
-                         idx > lastPosition) {
-
-                    position = idx;
-                    break;
-                }
-            }*/
-
             if (position >= 0) {
                 var teamMember = {
                     b: position+1,
@@ -531,7 +505,6 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                     }
                     $scope.war.team[position] = teamMember;
                 }
-                $scope.newIndex = position;
                 saveWarInternal();
             }
             else {
@@ -551,7 +524,6 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                     }
 
                     $scope.war.team[$scope.war.team.length-1] = teamMember;
-                    $scope.newIndex = $scope.war.team.length-1;
                     saveWarInternal();
                 }
                 else {
@@ -608,21 +580,68 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                 modalInstance.show();
             });
         }
+    }*/
+
+    $scope.addToRoster = function(index, player) {
+        if (player._id) {
+            $scope.war.team[index] = {
+                b: index+1,
+                t: player.profile.buildings.th,
+                u: player._id,
+                i: player.ign
+            };
+
+            saveWarInternal();
+        }
+        else {
+            // placeholder
+            var cssClass = 'center';
+            if ($window.innerWidth < 500) {
+                cssClass = 'mobile';
+            }
+
+            $scope.modalOptions = {
+                yesBtn: 'Add',
+                noBtn: 'Cancel',
+                cssClass: cssClass,
+                formData: {
+                },
+                onYes: function(formData) {
+                    $scope.war.team[index] = {
+                        b: index+1,
+                        t: formData.th,
+                        u: utils.createGUID(),
+                        i: formData.ign
+                    };
+                    saveWarInternal();
+                }
+            };
+
+            var modalInstance = $modal(
+                {
+                    scope: $scope,
+                    animation: 'am-fade-and-slide-top',
+                    placement: 'center',
+                    template: "/views/partials/placeholderMember.html",
+                    show: false
+                }
+            );
+
+            modalInstance.$promise.then(function() {
+                modalInstance.show();
+            });
+        }
     }
 
     $scope.removePlayer = function(index) {
-
-        // slide everyone up one slot
-        $scope.war.team.splice(index, 1);
-        $scope.war.team.push(
+        $scope.war.team[index] =
             {
                 b: index+1,
                 t: 1,
                 u: null,
                 i: ''
-            }
-        );
-        $scope.newIndex = -1;
+            };
+
         saveWarInternal();
     }
 
@@ -630,8 +649,6 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
         var temp = $scope.war.team[index-1];
         $scope.war.team[index-1] = $scope.war.team[index];
         $scope.war.team[index] = temp;
-
-        $scope.newIndex = -1;
         saveWarInternal();
     }
 
@@ -640,7 +657,6 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
         $scope.war.team[index+1] = $scope.war.team[index];
         $scope.war.team[index] = temp;
 
-        $scope.newIndex = -1;
         saveWarInternal();
     }
 
