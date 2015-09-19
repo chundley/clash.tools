@@ -28,6 +28,22 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
         });
     });
 
+    $scope.previousBase = function() {
+        var prevBaseNum = parseInt($scope.baseNum) - 1;
+        if ($scope.baseNum == 1) {
+            prevBaseNum = $scope.war.bases.length;
+        }
+        $location.path('/war/notes/' + $scope.warId + '/' + prevBaseNum);
+    }
+
+    $scope.nextBase = function() {
+        var nextBaseNum = parseInt($scope.baseNum) + 1;
+        if ($scope.baseNum == $scope.war.bases.length) {
+            nextBaseNum = 1;
+        }
+        $location.path('/war/notes/' + $scope.warId + '/' + nextBaseNum);
+    }
+
     $scope.uploadBaseImg = function(file) {
         if (file.length > 0) {
             $scope.uploading = true;
