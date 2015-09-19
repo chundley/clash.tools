@@ -74,27 +74,69 @@ exports.save = function(model, callback) {
         model.created_at = model.last_updated_at;
     }
 
-    db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'war', function (err, collection) {
+
+    // add a check for an already active war in case two people attempt to start at the same time
+
+    async.waterfall([
+        function (callback_w) {
+            // first check to see if there's already an active war
+            if (model._id) {
+                // saving an existing war
+                callback_w(null, false);
+            }
+            else {
+                exports.activeWar(model.clan_id, false, function (err, war) {
+                    if (err) {
+                        callback_w(err);
+                    }
+                    else if (war) {
+                        callback_w(null, true);
+                    }
+                    else {
+                        callback_w(null, false);
+                    }
+                });
+            }
+        },
+        function (existingActive, callback_w) {
+            if (existingActive) {
+                // there was an existing active war and trying to save another new war
+                callback_w(null, null);
+            }
+            else {
+                // either saving an existing war, or saving a valid new war
+                db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'war', function (err, collection) {
+                    if (err) {
+                        callback_w(err, null);
+                    }
+                    else {
+                        collection.save(model, function (err, results) {
+                            if (err) {
+                                callback_w(err, null);
+                            }
+                            else {
+                                if (results.result.ok == 1) { // successful update
+                                    callback_w(null, model);
+                                }
+                                else {  // successful save new
+                                    callback_w(null, results);
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        }
+
+    ], function (err, result) {
         if (err) {
             callback(err, null);
         }
         else {
-            collection.save(model, function (err, results) {
-                if (err) {
-                    callback(err, null);
-                }
-                else {
-                    if (results.result.ok == 1) { // successful update
-                        callback(null, model);
-                    }
-                    else {  // successful save new
-                        callback(null, results);
-                    }
-                }
-            });
+            // will return null result if there was already an active war
+            callback(null, result);
         }
     });
-
 }
 
 exports.delete = function(warId, callback) {

@@ -17,7 +17,13 @@ function ($http, errorService) {
             }).success(function (data, status, headers, config) {
                 callback(null, data);
             }).error(function (data, status, headers, config) {
-                callback(errorService.initMessage('clan-service.js', 'save', data), null);
+                if (status == 501) {
+                    // attempted to save a new active war when an active war already exists
+                    callback(null, null);
+                }
+                else {
+                    callback(errorService.initMessage('clan-service.js', 'save', data), null);
+                }
             });
         },
         assignBase: function(warId, model, callback) {

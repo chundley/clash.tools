@@ -47,6 +47,9 @@ exports.save = function(req, res, next) {
         if (err) {
             res.send(500, err);
         }
+        else if (war == null) {
+            res.send(501, null);
+        }
         else {
             socket.emit('war:' + war._id + ':change', null);
             // need an additional notification in case the war wasn't visible yet
