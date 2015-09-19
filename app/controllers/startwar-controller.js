@@ -769,7 +769,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                             u: $scope.members[idx]._id,
                             ign: $scope.members[idx].ign,
                             b: teamIdx + 1,
-                            th: $scope.members[idx].profile.buildings.th,
+                            th: $scope.war.team[teamIdx].t,//$scope.members[idx].profile.buildings.th,
                             w: $scope.members[idx].profile.warWeight,
                             bk: $scope.members[idx].profile.heroes.bk,
                             aq: $scope.members[idx].profile.heroes.aq,
