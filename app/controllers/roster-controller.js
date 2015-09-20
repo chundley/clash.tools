@@ -86,6 +86,16 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, 
                                     $scope.memberResults[addedIndex].threeRate = $scope.memberResults[addedIndex].stars[3] / $scope.memberResults[addedIndex].totAttacks * 100;
                                 }
                             });
+
+                            // set TH's for current members correctly
+                            for (var idx=0; idx<$scope.members.length; idx++) {
+                                for (var idx2=0; idx2<$scope.memberResults.length; idx2++) {
+                                    if ($scope.members[idx]._id == $scope.memberResults[idx2].u) {
+                                        $scope.memberResults[idx2].t = $scope.members[idx].profile.buildings.th;
+                                        break;
+                                    }
+                                }
+                            }
                         }
                     });
                 }
