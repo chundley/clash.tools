@@ -57,7 +57,7 @@
                                                     <div class="col-md-5 col-sm-6 col-xs-12">
                                                         <input type="checkbox" id="emailUpdates" ng-model="user.mail_settings.enabled" ng-change="changeEmailStatus()">
                                                     </div>
-                                                </div>                                                
+                                                </div>
                                                 <div class="form-group">
                                                     <div class="col-md-4 col-md-offset-4 col-sm-5 col-sm-offset-5 col-xs-12">
                                                         <button class="btn btn-emphasis btn-sm save-btn" ng-disabled="nameForm.$invalid || !nameForm.$dirty" track="saved-profile">Save</button> <span ng-show="nameForm.$dirty" class="error-red"><b>Changes not saved!</b></span>
@@ -274,10 +274,10 @@
                                             <b>Spells</b>
                                                 <div class="row">
                                                     <div class="col-sm-3 col-xs-4">
-                                                        <span class="army-icon lightningspell-icon" ng-class="{'top-lvl':user.profile.spells.lightning==6, active:user.profile.spells.lightning>0}"><span>{{user.profile.spells.lightning}}</span></span>
+                                                        <span class="army-icon lightningspell-icon" ng-class="{'top-lvl':user.profile.spells.lightning==7, active:user.profile.spells.lightning>0}"><span>{{user.profile.spells.lightning}}</span></span>
                                                     </div>
                                                     <div class="col-sm-7 col-xs-8 profile-slider">
-                                                        <input type="range" class="hidden-xs" min="0" max="6" ng-model="user.profile.spells.lightning" ng-mouseup="saveUser()" integer>
+                                                        <input type="range" class="hidden-xs" min="0" max="7" ng-model="user.profile.spells.lightning" ng-mouseup="saveUser()" integer>
                                                         <select class="form-control-small profile-select hidden-lg hidden-md hidden-sm visible-xs" ng-model="user.profile.spells.lightning" ng-change="saveUser()" integer>
                                                             <option>0</option>
                                                             <option>1</option>
@@ -286,6 +286,7 @@
                                                             <option>4</option>
                                                             <option>5</option>
                                                             <option>6</option>
+                                                            <option>7</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -470,7 +471,7 @@
                                                             <option>6</option>
                                                         </select>
                                                     </div>
-                                                </div>                                                
+                                                </div>
                                                 <div class="row">
                                                     <div class="col-sm-3 col-xs-4">
                                                         <span class="army-icon wallbreaker-icon" ng-class="{'top-lvl':user.profile.troops.wallbreaker==6,active:user.profile.troops.wallbreaker>0}"><span>{{user.profile.troops.wallbreaker}}</span></span>

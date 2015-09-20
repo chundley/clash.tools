@@ -176,12 +176,12 @@ exports.updateFromRoster = function(userId, model, callback) {
         else {
             collection.update(
                 { _id: userId },
-                { $set: { 
+                { $set: {
                             'profile.warWeight': model.w,
                             'profile.buildings.th': model.th,
                             'profile.heroes.bk': model.bk,
-                            'profile.heroes.aq': model.aq 
-                        } 
+                            'profile.heroes.aq': model.aq
+                        }
                 },
                 { upsert: false },
                 function (err, result) {
@@ -435,7 +435,7 @@ exports.usersByClan = function(clanId, memberTypes, callback) {
 
 
 /*
-* Updates a record and returns the record
+*   Updates a record and returns the record
 */
 exports.saveModel = function(model, callback) {
     if (!model._id) {
@@ -461,17 +461,29 @@ exports.saveModel = function(model, callback) {
 
         model.email_address = model.email_address.toLowerCase();
 
-        db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'user', function (err, collection) {
+
+        // Get existing model for role, since we don't want to overwrite role when a profile is saved. The only
+        // way to update role is through the updateRole function
+
+        exports.findById(model._id, function (err, user) {
             if (err) {
-                callback(err, null);
+                callback(err);
             }
             else {
-                collection.save(model, function (err, result) {
+                model.role = user.role;
+                db(config.env[process.env.NODE_ENV].mongoDb.dbName, 'user', function (err, collection) {
                     if (err) {
                         callback(err, null);
                     }
                     else {
-                        callback(null, model);
+                        collection.save(model, function (err, result) {
+                            if (err) {
+                                callback(err, null);
+                            }
+                            else {
+                                callback(null, model);
+                            }
+                        });
                     }
                 });
             }
