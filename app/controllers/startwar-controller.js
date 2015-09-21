@@ -170,6 +170,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                             opponent_tag: '',
                             player_count: 30,
                             start: warStart,
+                            plan: '',
                             bases: [],
                             team: [],
                             result: {
