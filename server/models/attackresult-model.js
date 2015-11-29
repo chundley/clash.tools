@@ -6,8 +6,7 @@ var ObjectID = require('mongodb').ObjectID,
     async    = require('async'),
     _        = require('underscore');
 
-var config    = require('../../config/config'),
-    warModel  = require('./war-model');
+var warModel  = require('./war-model');
 
 // baseline value for stars
 var starVal = [0, 10, 30, 60];

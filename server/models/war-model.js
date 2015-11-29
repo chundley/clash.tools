@@ -6,8 +6,7 @@ var ObjectID = require('mongodb').ObjectID,
     async    = require('async'),
     _        = require('underscore');
 
-var config            = require('../../config/config'),
-    clanModel         = require('./clan-model'),
+var clanModel         = require('./clan-model'),
     attackResultModel = require('./attackresult-model');
 
 

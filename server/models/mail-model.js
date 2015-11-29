@@ -8,8 +8,7 @@ var _        = require('underscore'),
     path     = require('path'),
     mandrill = require('mandrill-api');
 
-var config       = require('../../config/config'),
-    user         = require('./user-model'),
+var user         = require('./user-model'),
     pwreset      = require('./pwreset-model'),
     appVersion   = require('../../package.json').version,
     templatePath = './server/email_templates/';

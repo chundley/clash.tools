@@ -4,6 +4,13 @@ This document outlines the steps to set up the Siftrock application in productio
 ### ct-app[n]
 Each app server should be exactly the same other than host name
 
+#### Security
+Initial security setup can be found in the [general security doc here](doc/security.md). Do those steps before moving on.
+
+Add firewall rules to support the application running on port 7997.
+
+`$ sudo ufw allow 7997/tcp`
+
 #### Set timezone to UTC
 Every server in the cluster needs to be set to the same timezone:
 
@@ -228,26 +235,3 @@ Once again, this setting will not persist on reboot. To set the value permanentl
 At the end of the file, add this line -
 
 `vm.swappiness=10`
-
-
-#### Install and configure Zabbix monitoring
-
-Install the agent
-
-`$ apt-get install -y zabbix-agent`
-
-Update config with the zabbix server
-
-`$ vim /etc/zabbix/zabbix_agentd.conf`
-
-Edit the server property to reflect the Zabbix server name in production
-
-`Server=monitor.siftrock.com`
-
-Edit the hostname property to reflect this machine's host name
-
-`Hostname=ct-app[n]`
-
-Re-start the zabbix agent
-
-`$ service zabbix-agent restart`

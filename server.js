@@ -17,13 +17,18 @@ var http    = require('http'),
 /*
  * Module dependencies
 */
-var config          = require('./config/config'),
+var configCache     = require('./server/config-cache'),
     mongoCache      = require('./app/shared/mongo-cache'),
     App             = require('./app/app'),
     warModel        = require('./server/models/war-model'),
     sendEmailAll    = require('./server/jobs/sendemailall-job'),
     purgeEmail      = require('./server/jobs/emailmessagepurge-job'),
     purgeMessagelog = require('./server/jobs/messagelogpurge-job');
+
+/*
+* Global configuration
+*/
+config = configCache().initConfig();
 
 /*
  * Global logger

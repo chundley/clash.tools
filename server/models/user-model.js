@@ -8,8 +8,7 @@ var LocalStrategy = require('passport-local').Strategy,
     _             = require('underscore');
 
 
-var config            = require('../../config/config'),
-    util              = require('../../app/shared/util'),
+var util              = require('../../app/shared/util'),
     userRoles         = require('../../app/shared/role-config').userRoles,
     emailMessageModel = require('./emailmessage-model'),
     messageLogModel   = require('./messagelog-model');

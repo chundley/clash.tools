@@ -6,9 +6,8 @@ var async = require('async'),
     passport = require('passport'),
     shortid = require('shortid');
 
-var config       = require('../../config/config'),
-    mailModel    = require('../models/mail-model'),
-    userModel    = require('../models/user-model');
+var mailModel = require('../models/mail-model'),
+    userModel = require('../models/user-model');
 
 /*
 *   The registration process does the following:

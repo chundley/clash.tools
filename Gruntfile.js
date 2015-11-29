@@ -4,7 +4,8 @@ var async = require('async'),
     path  = require('path'),
     _     = require('underscore');
 
-var config = require('./config/config.js');
+var configCache = require('./server/config-cache');
+config = configCache().initConfig();
 
 var buildLocation = path.resolve(process.cwd(), '.build');
 var distLocation = path.resolve(process.cwd(), '.dist');

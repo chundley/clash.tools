@@ -2,8 +2,7 @@
 *   Purge email job
 */
 
-var config 				= require('../../config/config'),
-    emailMessageModel   = require('../models/emailmessage-model');
+var emailMessageModel   = require('../models/emailmessage-model');
 
 exports.runJob = function(numDays, callback) {
     emailMessageModel.purge(numDays, function (err, results) {

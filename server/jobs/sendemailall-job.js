@@ -6,8 +6,7 @@ var async = require('async'),
     fs    = require('fs'),
     _     = require('underscore');
 
-var config    = require('../../config/config'),
-    userModel = require('../models/user-model'),
+var userModel = require('../models/user-model'),
     mailModel = require('../models/mail-model'),
     templatePath = './server/email_templates/updates/';
 

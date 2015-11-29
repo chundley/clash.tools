@@ -1,6 +1,13 @@
 ## Setup and configuration of the load balancer in production
 This document outlines the steps to set up the application load balancer in production.
 
+#### Security
+Initial security setup can be found in the [general security doc here](doc/security.md). Do those steps before moving on.
+
+Add firewall rules to support nginx running on port 80.
+
+`$ sudo ufw allow 80/tcp`
+
 
 #### Set timezone to UTC
 Every server in the cluster needs to be set to the same timezone:
@@ -96,18 +103,26 @@ server {
     server_name clash.tools;
 
     # to support local maintenance page if necessary
-    root /var/webroot;
+    # root /var/webroot;
 
     # if the maintenance page is there it will serve rather than going to the app servers
-    try_files /maintenance.html @proxy;
+    # try_files /maintenance.html @proxy;
 
-    # references siftrock-app which is defined in /etc/nginx/nginx.conf for load balancing
-    location @proxy {
+    # references ct-app which is defined in /etc/nginx/nginx.conf for load balancing
+    location / {
         # rewrite some headers so the app gets the correct IP from origin
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
+
+        # needed for socket.io
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto http;
+
+        # needed for socket.io
+        proxy_http_version 1.1;
 
         # proxy requests to load balanced set defined in nginx.conf
         proxy_pass http://ct-app;

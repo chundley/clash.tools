@@ -4,8 +4,6 @@
 
 var async    = require('async');
 
-var config = require('../../config/config');
-
 /*
 *   Gets summary of clashtools usage
 */

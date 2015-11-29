@@ -13,6 +13,28 @@ module.exports.createGUID = function() {
     });
 }
 
+/*
+ *  Deep merge two objects together
+ *  
+ *  NOTE: exact values in obj2 will overwrite those in obj1. obj1 will be changed
+ *  into the new object. Example call:
+ *  
+ *  collate(firstObject, secondObject);
+ *  
+ *  Now firstObject has all the properties of both objects
+ */
+module.exports.collate = function(obj1, obj2) {
+    for (var p in obj2) {
+        if (obj2[p].constructor == Object) {
+            if (obj1[p]) {
+                exports.collate(obj1[p], obj2[p]);
+                continue;
+            }
+        }
+        obj1[p] = obj2[p];
+    }
+}
+
 module.exports.capitalizeFirstWord = function(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }

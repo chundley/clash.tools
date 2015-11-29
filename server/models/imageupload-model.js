@@ -4,8 +4,6 @@
 var AWS = require('aws-sdk'),
     fs  = require('fs');
 
-var config = require('../../config/config');
-
 exports.upload = function(folderName, fileName, file, callback) {
 
     // the file is stored locally, need to read it into a buffer and upload

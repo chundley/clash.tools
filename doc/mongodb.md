@@ -6,6 +6,21 @@ This document outlines the steps to set up MongoDB in production.
 ### ct-db1
 This is the primary MongoDB instance, running on Ubuntu 14.04
 
+#### Security
+Initial security setup can be found in the [general security doc here](doc/security.md). Do those steps before moving on.
+
+Add firewall rules. First is MongoDB access from app servers
+
+`$ sudo ufw allow from 104.236.155.76 to any port 27017`
+`$ sudo ufw allow from 104.236.154.120 to any port 27017`
+
+And now Redis:
+
+`$ sudo ufw allow from 104.236.155.76 to any port 6379`
+`$ sudo ufw allow from 104.236.154.120 to any port 6379`
+
+
+
 #### Set timezone to UTC
 Every server in the cluster needs to be set to the same timezone:
 
@@ -14,7 +29,7 @@ Every server in the cluster needs to be set to the same timezone:
 
 #### Change the hostname to ct-db1
 
-Edit the hostname file, replace what's there with siftrock-db1
+Edit the hostname file, replace what's there with ct-db1
 
 `$ vim /etc/hostname`
 
@@ -24,13 +39,13 @@ Edit host file and add other servers
 
 Make sure this entry is there
 
-`127.0.0.1       siftrock-db1`
+`127.0.0.1       ct-db1`
 
-Add these entries for the other servers in the cluster:
+FUTURE Add these entries for the other servers in the cluster:
 
 ````
-104.131.136.15  siftrock-db2
-104.131.120.227 siftrock-db3
+x.x.x.x  ct-db2
+x.x.x.x  ct-db3
 ````
 
 Reboot the server if you changed the hostname
@@ -74,7 +89,7 @@ Comment out this line:
 `bind_ip = 127.0.0.1`
 
 
-#### Configure MongoDB as a Replica Set
+#### FUTURE Configure MongoDB as a Replica Set
 
 Open the config file and find the replSet setting, change to the following:
 
@@ -105,7 +120,7 @@ It should look like the following:
     "members" : [
         {
             "_id" : 0,
-            "host" : "siftrock-db1:27017"
+            "host" : "ct-db1:27017"
         }
     ]
 }
@@ -115,13 +130,13 @@ Verify the host name. If it is incorrect something went wrong with step 1 above.
 
 ````
 cfg = rs.conf()
-cfg.members[0].host = "db1.siftrock.com:27017"
+cfg.members[0].host = "ct-db1.clash.tools:27017"
 rs.reconfig(cfg)
 ````
 
 This should now be the primary server on a new replication set
 
-### siftrock-db2
+### ct-db2
 
 #### Set timezone to UTC
 Every server in the cluster needs to be set to the same timezone:
@@ -129,21 +144,21 @@ Every server in the cluster needs to be set to the same timezone:
 `$ ln -sf /usr/share/zoneinfo/UTC /etc/localtime`
 
 
-#### Change the hostname to siftrock-db2
+#### Change the hostname to ct-db2
 
-Follow step above substituting siftrock-db2 for siftrock-db1
+Follow step above substituting ct-db2 for ct-db1
 
 In the hosts file, add the other servers in the cluster
 
 ````
-107.170.239.217 siftrock-db1
-104.131.120.227 siftrock-db3
+x.x.x.x ct-db1
+x.x.x.x ct-db3
 ````
 
 
 #### Install MongoDB
 
-Follow step above substituting siftrock-db2 for siftrock-db1
+Follow step above substituting ct-db2 for ct-db1
 
 
 #### Configure MongoDB as a replica set
@@ -159,9 +174,9 @@ Restart mongodb
 
 #### Add this server to the replica set
 
-Log into **siftrock-db1** and connect to MongoDB
+Log into **ct-db1** and connect to MongoDB
 
-`> rs.add("siftrock-db2:27017")`
+`> rs.add("ct-db2:27017")`
 
 Verify the configuration changed
 
@@ -176,11 +191,11 @@ It should look something like this:
     "members" : [
         {
             "_id" : 0,
-            "host" : "siftrock-db1:27017"
+            "host" : "ct-db1:27017"
         },
         {
             "_id" : 1,
-            "host" : "siftrock-db2:27017"
+            "host" : "ct-db2:27017"
         }
     ]
 }
@@ -200,7 +215,7 @@ It should look something like this:
     "members" : [
         {
             "_id" : 0,
-            "name" : "siftrock-db1:27017",
+            "name" : "ct-db1:27017",
             "health" : 1,
             "state" : 1,
             "stateStr" : "PRIMARY",
@@ -213,7 +228,7 @@ It should look something like this:
         },
         {
             "_id" : 1,
-            "name" : "siftrock-db2:27017",
+            "name" : "ct-db2:27017",
             "health" : 1,
             "state" : 2,
             "stateStr" : "SECONDARY",
@@ -223,14 +238,14 @@ It should look something like this:
             "lastHeartbeat" : ISODate("2014-09-24T01:26:54Z"),
             "lastHeartbeatRecv" : ISODate("2014-09-24T01:26:54Z"),
             "pingMs" : 0,
-            "syncingTo" : "siftrock-db1:27017"
+            "syncingTo" : "ct-db1:27017"
         }
     ],
     "ok" : 1
 }
 ````
 
-### siftrock-db3
+### ct-db3
 
 
 #### Set timezone to UTC
@@ -239,21 +254,21 @@ Every server in the cluster needs to be set to the same timezone:
 `$ ln -sf /usr/share/zoneinfo/UTC /etc/localtime`
 
 
-#### Change the hostname to siftrock-db3
+#### Change the hostname to ct-db3
 
-Follow step 1 above substituting siftrock-db3 for siftrock-db1
+Follow step 1 above substituting ct-db3 for ct-db1
 
 In the hosts file, add the other servers in the cluster
 
 ````
-107.170.239.217 siftrock-db1
-104.131.136.15  siftrock-db2
+x.x.x.x  ct-db1
+x.x.x.x  ct-db2
 ````
 
 
 #### Install MongoDB
 
-Follow step above substituting siftrock-db3 for siftrock-db1
+Follow step above substituting ct-db3 for ct-db1
 
 
 #### Configure MongoDB as a replica set
@@ -269,9 +284,9 @@ Restart the MongoDb service
 
 #### Add this server to the replica set
 
-Log into **siftrock-db1** and connect to MongoDB
+Log into **ct-db1** and connect to MongoDB
 
-`> rs.add("siftrock-db3:27017")`
+`> rs.add("ct-db3:27017")`
 
 Verify the configuration changed
 
@@ -286,15 +301,15 @@ It should look something like this:
     "members" : [
         {
             "_id" : 0,
-            "host" : "db1.siftrock.com:27017"
+            "host" : "ct-db1.clash.tools:27017"
         },
         {
             "_id" : 1,
-            "host" : "db2.siftrock.com:27017"
+            "host" : "ct-db2.clash.tools:27017"
         },
         {
             "_id" : 2,
-            "host" : "db3.siftrock.com:27017"
+            "host" : "ct-db3.clash.tools:27017"
         }
     ]
 }
@@ -314,7 +329,7 @@ It should look something like this:
     "members" : [
         {
             "_id" : 0,
-            "name" : "siftrock-db1:27017",
+            "name" : "ct-db1:27017",
             "health" : 1,
             "state" : 1,
             "stateStr" : "PRIMARY",
@@ -327,7 +342,7 @@ It should look something like this:
         },
         {
             "_id" : 1,
-            "name" : "siftrock-db2:27017",
+            "name" : "ct-db2:27017",
             "health" : 1,
             "state" : 2,
             "stateStr" : "SECONDARY",
@@ -337,12 +352,12 @@ It should look something like this:
             "lastHeartbeat" : ISODate("2014-09-26T15:46:30Z"),
             "lastHeartbeatRecv" : ISODate("2014-09-26T15:46:31Z"),
             "pingMs" : 0,
-            "lastHeartbeatMessage" : "syncing to: siftrock-db1:27017",
+            "lastHeartbeatMessage" : "syncing to: ct-db1:27017",
             "syncingTo" : "siftrock-db1:27017"
         },
         {
             "_id" : 2,
-            "name" : "siftrock-db3:27017",
+            "name" : "ct-db3:27017",
             "health" : 1,
             "state" : 2,
             "stateStr" : "SECONDARY",
@@ -352,7 +367,7 @@ It should look something like this:
             "lastHeartbeat" : ISODate("2014-09-26T15:46:30Z"),
             "lastHeartbeatRecv" : ISODate("2014-09-26T15:46:30Z"),
             "pingMs" : 80,
-            "lastHeartbeatMessage" : "syncing to: siftrock-db1:27017",
+            "lastHeartbeatMessage" : "syncing to: ct-db1:27017",
             "syncingTo" : "siftrock-db1:27017"
         }
     ],
@@ -386,15 +401,15 @@ It should look like this:
     "members" : [
         {
             "_id" : 0,
-            "host" : "siftrock-db1:27017"
+            "host" : "ct-db1:27017"
         },
         {
             "_id" : 1,
-            "host" : "siftrock-db2:27017"
+            "host" : "ct-db2:27017"
         },
         {
             "_id" : 2,
-            "host" : "siftrock-db3:27017",
+            "host" : "ct-db3:27017",
             "priority" : 0
         }
     ]
@@ -419,30 +434,30 @@ db.createUser( {
 ````
 
 
-#### Set up the siftrock user
+#### Set up the clashtools user
 
 First, exit MongoDB and reconnect as admin
 
 `$ mongo admin -u 'admin' -p '<password>'`
 
-Set up the user who accesses the siftrock database from the app. The password is not shown here for security reasons. This should be done on the primary database server.
+Set up the user who accesses the clashtools database from the app. The password is not shown here for security reasons. This should be done on the primary database server.
 
 ````
-use siftrock
+use clashtools
 db.createUser( {
-    user: "siftrock",
+    user: "clashtools",
     pwd: "<password>",
-    roles: [ { role: "readWrite", db: "siftrock" }, { role: "dbAdmin", db: "siftrock" }  ]
+    roles: [ { role: "readWrite", db: "clashtools" }, { role: "dbAdmin", db: "clashtools" }  ]
 });
 
 ````
 
 
-#### Create a key file to be used for authentication across the replica sets
+#### FUTURE Create a key file to be used for authentication across the replica sets
 
 Make a directory to hold the file
 
-`$ mkdir /var/lib/siftrock`
+`$ mkdir /var/lib/clashtools`
 
 Create a random file using open-ssl entropy
 
@@ -468,7 +483,7 @@ Find this line and un-comment it
 
 Find this line and edit as such:
 
-`keyFile=/var/lib/siftrock/mongodb-keyfile`
+`keyFile=/var/lib/clashtools/mongodb-keyfile`
 
 Save, and restart mongodb
 
@@ -595,25 +610,3 @@ Restart the agent
 
 MongoDB metrics should start collecting in DataDog
 
-
-### DEPRECIATED!!! Install and configure Zabbix monitoring - DEPRECIATED!!!
-
-Install the agent
-
-`$ apt-get install -y zabbix-agent`
-
-Update config with the zabbix server
-
-`$ vim /etc/zabbix/zabbix_agentd.conf`
-
-Edit the server property to reflect the Zabbix server name in production
-
-`Server=monitor.siftrock.com`
-
-Edit the hostname property to reflect this machine's host name
-
-`Hostname=siftrock-db[n]`
-
-Re-start the zabbix agent
-
-`$ service zabbix-agent restart`

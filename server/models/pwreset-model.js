@@ -4,8 +4,7 @@
 
 var request = require('request');
 
-var config = require('../../config/config'),
-    util   = require('../../app/shared/util');
+var util   = require('../../app/shared/util');
 
 /*
 *   Adds a new password reset request

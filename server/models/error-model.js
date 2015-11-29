@@ -4,7 +4,6 @@
 
 var ObjectID = require('mongodb').ObjectID;
 
-var config = require('../../config/config');
 
 /*
 * Upserts a record and returns the resulting record

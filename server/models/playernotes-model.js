@@ -5,7 +5,6 @@
 var ObjectID = require('mongodb').ObjectID,
     _        = require('underscore');
 
-var config = require('../../config/config');
 
 /*
 * Saves a record and returns the resulting record
