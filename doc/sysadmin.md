@@ -31,11 +31,7 @@ To run in test mode before running for real, use the -t option:
 #### Forever (nodejs service runner)
 For servers running forever the logs are created and grow over time. They are located here:
 
-`/root/.forever/*.log`
-
-Note if you installed forever under a different account the location will be different such as 
-
-`/home/admin/.forever/**`
+`~/.forever/*.log`
 
 ### Generate random strong password
 Use openssl to create random passwords of a specific length

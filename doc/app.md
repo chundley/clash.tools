@@ -123,13 +123,25 @@ The app stays running using the forever library, install it:
 
 `$ npm install -g forever`
 
+#### Add c-config.js
+Sensitive passwords and keys are stored in a file called c-config.js. This file is required in two locations:
+
+For the build:
+
+`~/github/c-config.js`
+
+For production app:
+
+`/var/node/c-config.js`
+
+
 
 #### Run the deployment
 Deploy from the server
 
 Navigate to the directory containing the deployment script
 
-`$ cd /root/github/clash.tools/bin`
+`$ cd ~/github/clash.tools/bin`
 
 Run the deploy
 
@@ -142,7 +154,7 @@ Verify there were no problems during the deploy
 
 Create a startup script
 
-`$ vim /etc/init.d/ct`
+`$ vim ~/startup.sh`
 
 Contents of the file should be -
 
@@ -154,18 +166,19 @@ PATH=/usr/bin:/usr/local/bin
 
 # start app
 /var/node/clash.tools/bin/start-prod.sh
-
-# required for init.d scripts
-exit 0
 ````
 
-Make the OS aware -
+Make the script executable
 
-````
-$ chmod a+x /etc/init.d/ct
-$ update-rc.d ct defaults
-````
+`$ chmod 700 startup.sh`
 
+Add to crontab to start on boot
+
+`$ crontab -e`
+
+Add this line
+
+`@reboot /home/admin/startup.sh`
 
 #### Set up a swap file
 Out of the box Ubuntu doesn't have a swap file. Create one just in case it's needed.
