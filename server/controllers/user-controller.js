@@ -221,8 +221,10 @@ exports.getMeta = function(req, res, next) {
                 avatar: user.profile.avatar,
                 bkLevel: user.profile.heroes.bk,
                 aqLevel: user.profile.heroes.aq,
+                gwLevel: user.profile.heroes.gw,
                 bkUpgrade: user.profile.bkUpgrade,
                 aqUpgrade: user.profile.aqUpgrade,
+                gwUpgrade: user.profile.gwUpgrade,
                 created_at: user.created_at
             };
             res.json(200, ret);

@@ -80,7 +80,7 @@ function ($rootScope, $scope, $interval, $modal, $window, moment, authService, c
         }
     }
 
-    $scope.upgradeHero = function(isBK) {
+    $scope.upgradeHero = function(hero) {
         var cssClass = 'center';
         if ($window.innerWidth < 500) {
             cssClass = 'mobile';
@@ -93,13 +93,17 @@ function ($rootScope, $scope, $interval, $modal, $window, moment, authService, c
             formData: {},
             onYes: function(formData) {
                 var now = new Date();
-                if (isBK) {
+                if (hero=='bk') {
                     $scope.user.profile.bkUpgrade = new Date(now.getTime() + ((formData.finishedDays*24*60 + formData.finishedHours*60)*60000));
                     trackService.track('upgraded-bk');
                 }
-                else {
+                else if (hero=='aq') {
                     $scope.user.profile.aqUpgrade = new Date(now.getTime() + ((formData.finishedDays*24*60 + formData.finishedHours*60)*60000));
                     trackService.track('upgraded-aq');
+                }
+                else if (hero=='gw') {
+                    $scope.user.profile.gwUpgrade = new Date(now.getTime() + ((formData.finishedDays*24*60 + formData.finishedHours*60)*60000));
+                    trackService.track('upgraded-gw');                    
                 }
                 saveUserInternal();
 
@@ -191,7 +195,7 @@ function ($rootScope, $scope, $interval, $modal, $window, moment, authService, c
 
     $scope.wallDD = function() {
         var options = [];
-        for (var idx=0; idx<=250; idx++) {
+        for (var idx=0; idx<=275; idx++) {
             options.push(idx);
         }
         return options;
@@ -246,6 +250,19 @@ function ($rootScope, $scope, $interval, $modal, $window, moment, authService, c
             $scope.aqDays = 0;
             $scope.aqHours = 0;
         }
+
+        var gwFinishTime = new Date($scope.user.profile.gwUpgrade);
+        gwFinishTime = gwFinishTime.getTime();
+
+        if (gwFinishTime > now.getTime()) {
+            var hoursLeft = parseInt((gwFinishTime - now.getTime())/1000/60/60);
+            $scope.gwDays = parseInt(hoursLeft / 24);
+            $scope.gwHours = parseInt(hoursLeft % 24);
+        }
+        else {
+            $scope.gwDays = 0;
+            $scope.gwHours = 0;
+        }        
     }
 
 }]);

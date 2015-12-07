@@ -28,6 +28,7 @@ function ($rootScope, $scope, $location, md5, authService, sessionService, mailS
                 avatar: '000000000000000000000000.png',
                 bkUpgrade: tmpExpire,
                 aqUpgrade: tmpExpire,
+                gwUpgrade: tmpExpire,
                 warWeight: 0,
                 buildings: {
                     th: 1,
@@ -67,7 +68,8 @@ function ($rootScope, $scope, $location, md5, authService, sessionService, mailS
                 },
                 heroes: {
                     bk: 0,
-                    aq: 0
+                    aq: 0,
+                    gw: 0
                 },
                 walls: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             },

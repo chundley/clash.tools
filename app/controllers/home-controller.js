@@ -598,6 +598,19 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
             $scope.aqDays = 0;
             $scope.aqHours = 0;
         }
+
+        var gwFinishTime = new Date($scope.meta.gwUpgrade);
+        gwFinishTime = gwFinishTime.getTime();
+
+        if (gwFinishTime > now.getTime()) {
+            var hoursLeft = parseInt((gwFinishTime - now.getTime())/1000/60/60);
+            $scope.gwDays = parseInt(hoursLeft / 24);
+            $scope.gwHours = parseInt(hoursLeft % 24);
+        }
+        else {
+            $scope.gwDays = 0;
+            $scope.gwHours = 0;
+        }        
     }
 
     /*

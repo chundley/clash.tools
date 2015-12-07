@@ -183,7 +183,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="row margin-bottom-huge">
+                                    <div class="row">
                                         <div class="col-xs-3">
                                             <span class="army-icon archerqueen-icon" ng-class="{'top-lvl':meta.aqLevel==40, active:meta.aqLevel>0}"><span>{{meta.aqLevel}}</span></span>
                                         </div>
@@ -193,6 +193,16 @@
                                             <span ng-if="meta.aqLevel==0"><b class="primary-40">No AQ</b></span>
                                         </div>
                                     </div>
+                                    <div class="row margin-bottom-huge">
+                                        <div class="col-xs-3">
+                                            <span class="army-icon grandwarden-icon" ng-class="{'top-lvl':meta.gwLevel==20, active:meta.gwLevel>0}"><span>{{meta.gwLevel}}</span></span>
+                                        </div>
+                                        <div class="col-xs-9 hero-countdown">
+                                            <span ng-if="(gwDays>0 || gwHours > 0) && meta.gwLevel>0">Finishes in: <b>{{gwDays}}</b> day<span ng-if="gwDays==0 || gwDays > 1">s</span>, <b>{{gwHours}}</b> hour<span ng-if="gwHours==0 || gwHours > 1">s</span></span>
+                                            <span ng-if="gwDays==0 && gwHours == 0 && meta.gwLevel>0"><b>Active</b></span>
+                                            <span ng-if="meta.gwLevel==0"><b class="primary-40">No GW</b></span>
+                                        </div>
+                                    </div>                                    
                                     <div class="row row-underline-1"></div>
                                     <div class="row leave-clan-row">
                                         <div class="col-xs-12">

@@ -16,7 +16,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
 
     // needed for inline dropdown lists
     $scope.th = [];
-    for (var idx=10; idx>0; idx--) {
+    for (var idx=11; idx>0; idx--) {
         $scope.th.push(idx);
     }
 
@@ -76,6 +76,19 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                             member.aqDays = 0;
                             member.aqHours = 0;
                         }
+
+                        var gwFinishTime = new Date(member.profile.gwUpgrade);
+                        gwFinishTime = gwFinishTime.getTime();
+
+                        if (gwFinishTime > now.getTime()) {
+                            var hoursLeft = parseInt((gwFinishTime - now.getTime())/1000/60/60);
+                            member.gwDays = parseInt(hoursLeft / 24);
+                            member.gwHours = parseInt(hoursLeft % 24);
+                        }
+                        else {
+                            member.gwDays = 0;
+                            member.gwHours = 0;
+                        }                        
                     });
 
                     $scope.members.sort(function (a, b) {
@@ -675,7 +688,8 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                 th: player.th,
                 w: player.w,
                 bk: player.bk,
-                aq: player.aq
+                aq: player.aq,
+                gw: player.gw
             }
 
             userService.updateFromRoster(player.u, model, function (err, user) {
@@ -693,6 +707,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                             $scope.members[idx].profile.warWeight = player.w;
                             $scope.members[idx].profile.heroes.bk = player.bk;
                             $scope.members[idx].profile.heroes.aq = player.aq;
+                            $scope.members[idx].profile.heroes.gw = player.gw;
                             break;
                         }
                     }
@@ -774,6 +789,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                             w: $scope.members[idx].profile.warWeight,
                             bk: $scope.members[idx].profile.heroes.bk,
                             aq: $scope.members[idx].profile.heroes.aq,
+                            gw: $scope.members[idx].profile.heroes.gw,
                             editable: true
                         };
 
@@ -792,6 +808,13 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                         else {
                             rosterMember.aqDown = { days: 0, hours: 0};
                         }
+
+                        if ($scope.members[idx].gwDays > 0 || $scope.members[idx].gwHours > 0) {
+                            rosterMember.gwDown = { days: $scope.members[idx].gwDays, hours: $scope.members[idx].gwHours};
+                        }
+                        else {
+                            rosterMember.gwDown = { days: 0, hours: 0};
+                        }                        
                         break;
                     }
                 }
@@ -806,6 +829,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                     w: 100,
                     bk: 0,
                     aq: 0,
+                    gw: 0,
                     editable: false
                 };
                 found = true;
@@ -851,6 +875,13 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                         else {
                             hUpgrade.aqDown = { days: 0, hours: 0};
                         }
+
+                        if ($scope.members[idx].gwDays > 0 || $scope.members[idx].gwHours > 0) {
+                            hUpgrade.gwDown = { days: $scope.members[idx].gwDays, hours: $scope.members[idx].gwHours};
+                        }
+                        else {
+                            hUpgrade.gwDown = { days: 0, hours: 0};
+                        }                            
                         break;
                     }
 
@@ -871,7 +902,8 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                 },
                 heroes: {
                     bk: 0,
-                    aq: 0
+                    aq: 0,
+                    gw: 0
                 }
             },
             displayName: '[ Add Placeholder Member ]'
@@ -887,8 +919,8 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
             }
 
             if (!used) {
-                var heroes = member.profile.heroes.bk + member.profile.heroes.aq;
-                member.displayName = member.profile.warWeight + ' | TH ' + member.profile.buildings.th + ' | Heroes ' + member.profile.heroes.bk + '/' + member.profile.heroes.aq + ' | ' + member.ign;
+                var heroes = member.profile.heroes.bk + member.profile.heroes.aq + member.profile.heroes.gw;
+                member.displayName = member.profile.warWeight + ' | TH ' + member.profile.buildings.th + ' | Heroes ' + member.profile.heroes.bk + '/' + member.profile.heroes.aq + '/' + member.profile.heroes.gw + ' | ' + member.ign;
                 $scope.displayMembers.push(member);
             }
         });

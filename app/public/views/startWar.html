@@ -141,6 +141,7 @@
                                             <div class="col-sm-3 col-xs-4 text-center" ng-if="player.editable">
                                                 <span ng-if="player.bkDown.days > 0 || player.bkDown.hours > 0"><b>BK</b>: <b class="alternate">{{player.bkDown.days}}</b>d <b class="alternate">{{player.bkDown.hours}}</b>h</span>
                                                 <span ng-if="player.aqDown.days > 0 || player.aqDown.hours > 0"><b>AQ</b>: <b class="alternate">{{player.aqDown.days}}</b>d <b class="alternate">{{player.aqDown.hours}}</b>h</span>
+                                                <span ng-if="player.gwDown.days > 0 || player.gwDown.hours > 0"><b>GW</b>: <b class="alternate">{{player.gwDown.days}}</b>d <b class="alternate">{{player.gwDown.hours}}</b>h</span>
                                             </div>
                                             <div class="col-sm-6 col-xs-4 text-center primary-60-bg" ng-if="!player.editable && player.ign">
                                                 <i>placeholder</i>
@@ -190,6 +191,7 @@
                                         <div class="col-lg-1 col-md-1 col-sm-2 col-xs-1 text-center">{{base.b}}</div>
                                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
                                             <select class="form-control-small" ng-class="{'th-warning': base.t==1}" ng-model="base.t" ng-change="oppTH(base.b)" integer>
+                                                <option>11</option>
                                                 <option>10</option>
                                                 <option>9</option>
                                                 <option>8</option>
@@ -212,6 +214,7 @@
                                         <div class="col-lg-3 col-md-4 col-sm-4 col-xs-3 hero-down">
                                             <span ng-if="heroesUpgrading[$index].bkDown.days > 0 || heroesUpgrading[$index].bkDown.hours > 0"><b>BK</b>: <b class="alternate">{{heroesUpgrading[$index].bkDown.days}}</b>d <b class="alternate">{{heroesUpgrading[$index].bkDown.hours}}</b>h</span>
                                             <span ng-if="heroesUpgrading[$index].aqDown.days > 0 || heroesUpgrading[$index].aqDown.hours > 0"><b>AQ</b>: <b class="alternate">{{heroesUpgrading[$index].aqDown.days}}</b>d <b class="alternate">{{heroesUpgrading[$index].aqDown.hours}}</b>h</span>
+                                            <span ng-if="heroesUpgrading[$index].gwDown.days > 0 || heroesUpgrading[$index].gwDown.hours > 0"><b>GW</b>: <b class="alternate">{{heroesUpgrading[$index].gwDown.days}}</b>d <b class="alternate">{{heroesUpgrading[$index].gwDown.hours}}</b>h</span>
                                         </div>
                                     </div>
                                 </div>
