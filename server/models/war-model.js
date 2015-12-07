@@ -562,9 +562,7 @@ exports.getHistory = function(clanId, callback) {
                                 _id: war._id,
                                 opponent_name: war.opponent_name,
                                 player_count: war.player_count,
-                                stars: war.result.stars,
-                                opponent_stars: war.result.opponentStars,
-                                result: war.result.result,
+                                result: war.result,
                                 start: war.start
                             };
                             retWars.push(w);

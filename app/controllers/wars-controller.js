@@ -33,10 +33,10 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, moment, 
                         startDate = new Date(startDate.getTime() + 24*60*60*1000);
                         war.ended = new moment(startDate);
 
-                        if (war.result == 0) {
+                        if (war.result.result == 0) {
                             $scope.losses++;
                         }
-                        else if (war.result == 1) {
+                        else if (war.result.result == 1) {
                             $scope.wins++;
                         }
                         else {

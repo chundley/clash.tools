@@ -204,6 +204,25 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
     }
 
     $scope.endWar = function() {
+
+        var resultCode = 0;
+        var resultText = 'Loss';
+        if ($scope.totalStars > $scope.enemyStars) {
+            resultCode = 1;
+            resultText = 'Win';
+        }
+        else if ($scope.totalStars == $scope.enemyStars) {
+            if ($scope.ourDestruction > $scope.enemyDestruction) {
+                resultCode = 1;
+                resultText = 'Win';
+            }
+            else if ($scope.ourDestruction == $scope.enemyDestruction) {
+                resultCode = 2;
+                resultText = 'Tie';
+            }
+        }
+
+        console.log(resultCode);
         var cssClass = 'center';
         if ($window.innerWidth < 500) {
             cssClass = 'mobile';
@@ -211,22 +230,16 @@ function ($rootScope, $scope, $routeParams, $location, $interval, $window, $moda
 
         $scope.modalOptions = {
             title: 'End war against ' + $scope.war.opponent_name + '?',
-            message: 'Please confirm that you would like to end the war. You can\'t undo this action, and the war can\'t be edited once you end it.',
+            message: 'Please confirm that you would like to end the war. You can\'t undo this action, and the war can\'t be edited once you end it. This war will appear in your history as a ' + resultText + '.',
             yesBtn: 'End War',
             noBtn: 'Cancel',
             cssClass: cssClass,
             onYes: function(formData) {
-                var resultCode = 0;
-                if ($scope.totalStars > $scope.enemyStars) {
-                    resultCode = 1;
-                }
-                else if ($scope.totalStars == $scope.enemyStars) {
-                    resultCode = 2;
-                }
-
                 $scope.war.result = {
                     stars: $scope.totalStars,
                     opponentStars: $scope.enemyStars,
+                    ourDestruction: $scope.ourDestruction,
+                    enemyDestruction: $scope.enemyDestruction,
                     result: resultCode
                 };
 
