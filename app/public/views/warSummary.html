@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div top-nav></div>
             <!-- page content -->
-            <div class="row content-body war-container">
+            <div class="row content-body war-result-container">
                 <div class="col-xs-12">
                     <div class="row">
                         <div class="col-sm-6 col-xs-12 margin-bottom-medium">
@@ -30,8 +30,42 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4 col-sm-5 col-xs-12 margin-bottom-huge star-summary-container">
-                            <div class="widget">
+                        <div class="col-md-4 col-sm-5 col-xs-12 margin-bottom-huge">
+                            <div class="widget margin-bottom-huge" ng-show="war.result.stars > 0">
+                                <div class="widget-header">
+                                    Result
+                                </div>
+                                <div class="widget-body">
+                                    <div class="row">
+                                        <div class="col-xs-3 rc-result">
+                                            <h2 ng-if="war.result.result==0" ng-class="{'good-green': war.result.result==1, 'error-red': war.result.result==0, 'neutral-yellow': war.result.result==2}">Loss</h2>
+                                            <h2 ng-if="war.result.result==1" ng-class="{'good-green': war.result.result==1, 'error-red': war.result.result==0, 'neutral-yellow': war.result.result==2}">Win</h2>
+                                            <h2 ng-if="war.result.result==2" ng-class="{'good-green': war.result.result==1, 'error-red': war.result.result==0, 'neutral-yellow': war.result.result==2}">Tie</h2>
+                                        </div>
+                                        <div class="col-xs-9 rc-data">
+                                            <div class="row">
+                                                <div class="col-xs-4 text-right">
+                                                    Stars
+                                                </div>
+                                                <div class="col-xs-8 text-center">
+                                                    <strong>{{war.result.stars}} - {{war.result.opponentStars}}</strong>
+                                                </div>                
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-4 text-right">
+                                                    Dest.
+                                                </div>
+                                                <div class="col-xs-8 text-center" ng-if="war.result.ourDestruction"><strong>{{war.result.ourDestruction}}% - {{war.result.enemyDestruction}}%</strong>
+                                                </div>
+                                                <div class="col-xs-8 text-center" ng-if="!war.result.ourDestruction"><strong>n/a</strong>
+                                                </div>              
+                                            </div>                                         
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="widget star-summary-container">
                                 <div class="widget-header">
                                     Star Summary
                                 </div>
@@ -79,7 +113,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-8 col-sm-7 col-xs-12 top-attackers-container">
+                        <div class="col-md-8 col-sm-7 col-xs-12 margin-bottom-huge top-attackers-container">
                             <div class="widget">
                                 <div class="widget-header">
                                     Top Attackers <i class="icon-help-circled pull-right" popover-placement="left" popover="Total score is Attack Value for both attacks. This is a calculation based on number of stars, distance the target was from mirror, and TH level of target. The AV range is 0 - 150 per attack. This list shows the top attackers by combined AV for both attacks in this war." popover-append-to-body="true" popover-trigger="mouseenter"></i>
@@ -160,58 +194,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-6 margin-bottom-huge">
-                            <div class="widget">
-                                <div class="widget-header">
-                                    Result
-                                </div>
-                                <div class="widget-body">
-                                    <div class="row margin-bottom-big">
-                                        <div class="col-xs-12 text-center">
-                                            <h2 ng-if="war.result.result==0" ng-class="{'good-green': war.result.result==1, 'error-red': war.result.result==0, 'neutral-yellow': war.result.result==2}">Loss</h2>
-                                            <h2 ng-if="war.result.result==1" ng-class="{'good-green': war.result.result==1, 'error-red': war.result.result==0, 'neutral-yellow': war.result.result==2}">Win</h2>
-                                            <h2 ng-if="war.result.result==2" ng-class="{'good-green': war.result.result==1, 'error-red': war.result.result==0, 'neutral-yellow': war.result.result==2}">Tie</h2>                                   
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xs-4">
-                                            <strong>Team</strong>
-                                        </div>
-                                        <div class="col-xs-4 text-center">
-                                            <strong>Stars</strong>
-                                        </div>
-                                        <div class="col-xs-4 text-center">
-                                            <strong>% Dest</strong>
-                                        </div>                                                                                
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xs-4">
-                                            {{clan.name}}
-                                        </div>
-                                        <div class="col-xs-4 text-center">
-                                            {{war.result.stars}}
-                                        </div>
-                                        <div class="col-xs-4 text-center">
-                                            {{war.result.ourDestruction}}
-                                        </div>                                        
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xs-4">
-                                            {{war.opponent_name}}
-                                        </div>
-                                        <div class="col-xs-4 text-center">
-                                            {{war.result.opponentStars}}
-                                        </div>
-                                        <div class="col-xs-4 text-center">
-                                            {{war.result.enemyDestruction || 'n/a'}}
-                                        </div>                                        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>                    
+                    </div>               
                 </div>
             </div> <!-- /page content -->
         </div>
