@@ -51,19 +51,22 @@ var firstAttackBonus = [0, 1, 3, 8];
 
 var thBonus = [  0,
                  [
-                   [0, 0, 8],
-                   [-16, 0, 4],
-                   [-30, -16, 0]
+                   [0, 0, 8, 16],       // TH11 one star attacked by 11, 10, 9, 8
+                   [-8, 0, 0, 8],       // TH10 one star attacked by 11, 10, 9, 8
+                   [-30, -16, 0, 4],    // TH9 one star attacked by 11, 10, 9, 8
+                   [-50 -30, -16, 0]    // TH8 one star attacked by 11, 10, 9, 8
                  ],
                  [
-                   [4, 12, 16],
-                   [-8, 0, 8],
-                   [-16, -8, 0]
+                   [8, 16, 30, 50],     // TH11 two star attacked by 11, 10, 9, 8
+                   [0, 4, 12, 16],      // TH10 two star attacked by 11, 10, 9, 8
+                   [-16, -8, 0, 8],     // TH9 two star attacked by 11, 10, 9, 8
+                   [-30, -16, -8, 0]    // TH8 two star attacked by 11, 10, 9, 8
                  ],
                  [
-                   [16, 30, 50],
-                   [-4, 4, 16],
-                   [-8, -4, 0]
+                   [30, 50, 100, 200],  // TH11 three star attacked by 11, 10, 9, 8
+                   [0, 16, 30, 50],     // TH10 three star attacked by 11, 10, 9, 8
+                   [-8, -4, 4, 16],     // TH9 three star attacked by 11, 10, 9, 8
+                   [-16, -8, -4, 0]     // TH8 three star attacked by 11, 10, 9, 8
                  ]
                ];
 
@@ -169,8 +172,8 @@ exports.save = function(warId, model, callback) {
 
             // use the new way of calculating TH/TH bonuses
             if (model.stars > 0 && model.t > 7 && model.ot > 7) {
-                attackValue += thBonus[model.stars][10-model.ot][10-model.t];
-                avParts.push( { c: 'thDelta', v: thBonus[model.stars][10-model.ot][10-model.t] } );
+                attackValue += thBonus[model.stars][11-model.ot][11-model.t];
+                avParts.push( { c: 'thDelta', v: thBonus[model.stars][11-model.ot][11-model.t] } );
 
             }
             else {
@@ -185,19 +188,7 @@ exports.save = function(warId, model, callback) {
                 }
             }
 
-            // max is 150
-            if (attackValue > 150) {
-                attackValue = 150;
-            }
-            // min is 0
-            else if (attackValue < 0) {
-                attackValue = 0;
-            }
 
-            // final check - zero stars is always worth zero (the above factors could make a zero attack worth points)
-            if (model.stars == 0) {
-                attackValue = 0;
-            }
             // before updating, use the war context for additional scoring value
 
 
@@ -243,6 +234,21 @@ exports.save = function(warId, model, callback) {
                 // if the first item in the attack array is this user, assume it was the first attack
                 attackValue += firstAttackBonus[model.stars];
                 avParts.push( { c: 'firstAttack', v: firstAttackBonus[model.stars] });
+            }
+
+
+            // max is 150
+            if (attackValue > 150) {
+                attackValue = 150;
+            }
+            // min is 0
+            else if (attackValue < 0) {
+                attackValue = 0;
+            }
+
+            // final check - zero stars is always worth zero (the above factors could make a zero attack worth points)
+            if (model.stars == 0) {
+                attackValue = 0;
             }
 
             if (attackResult == null) {
