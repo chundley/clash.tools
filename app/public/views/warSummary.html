@@ -161,6 +161,57 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-xs-6 margin-bottom-huge">
+                            <div class="widget">
+                                <div class="widget-header">
+                                    Result
+                                </div>
+                                <div class="widget-body">
+                                    <div class="row margin-bottom-big">
+                                        <div class="col-xs-12 text-center">
+                                            <h2 ng-if="war.result.result==0" ng-class="{'good-green': war.result.result==1, 'error-red': war.result.result==0, 'neutral-yellow': war.result.result==2}">Loss</h2>
+                                            <h2 ng-if="war.result.result==1" ng-class="{'good-green': war.result.result==1, 'error-red': war.result.result==0, 'neutral-yellow': war.result.result==2}">Win</h2>
+                                            <h2 ng-if="war.result.result==2" ng-class="{'good-green': war.result.result==1, 'error-red': war.result.result==0, 'neutral-yellow': war.result.result==2}">Tie</h2>                                   
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <strong>Team</strong>
+                                        </div>
+                                        <div class="col-xs-4 text-center">
+                                            <strong>Stars</strong>
+                                        </div>
+                                        <div class="col-xs-4 text-center">
+                                            <strong>% Dest</strong>
+                                        </div>                                                                                
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            {{clan.name}}
+                                        </div>
+                                        <div class="col-xs-4 text-center">
+                                            {{war.result.stars}}
+                                        </div>
+                                        <div class="col-xs-4 text-center">
+                                            {{war.result.ourDestruction}}
+                                        </div>                                        
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            {{war.opponent_name}}
+                                        </div>
+                                        <div class="col-xs-4 text-center">
+                                            {{war.result.opponentStars}}
+                                        </div>
+                                        <div class="col-xs-4 text-center">
+                                            {{war.result.enemyDestruction || 'n/a'}}
+                                        </div>                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
                 </div>
             </div> <!-- /page content -->
         </div>
