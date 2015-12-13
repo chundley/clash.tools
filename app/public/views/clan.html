@@ -55,7 +55,7 @@
             </div> <!-- /page content - new clan -->
 
             <!-- page content - existing clan -->
-            <div class="row content-body" ng-show="!newClan">
+            <div class="row content-body clan-settings-container" ng-show="!newClan">
                 <div class="col-xs-12">
                     <div class="row margin-bottom-big">
                         <div class="col-xs-12">
@@ -111,7 +111,7 @@
                     </div> <!-- /public information -->
 
                     <!-- war configuration -->
-                    <div class="row">
+                    <div class="row margin-bottom-huge">
                         <div class="col-xs-12">
                             <div class="row">
                                 <div class="col-xs-12">
@@ -244,6 +244,72 @@
                             </div>
                         </div>
                     </div> <!-- /war configuration -->
+
+                    <!-- base tags -->
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="widget">
+                                        <div class="widget-header">
+                                            Base Tags
+                                            <i class="icon-help-circled pull-right" popover-placement="left" popover="Assign base tags to targets during war to communicate more detail to your clan members. Note that adding or removing tags here won't change any past base tags." popover-append-to-body="true" popover-trigger="mouseenter"></i>
+                                        </div>
+                                        <div class="widget-body">
+                                            <div class="row add-tag-row">
+                                                <div class="col-xs-2">
+                                                    Add tag
+                                                </div>
+                                                <div class="col-xs-2">
+                                                    <span class="dropdown tag-color-dd" on-toggle="toggled(open)">
+                                                        <a href class="dropdown-toggle">
+                                                            <span class="base-tag-settings" style="background: {{newTagColor}}"></span><i class="icon-down-dir"></i>
+                                                        </a>
+                                                        <ul class="dropdown-menu">
+                                                            <li ng-repeat="color in tagColors"><a href="" ng-click="setNewTagColor(color)"><span class="base-tag-settings" style="background: {{color}}"></span></a></li>
+                                                        </ul>
+                                                    </span>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <input type="text" class="form-control-small" ng-model="newTagName" placeholder="Tag name" ng-change="tagNameChange()"></input>
+                                                </div>
+                                                <div class="col-xs-2 text-right">
+                                                    <a href="" class="btn btn-default btn-xs" ng-click="addTag()" ng-disabled="!newTagValid">Add</a>
+                                                </div>
+                                            </div>
+                                            <div ng-repeat="tag in clan.base_tags">
+                                                <div class="row">
+                                                    <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2">
+                                                        <span class="base-tag-settings" style="background: {{tag.color}}"></span>
+                                                    </div>
+                                                    <div class="col-lg-10 col-md-10 col-sm-9 col-xs-9">
+                                                        {{tag.name}}
+                                                    </div>
+                                                    <div class="col-xs-1 text-center">
+                                                        <a href ng-click="deleteTag($index)" track="deleted-basetag"><i class="icon-trash" title="Delete base tag"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="widget">
+                                        <div class="widget-header">
+                                            Attack tags
+                                        </div>
+                                        <div class="widget-body">
+                                            Coming someday
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- /base tags -->
                 </div>
             </div> <!-- /page content - existing clan -->
         </div>

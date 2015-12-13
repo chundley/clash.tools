@@ -1952,51 +1952,30 @@ i.pn-active {
 /*
 *   Styles for settings view
 */
-.detail-row {
-    margin-bottom: 4px;
-}
 
-.reply-to-address {
-    border: 1px solid @primary-40;
-    font-weight: 600;
-    padding: 6px 12px;
-    margin-top: 4px;
-    width: 100%;
-}
+.clan-settings-container {
 
-.verified {
-    color: @vis-2;
-    font-weight: 600;
-}
-
-.reply-to-unverified {
-    background-color: lighten(@error-red, 5%);
-    border: 1px solid @error-red;
-    color: #fff;
-    padding: 6px 6px 6px 6px;
-    margin-bottom: 10px;
-}
-
-.test-button {
-    margin-left: 20px;
-}
-
-.testing-wait {
-    color: @alternate;
-    font-size: 16px;
-}
-
-.integration-container {
-    border: 1px solid @primary-50;
-    background-color: #fff;
-    padding: 10px 20px;
-
-    .partner-row {
-        padding: 10px 0px;
+    .add-tag-row {
+        margin-bottom: 15px;
+        padding-bottom: 15px;
+        border-bottom: 1px dashed @primary-50;
     }
 
-    .config-small {
-        font-size: 12px;
+    .tag-color-dd {
+        border: 1px solid #ccc;
+        padding: 4px 2px 1px 8px;
+
+        a {
+            i {
+                position: relative;
+                top: -2px;
+                color: @primary-dark;
+            }
+        }
+
+        .dropdown-menu {
+            min-width: 30px;
+        }
     }
 }
 

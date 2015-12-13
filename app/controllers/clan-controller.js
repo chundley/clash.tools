@@ -11,12 +11,18 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
 
     var clanId = $routeParams.id;
 
+    $scope.newTagColor = '#cccccc';
+    $scope.tagColors = [
+        '#de3e3a', '#de863a', '#28992f', '#248286', '#b42f78', '#bcae31', '#5a3197', '#305892', '#754c24', '#00aef0'
+    ];
+
     if (clanId !== 'new') {
         $scope.newClan = false;
 
         clanService.getById(clanId, function (err, clan) {
             $scope.clan = clan;
             $rootScope.title = 'Clan settings: ' + clan.name + ' - clash.tools';
+            $scope.newTagValid = false;
         });
     }
     else {
@@ -30,7 +36,14 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
                 cleanup_attack_time: 4,
                 free_for_all_time: 2,
                 overcalls: false
+
             },
+            base_tags: [
+                {
+                    name: 'Reserved',
+                    color: $scope.tagColors[0]
+                }
+            ],
             created_by: authService.user.id
         };
         $rootScope.title = 'New clan - clash.tools';
@@ -92,6 +105,42 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
                 $rootScope.globalMessage = 'Clan war settings saved.'
             }
         });
+    }
+
+    $scope.setNewTagColor = function(color) {
+        $scope.newTagColor = color;
+        validateTagForm();
+    }
+
+    $scope.tagNameChange = function() {
+        validateTagForm();
+    }
+
+    $scope.addTag = function() {
+        $scope.clan.base_tags.push({
+            color: $scope.newTagColor,
+            name: $scope.newTagName
+        });
+
+        $scope.newTagColor = '#cccccc';
+        $scope.newTagName = '';
+        saveClanInternal(function(){});
+        validateTagForm();
+    }
+
+    $scope.deleteTag = function(index) {
+        $scope.clan.base_tags.splice(index, 1);
+        saveClanInternal(function(){});
+    }
+
+    function validateTagForm() {
+        $scope.newTagValid = true;
+        if ($scope.newTagColor == '#cccccc') {
+            $scope.newTagValid = false;
+        }
+        if (!$scope.newTagName || $scope.newTagName.length == 0) {
+            $scope.newTagValid = false;
+        }
     }
 
     function saveClanInternal(callback) {
