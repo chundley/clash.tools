@@ -266,7 +266,8 @@
                                                             <span class="base-tag-settings" style="background: {{newTagColor}}"></span><i class="icon-down-dir"></i>
                                                         </a>
                                                         <ul class="dropdown-menu">
-                                                            <li ng-repeat="color in tagColors"><a href="" ng-click="setNewTagColor(color)"><span class="base-tag-settings" style="background: {{color}}"></span></a></li>
+<!--                                                             <li ng-repeat="color in tagColors"><a href="" ng-click="setNewTagColor(color)"><span class="base-tag-settings" style="background: {{color}}"></span></a></li> -->
+                                                            <a ng-repeat="color in tagColors" href="" ng-click="setNewTagColor(color)"><span class="base-tag-settings" style="background: {{color}}"></span></a>
                                                         </ul>
                                                     </span>
                                                 </div>

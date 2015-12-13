@@ -122,6 +122,15 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
             name: $scope.newTagName
         });
 
+        $scope.clan.base_tags.sort(function (a, b) {
+            if (a.name.toLowerCase() > b.name.toLowerCase()) {
+                return 1;
+            }
+            else {
+                return -1;
+            }
+        });
+
         $scope.newTagColor = '#cccccc';
         $scope.newTagName = '';
         saveClanInternal(function(){});
