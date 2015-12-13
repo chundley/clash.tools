@@ -29,7 +29,7 @@
                                 <div class="widget-body">
                                     <div class="row margin-bottom-gigantic" ng-if="!war.bases[baseNum-1].n.img && !uploading">
                                         <div class="col-xs-12 text-center">
-                                            <div ngf-drop ngf-select class="base-img-drop" ngf-drag-over-class="base-img-drop-dragover" ngf-multiple="false" ngf-accept="image/*" ngf-max-size="10485760" ngf-capture="'camera'" ng-model="war.bases[baseNum-1].n.img" ngf-change="uploadBaseImg(war.bases[baseNum-1].n.img)" ng-model-rejected="badBaseImage">
+                                            <div ngf-drop ngf-select class="base-img-drop" ngf-drag-over-class="base-img-drop-dragover" ngf-accept="'image/*'" ngf-max-size="10485760" ngf-capture="'camera'" ng-model="war.bases[baseNum-1].n.img" ngf-change="uploadBaseImg(war.bases[baseNum-1].n.img)" ng-model-rejected="badBaseImage">
                                             <h3>Drop a picture of the base here or click to upload (<b>10MB limit</b>)</h3>
                                             </div>
                                             <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
@@ -53,7 +53,7 @@
                                     <div class="row margin-bottom-huge">
                                         <div class="col-xs-12">
                                             <a class="btn btn-default btn-sm" ng-click="addNote('text')">Add text note</a>
-                                            <a ngf-select class="btn btn-default btn-sm" ngf-multiple="false" ngf-accept="image/*" ngf-max-size="10485760" ngf-capture="'camera'" ng-model="noteImage" ngf-change="addImageNote(noteImage)" ng-model-rejected="badImageNote">Add image note</a>
+                                            <a class="btn btn-default btn-sm" ngf-select ngf-accept="'image/*'" ngf-max-size="10485760" ngf-capture="'camera'" ng-model="noteImage" ngf-change="addImageNote(noteImage)" ng-model-rejected="badImageNote">Add image note</a>
                                         </div>
                                     </div>
                                     <div class="row margin-bottom-huge" ng-if="uploadingNoteImage">

@@ -43,7 +43,7 @@ function ($rootScope, $scope, $interval, $modal, $window, moment, authService, c
     */
     $scope.saveTop = function() {
         saveUserInternal();
-        $scope.nameForm.$setPristine();        
+        $scope.nameForm.$setPristine();
         $rootScope.globalMessage = 'Profile was saved.';
     }
 
@@ -58,7 +58,7 @@ function ($rootScope, $scope, $interval, $modal, $window, moment, authService, c
 
 
     $scope.uploadAvatar = function(file) {
-        if (file.length > 0) {
+        if (file.size > 0) {
             imageUploadService.uploadAvatar(authService.user.id, file, function (err, result) {
                 if (err) {
                     err.stack_trace.unshift( { file: 'profile-controller.js', func: '$scope.uploadAvatar', message: 'Error saving user' } );
@@ -75,7 +75,7 @@ function ($rootScope, $scope, $interval, $modal, $window, moment, authService, c
             });
         }
 
-        if ($scope.badAvatar.length > 0) {
+        else if ($scope.badAvatar.length > 0) {
             $scope.avatarError = 'That file is not an image, or is too big. The file size limit is 128KB';
         }
     }
@@ -103,7 +103,7 @@ function ($rootScope, $scope, $interval, $modal, $window, moment, authService, c
                 }
                 else if (hero=='gw') {
                     $scope.user.profile.gwUpgrade = new Date(now.getTime() + ((formData.finishedDays*24*60 + formData.finishedHours*60)*60000));
-                    trackService.track('upgraded-gw');                    
+                    trackService.track('upgraded-gw');
                 }
                 saveUserInternal();
 
@@ -156,7 +156,7 @@ function ($rootScope, $scope, $interval, $modal, $window, moment, authService, c
 
                 modalInstance.$promise.then(function() {
                     modalInstance.show();
-                });                
+                });
             }
         }
         else {
@@ -189,7 +189,7 @@ function ($rootScope, $scope, $interval, $modal, $window, moment, authService, c
 
             modalInstance.$promise.then(function() {
                 modalInstance.show();
-            });            
+            });
         }
     }
 
@@ -262,7 +262,7 @@ function ($rootScope, $scope, $interval, $modal, $window, moment, authService, c
         else {
             $scope.gwDays = 0;
             $scope.gwHours = 0;
-        }        
+        }
     }
 
 }]);

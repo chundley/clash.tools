@@ -80,7 +80,7 @@
                                             </div>
                                             <div class="row margin-bottom-medium">
                                                 <div class="col-xx-12 text-center">
-                                                <div class="btn btn-default btn-xs" ngf-select ngf-accept="'image/*'" ngf-multiple="false" ngf-max-size="131072" ngf-capture="'camera'" ngf-change="uploadAvatar(avatar)" ng-model="avatar" ng-model-rejected="badAvatar">Upload new</div>
+                                                <div class="btn btn-default btn-xs" ngf-select ngf-accept="'image/*'" ngf-max-size="131072" ngf-capture="'camera'" ngf-change="uploadAvatar(avatar)" ng-model="avatar" ng-model-rejected="badAvatar">Upload new</div>
                                                 </div>
                                             </div>
                                             <div class="row" ng-if="avatarError">
@@ -249,7 +249,7 @@
                                                     <a href class="btn btn-default btn-sm" ng-click="upgradeHero('gw')"><span ng-if="gwDays>0 || aqHours > 0">Currently upgrading: <b>{{gwDays}}</b> day<span ng-if="gwDays==0 || gwDays > 1">s</span>, <b>{{gwHours}}</b> hour<span ng-if="gwHours==0 || gwHours > 1">s</span></span>
                                                     <span ng-if="gwDays==0 && gwHours == 0">Set GW Upgrade Timer</span></a>
                                                 </div>
-                                            </div>                                            
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
