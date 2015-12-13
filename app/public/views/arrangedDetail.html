@@ -8,173 +8,122 @@
 
             <div class="row content-body margin-bottom-huge" ng-if="!newWar">
                 <div class="col-xs-12">
-                    <div class="row margin-bottom-huge">
+                    <div class="row margin-bottom-big">
                         <div class="col-xs-12">
-                            <h2>{{us.clan_name}} vs. {{them.clan_name}}</h2>
+                            <h2><strong class="emphasis">{{us.clan_name}}</strong> vs. {{them.clan_name}}</h2>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-4 col-sm-5 col-xs-12 margin-bottom-huge">
-                            <div class="widget">
-                                <div class="widget-header">
-                                    Match settings
-                                </div>
-                                <div class="widget-body">
-                                    <div class="row">
-                                        <div class="col-xs-12 form-horizontal">
-                                            <div class="form-group">
-                                                <label for="playerCount" class="col-md-4 col-sm-5 col-xs-3 control-label small">Count</label>
-                                                <div class="col-md-8 col-sm-7 col-xs-9">
-                                                <select class="form-control-small" ng-model="war.roster_count" ng-change='changeRosterCount()' integer>
-                                                    <option value="10">10</option>
-                                                    <option value="15">15</option>
-                                                    <option value="20">20</option>
-                                                    <option value="25">25</option>
-                                                    <option value="30">30</option>
-                                                    <option value="35">35</option>
-                                                    <option value="40">40</option>
-                                                    <option value="45">45</option>
-                                                    <option value="50">50</option>
-                                                </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-xs-12 form-horizontal">
-                                            <div class="form-group">
-                                                <label for="" class="col-md-4 col-sm-5 col-xs-3 control-label small">Members</label>
-                                                <div class="col-md-8 col-sm-7 col-xs-9">
-                                                    <select class="form-control-small" ng-model="addedPlayer" ng-options="member as member.displayName for member in displayMembers" ng-change="addPlayer(addedPlayer)"></select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xs-12 form-horizontal">
-                                            <div class="form-group">
-                                                <label for="" class="col-md-4 col-sm-5 col-xs-3 control-label small">Auto-fill</label>
-                                                <div class="col-md-8 col-sm-7 col-xs-9">
-                                                    <a class="btn btn-default btn-xs" ng-click="fillRoster()">Auto-fill Roster</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                    <div class="row margin-bottom-big">
+                        <div class="col-xs-12">
+                            <div class="pc-label pull-left">How many players in this war?</div>
+                            <div class="pull-left margin-right-medium">
+                            <select class="form-control-small" ng-model="war.roster_count" ng-change='changeRosterCount()' integer>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="25">25</option>
+                                <option value="30">30</option>
+                                <option value="35">35</option>
+                                <option value="40">40</option>
+                                <option value="45">45</option>
+                                <option value="50">50</option>
+                            </select>
+                            </div>
+                            <div class="pull-left">
+                                <a class="btn btn-default btn-xs" ng-click="fillRoster()">Auto-fill our roster</a>
                             </div>
                         </div>
-                        <div class="col-md-8 col-sm-7 col-xs-12 margin-bottom-huge arranged-summary-container">
+                    </div>
+                     <div class="row">
+                        <div class="col-xs-12 margin-bottom-huge arranged-summary-container">
                             <div class="widget">
                                 <div class="widget-header">
                                     Summary
                                 </div>
                                 <div class="widget-body">
-                                    <div class="row">
-                                        <div class="col-xs-4 col-xs-offset-2 text-center"><h4 class="emphasis"><strong>{{us.clan_name}}</strong></h4></div>
-                                        <div class="col-xs-4 col-xs-offset-1 text-center"><h4 class="primary-dark"><strong>{{them.clan_name}}</strong></h4></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xs-1 col-xs-offset-2 text-center">
-                                            <strong>TH10</strong>
-                                        </div>
-                                        <div class="col-xs-1 text-center">
-                                            <strong>TH9</strong>
-                                        </div>
-                                        <div class="col-xs-1 text-center">
-                                            <strong>TH8</strong>
-                                        </div>
-                                        <div class="col-xs-1 text-center">
-                                            <strong>Tot</strong>
-                                        </div>
-                                        <div class="col-xs-1 col-xs-offset-1 text-center">
-                                            <strong>TH10</strong>
-                                        </div>
-                                        <div class="col-xs-1 text-center">
-                                            <strong>TH9</strong>
-                                        </div>
-                                        <div class="col-xs-1 text-center">
-                                            <strong>TH8</strong>
-                                        </div>
-                                        <div class="col-xs-1 text-center">
-                                            <strong>Tot</strong>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xs-2">
-                                            <strong>Weight</strong>
-                                        </div>
-                                        <div class="col-xs-1 text-center">
-                                            {{totals.us.th10.totalWeight}}
-                                        </div>
-                                        <div class="col-xs-1 text-center">
-                                            {{totals.us.th9.totalWeight}}
-                                        </div>
-                                        <div class="col-xs-1 text-center">
-                                            {{totals.us.th8.totalWeight}}
-                                        </div>
-                                        <div class="col-xs-1 text-center">
-                                            {{totals.us.totalWeight}}
-                                        </div>
-                                        <div class="col-xs-1 col-xs-offset-1 text-center">
-                                            {{totals.them.th10.totalWeight}}
-                                        </div>
-                                        <div class="col-xs-1 text-center">
-                                            {{totals.them.th9.totalWeight}}
-                                        </div>
-                                        <div class="col-xs-1 text-center">
-                                            {{totals.them.th8.totalWeight}}
-                                        </div>
-                                        <div class="col-xs-1 text-center">
-                                            {{totals.them.totalWeight}}
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xs-2">
-                                            <strong>Heroes</strong>
-                                        </div>
-                                        <div class="col-xs-1 text-center">
-                                            {{totals.us.th10.totalHeroes}}
-                                        </div>
-                                        <div class="col-xs-1 text-center">
-                                            {{totals.us.th9.totalHeroes}}
-                                        </div>
-                                        <div class="col-xs-1 text-center">
-                                            {{totals.us.th8.totalHeroes}}
-                                        </div>
-                                        <div class="col-xs-1 text-center">
-                                            {{totals.us.totalHeroes}}
-                                        </div>
-                                        <div class="col-xs-1 col-xs-offset-1 text-center">
-                                            {{totals.them.th10.totalHeroes}}
-                                        </div>
-                                        <div class="col-xs-1 text-center">
-                                            {{totals.them.th9.totalHeroes}}
-                                        </div>
-                                        <div class="col-xs-1 text-center">
-                                            {{totals.them.th8.totalHeroes}}
-                                        </div>
-                                        <div class="col-xs-1 text-center">
-                                            {{totals.them.totalHeroes}}
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xs-2">
-                                            <strong>Totals</strong>
-                                        </div>
-                                        <div class="col-xs-2 text-center">
-                                            <strong ng-class="{'error-red': totals.us.totalWeight < totals.them.totalWeight, 'good-green': totals.us.totalWeight > totals.them.totalWeight}">W (<span ng-if="totals.us.totalWeight - totals.them.totalWeight>0">+</span>{{ (totals.us.totalWeight - totals.them.totalWeight) }})</strong>
-                                        </div>
-                                        <div class="col-xs-2 text-center">
-                                            <strong ng-class="{'error-red': totals.us.totalHeroes < totals.them.totalHeroes, 'good-green': totals.us.totalHeroes > totals.them.totalHeroes}">H (<span ng-if="totals.us.totalHeroes - totals.them.totalHeroes>0">+</span>{{ totals.us.totalHeroes - totals.them.totalHeroes }})</strong>
-                                        </div>
-                                        <div class="col-xs-2 col-xs-offset-1 text-center">
-                                            <strong ng-class="{'error-red': totals.us.totalWeight > totals.them.totalWeight, 'good-green': totals.us.totalWeight < totals.them.totalWeight}">W (<span ng-if="totals.them.totalWeight - totals.us.totalWeight>0">+</span>{{ (totals.them.totalWeight - totals.us.totalWeight) }})</strong>
-                                        </div>
-                                        <div class="col-xs-2 text-center">
-                                            <strong ng-class="{'error-red': totals.us.totalHeroes > totals.them.totalHeroes, 'good-green': totals.us.totalHeroes < totals.them.totalHeroes}">H (<span ng-if="totals.them.totalHeroes - totals.us.totalHeroes>0">+</span>{{ totals.them.totalHeroes - totals.us.totalHeroes }})</strong>
-                                        </div>
-                                    </div>
+                                    <table width="100%" class="table table-condensed">
+                                        <tr>
+                                            <td class="top-row"></td>
+                                            <td colspan="5" class="text-center top-row edge-cell">
+                                                <h4 class="emphasis"><strong>{{us.clan_name}}</strong></h4>
+                                            </td>
+                                            <td colspan="5" class="text-center top-row">
+                                                <h4 class="primary-dark"><strong>{{them.clan_name}}</strong></h4>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td class="text-center">
+                                                <strong>TH11</strong>
+                                            </td>
+                                            <td class="text-center">
+                                                <strong>TH10</strong>
+                                            </td>
+                                            <td class="text-center">
+                                                <strong>TH9</strong>
+                                            </td>
+                                            <td class="text-center">
+                                                <strong>TH8</strong>
+                                            </td>
+                                            <td class="text-center edge-cell">
+                                                <strong>Tot</strong>
+                                            </td>
+                                            <td class="text-center">
+                                                <strong>TH11</strong>
+                                            </td>
+                                            <td class="text-center">
+                                                <strong>TH10</strong>
+                                            </td>
+                                            <td class="text-center">
+                                                <strong>TH9</strong>
+                                            </td>
+                                            <td class="text-center">
+                                                <strong>TH8</strong>
+                                            </td>
+                                            <td class="text-center">
+                                                <strong>Tot</strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Weight</strong></td>
+                                            <td class="text-center">{{totals.us.th11.totalWeight}}</td>
+                                            <td class="text-center">{{totals.us.th10.totalWeight}}</td>
+                                            <td class="text-center">{{totals.us.th9.totalWeight}}</td>
+                                            <td class="text-center">{{totals.us.th8.totalWeight}}</td>
+                                            <td class="text-center edge-cell">{{totals.us.totalWeight}}</td>
+                                            <td class="text-center">{{totals.them.th11.totalWeight}}</td>
+                                            <td class="text-center">{{totals.them.th10.totalWeight}}</td>
+                                            <td class="text-center">{{totals.them.th9.totalWeight}}</td>
+                                            <td class="text-center">{{totals.them.th8.totalWeight}}</td>
+                                            <td class="text-center">{{totals.them.totalWeight}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Heroes</strong></td>
+                                            <td class="text-center">{{totals.us.th11.totalHeroes}}</td>
+                                            <td class="text-center">{{totals.us.th10.totalHeroes}}</td>
+                                            <td class="text-center">{{totals.us.th9.totalHeroes}}</td>
+                                            <td class="text-center">{{totals.us.th8.totalHeroes}}</td>
+                                            <td class="text-center edge-cell">{{totals.us.totalHeroes}}</td>
+                                            <td class="text-center">{{totals.them.th11.totalHeroes}}</td>
+                                            <td class="text-center">{{totals.them.th10.totalHeroes}}</td>
+                                            <td class="text-center">{{totals.them.th9.totalHeroes}}</td>
+                                            <td class="text-center">{{totals.them.th8.totalHeroes}}</td>
+                                            <td class="text-center">{{totals.them.totalHeroes}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Totals</strong></td>
+                                            <td class="text-center edge-cell" colspan="5">
+                                            <strong class="total-item" ng-class="{'error-red': totals.us.totalWeight < totals.them.totalWeight, 'good-green': totals.us.totalWeight > totals.them.totalWeight}">Weight (<span ng-if="totals.us.totalWeight - totals.them.totalWeight>0">+</span>{{ (totals.us.totalWeight - totals.them.totalWeight) }})</strong>
+
+                                            <strong ng-class="{'error-red': totals.us.totalHeroes < totals.them.totalHeroes, 'good-green': totals.us.totalHeroes > totals.them.totalHeroes}">Heroes (<span ng-if="totals.us.totalHeroes - totals.them.totalHeroes>0">+</span>{{ totals.us.totalHeroes - totals.them.totalHeroes }})</strong>
+                                            </td>
+                                            <td class="text-center" colspan="5">
+                                            <strong class="total-item" ng-class="{'error-red': totals.us.totalWeight > totals.them.totalWeight, 'good-green': totals.us.totalWeight < totals.them.totalWeight}">Weight (<span ng-if="totals.them.totalWeight - totals.us.totalWeight>0">+</span>{{ (totals.them.totalWeight - totals.us.totalWeight) }})</strong>
+
+                                            <strong ng-class="{'error-red': totals.us.totalHeroes > totals.them.totalHeroes, 'good-green': totals.us.totalHeroes < totals.them.totalHeroes}">Heroes (<span ng-if="totals.them.totalHeroes - totals.us.totalHeroes>0">+</span>{{ totals.them.totalHeroes - totals.us.totalHeroes }})</strong>
+                                            </td>
+                                        </tr>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -187,7 +136,7 @@
                                 </div>
                                 <div class="widget-body">
                                     <div class="row">
-                                        <div class="col-sm-6 col-xs-12">
+                                        <div class="col-sm-7 col-xs-12">
                                             <div class="row margin-bottom-big">
                                                 <div class="col-xs-12 text-center">
                                                     <h4 class="emphasis"><strong>{{us.clan_name}}</strong></h4>
@@ -200,21 +149,29 @@
                                                 <div class="col-xs-1 text-center">W</div>
                                                 <div class="col-sm-1 hidden-xs text-center">BK</div>
                                                 <div class="col-sm-1 hidden-xs text-center">AQ</div>
+                                                <div class="col-sm-1 hidden-xs text-center">GW</div>
                                                 <div class="col-xs-1 text-center">H</div>
                                             </div>
                                             <div class="row row-underline-2"></div>
                                             <div class="row arranged-row" ng-repeat="player in us.roster">
                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 text-center">{{$index + 1}}</div>
-                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6 no-wrap" ng-if="player.ign">
-                                                    <i class="icon-cancel action-icon primary-20" access-level="coleader" ng-if="player.ign" title="Remove player" ng-click="removePlayer($index)"></i>
-                                                    {{player.ign}}
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6 no-wrap" ng-if="player.ign" style="z-index:60;">
+                                                    <i class="icon-up action-icon emphasis" ng-if="player.ign && $index > 0" title="Move up" ng-click="moveUp($index)"></i>
+                                                    <i class="icon-up primary-60" ng-if="player.ign && $index == 0" title="Move up"></i>
+                                                    <i class="icon-down action-icon emphasis" ng-if="player.ign && $index < us.roster.length-1" title="Move down" ng-click="moveDown($index)"></i>
+                                                    <i class="icon-down primary-60" ng-if="player.ign && $index >= us.roster.length-1" title="Move down"></i>
+                                                    <i class="icon-cancel action-icon error-red" ng-if="player.ign" title="Remove player" ng-click="removePlayer($index)"></i>
+                                                    <a href="#" editable-select="member" e-ng-options="member.displayName for member in displayMembers" onaftersave="addToRoster($index, member)">{{player.ign}}</a>
                                                 </div>
-                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6" ng-if="!player.ign"><i>-- empty --</i></div>
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6 no-wrap" ng-if="!player.ign"><!-- <select class="form-control-small member-select" ng-model="addedPlayer" ng-options="member as member.displayName for member in displayMembers" ng-change="addToRoster($index, addedPlayer)"></select> -->
+                                                <a href="#" editable-select="member" e-ng-options="member.displayName for member in displayMembers" onaftersave="addToRoster($index, member)"><em>-- empty --</em></a>
+                                                </div>
                                                 <div class="col-xs-1 text-center" style="z-index:50;"><a href="#" editable-select="player.th" e-ng-options="th for th in th" onaftersave="updatePlayerData($index, player)">{{player.th}}</a></div>
                                                 <div class="col-xs-1 text-center" style="z-index:40;"><a href="#" ng-class="{'error-red': player.warWeight==0}" editable-select="player.warWeight" e-ng-options="wt for wt in wt" onaftersave="updatePlayerData($index, player)">{{player.warWeight}}</a></div>
                                                 <div class="col-sm-1 text-center hidden-xs" style="z-index:30;"><a href="#" editable-select="player.bk" e-ng-options="hl for hl in hl" onaftersave="updatePlayerData($index, player)">{{player.bk}}</a></div>
                                                 <div class="col-sm-1 text-center hidden-xs" style="z-index:20;"><a href="#" editable-select="player.aq" e-ng-options="hl for hl in hl" onaftersave="updatePlayerData($index, player)">{{player.aq}}</a></div>
-                                                <div class="col-xs-1 text-center" ng-class="{'error-red': player.bk + player.aq ==0}">{{player.bk + player.aq}}</div>
+                                                <div class="col-sm-1 text-center hidden-xs" style="z-index:10;"><a href="#" editable-select="player.gw" e-ng-options="hl for hl in hl" onaftersave="updatePlayerData($index, player)">{{player.gw}}</a></div>
+                                                <div class="col-xs-1 text-center" ng-class="{'error-red': player.bk + player.aq ==0}">{{player.bk + player.aq + player.gw}}</div>
                                             </div>
                                             <div class="row row-underline-2"></div>
                                             <div class="row arranged-row strong">
@@ -223,10 +180,11 @@
                                                 <div class="col-xs-1 text-center" ng-class="{'error-red': totals.us.totalWeight < totals.them.totalWeight, 'good-green': totals.us.totalWeight > totals.them.totalWeight}">{{totals.us.totalWeight}}</div>
                                                 <div class="col-sm-1 hidden-xs text-center" ng-class="{'error-red': totals.us.totalBK < totals.them.totalBK, 'good-green': totals.us.totalBK > totals.them.totalBK}">{{totals.us.totalBK}}</div>
                                                 <div class="col-sm-1 hidden-xs text-center" ng-class="{'error-red': totals.us.totalAQ < totals.them.totalAQ, 'good-green': totals.us.totalAQ > totals.them.totalAQ}">{{totals.us.totalAQ}}</div>
+                                                <div class="col-sm-1 hidden-xs text-center" ng-class="{'error-red': totals.us.totalGW < totals.them.totalGW, 'good-green': totals.us.totalGW > totals.them.totalGW}">{{totals.us.totalGW}}</div>
                                                 <div class="col-xs-1 text-center" ng-class="{'error-red': totals.us.totalHeroes < totals.them.totalHeroes, 'good-green': totals.us.totalHeroes > totals.them.totalHeroes}">{{totals.us.totalHeroes}}</div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6 col-xs-12">
+                                        <div class="col-sm-5 col-xs-12">
                                             <div class="row margin-bottom-big">
                                                 <div class="col-xs-12 text-center">
                                                     <h4 class="primary-dark"><strong>{{them.clan_name}}</strong></h4>
@@ -239,6 +197,7 @@
                                                 <div class="col-xs-1 text-center">W</div>
                                                 <div class="col-sm-1 hidden-xs text-center">BK</div>
                                                 <div class="col-sm-1 hidden-xs text-center">AQ</div>
+                                                <div class="col-sm-1 hidden-xs text-center">GW</div>
                                                 <div class="col-xs-1 text-center">H</div>
                                             </div>
                                             <div class="row row-underline-2"></div>
@@ -250,7 +209,8 @@
                                                 <div class="col-xs-1 text-center" ng-class="{'error-red': player.warWeight==0}" ng-if="player.ign">{{player.warWeight}}</div>
                                                 <div class="col-sm-1 text-center hidden-xs">{{player.bk}}</div>
                                                 <div class="col-sm-1 text-center hidden-xs">{{player.aq}}</div>
-                                                <div class="col-xs-1 text-center" ng-class="{'error-red': player.bk + player.aq ==0}">{{player.bk + player.aq}}</div>
+                                                <div class="col-sm-1 text-center hidden-xs">{{player.gw}}</div>
+                                                <div class="col-xs-1 text-center" ng-class="{'error-red': player.bk + player.aq==0}">{{player.bk + player.aq + player.gw}}</div>
                                             </div>
                                             <div class="row row-underline-2"></div>
                                             <div class="row arranged-row strong">
@@ -259,6 +219,7 @@
                                                 <div class="col-xs-1 text-center" ng-class="{'error-red': totals.us.totalWeight > totals.them.totalWeight, 'good-green': totals.us.totalWeight < totals.them.totalWeight}">{{totals.them.totalWeight}}</div>
                                                 <div class="col-sm-1 hidden-xs text-center" ng-class="{'error-red': totals.us.totalBK > totals.them.totalBK, 'good-green': totals.us.totalBK < totals.them.totalBK}">{{totals.them.totalBK}}</div>
                                                 <div class="col-sm-1 hidden-xs text-center" ng-class="{'error-red': totals.us.totalAQ > totals.them.totalAQ, 'good-green': totals.us.totalAQ < totals.them.totalAQ}">{{totals.them.totalAQ}}</div>
+                                                <div class="col-sm-1 hidden-xs text-center" ng-class="{'error-red': totals.us.totalGW > totals.them.totalGW, 'good-green': totals.us.totalGW < totals.them.totalGW}">{{totals.them.totalGW}}</div>
                                                 <div class="col-xs-1 text-center" ng-class="{'error-red': totals.us.totalHeroes > totals.them.totalHeroes, 'good-green': totals.us.totalHeroes < totals.them.totalHeroes}">{{totals.them.totalHeroes}}</div>
                                             </div>
                                         </div>

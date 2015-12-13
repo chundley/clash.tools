@@ -88,7 +88,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                         else {
                             member.gwDays = 0;
                             member.gwHours = 0;
-                        }                        
+                        }
                     });
 
                     $scope.members.sort(function (a, b) {
@@ -511,7 +511,6 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
         var temp = $scope.war.team[index+1];
         $scope.war.team[index+1] = $scope.war.team[index];
         $scope.war.team[index] = temp;
-
         saveWarInternal(function(){});
     }
 
@@ -814,7 +813,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                         }
                         else {
                             rosterMember.gwDown = { days: 0, hours: 0};
-                        }                        
+                        }
                         break;
                     }
                 }
@@ -881,7 +880,7 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
                         }
                         else {
                             hUpgrade.gwDown = { days: 0, hours: 0};
-                        }                            
+                        }
                         break;
                     }
 

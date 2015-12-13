@@ -46,6 +46,7 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
 
     $scope.uploadBaseImg = function(file) {
         if (file.length > 0) {
+            console.log('here');
             $scope.uploading = true;
             imageUploadService.upload($scope.war.clan_id, file, function (err, result) {
                 if (err) {
@@ -77,6 +78,7 @@ function ($rootScope, $scope, $routeParams, $location, $modal, $window, moment, 
                 }
             });
         }
+        console.log($scope.badBaseImage);
     }
 
     $scope.deleteImage = function() {

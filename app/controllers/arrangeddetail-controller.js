@@ -10,7 +10,7 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
 
     // needed for inline dropdown lists
     $scope.th = [];
-    for (var idx=10; idx>0; idx--) {
+    for (var idx=11; idx>0; idx--) {
         $scope.th.push(idx);
     }
 
@@ -20,7 +20,7 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
     }
 
     $scope.wt = [];
-    for (var idx=100; idx>=0; idx--) {
+    for (var idx=120; idx>=0; idx--) {
         $scope.wt.push(idx);
     }
 
@@ -170,63 +170,20 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
         }
     }
 
-    $scope.addPlayer = function(player) {
+    $scope.addToRoster = function(index, player) {
         if (player._id) {
-            // find the slot where this member should go
-            var position = -1;
+            $scope.us.roster[index] = {
+                user_id: player._id,
+                ign: player.ign,
+                th: player.profile.buildings.th,
+                warWeight: player.profile.warWeight,
+                bk: player.profile.heroes.bk,
+                aq: player.profile.heroes.aq,
+                gw: player.profile.heroes.gw
+            };
 
-            for (var idx=0; idx<$scope.us.roster.length; idx++) {
-                if ($scope.us.roster[idx].user_id &&
-                    $scope.us.roster[idx].warWeight <= player.profile.warWeight) {
-                    // if a user at this location and the user's weight is less than or equal to new player, do something
-                    if ($scope.us.roster[idx].warWeight == player.profile.warWeight) {
-                        // if equal, check hero levels
-                        if ($scope.us.roster[idx].bk + $scope.us.roster[idx].aq <= player.profile.heroes.bk + player.profile.heroes.aq) {
-                            position = idx;
-                            break;
-                        }
-                    }
-                    else {
-                        position = idx;
-                        break;
-                    }
-
-                }
-                else if (!$scope.us.roster[idx].user_id) {
-                    position = idx;
-                    break;
-                }
-            }
-
-            if (position >= 0) {
-                var newMember = {
-                    user_id: player._id,
-                    ign: player.ign,
-                    th: player.profile.buildings.th,
-                    warWeight: player.profile.warWeight,
-                    bk: player.profile.heroes.bk,
-                    aq: player.profile.heroes.aq
-                };
-
-                if (position == $scope.us.roster.length-1) {
-                    // last position in the array, just replace what's there
-                    $scope.us.roster[position] = newMember;
-                }
-                else {
-                    // need to move everyone down a spot (5 becomes 6, 6 becomes 7, etc.)
-                    for (var moveIdx = $scope.us.roster.length-1; moveIdx > position; moveIdx--) {
-                        $scope.us.roster.splice(moveIdx, 0, $scope.us.roster.splice(moveIdx-1, 1)[0]);
-
-                        //this.splice(to, 0, this.splice(from, 1)[0]);
-                    }
-                    $scope.us.roster[position] = newMember;
-                }
-                saveInternal();
-                cleanDisplayMembers();
-            }
-            else {
-                $rootScope.globalMessage = 'Player\'s weight was lower than everone else on the roster so they were not added.';
-            }
+            saveInternal();
+            cleanDisplayMembers();
         }
         else {
             // placeholder
@@ -242,63 +199,25 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
                 formData: {
                     warWeight: 0,
                     th: 1,
-                    bk: 1,
-                    aq: 1
+                    bk: 0,
+                    aq: 0,
+                    gw: 0,
                 },
                 onYes: function(formData) {
-                    var position = -1;
 
-                    for (var idx=0; idx<$scope.us.roster.length; idx++) {
-                        if ($scope.us.roster[idx].user_id &&
-                            $scope.us.roster[idx].warWeight <= formData.warWeight) {
-                            // if a user at this location and the user's weight is less than or equal to new player, do something
-                            if ($scope.us.roster[idx].warWeight == formData.warWeight) {
-                                // if equal, check hero levels
-                                if ($scope.us.roster[idx].bk + $scope.us.roster[idx].aq <= formData.bk + formData.aq) {
-                                    position = idx;
-                                    break;
-                                }
-                            }
-                            else {
-                                position = idx;
-                                break;
-                            }
-
-                        }
-                        else if (!$scope.us.roster[idx].user_id) {
-                            position = idx;
-                            break;
-                        }
-                    }
-
-                    if (position >= 0) {
-                        var newMember = {
-                            user_id: 1,
-                            ign: formData.ign,
-                            th: formData.th,
-                            warWeight: formData.warWeight,
-                            bk: formData.bk,
-                            aq: formData.aq
-                        };
-
-                        if (position == $scope.us.roster.length-1) {
-                            // last position in the array, just replace what's there
-                            $scope.us.roster[position] = newMember;
-                        }
-                        else {
-                            // need to move everyone down a spot (5 becomes 6, 6 becomes 7, etc.)
-                            for (var moveIdx = $scope.us.roster.length-1; moveIdx > position; moveIdx--) {
-                                $scope.us.roster.splice(moveIdx, 0, $scope.us.roster.splice(moveIdx-1, 1)[0]);
-                            }
-                            $scope.us.roster[position] = newMember;
-                        }
-                        saveInternal();
-                        cleanDisplayMembers();
-                        trackService.track('saved-arrangedph');
-                    }
-                    else {
-                        $rootScope.globalMessage = 'Player\'s weight was lower than everone else on the roster so they were not added.';
-                    }
+                    var newMember = {
+                        user_id: 1,
+                        ign: formData.ign,
+                        th: formData.th,
+                        warWeight: formData.warWeight,
+                        bk: formData.bk,
+                        aq: formData.aq,
+                        gw: formData.gw
+                    };
+                    $scope.us.roster[index] = newMember;
+                    saveInternal();
+                    cleanDisplayMembers();
+                    trackService.track('saved-arrangedph');
 
                 }
             };
@@ -322,6 +241,22 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
     $scope.removePlayer = function(index) {
         $scope.us.roster.splice(index, 1);
         $scope.us.roster.push({});
+        saveInternal();
+        cleanDisplayMembers();
+    }
+
+    $scope.moveUp = function(index) {
+        var temp = $scope.us.roster[index-1];
+        $scope.us.roster[index-1] = $scope.us.roster[index];
+        $scope.us.roster[index] = temp;
+        saveInternal();
+        cleanDisplayMembers();
+    }
+
+    $scope.moveDown = function(index) {
+        var temp = $scope.us.roster[index+1];
+        $scope.us.roster[index+1] = $scope.us.roster[index];
+        $scope.us.roster[index] = temp;
         saveInternal();
         cleanDisplayMembers();
     }
@@ -717,23 +652,34 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
                 totalWeight: 0,
                 totalBK: 0,
                 totalAQ: 0,
+                totalGW: 0,
                 totalHeroes: 0,
+                th11: {
+                    totalWeight: 0,
+                    totalBK: 0,
+                    totalAQ: 0,
+                    totalGW: 0,
+                    totalHeroes: 0,
+                },
                 th10: {
                     totalWeight: 0,
                     totalBK: 0,
                     totalAQ: 0,
+                    totalGW: 0,
                     totalHeroes: 0,
                 },
                 th9: {
                     totalWeight: 0,
                     totalBK: 0,
                     totalAQ: 0,
+                    totalGW: 0,
                     totalHeroes: 0,
                 },
                 th8: {
                     totalWeight: 0,
                     totalBK: 0,
                     totalAQ: 0,
+                    totalGW: 0,
                     totalHeroes: 0,
                 }
             },
@@ -741,23 +687,34 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
                 totalWeight: 0,
                 totalBK: 0,
                 totalAQ: 0,
+                totalGW: 0,
                 totalHeroes: 0,
+                th11: {
+                    totalWeight: 0,
+                    totalBK: 0,
+                    totalAQ: 0,
+                    totalGW: 0,
+                    totalHeroes: 0,
+                },
                 th10: {
                     totalWeight: 0,
                     totalBK: 0,
                     totalAQ: 0,
+                    totalGW: 0,
                     totalHeroes: 0,
                 },
                 th9: {
                     totalWeight: 0,
                     totalBK: 0,
                     totalAQ: 0,
+                    totalGW: 0,
                     totalHeroes: 0,
                 },
                 th8: {
                     totalWeight: 0,
                     totalBK: 0,
                     totalAQ: 0,
+                    totalGW: 0,
                     totalHeroes: 0,
                 }
             }
@@ -768,25 +725,36 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
                 $scope.totals.us.totalWeight += member.warWeight;
                 $scope.totals.us.totalBK += member.bk;
                 $scope.totals.us.totalAQ += member.aq;
-                $scope.totals.us.totalHeroes += member.bk + member.aq;
+                $scope.totals.us.totalGW += member.gw;
+                $scope.totals.us.totalHeroes += member.bk + member.aq + member.gw;
 
-                if (member.th==10) {
+                if (member.th==11) {
+                    $scope.totals.us.th11.totalWeight += member.warWeight;
+                    $scope.totals.us.th11.totalBK += member.bk;
+                    $scope.totals.us.th11.totalAQ += member.aq;
+                    $scope.totals.us.th11.totalGW += member.gw;
+                    $scope.totals.us.th11.totalHeroes += member.bk + member.aq + member.gw;
+                }
+                else if (member.th==10) {
                     $scope.totals.us.th10.totalWeight += member.warWeight;
                     $scope.totals.us.th10.totalBK += member.bk;
                     $scope.totals.us.th10.totalAQ += member.aq;
-                    $scope.totals.us.th10.totalHeroes += member.bk + member.aq;
+                    $scope.totals.us.th10.totalGW += member.gw;
+                    $scope.totals.us.th10.totalHeroes += member.bk + member.aq + member.gw;
                 }
                 else if (member.th==9) {
                     $scope.totals.us.th9.totalWeight += member.warWeight;
                     $scope.totals.us.th9.totalBK += member.bk;
                     $scope.totals.us.th9.totalAQ += member.aq;
-                    $scope.totals.us.th9.totalHeroes += member.bk + member.aq;
+                    $scope.totals.us.th9.totalGW += member.gw;
+                    $scope.totals.us.th9.totalHeroes += member.bk + member.aq + member.gw;
                 }
                 else if (member.th==8) {
                     $scope.totals.us.th8.totalWeight += member.warWeight;
                     $scope.totals.us.th8.totalBK += member.bk;
                     $scope.totals.us.th8.totalAQ += member.aq;
-                    $scope.totals.us.th8.totalHeroes += member.bk + member.aq;
+                    $scope.totals.us.th9.totalGW += member.gw;
+                    $scope.totals.us.th8.totalHeroes += member.bk + member.aq + member.gw;
                 }
             }
         });
@@ -796,25 +764,36 @@ function ($rootScope, $scope, $window, $routeParams, $location, $modal, ctSocket
                 $scope.totals.them.totalWeight += member.warWeight;
                 $scope.totals.them.totalBK += member.bk;
                 $scope.totals.them.totalAQ += member.aq;
-                $scope.totals.them.totalHeroes += member.bk + member.aq;
+                $scope.totals.them.totalGW += member.gw;
+                $scope.totals.them.totalHeroes += member.bk + member.aq + member.gw;
 
-                if (member.th==10) {
+                if (member.th==11) {
+                    $scope.totals.them.th11.totalWeight += member.warWeight;
+                    $scope.totals.them.th11.totalBK += member.bk;
+                    $scope.totals.them.th11.totalAQ += member.aq;
+                    $scope.totals.them.th11.totalGW += member.gw;
+                    $scope.totals.them.th11.totalHeroes += member.bk + member.aq + member.gw;
+                }
+                else if (member.th==10) {
                     $scope.totals.them.th10.totalWeight += member.warWeight;
                     $scope.totals.them.th10.totalBK += member.bk;
                     $scope.totals.them.th10.totalAQ += member.aq;
-                    $scope.totals.them.th10.totalHeroes += member.bk + member.aq;
+                    $scope.totals.them.th10.totalGW += member.gw;
+                    $scope.totals.them.th10.totalHeroes += member.bk + member.aq + member.gw;
                 }
                 else if (member.th==9) {
                     $scope.totals.them.th9.totalWeight += member.warWeight;
                     $scope.totals.them.th9.totalBK += member.bk;
                     $scope.totals.them.th9.totalAQ += member.aq;
-                    $scope.totals.them.th9.totalHeroes += member.bk + member.aq;
+                    $scope.totals.them.th9.totalGW += member.gw;
+                    $scope.totals.them.th9.totalHeroes += member.bk + member.aq + member.gw;
                 }
                 else if (member.th==8) {
                     $scope.totals.them.th8.totalWeight += member.warWeight;
                     $scope.totals.them.th8.totalBK += member.bk;
                     $scope.totals.them.th8.totalAQ += member.aq;
-                    $scope.totals.them.th8.totalHeroes += member.bk + member.aq;
+                    $scope.totals.them.th9.totalGW += member.gw;
+                    $scope.totals.them.th8.totalHeroes += member.bk + member.aq + member.gw;
                 }
             }
         });
