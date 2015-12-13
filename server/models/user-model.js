@@ -179,7 +179,8 @@ exports.updateFromRoster = function(userId, model, callback) {
                             'profile.warWeight': model.w,
                             'profile.buildings.th': model.th,
                             'profile.heroes.bk': model.bk,
-                            'profile.heroes.aq': model.aq
+                            'profile.heroes.aq': model.aq,
+                            'profile.heroes.gw': model.gw
                         }
                 },
                 { upsert: false },

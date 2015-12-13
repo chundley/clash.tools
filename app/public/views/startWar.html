@@ -114,17 +114,18 @@
                                     </div>
                                         <div class="row arranged-row strong">
                                             <div class="col-xs-1 text-center">#</div>
-                                            <div class="col-sm-4 col-xs-6">Player</div>
+                                            <div class="col-sm-3 col-xs-6">Player</div>
                                             <div class="col-xs-1 text-center">TH</div>
                                             <div class="col-sm-1 hidden-xs text-center">W</div>
                                             <div class="col-sm-1 hidden-xs text-center">BK</div>
                                             <div class="col-sm-1 hidden-xs text-center">AQ</div>
-                                            <div class="col-sm-3 col-xs-4 text-center">Heroes down</div>
+                                            <div class="col-sm-1 hidden-xs text-center">GW</div>
+                                            <div class="col-sm-3 col-xs-4">Heroes down</div>
                                         </div>
                                         <div class="row row-underline-2"></div>
                                         <div class="row arranged-row" ng-repeat="player in roster">
                                             <div class="col-xs-1 text-center">{{$index+1}}</div>
-                                            <div class="col-sm-4 col-xs-6 no-wrap" ng-if="player.ign" style="z-index:60;">
+                                            <div class="col-sm-3 col-xs-6 no-wrap" ng-if="player.ign" style="z-index:60;">
                                                 <i class="icon-up action-icon emphasis" ng-if="player.ign && $index > 0" title="Move up" ng-click="moveUp($index)"></i>
                                                 <i class="icon-up primary-60" ng-if="player.ign && $index == 0" title="Move up"></i>
                                                 <i class="icon-down action-icon emphasis" ng-if="player.ign && $index < roster.length-1" title="Move down" ng-click="moveDown($index)"></i>
@@ -138,10 +139,11 @@
                                             <div class="col-sm-1 hidden-xs text-center" ng-if="player.editable" style="z-index:40;"><a href="#" editable-select="player.w" e-ng-options="wt for wt in wt" onaftersave="updatePlayerData($index, player)">{{player.w}}</a></div>
                                             <div class="col-sm-1 hidden-xs text-center" style="z-index:30;" ng-if="player.editable"><a href="#" editable-select="player.bk" e-ng-options="hl for hl in hl" onaftersave="updatePlayerData($index, player)">{{player.bk}}</a></div>
                                             <div class="col-sm-1 hidden-xs text-center" style="z-index:20;" ng-if="player.editable"><a href="#" editable-select="player.aq" e-ng-options="hl for hl in hl" onaftersave="updatePlayerData($index, player)">{{player.aq}}</a></div>
-                                            <div class="col-sm-3 col-xs-4 text-center" ng-if="player.editable">
-                                                <span ng-if="player.bkDown.days > 0 || player.bkDown.hours > 0"><b>BK</b>: <b class="alternate">{{player.bkDown.days}}</b>d <b class="alternate">{{player.bkDown.hours}}</b>h</span>
-                                                <span ng-if="player.aqDown.days > 0 || player.aqDown.hours > 0"><b>AQ</b>: <b class="alternate">{{player.aqDown.days}}</b>d <b class="alternate">{{player.aqDown.hours}}</b>h</span>
-                                                <span ng-if="player.gwDown.days > 0 || player.gwDown.hours > 0"><b>GW</b>: <b class="alternate">{{player.gwDown.days}}</b>d <b class="alternate">{{player.gwDown.hours}}</b>h</span>
+                                            <div class="col-sm-1 hidden-xs text-center" style="z-index:10;" ng-if="player.editable"><a href="#" editable-select="player.gw" e-ng-options="hl for hl in hl" onaftersave="updatePlayerData($index, player)">{{player.gw}}</a></div>
+                                            <div class="col-sm-3 col-xs-4" ng-if="player.editable">
+                                                <span class="hd-container" ng-if="player.bkDown.days > 0 || player.bkDown.hours > 0"><b>BK</b> <b class="alternate">{{player.bkDown.days}}</b>d<b class="alternate">{{player.bkDown.hours}}</b>h</span>
+                                                <span class="hd-container" ng-if="player.aqDown.days > 0 || player.aqDown.hours > 0"><b>AQ</b> <b class="alternate">{{player.aqDown.days}}</b>d<b class="alternate">{{player.aqDown.hours}}</b>h</span>
+                                                <span class="hd-container" ng-if="player.gwDown.days > 0 || player.gwDown.hours > 0"><b>GW</b> <b class="alternate">{{player.gwDown.days}}</b>d<b class="alternate">{{player.gwDown.hours}}</b>h</span>
                                             </div>
                                             <div class="col-sm-6 col-xs-4 text-center primary-60-bg" ng-if="!player.editable && player.ign">
                                                 <i>placeholder</i>
@@ -180,16 +182,21 @@
                                         </div>
                                     </div>
                                     <div class="row small strong">
-                                        <div class="col-lg-1 col-md-1 col-sm-2 col-xs-1 text-center">#</div>
-                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">Town hall</div>
-                                        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4">Assign to</div>
+                                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center">#</div>
+                                        <div class="col-lg-2 col-md-2 col-sm-2 hidden-xs">Label</div>
+                                        <div class="col-lg-1 col-md-1 col-sm-2 hidden-xs">Town hall</div>
+                                        <div class="col-xs-3 visible-xs">TH</div>
+                                        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-3">Assign to</div>
                                         <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
-                                        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-3">Heroes Down</div>
+                                        <div class="col-lg-3 col-md-4 col-sm-3 col-xs-4">Heroes Down</div>
                                     </div>
                                     <div class="row row-underline-2"></div>
                                     <div class="row assign-row small" ng-repeat="base in war.bases">
-                                        <div class="col-lg-1 col-md-1 col-sm-2 col-xs-1 text-center">{{base.b}}</div>
-                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center nudge-col">{{base.b}}</div>
+                                        <div class="col-lg-2 col-md-2 col-sm-2 hidden-xs nudge-col" style="z-index:40;">
+                                            <a href="#" editable-text="baseLabel" onaftersave="addBaseLabel($index, baseLabel)">{{base.l || 'none'}}</a>
+                                        </div>
+                                        <div class="col-lg-1 col-md-1 col-sm-2 col-xs-3">
                                             <select class="form-control-small" ng-class="{'th-warning': base.t==1}" ng-model="base.t" ng-change="oppTH(base.b)" integer>
                                                 <option>11</option>
                                                 <option>10</option>
@@ -204,17 +211,17 @@
                                                 <option>1</option>
                                             </select>
                                         </div>
-                                        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4">
+                                        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-3">
                                            <select class="form-control-small" ng-model="base.a[0].u" ng-options="tm.u as tm.i for tm in war.team | filter: filterTeam" ng-change="assignBase($index, base.a[0].u)" ng-disabled="warStarted">
                                             </select>
                                         </div>
                                         <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 icon-remove">
                                             <a href ng-click="deleteAssignment($index)" ng-if="base.a.length>0 && !warStarted"><i class="icon-cancel error-red" title="Remove assignment"></i></a>
                                         </div>
-                                        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-3 hero-down">
-                                            <span ng-if="heroesUpgrading[$index].bkDown.days > 0 || heroesUpgrading[$index].bkDown.hours > 0"><b>BK</b>: <b class="alternate">{{heroesUpgrading[$index].bkDown.days}}</b>d <b class="alternate">{{heroesUpgrading[$index].bkDown.hours}}</b>h</span>
-                                            <span ng-if="heroesUpgrading[$index].aqDown.days > 0 || heroesUpgrading[$index].aqDown.hours > 0"><b>AQ</b>: <b class="alternate">{{heroesUpgrading[$index].aqDown.days}}</b>d <b class="alternate">{{heroesUpgrading[$index].aqDown.hours}}</b>h</span>
-                                            <span ng-if="heroesUpgrading[$index].gwDown.days > 0 || heroesUpgrading[$index].gwDown.hours > 0"><b>GW</b>: <b class="alternate">{{heroesUpgrading[$index].gwDown.days}}</b>d <b class="alternate">{{heroesUpgrading[$index].gwDown.hours}}</b>h</span>
+                                        <div class="col-lg-3 col-md-4 col-sm-3 col-xs-4 hero-down">
+                                            <span ng-if="heroesUpgrading[$index].bkDown.days > 0 || heroesUpgrading[$index].bkDown.hours > 0"><b>BK</b> <b class="alternate">{{heroesUpgrading[$index].bkDown.days}}</b>d<b class="alternate">{{heroesUpgrading[$index].bkDown.hours}}</b>h</span>
+                                            <span ng-if="heroesUpgrading[$index].aqDown.days > 0 || heroesUpgrading[$index].aqDown.hours > 0"><b>AQ</b> <b class="alternate">{{heroesUpgrading[$index].aqDown.days}}</b>d<b class="alternate">{{heroesUpgrading[$index].aqDown.hours}}</b>h</span>
+                                            <span ng-if="heroesUpgrading[$index].gwDown.days > 0 || heroesUpgrading[$index].gwDown.hours > 0"><b>GW</b> <b class="alternate">{{heroesUpgrading[$index].gwDown.days}}</b>d<b class="alternate">{{heroesUpgrading[$index].gwDown.hours}}</b>h</span>
                                         </div>
                                     </div>
                                 </div>

@@ -417,6 +417,11 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
         saveWarInternal(function(){});
     }
 
+    $scope.addBaseLabel = function(baseNum, label) {
+        $scope.war.bases[baseNum].l = label;
+        saveWarInternal(function(){});
+    }
+
     /*
     *   Internal function - because we don't want to save on mass assignments (like mirror)
     */
