@@ -58,11 +58,14 @@
                                                 </div>
                                             </div>
 
-                                            <div class="row">
+                                            <div class="row margin-bottom-big">
                                                 <div class="col-xs-12 war-target">
                                                     <div class="target-widget" ng-repeat="target in playerTargets">
-                                                        <div class="tw-header text-center">
+                                                        <div class="tw-header text-center" ng-show="target.label.length==0">
                                                             Target {{$index + 1}}
+                                                        </div>
+                                                        <div class="tw-header text-center" ng-show="target.label.length>0">
+                                                            {{target.label}}
                                                         </div>
                                                         <div class="tw-body text-center">
                                                             #{{target.base_num}}
@@ -86,6 +89,10 @@
                                                                 </ul>
                                                             </span>
 
+                                                        </div>
+                                                        <div class="tw-tags text-center" ng-show="clan.base_tags.length > 0">
+                                                            <span ng-repeat="tag in target.tags" class="base-tag base-tag-tw" style="background: {{tag.color}}" title="{{tag.name}}"></span>
+                                                            <div ng-show="!target.tags || target.tags.length==0" class="no-tags"><em>No tags</em></div>
                                                         </div>
                                                         <div class="tw-expire text-center" ng-if="target.stars==null && target.expires > 0">
                                                             Expires <b>{{target.hours}}h {{target.minutes}}m</b>
@@ -124,6 +131,9 @@
                                                         <div class="tw-stars text-center">
                                                             <img src="/img/icons/stars-blank.png">
                                                         </div>
+                                                        <div class="tw-tags" ng-show="clan.base_tags.length > 0">
+                                                            <div class="no-tags">&nbsp;</div>
+                                                        </div>
                                                         <div class="tw-expire text-center">
                                                             n/a
                                                         </div>
@@ -142,6 +152,10 @@
                                                             <div class="tw-stars text-center">
                                                                 <img src="/img/icons/stars-tiny-{{base.stars}}.png">
                                                             </div>
+                                                            <div class="tw-tags text-center" ng-show="clan.base_tags.length > 0">
+                                                                <span ng-repeat="tag in base.tags" class="base-tag base-tag-tw" style="background: {{tag.color}}" title="{{tag.name}}"></span>
+                                                                <div ng-show="!base.tags || base.tags.length==0" class="no-tags"><em>No tags</em></div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="open-targets-pre text-center" ng-if="!warStarted && isInWar">
@@ -152,6 +166,14 @@
                                                     </div>
                                                     <div class="open-targets-pre text-center" ng-if="!isInWar">
                                                         <h4 class="primary-40"><p>You are not in this war, no targets can be reserved</p></h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row" ng-show="clan.base_tags.length > 0">
+                                                <div class="col-xs-12">
+                                                    <div class="base-tag-legend" ng-repeat="tag in clan.base_tags">
+                                                    <span class="base-tag base-tag-l" style="background: {{tag.color}}" title=""></span> <span class="base-tag-l-label">{{tag.name}}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -202,7 +224,7 @@
                                             <span ng-if="gwDays==0 && gwHours == 0 && meta.gwLevel>0"><b>Active</b></span>
                                             <span ng-if="meta.gwLevel==0"><b class="primary-40">No GW</b></span>
                                         </div>
-                                    </div>                                    
+                                    </div>
                                     <div class="row row-underline-1"></div>
                                     <div class="row leave-clan-row">
                                         <div class="col-xs-12">

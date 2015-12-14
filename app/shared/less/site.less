@@ -132,6 +132,7 @@
                 background: @emphasis;
                 padding: 4px 0px;
                 border-bottom: 1px solid @primary-20;
+                font-size: 13px;
             }
 
             .tw-body {
@@ -144,7 +145,7 @@
             }
 
             .tw-stars {
-                margin-bottom: 8px;
+                margin-bottom: 4px;
             }
 
             .tw-expire {
@@ -152,6 +153,19 @@
                 border-top: 1px solid @primary-40;
                 background: @primary-60;
                 font-size: 12px;
+            }
+
+            .tw-tags {
+                margin-top: 8px;
+                .base-tag-tw {
+                    margin-right: 2px;
+                }
+
+                .no-tags {
+                    font-size: 12px;
+                    margin-bottom: 3px;
+                    color: @primary-20;
+                }
             }
         }
 
@@ -165,6 +179,19 @@
 
             .tw-body {
                 color: @primary-50;
+            }
+
+            .tw-tags {
+                margin-top: 8px;
+                .base-tag-tw {
+                    margin-right: 2px;
+                }
+
+                .no-tags {
+                    font-size: 12px;
+                    margin-bottom: 3px;
+                    color: @primary-20;
+                }
             }
 
             .tw-expire {
@@ -206,6 +233,21 @@
             tw-stars {
                 margin-bottom: 0px;
             }
+
+            .tw-tags {
+                .base-tag-tw {
+                    margin-right: 2px;
+                    min-width: 8px;
+                    min-height: 8px;
+                    border-radius: 2px;
+                }
+
+                .no-tags {
+                    font-size: 11px;
+                    margin-bottom: 5px;
+                    color: @primary-20;
+                }
+            }
         }
     }
 
@@ -214,6 +256,20 @@
         padding-top: 20px;
     }
 
+    .base-tag-legend {
+        display: inline-block;
+        padding-right: 20px;
+        .base-tag-l {
+/*            min-width: 14px;
+            min-height: 14px;*/
+        }
+
+        .base-tag-l-label {
+            font-size: 11px;
+            position: relative;
+            top: -3px;
+        }
+    }
 }
 
 .war-plan {

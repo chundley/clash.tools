@@ -364,7 +364,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
 
                                         // clear meta data so the clan gets refreshed
                                         sessionService.clearUserMeta();
-                                        $window.location.reload();                       
+                                        $window.location.reload();
                                     }
                                 });
 
@@ -383,7 +383,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
 
                         modalInstance.$promise.then(function() {
                             modalInstance.show();
-                        });                        
+                        });
                     }
                 }
             });
@@ -535,7 +535,9 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
                                 stars: assignment.s,
                                 expires: expires,
                                 hours: 0,
-                                minutes: 0
+                                minutes: 0,
+                                label: base.l || '',
+                                tags: base.tags || []
                             }
                         );
                     }
@@ -610,7 +612,7 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
         else {
             $scope.gwDays = 0;
             $scope.gwHours = 0;
-        }        
+        }
     }
 
     /*
@@ -685,7 +687,8 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
                         {
                             th: base.t,
                             base_num: base.b,
-                            stars: maxStars
+                            stars: maxStars,
+                            tags: base.tags || []
                         }
                     );
                 }
