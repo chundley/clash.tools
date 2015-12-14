@@ -259,10 +259,6 @@
     .base-tag-legend {
         display: inline-block;
         padding-right: 20px;
-        .base-tag-l {
-/*            min-width: 14px;
-            min-height: 14px;*/
-        }
 
         .base-tag-l-label {
             font-size: 11px;
@@ -838,13 +834,25 @@
         }
     }
 
+    .base-tag-legend {
+        display: inline-block;
+        position: relative;
+        top: 3px;
+        padding-right: 20px;
+        .base-tag-l-label {
+            font-size: 10px;
+            position: relative;
+            top: -3px;
+        }
+    }
+
     .war-table {
         .t-row {
             height: 30px;
         }
 
         .base-num {
-            margin-bottom: 6px;
+            padding-top: 5px;
         }
 
         .notes-num-container {
@@ -879,10 +887,21 @@
             color: @vis-5;
         }
 
-        .wc-th-icon {
-            margin-top: 4px;
-            margin-bottom: 10px;
-            cursor: pointer;
+        .wc-th {
+            //margin-top: 4px;
+            //margin-bottom: 10px;
+            //cursor: pointer;
+            font-size: 11px;
+
+            .wc-th-detail {
+                margin-bottom: 6px;
+            }
+        }
+
+        .base-tag-war {
+            margin-right: 2px;
+            min-width: 10px;
+            min-height: 10px;
         }
 
         .best-icon {
@@ -986,7 +1005,7 @@
 
     .wc-key {
         padding-right: 20px;
-        font-size: 12px;
+        font-size: 10px;
 
         i {
             font-size: 14px;
@@ -996,6 +1015,7 @@
     .wc-key-ph {
         border: 1px solid @primary-50;
         background: @vis-5;
+        margin-right: 30px;
         color: #fff;
         font-size: 10px;
         padding: 2px 4px;

@@ -44,17 +44,15 @@
                                             <span class="wc-key">
                                             <img src="/img/icons/swords-on.png"> Reserve
                                             </span>
-                                            <span class="wc-key">
-                                            <i class="icon-attach"></i> Notes
-                                            </span>
                                             <span class="wc-key-ph">Placeholder</span>
+                                            <div class="base-tag-legend" ng-repeat="tag in clan.base_tags" ng-if="clan.base_tags.length > 0">
+                                                <span class="base-tag base-tag-l" style="background: {{tag.color}}" title=""></span> <span class="base-tag-l-label">{{tag.name}}</span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row t-row">
-                                        <div class="col-sm-1 col-xs-2 t-header text-center">Base</div>
-                                        <div class="col-sm-1 col-xs-2 t-header text-center">TH</div>
-                                        <div class="col-sm-1 col-xs-2 t-header text-center">Best</div>
-                                        <div class="col-sm-9 col-xs-6 t-header">Assignments</div>
+                                        <div class="col-lg-4 col-md-5 col-sm-6 col-xs-7 t-header">Base Details</div>
+                                        <div class="col-lg-8 col-md-7 col-sm-6 col-xs-5 t-header">Assignments</div>
                                     </div>
                                     <div class="row row-underline-2"></div>
                                     <div ng-repeat="base in war.bases">
@@ -72,26 +70,39 @@
                                                 </span>
                                                 <img src="/img/icons/swords-off.png" ng-if="!base.isOpen || !activeWar">
                                             </div>
-                                            <div class="col-sm-1 col-xs-2 wc-th-icon text-center" ng-click="baseNotes(base.b)">
-                                                <span class="th-icon-nb th-{{base.t}}"><br>
-                                                <div class="notes-num-container">
-                                                    <span class="notes-num" ng-class="{'nn-on': base.n.n.length>0}">
-                                                        <i class="icon-attach"></i>
-                                                        {{base.n? base.n.n ? base.n.n.length: 0: 0}}
-                                                    </span>
+                                            <div class="col-lg-3 col-md-4 col-sm-5 col-xs-5 wc-th">
+                                                <div class="row">
+                                                    <div class="col-xs-5 text-center">
+                                                        <span class="th-icon-nb th-{{base.t}}"></span><br/>
+                                                        <span ng-repeat="tag in base.tags" class="base-tag base-tag-war" style="background: {{tag.color}}" title="{{tag.name}}"></span>
+                                                            <div ng-show="!base.tags || target.tags.length==0" class="no-tags"><em>No tags</em></div>
+                                                    </div>
+                                                    <div class="col-xs-7">
+                                                        <div class="row wc-th-detail">
+                                                            <div class="col-xs-12" ng-class="{'em': !base.l, 'primary-20': !base.l, 'strong': base.l, 'primary-dark': base.l}">
+                                                                <!-- <a href="#" editable-text="baseLabel" onaftersave="addBaseLabel($index, baseLabel)">{{base.l || 'Edit label'}}</a> -->
+                                                                {{base.l || 'No base label'}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="row wc-th-detail">
+                                                            <div class="col-xs-12">
+                                                                Best
+                                                                <img src="/img/icons/stars-tiny.png" ng-if="base.maxStars==null">
+                                                                <img src="/img/icons/stars-tiny-0.png" ng-if="base.maxStars==0">
+                                                                <img src="/img/icons/stars-tiny-1.png" ng-if="base.maxStars==1">
+                                                                <img src="/img/icons/stars-tiny-2.png" ng-if="base.maxStars==2">
+                                                                <img src="/img/icons/stars-tiny-3.png" ng-if="base.maxStars==3">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-12">
+                                                                <a href="/war/notes/{{war._id}}/{{base.b}}" class="btn btn-xxs btn-default" ng-class="{'strong': base.n || base.n.n}">Notes <i class="icon-attach"></i> {{base.n? base.n.n ? base.n.n.length: 0: 0}}</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-<!--                                             <div class="col-sm-1 col-xs-2 text-center">
-                                                <span class="th-icon-nb th-{{base.t}}"><br>
-                                            </div> -->
-                                            <div class="col-sm-1 col-xs-2 best-icon text-center">
-                                                <img src="/img/icons/stars-tiny.png" ng-if="base.maxStars==null">
-                                                <img src="/img/icons/stars-tiny-0.png" ng-if="base.maxStars==0">
-                                                <img src="/img/icons/stars-tiny-1.png" ng-if="base.maxStars==1">
-                                                <img src="/img/icons/stars-tiny-2.png" ng-if="base.maxStars==2">
-                                                <img src="/img/icons/stars-tiny-3.png" ng-if="base.maxStars==3">
-                                            </div>
-                                            <div class="col-sm-9 col-xs-6">
+                                            <div class="col-lg-8 col-md-7 col-sm-6 col-xs-5">
                                                 <div ng-repeat="a in base.a">
                                                     <div class="assignment-widget">
                                                         <div class="aw-name text-center" ng-class="{'aw-name-member': a.u.length==24, 'aw-name-ph': a.u.length==36}">
