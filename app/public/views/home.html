@@ -91,7 +91,7 @@
 
                                                         </div>
                                                         <div class="tw-tags text-center" ng-show="clan.base_tags.length > 0">
-                                                            <span ng-repeat="tag in target.tags" class="base-tag base-tag-tw" style="background: {{tag.color}}" title="{{tag.name}}"></span>
+                                                            <span ng-repeat="tag in target.tags" class="base-tag base-tag-tw" ng-style="{background: tag.color}" title="{{tag.name}}"></span>
                                                             <div ng-show="!target.tags || target.tags.length==0" class="no-tags"><em>No tags</em></div>
                                                         </div>
                                                         <div class="tw-expire text-center" ng-if="target.stars==null && target.expires > 0">
@@ -116,6 +116,9 @@
                                                         </div>
                                                         <div class="tw-stars text-center">
                                                             <img src="/img/icons/stars-blank.png">
+                                                        </div>
+                                                        <div class="tw-tags" ng-show="clan.base_tags.length > 0">
+                                                            <div class="no-tags">&nbsp;</div>
                                                         </div>
                                                         <div class="tw-expire text-center">
                                                             n/a
@@ -153,7 +156,7 @@
                                                                 <img src="/img/icons/stars-tiny-{{base.stars}}.png">
                                                             </div>
                                                             <div class="tw-tags text-center" ng-show="clan.base_tags.length > 0">
-                                                                <span ng-repeat="tag in base.tags" class="base-tag base-tag-tw" style="background: {{tag.color}}" title="{{tag.name}}"></span>
+                                                                <span ng-repeat="tag in base.tags" class="base-tag base-tag-tw" ng-style="{background: tag.color}" title="{{tag.name}}"></span>
                                                                 <div ng-show="!base.tags || base.tags.length==0" class="no-tags"><em>No tags</em></div>
                                                             </div>
                                                         </div>
@@ -173,7 +176,7 @@
                                             <div class="row" ng-show="clan.base_tags.length > 0">
                                                 <div class="col-xs-12">
                                                     <div class="base-tag-legend" ng-repeat="tag in clan.base_tags">
-                                                    <span class="base-tag" style="background: {{tag.color}}" title=""></span> <span class="base-tag-l-label">{{tag.name}}</span>
+                                                    <span class="base-tag" ng-style="{background: tag.color}" title=""></span> <span class="base-tag-l-label">{{tag.name}}</span>
                                                     </div>
                                                 </div>
                                             </div>

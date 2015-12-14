@@ -263,10 +263,10 @@
                                                 <div class="col-xs-2">
                                                     <span class="dropdown tag-color-dd" on-toggle="toggled(open)">
                                                         <a href class="dropdown-toggle">
-                                                            <span class="base-tag base-tag-settings" style="background: {{newTagColor}}"></span><i class="icon-down-dir"></i>
+                                                            <span class="base-tag base-tag-settings" ng-style="{background: newTagColor}"></span><i class="icon-down-dir"></i>
                                                         </a>
                                                         <ul class="dropdown-menu">
-                                                            <a ng-repeat="color in tagColors" href="" ng-click="setNewTagColor(color)"><span class="base-tag base-tag-settings" style="background: {{color}}"></span></a>
+                                                            <a ng-repeat="color in tagColors" href="" ng-click="setNewTagColor(color)"><span class="base-tag base-tag-settings" ng-style="{background: color}"></span></a>
                                                         </ul>
                                                     </span>
                                                 </div>
@@ -280,7 +280,7 @@
                                             <div ng-repeat="tag in clan.base_tags">
                                                 <div class="row">
                                                     <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2">
-                                                        <span class="base-tag base-tag-settings" style="background: {{tag.color}}"></span>
+                                                        <span class="base-tag base-tag-settings" ng-style="{background: tag.color}"></span>
                                                     </div>
                                                     <div class="col-lg-10 col-md-10 col-sm-9 col-xs-9">
                                                         {{tag.name}}

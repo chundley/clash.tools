@@ -39,18 +39,18 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row t-row margin-bottom-big">
+                                    <div class="row margin-bottom-big">
                                         <div class="col-xs-12">
                                             <span class="wc-key">
                                             <img src="/img/icons/swords-on.png"> Reserve
                                             </span>
                                             <span class="wc-key-ph">Placeholder</span>
                                             <div class="base-tag-legend" ng-repeat="tag in clan.base_tags" ng-if="clan.base_tags.length > 0">
-                                                <span class="base-tag base-tag-l" style="background: {{tag.color}}" title=""></span> <span class="base-tag-l-label">{{tag.name}}</span>
+                                                <span class="base-tag base-tag-l" ng-style="{background: tag.color}" title=""></span> <span class="base-tag-l-label">{{tag.name}}</span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row t-row">
+                                    <div class="row">
                                         <div class="col-lg-4 col-md-5 col-sm-6 col-xs-7 t-header">Base Details</div>
                                         <div class="col-lg-8 col-md-7 col-sm-6 col-xs-5 t-header">Assignments</div>
                                     </div>
@@ -74,8 +74,11 @@
                                                 <div class="row">
                                                     <div class="col-xs-5 text-center">
                                                         <span class="th-icon-nb th-{{base.t}}"></span><br/>
-                                                        <span ng-repeat="tag in base.tags" class="base-tag base-tag-war" style="background: {{tag.color}}" title="{{tag.name}}"></span>
-                                                            <div ng-show="!base.tags || target.tags.length==0" class="no-tags"><em>No tags</em></div>
+                                                            <img src="/img/icons/stars-tiny.png" ng-if="base.maxStars==null">
+                                                            <img src="/img/icons/stars-tiny-0.png" ng-if="base.maxStars==0">
+                                                            <img src="/img/icons/stars-tiny-1.png" ng-if="base.maxStars==1">
+                                                            <img src="/img/icons/stars-tiny-2.png" ng-if="base.maxStars==2">
+                                                            <img src="/img/icons/stars-tiny-3.png" ng-if="base.maxStars==3">
                                                     </div>
                                                     <div class="col-xs-7">
                                                         <div class="row wc-th-detail">
@@ -86,17 +89,19 @@
                                                         </div>
                                                         <div class="row wc-th-detail">
                                                             <div class="col-xs-12">
-                                                                Best
+                                                                <span ng-repeat="tag in base.tags" class="base-tag base-tag-war" ng-style="{background: tag.color}" title="{{tag.name}}"></span>
+                                                                <div ng-show="!base.tags || target.tags.length==0" class="no-tags"><em>No tags</em></div>
+<!--                                                                 Best
                                                                 <img src="/img/icons/stars-tiny.png" ng-if="base.maxStars==null">
                                                                 <img src="/img/icons/stars-tiny-0.png" ng-if="base.maxStars==0">
                                                                 <img src="/img/icons/stars-tiny-1.png" ng-if="base.maxStars==1">
                                                                 <img src="/img/icons/stars-tiny-2.png" ng-if="base.maxStars==2">
-                                                                <img src="/img/icons/stars-tiny-3.png" ng-if="base.maxStars==3">
+                                                                <img src="/img/icons/stars-tiny-3.png" ng-if="base.maxStars==3"> -->
                                                             </div>
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-xs-12">
-                                                                <a href="/war/notes/{{war._id}}/{{base.b}}" class="btn btn-xxs btn-default" ng-class="{'strong': base.n || base.n.n}">Notes <i class="icon-attach"></i> {{base.n? base.n.n ? base.n.n.length: 0: 0}}</a>
+                                                                <a href="/war/notes/{{war._id}}/{{base.b}}" class="btn btn-xxs btn-inverse" ng-class="{'strong': base.n || base.n.n}">Notes <i class="icon-attach"></i> {{base.n? base.n.n ? base.n.n.length: 0: 0}}</a>
                                                             </div>
                                                         </div>
                                                     </div>

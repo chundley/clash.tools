@@ -203,11 +203,11 @@
                                                 </a>
                                                 <ul class="dropdown-menu dropdown-menu-setuptags">
                                                     <li ng-repeat="tag in clan.base_tags">
-                                                    <a href="" ng-click="setBaseTag(base.b, tag)"><span class="base-tag base-tag-warsetup" style="background: {{tag.color}}"></span> {{tag.name}}</a>
+                                                    <a href="" ng-click="setBaseTag(base.b, tag)"><span class="base-tag base-tag-warsetup" ng-style="{background: tag.color}"></span> {{tag.name}}</a>
                                                     </li>
                                                 </ul>
                                             </span>
-                                            <span ng-repeat="tag in base.tags" class="base-tag base-tag-ws-list" style="background: {{tag.color}}" title="{{tag.name}} (click to remove)" ng-click="removeBaseTag(base.b, $index)"></span>
+                                            <span ng-repeat="tag in base.tags" class="base-tag base-tag-ws-list" ng-style="{background: tag.color}" title="{{tag.name}} (click to remove)" ng-click="removeBaseTag(base.b, $index)"></span>
                                         </div>
                                         <div class="col-lg-1 col-md-1 col-sm-2 col-xs-3">
                                             <select class="form-control-small" ng-class="{'th-warning': base.t==1}" ng-model="base.t" ng-change="oppTH(base.b)" integer>
