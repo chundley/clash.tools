@@ -141,9 +141,9 @@
                                             <div class="col-sm-1 hidden-xs text-center" style="z-index:20;" ng-if="player.editable"><a href="#" editable-select="player.aq" e-ng-options="hl for hl in hl" onaftersave="updatePlayerData($index, player)">{{player.aq}}</a></div>
                                             <div class="col-sm-1 hidden-xs text-center" style="z-index:10;" ng-if="player.editable"><a href="#" editable-select="player.gw" e-ng-options="hl for hl in hl" onaftersave="updatePlayerData($index, player)">{{player.gw}}</a></div>
                                             <div class="col-sm-3 col-xs-4" ng-if="player.editable">
-                                                <span class="hd-container" ng-if="player.bkDown.days > 0 || player.bkDown.hours > 0"><b>BK</b> <b class="alternate">{{player.bkDown.days}}</b>d<b class="alternate">{{player.bkDown.hours}}</b>h</span>
-                                                <span class="hd-container" ng-if="player.aqDown.days > 0 || player.aqDown.hours > 0"><b>AQ</b> <b class="alternate">{{player.aqDown.days}}</b>d<b class="alternate">{{player.aqDown.hours}}</b>h</span>
-                                                <span class="hd-container" ng-if="player.gwDown.days > 0 || player.gwDown.hours > 0"><b>GW</b> <b class="alternate">{{player.gwDown.days}}</b>d<b class="alternate">{{player.gwDown.hours}}</b>h</span>
+                                                <span class="hd-container" ng-if="player.bkDown.days > 0 || player.bkDown.hours > 0"><b>BK</b><b class="alternate">{{player.bkDown.days}}</b>d<b class="alternate">{{player.bkDown.hours}}</b>h</span>
+                                                <span class="hd-container" ng-if="player.aqDown.days > 0 || player.aqDown.hours > 0"><b>AQ</b><b class="alternate">{{player.aqDown.days}}</b>d<b class="alternate">{{player.aqDown.hours}}</b>h</span>
+                                                <span class="hd-container" ng-if="player.gwDown.days > 0 || player.gwDown.hours > 0"><b>GW</b><b class="alternate">{{player.gwDown.days}}</b>d<b class="alternate">{{player.gwDown.hours}}</b>h</span>
                                             </div>
                                             <div class="col-sm-6 col-xs-4 text-center primary-60-bg" ng-if="!player.editable && player.ign">
                                                 <i>placeholder</i>
@@ -164,7 +164,7 @@
                                         <div class="col-xs-12">
                                             <div class="well well-sm">
                                             <p>As with the roster, you aren't required to fill in town hall levels but it's <b>highly recommended</b></p>
-                                            <p>Once the war starts you will only be able to change TH level - assignments will be done through the <a href="/war/{{war._id}}">normal war interface</a>.</p>
+                                            <p>Once the war starts you will only be able to change assignments through the <a href="/war/{{war._id}}">normal war interface</a>.</p>
                                             <p>Note that when you change TH level the change will cascade down to the rest of the bases. For example, if you set base 1 to TH10, all bases below will be set to TH10. This design makes it easier to complete TH levels without having to pick every single base. Because of this, <b>you should start at the TOP of the list</b> and work your way down. To disable this feature, un-check the Cascade option below.</p>
 
                                             </div>
@@ -184,17 +184,30 @@
                                     <div class="row small strong">
                                         <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center">#</div>
                                         <div class="col-lg-2 col-md-2 col-sm-2 hidden-xs">Label</div>
+                                        <div class="col-lg-2 col-md-2 col-sm-2 hidden-xs">Tags</div>
                                         <div class="col-lg-1 col-md-1 col-sm-2 hidden-xs">Town hall</div>
                                         <div class="col-xs-3 visible-xs">TH</div>
                                         <div class="col-lg-2 col-md-3 col-sm-3 col-xs-3">Assign to</div>
-                                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
-                                        <div class="col-lg-3 col-md-4 col-sm-3 col-xs-4">Heroes Down</div>
+                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">Heroes Down</div>
                                     </div>
                                     <div class="row row-underline-2"></div>
                                     <div class="row assign-row small" ng-repeat="base in war.bases">
                                         <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center nudge-col">{{base.b}}</div>
                                         <div class="col-lg-2 col-md-2 col-sm-2 hidden-xs nudge-col" style="z-index:40;">
                                             <a href="#" editable-text="baseLabel" onaftersave="addBaseLabel($index, baseLabel)">{{base.l || 'none'}}</a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2 col-sm-2 hidden-xs">
+                                            <span class="dropdown tag-dd" on-toggle="toggled(open)">
+                                                <a href class="dropdown-toggle">
+                                                    <span class="base-tag base-tag-warsetup" style="background: #ccc"></span><i class="icon-down-dir"></i>
+                                                </a>
+                                                <ul class="dropdown-menu dropdown-menu-setuptags">
+                                                    <li ng-repeat="tag in clan.base_tags">
+                                                    <a href="" ng-click="setBaseTag(base.b, tag)"><span class="base-tag base-tag-warsetup" style="background: {{tag.color}}"></span> {{tag.name}}</a>
+                                                    </li>
+                                                </ul>
+                                            </span>
+                                            <span ng-repeat="tag in base.tags" class="base-tag base-tag-ws-list" style="background: {{tag.color}}" title="{{tag.name}} (click to remove)" ng-click="removeBaseTag(base.b, $index)"></span>
                                         </div>
                                         <div class="col-lg-1 col-md-1 col-sm-2 col-xs-3">
                                             <select class="form-control-small" ng-class="{'th-warning': base.t==1}" ng-model="base.t" ng-change="oppTH(base.b)" integer>
@@ -212,16 +225,18 @@
                                             </select>
                                         </div>
                                         <div class="col-lg-2 col-md-3 col-sm-3 col-xs-3">
+                                           <div class="pull-left">
                                            <select class="form-control-small" ng-model="base.a[0].u" ng-options="tm.u as tm.i for tm in war.team | filter: filterTeam" ng-change="assignBase($index, base.a[0].u)" ng-disabled="warStarted">
                                             </select>
+                                            </div>
+                                            <div class="pull-left" style="padding-top: 5px;">
+                                                <a href ng-click="deleteAssignment($index)" ng-if="base.a.length>0 && !warStarted"><i class="icon-cancel error-red" title="Remove assignment"></i></a>
+                                            </div>
                                         </div>
-                                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 icon-remove">
-                                            <a href ng-click="deleteAssignment($index)" ng-if="base.a.length>0 && !warStarted"><i class="icon-cancel error-red" title="Remove assignment"></i></a>
-                                        </div>
-                                        <div class="col-lg-3 col-md-4 col-sm-3 col-xs-4 hero-down">
-                                            <span ng-if="heroesUpgrading[$index].bkDown.days > 0 || heroesUpgrading[$index].bkDown.hours > 0"><b>BK</b> <b class="alternate">{{heroesUpgrading[$index].bkDown.days}}</b>d<b class="alternate">{{heroesUpgrading[$index].bkDown.hours}}</b>h</span>
-                                            <span ng-if="heroesUpgrading[$index].aqDown.days > 0 || heroesUpgrading[$index].aqDown.hours > 0"><b>AQ</b> <b class="alternate">{{heroesUpgrading[$index].aqDown.days}}</b>d<b class="alternate">{{heroesUpgrading[$index].aqDown.hours}}</b>h</span>
-                                            <span ng-if="heroesUpgrading[$index].gwDown.days > 0 || heroesUpgrading[$index].gwDown.hours > 0"><b>GW</b> <b class="alternate">{{heroesUpgrading[$index].gwDown.days}}</b>d<b class="alternate">{{heroesUpgrading[$index].gwDown.hours}}</b>h</span>
+                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4 hero-down">
+                                            <span ng-if="heroesUpgrading[$index].bkDown.days > 0 || heroesUpgrading[$index].bkDown.hours > 0"><b>BK</b><b class="alternate">{{heroesUpgrading[$index].bkDown.days}}</b>d<b class="alternate">{{heroesUpgrading[$index].bkDown.hours}}</b>h</span>
+                                            <span ng-if="heroesUpgrading[$index].aqDown.days > 0 || heroesUpgrading[$index].aqDown.hours > 0"><b>AQ</b><b class="alternate">{{heroesUpgrading[$index].aqDown.days}}</b>d<b class="alternate">{{heroesUpgrading[$index].aqDown.hours}}</b>h</span>
+                                            <span ng-if="heroesUpgrading[$index].gwDown.days > 0 || heroesUpgrading[$index].gwDown.hours > 0"><b>GW</b><b class="alternate">{{heroesUpgrading[$index].gwDown.days}}</b>d<b class="alternate">{{heroesUpgrading[$index].gwDown.hours}}</b>h</span>
                                         </div>
                                     </div>
                                 </div>

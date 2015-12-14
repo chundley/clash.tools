@@ -773,6 +773,50 @@ function ($rootScope, $scope, $routeParams, $location, $window, $modal, authServ
         }
     }
 
+    $scope.setBaseTag = function(baseNum, tag) {
+        if ($scope.war.bases[baseNum-1].tags == undefined) {
+            $scope.war.bases[baseNum-1].tags = [{
+                color: tag.color,
+                name: tag.name
+            }];
+        }
+        else {
+            var found = false;
+            angular.forEach($scope.war.bases[baseNum-1].tags, function (t) {
+                if (t.name == tag.name) {
+                    found = true;
+                }
+            });
+
+            if (!found) {
+                $scope.war.bases[baseNum-1].tags.push({
+                    color: tag.color,
+                    name: tag.name
+                });
+            }
+            else {
+                //$rootScope.globalMessage = 'That tag is already assigned to that base';
+            }
+        }
+
+         $scope.war.bases[baseNum-1].tags.sort(function (a, b) {
+            if (a.name.toLowerCase() > b.name.toLowerCase()) {
+                return 1;
+            }
+            else {
+                return -1;
+            }
+        });
+
+         saveWarInternal(function(){});
+
+    }
+
+    $scope.removeBaseTag = function(baseNum, index) {
+        $scope.war.bases[baseNum-1].tags.splice(index, 1);
+        saveWarInternal(function(){});
+    }
+
     function updateInterface() {
         $scope.heroesUpgrading = [];
         $scope.roster = [];
