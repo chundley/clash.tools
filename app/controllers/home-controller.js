@@ -60,6 +60,20 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
         }
     });
 
+    sessionService.getUserSession(authService.user.id, function (err, session) {
+        if (!session.ui_flags.fundraiser_1) {
+            session.ui_flags.fundraiser_1 = 'on';
+        }
+        $scope.userSession = session;
+    });
+
+    $scope.dismissUIBit = function(bit, value) {
+        $scope.userSession.ui_flags[bit] = value;
+        sessionService.saveUserSession(authService.user.id, $scope.userSession, function (err, result) {
+
+        });
+    }
+
     $scope.changeStars = function(targetNum, baseNum, numStars) {
         var assignmentIndex = -1;
         var playerIndex = -1;

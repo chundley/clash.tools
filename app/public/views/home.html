@@ -13,6 +13,25 @@
                             <h3 class="same-line-sub-heading alternate" ng-if="clan.name">{{meta.current_clan.name}}</h3>
                         </div>
                     </div>
+                    <div class="row margin-bottom-huge" access-level="coleader" ng-if="userSession.ui_flags.fundraiser_1=='on'">
+                        <div class="col-xs-12">
+                            <div class="panel panel-notification">
+                                <div class="panel-heading">
+                                    <h3 class="white">Greetings!</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <p><h3>As a leader or co-leader of your clan I sincerely hope you are enjoying clash.tools and getting a ton of value out of it!</h3></p>
+                                    <p>This started as just a small utility to help manage my own clan but took on a life of it's own as other clans started adopting it. All new features at this point are being added for folks like you who request them.</p>
+                                    <p>Clash.tools is nearing 500,000 attacks logged and 30,000 members. Due to the massive popularity I've had to add more servers and infrastructure to keep up with the load.</p>
+                                    <p>I plan to keep the tool free which means I rely on the awesome clash community to donate a little bit when possible to help keep the lights on.</p>
+                                    <p>I'm not here to beg, but just to ask for a small donation to cover the cost of hosting, maintenance, and future development of great new features. If you truly can't afford to help, no worries!</p>
+                                    <p>Thanks for your time and support of the app - I love clash and the community overall and am happy to provide an essential tool for serious war clans. Thanks in advance everyone!</p>
+                                    <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=chundley%40gmail%2ecom&lc=US&item_name=Clash%20Tools&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted" target="_blank" class="btn btn-emphasis margin-bottom-medium" ng-click="dismissUIBit('fundraiser_1', 'yes')">I love the app and am happy to help!</a>
+                                    <a href="" class="btn btn-default margin-bottom-medium" ng-click="dismissUIBit('fundraiser_1', 'no')">Not right now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row margin-bottom-huge">
                         <div class="col-sm-12 war-summary-container">
                             <div class="widget">
