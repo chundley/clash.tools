@@ -61,9 +61,9 @@ function ($rootScope, $scope, $window, $interval, $modal, moment, ctSocket, auth
     });
 
     sessionService.getUserSession(authService.user.id, function (err, session) {
-        if (!session.ui_flags.fundraiser_1) {
+/*        if (!session.ui_flags.fundraiser_1) {
             session.ui_flags.fundraiser_1 = 'on';
-        }
+        }*/
         $scope.userSession = session;
     });
 
