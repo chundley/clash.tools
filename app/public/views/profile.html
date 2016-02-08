@@ -47,9 +47,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="ww" class="col-md-4 col-sm-5 col-xs-12 control-label">War weight <i class="icon-help-circled" popover-placement="right" popover="War weight is your relative base weight in war. The easiest way to get it is watching a replay of an attack against your base by a town hall of the same level. Pause at the beginning and check the amount of gold available in the attack. Divide that number by 1000 (for example, 72,000 becomes 72). This is your war weight. It is used for matching other clans in arranged wars. Only values between 0 and 100 are accepted." popover-append-to-body="true" popover-trigger="mouseenter"></i></label>
+                                                    <label for="ww" class="col-md-4 col-sm-5 col-xs-12 control-label">War weight <i class="icon-help-circled" popover-placement="right" popover="War weight is your relative base weight in war. The easiest way to get it is watching a replay of an attack against your base by a town hall of the same level. Pause at the beginning and check the amount of gold available in the attack. Divide that number by 1000 (for example, 72,000 becomes 72). This is your war weight. It is used for matching other clans in arranged wars. Only values between 0 and 120 are accepted." popover-append-to-body="true" popover-trigger="mouseenter"></i></label>
                                                     <div class="col-md-5 col-sm-6 col-xs-12">
-                                                        <input type="number" min="0" max="100" class="form-control req-field" id="ww" ng-model="user.profile.warWeight" required integer>
+                                                        <input type="number" min="0" max="120" class="form-control req-field" id="ww" ng-model="user.profile.warWeight" required integer>
                                                     </div>
                                                 </div>
                                                 <div class="form-group" ng-if="userId==null">

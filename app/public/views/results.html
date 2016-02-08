@@ -52,7 +52,7 @@
                                     <div class="filter-body">
                                         <div class="row">
                                             <div class="col-sm-3 col-xs-4">
-                                                <p><strong>Clan</strong></p> 
+                                                <p><strong>Clan</strong></p>
                                                 <select class="form-control" ng-model="filters.clanId" ng-change="applyFilters()">
                                                     <option value="all">All</option>
                                                     <option ng-repeat="ch in clanHistory" value="{{ch.clan_id}}">{{ch.name}}</option>
@@ -62,6 +62,7 @@
                                                 <p><strong>Opp. TH</strong></p>
                                                 <select class="form-control" ng-model="filters.th" ng-change="applyFilters()" integer>
                                                     <option value="0">All</option>
+                                                    <option value="11">TH11</option>
                                                     <option value="10">TH10</option>
                                                     <option value="9">TH9</option>
                                                     <option value="8">TH8</option>
@@ -78,7 +79,7 @@
                                                     <option value="1">1</option>
                                                     <option value="0">0</option>
                                                 </select>
-                                            </div>                                                                                        
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -112,7 +113,7 @@
                                                         <div class="right">
                                                             {{filteredSummary.aav | number:2}}
                                                         </div>
-                                                    </div>                                                    
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="row t-row">
