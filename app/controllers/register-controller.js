@@ -52,7 +52,8 @@ function ($rootScope, $scope, $location, md5, authService, sessionService, mailS
                     valkyrie: 0,
                     golem: 0,
                     witch: 0,
-                    lavahound: 0
+                    lavahound: 0,
+                    bowler: 0
                 },
                 spells: {
                     lightning: 0,

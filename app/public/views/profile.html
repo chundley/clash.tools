@@ -493,10 +493,10 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-sm-3 col-xs-4">
-                                                        <span class="army-icon goblin-icon" ng-class="{'top-lvl':user.profile.troops.goblin==6,active:user.profile.troops.goblin>0}"><span>{{user.profile.troops.goblin}}</span></span>
+                                                        <span class="army-icon goblin-icon" ng-class="{'top-lvl':user.profile.troops.goblin==7,active:user.profile.troops.goblin>0}"><span>{{user.profile.troops.goblin}}</span></span>
                                                     </div>
                                                     <div class="col-sm-7 col-xs-8 profile-slider">
-                                                        <input type="range" class="hidden-xs" min="0" max="6" ng-model="user.profile.troops.goblin" ng-mouseup="saveUser()" integer>
+                                                        <input type="range" class="hidden-xs" min="0" max="7" ng-model="user.profile.troops.goblin" ng-mouseup="saveUser()" integer>
                                                         <select class="form-control-small profile-select hidden-lg hidden-md hidden-sm visible-xs" ng-model="user.profile.troops.goblin" ng-change="saveUser()" integer>
                                                             <option>0</option>
                                                             <option>1</option>
@@ -505,6 +505,7 @@
                                                             <option>4</option>
                                                             <option>5</option>
                                                             <option>6</option>
+                                                            <option>7</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -629,10 +630,10 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-sm-3 col-xs-4">
-                                                        <span class="army-icon hog-rider-icon" ng-class="{'top-lvl':user.profile.dark_troops.hogrider==5,active:user.profile.dark_troops.hogrider>0}"><span>{{user.profile.dark_troops.hogrider}}</span></span>
+                                                        <span class="army-icon hog-rider-icon" ng-class="{'top-lvl':user.profile.dark_troops.hogrider==6,active:user.profile.dark_troops.hogrider>0}"><span>{{user.profile.dark_troops.hogrider}}</span></span>
                                                     </div>
                                                     <div class="col-sm-7 col-xs-8 profile-slider">
-                                                        <input type="range" class="hidden-xs" min="0" max="5" ng-model="user.profile.dark_troops.hogrider" ng-mouseup="saveUser()" integer>
+                                                        <input type="range" class="hidden-xs" min="0" max="6" ng-model="user.profile.dark_troops.hogrider" ng-mouseup="saveUser()" integer>
                                                         <select class="form-control-small profile-select hidden-lg hidden-md hidden-sm visible-xs" ng-model="user.profile.dark_troops.hogrider" ng-change="saveUser()" integer>
                                                             <option>0</option>
                                                             <option>1</option>
@@ -640,21 +641,23 @@
                                                             <option>3</option>
                                                             <option>4</option>
                                                             <option>5</option>
+                                                            <option>6</option>
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-sm-3 col-xs-4">
-                                                        <span class="army-icon valkyrie-icon" ng-class="{'top-lvl':user.profile.dark_troops.valkyrie==4,active:user.profile.dark_troops.valkyrie>0}"><span>{{user.profile.dark_troops.valkyrie}}</span></span>
+                                                        <span class="army-icon valkyrie-icon" ng-class="{'top-lvl':user.profile.dark_troops.valkyrie==5,active:user.profile.dark_troops.valkyrie>0}"><span>{{user.profile.dark_troops.valkyrie}}</span></span>
                                                     </div>
                                                     <div class="col-sm-7 col-xs-8 profile-slider">
-                                                        <input type="range" class="hidden-xs" min="0" max="4" ng-model="user.profile.dark_troops.valkyrie" ng-mouseup="saveUser()" integer>
+                                                        <input type="range" class="hidden-xs" min="0" max="5" ng-model="user.profile.dark_troops.valkyrie" ng-mouseup="saveUser()" integer>
                                                         <select class="form-control-small profile-select hidden-lg hidden-md hidden-sm visible-xs" ng-model="user.profile.dark_troops.valkyrie" ng-change="saveUser()" integer>
                                                             <option>0</option>
                                                             <option>1</option>
                                                             <option>2</option>
                                                             <option>3</option>
                                                             <option>4</option>
+                                                            <option>5</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -695,6 +698,20 @@
                                                     <div class="col-sm-7 col-xs-8 profile-slider">
                                                         <input type="range" class="hidden-xs" min="0" max="3" ng-model="user.profile.dark_troops.lavahound" ng-mouseup="saveUser()" integer>
                                                         <select class="form-control-small profile-select hidden-lg hidden-md hidden-sm visible-xs" ng-model="user.profile.dark_troops.lavahound" ng-change="saveUser()" integer>
+                                                            <option>0</option>
+                                                            <option>1</option>
+                                                            <option>2</option>
+                                                            <option>3</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-xs-4">
+                                                        <span class="army-icon bowler-icon" ng-class="{'top-lvl':user.profile.dark_troops.bowler==3,active:user.profile.dark_troops.bowler>0}"><span>{{user.profile.dark_troops.bowler}}</span></span>
+                                                    </div>
+                                                    <div class="col-sm-7 col-xs-8 profile-slider">
+                                                        <input type="range" class="hidden-xs" min="0" max="3" ng-model="user.profile.dark_troops.bowler" ng-mouseup="saveUser()" integer>
+                                                        <select class="form-control-small profile-select hidden-lg hidden-md hidden-sm visible-xs" ng-model="user.profile.dark_troops.bowler" ng-change="saveUser()" integer>
                                                             <option>0</option>
                                                             <option>1</option>
                                                             <option>2</option>
