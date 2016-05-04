@@ -6,7 +6,8 @@ var _        = require('underscore'),
     async    = require('async'),
     fs       = require('fs'),
     path     = require('path'),
-    mandrill = require('mandrill-api');
+    mandrill = require('mandrill-api'),
+    sendgrid = require('sendgrid')('blah');
 
 var user         = require('./user-model'),
     pwreset      = require('./pwreset-model'),
@@ -34,24 +35,23 @@ exports.pwReset = function(email, callback) {
                         var requestUrl = config.env[process.env.NODE_ENV].url.base + '/pwreset/' + request.token;
 
                         // create email
-                        var msg = new MailMessage();
+                        var emailMessage = new sendgrid.Email({
+                            to: u.email_address,
+                            toname: u.email_address,
+                            subject: 'clash.tools password reset request',
+                            from: 'hello@mail.clash.tools',
+                            fromname: 'clash.tools',
+                            text: pwResetTemplate(requestUrl, false),
+                            html: pwResetTemplate(requestUrl, true)
+                        });
 
-                        msg.setHtml(pwResetTemplate(requestUrl, true));
-                        msg.setText(pwResetTemplate(requestUrl, false));
-                        msg.setSubject('clash.tools password reset request');
-                        msg.addRecipient(u.email_address, u.email_address, 'to');
-                        msg.addTags(['pw-reset', appVersion]);
-
-                        // use mandrill client library to send an email
-                        var mandrill_client = new mandrill.Mandrill(config.env[process.env.NODE_ENV].mandrill);
-                        mandrill_client.messages.send({"message": msg.createMessage(), "async": false, "ip_pool": null, "send_at": null}, function (result) {
-                            logger.info('Sent password reset email to: ' + u.email_address);
-                            callback(null, email);
-                        },
-                        function (e) {
-                            // Mandrill returns the error as an object with name and message keys
-                            logger.error('A mandrill error occurred: ' + e.name + ' - ' + e.message);
-                            callback(e.name + ' - ' + e.message, null);
+                        sendEmail(emailMessage, function (err, result) {
+                            if (err) {
+                                callback(err, null);
+                            }
+                            else {
+                                callback(null, result);
+                            }
                         });
                     }
                 });
@@ -79,24 +79,26 @@ exports.verifyEmail = function(id, callback) {
                 var requestUrl = config.env[process.env.NODE_ENV].url.base + '/verify/' + u.verify_token;
 
                 // create email
-                var msg = new MailMessage();
 
-                msg.setHtml(verifyEmailTemplate(requestUrl, true));
-                msg.setText(verifyEmailTemplate(requestUrl, false));
-                msg.setSubject('Verify your email address');
-                msg.addRecipient(u.email_address, u.email_address, 'to');
-                msg.addTags(['email-verify', appVersion]);
 
-                // use mandrill client library to send an email
-                var mandrill_client = new mandrill.Mandrill(config.env[process.env.NODE_ENV].mandrill);
-                mandrill_client.messages.send({"message": msg.createMessage(), "async": false, "ip_pool": null, "send_at": null}, function (result) {
-                    logger.info('Sent email verification email to: ' + u.email_address);
-                    callback(null, u.email_address);
-                },
-                function (e) {
-                    // Mandrill returns the error as an object with name and message keys
-                    logger.error('A mandrill error occurred: ' + e.name + ' - ' + e.message);
-                    callback(e.name + ' - ' + e.message, null);
+                // create email
+                var emailMessage = new sendgrid.Email({
+                    to: u.email_address,
+                    toname: u.email_address,
+                    subject: 'Verify your email address',
+                    from: 'hello@mail.clash.tools',
+                    fromname: 'clash.tools',
+                    text: verifyEmailTemplate(requestUrl, false),
+                    html: verifyEmailTemplate(requestUrl, true)
+                });
+
+                sendEmail(emailMessage, function (err, result) {
+                    if (err) {
+                        callback(err, null);
+                    }
+                    else {
+                        callback(null, result);
+                    }
                 });
             }
             else {
@@ -122,24 +124,23 @@ exports.welcome = function(userId, callback) {
                 var requestUrl = config.env[process.env.NODE_ENV].url.base + '/verify/' + u.verify_token;
 
                 // create email
-                var msg = new MailMessage();
+                var emailMessage = new sendgrid.Email({
+                    to: u.email_address,
+                    toname: u.email_address,
+                    subject: 'Welcome to clash.tools',
+                    from: 'hello@mail.clash.tools',
+                    fromname: 'clash.tools',
+                    text: newUserTemplate(requestUrl, false),
+                    html: newUserTemplate(requestUrl, true)
+                });
 
-                msg.setHtml(newUserTemplate(requestUrl, true));
-                msg.setText(newUserTemplate(requestUrl, false));
-                msg.setSubject('Welcome to clash.tools');
-                msg.addRecipient(u.email_address, u.email_address, 'to');
-                msg.addTags(['welcome', appVersion]);
-
-                // use mandrill client library to send an email
-                var mandrill_client = new mandrill.Mandrill(config.env[process.env.NODE_ENV].mandrill);
-                mandrill_client.messages.send({"message": msg.createMessage(), "async": false, "ip_pool": null, "send_at": null}, function (result) {
-                    logger.info('Sent welcome email to: ' + u.email_address);
-                    callback(null, u.email_address);
-                },
-                function (e) {
-                    // Mandrill returns the error as an object with name and message keys
-                    logger.error('A mandrill error occurred: ' + e.name + ' - ' + e.message);
-                    callback(e.name + ' - ' + e.message, null);
+                sendEmail(emailMessage, function (err, result) {
+                    if (err) {
+                        callback(err, null);
+                    }
+                    else {
+                        callback(null, result);
+                    }
                 });
             }
             else {
@@ -152,7 +153,7 @@ exports.welcome = function(userId, callback) {
 /*
 *   Welcome email for new user added by someone in the account
 */
-exports.invite = function(userId, tempPW, from, callback) {
+/*exports.invite = function(userId, tempPW, from, callback) {
     user.findById(userId, function (err, u) {
         if (err) {
             logger.error('Error getting user id ' +  userId + ' - ' + err);
@@ -186,12 +187,12 @@ exports.invite = function(userId, tempPW, from, callback) {
             }
         }
     });
-}
+}*/
 
 /*
 *   Generic email template for quick and dirty sends, such as new customer registration to admins
 */
-exports.genericMail = function(recipients, subject, content, callback) {
+/*exports.genericMail = function(recipients, subject, content, callback) {
     async.forEach(recipients, function (recipient, callback_inner) {
         // create email
         var msg = new MailMessage();
@@ -222,7 +223,7 @@ exports.genericMail = function(recipients, subject, content, callback) {
             callback(null);
         }
     });
-}
+}*/
 
 /*
 *   Send a canned email (product update, downtime notice, etc.)
@@ -239,38 +240,35 @@ exports.cannedMail = function(recipient, ign, subject, contentHtml, contentText,
         contentText = contentText.replace('[ign]', ign);
     }
 
-    // set the content of the message
-    msg.setHtml(contentHtml);
-    if (!contentText) {
-        msg.setText('This email from clash.tools does not support plain text');
-    }
-    else {
-        msg.setText(contentText);
+
+    if (!contentText || contentText.length == 0) {
+        contentText = 'Message from clash.tools';
     }
 
-    // set any other meta data
-    msg.setSubject(subject);
-    msg.addRecipient(recipient, ign, 'to');
-    msg.addTags(['canned', appVersion]);
-
-    // use mandrill client library to send an email
-    var mandrill_client = new mandrill.Mandrill(config.env[process.env.NODE_ENV].mandrill);
-    mandrill_client.messages.send({"message": msg.createMessage(), "async": false, "ip_pool": null, "send_at": null}, function (result) {
-        logger.info('Sent canned email to: ' + recipient);
-        callback(null);
-    },
-    function (e) {
-        // Mandrill returns the error as an object with name and message keys
-        logger.error('A mandrill error occurred: ' + e.name + ' - ' + e.message);
-        callback(e.message);
+    var emailMessage = new sendgrid.Email({
+        to: recipient,
+        toname: ign,
+        subject: subject,
+        from: 'hello@mail.clash.tools',
+        fromname: 'clash.tools',
+        text: contentText,
+        html: contentHtml
     });
 
+    sendEmail(emailMessage, function (err, result) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            callback(null, result);
+        }
+    });
 }
 
 /*
 *   Form submitted from web site
 */
-exports.wwwForm = function(formData, callback) {
+/*exports.wwwForm = function(formData, callback) {
     async.forEach(config.admins, function (recipient, callback_inner) {
         // create email
         var msg = new MailMessage();
@@ -299,6 +297,19 @@ exports.wwwForm = function(formData, callback) {
         }
         else {
             callback(null);
+        }
+    });
+}*/
+
+function sendEmail(emailMessage, callback) {
+    sendgrid.api_key = config.env[process.env.NODE_ENV].sendgrid;
+    sendgrid.send(emailMessage, function (err, json) {
+        if (err) {
+            logger.error(err);
+            callback(err, null);
+        }
+        else {
+            callback(null, json);
         }
     });
 }
