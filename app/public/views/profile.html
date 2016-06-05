@@ -289,7 +289,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="row">
+                                            <div class="row margin-bottom-medium">
                                                 <div class="col-sm-3 col-xs-4">
                                                     <span class="cc-icon cc-{{user.profile.buildings.cc}}">
                                                     <span class="troop-level">{{user.profile.buildings.cc}}</span>
@@ -307,7 +307,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <b>Spells</b>
+                                            <b>Elixir spells</b>
                                                 <div class="row">
                                                     <div class="col-sm-3 col-xs-4">
                                                         <span class="army-icon lightningspell-icon" ng-class="{'top-lvl':user.profile.spells.lightning==7, active:user.profile.spells.lightning>0}"><span>{{user.profile.spells.lightning}}</span></span>
@@ -389,44 +389,13 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                            <b>Dark Spells</b>
                                                 <div class="row">
                                                     <div class="col-sm-3 col-xs-4">
-                                                        <span class="army-icon poisonspell-icon" ng-class="{'top-lvl':user.profile.dark_spells.poison==4, active:user.profile.dark_spells.poison>0}"><span>{{user.profile.dark_spells.poison}}</span></span>
+                                                        <span class="army-icon clonespell-icon" ng-class="{'top-lvl':user.profile.spells.clone==4, active:user.profile.spells.clone>0}"><span>{{user.profile.spells.clone}}</span></span>
                                                     </div>
                                                     <div class="col-sm-7 col-xs-8 profile-slider">
-                                                        <input type="range" class="hidden-xs" min="0" max="4" ng-model="user.profile.dark_spells.poison" ng-mouseup="saveUser()" integer>
-                                                        <select class="form-control-small profile-select hidden-lg hidden-md hidden-sm visible-xs" ng-model="user.profile.dark_spells.poison" ng-change="saveUser()" integer>
-                                                            <option>0</option>
-                                                            <option>1</option>
-                                                            <option>2</option>
-                                                            <option>3</option>
-                                                            <option>4</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-sm-3 col-xs-4">
-                                                        <span class="army-icon earthquakespell-icon" ng-class="{'top-lvl':user.profile.dark_spells.earthquake==4, active:user.profile.dark_spells.earthquake>0}"><span>{{user.profile.dark_spells.earthquake}}</span></span>
-                                                    </div>
-                                                    <div class="col-sm-7 col-xs-8 profile-slider">
-                                                        <input type="range" class="hidden-xs" min="0" max="4" ng-model="user.profile.dark_spells.earthquake" ng-mouseup="saveUser()" integer>
-                                                        <select class="form-control-small profile-select hidden-lg hidden-md hidden-sm visible-xs" ng-model="user.profile.dark_spells.earthquake" ng-change="saveUser()" integer>
-                                                            <option>0</option>
-                                                            <option>1</option>
-                                                            <option>2</option>
-                                                            <option>3</option>
-                                                            <option>4</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-sm-3 col-xs-4">
-                                                        <span class="army-icon hastespell-icon" ng-class="{'top-lvl':user.profile.dark_spells.haste==4, active:user.profile.dark_spells.haste>0}"><span>{{user.profile.dark_spells.haste}}</span></span>
-                                                    </div>
-                                                    <div class="col-sm-7 col-xs-8 profile-slider">
-                                                        <input type="range" class="hidden-xs" min="0" max="4" ng-model="user.profile.dark_spells.haste" ng-mouseup="saveUser()" integer>
-                                                        <select class="form-control-small profile-select hidden-lg hidden-md hidden-sm visible-xs" ng-model="user.profile.dark_spells.haste" ng-change="saveUser()" integer>
+                                                        <input type="range" class="hidden-xs" min="0" max="4" ng-model="user.profile.spells.clone" ng-mouseup="saveUser()" integer>
+                                                        <select class="form-control-small profile-select hidden-lg hidden-md hidden-sm visible-xs" ng-model="user.profile.spells.clone" ng-change="saveUser()" integer>
                                                             <option>0</option>
                                                             <option>1</option>
                                                             <option>2</option>
@@ -607,6 +576,36 @@
                                                         </select>
                                                     </div>
                                                 </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-xs-4">
+                                                        <span class="army-icon babydragon-icon" ng-class="{'top-lvl':user.profile.troops.babydragon==4,active:user.profile.troops.babydragon>0}"><span>{{user.profile.troops.babydragon}}</span></span>
+                                                    </div>
+                                                    <div class="col-sm-7 col-xs-8 profile-slider">
+                                                        <input type="range" class="hidden-xs" min="0" max="4" ng-model="user.profile.troops.babydragon" ng-mouseup="saveUser()" integer>
+                                                        <select class="form-control-small profile-select hidden-lg hidden-md hidden-sm visible-xs" ng-model="user.profile.troops.babydragon" ng-change="saveUser()" integer>
+                                                            <option>0</option>
+                                                            <option>1</option>
+                                                            <option>2</option>
+                                                            <option>3</option>
+                                                            <option>4</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-xs-4">
+                                                        <span class="army-icon miner-icon" ng-class="{'top-lvl':user.profile.troops.miner==4,active:user.profile.troops.miner>0}"><span>{{user.profile.troops.miner}}</span></span>
+                                                    </div>
+                                                    <div class="col-sm-7 col-xs-8 profile-slider">
+                                                        <input type="range" class="hidden-xs" min="0" max="4" ng-model="user.profile.troops.miner" ng-mouseup="saveUser()" integer>
+                                                        <select class="form-control-small profile-select hidden-lg hidden-md hidden-sm visible-xs" ng-model="user.profile.troops.miner" ng-change="saveUser()" integer>
+                                                            <option>0</option>
+                                                            <option>1</option>
+                                                            <option>2</option>
+                                                            <option>3</option>
+                                                            <option>4</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
                                         </div>
                                         <div class="col-sm-4 col-xs-6">
                                             <b>Dark elixir troops</b>
@@ -705,7 +704,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <div class="row margin-bottom-medium">
                                                     <div class="col-sm-3 col-xs-4">
                                                         <span class="army-icon bowler-icon" ng-class="{'top-lvl':user.profile.dark_troops.bowler==3,active:user.profile.dark_troops.bowler>0}"><span>{{user.profile.dark_troops.bowler}}</span></span>
                                                     </div>
@@ -716,6 +715,67 @@
                                                             <option>1</option>
                                                             <option>2</option>
                                                             <option>3</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            <b>Dark elixer spells</b>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-xs-4">
+                                                        <span class="army-icon poisonspell-icon" ng-class="{'top-lvl':user.profile.dark_spells.poison==4, active:user.profile.dark_spells.poison>0}"><span>{{user.profile.dark_spells.poison}}</span></span>
+                                                    </div>
+                                                    <div class="col-sm-7 col-xs-8 profile-slider">
+                                                        <input type="range" class="hidden-xs" min="0" max="4" ng-model="user.profile.dark_spells.poison" ng-mouseup="saveUser()" integer>
+                                                        <select class="form-control-small profile-select hidden-lg hidden-md hidden-sm visible-xs" ng-model="user.profile.dark_spells.poison" ng-change="saveUser()" integer>
+                                                            <option>0</option>
+                                                            <option>1</option>
+                                                            <option>2</option>
+                                                            <option>3</option>
+                                                            <option>4</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-xs-4">
+                                                        <span class="army-icon earthquakespell-icon" ng-class="{'top-lvl':user.profile.dark_spells.earthquake==4, active:user.profile.dark_spells.earthquake>0}"><span>{{user.profile.dark_spells.earthquake}}</span></span>
+                                                    </div>
+                                                    <div class="col-sm-7 col-xs-8 profile-slider">
+                                                        <input type="range" class="hidden-xs" min="0" max="4" ng-model="user.profile.dark_spells.earthquake" ng-mouseup="saveUser()" integer>
+                                                        <select class="form-control-small profile-select hidden-lg hidden-md hidden-sm visible-xs" ng-model="user.profile.dark_spells.earthquake" ng-change="saveUser()" integer>
+                                                            <option>0</option>
+                                                            <option>1</option>
+                                                            <option>2</option>
+                                                            <option>3</option>
+                                                            <option>4</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-xs-4">
+                                                        <span class="army-icon hastespell-icon" ng-class="{'top-lvl':user.profile.dark_spells.haste==4, active:user.profile.dark_spells.haste>0}"><span>{{user.profile.dark_spells.haste}}</span></span>
+                                                    </div>
+                                                    <div class="col-sm-7 col-xs-8 profile-slider">
+                                                        <input type="range" class="hidden-xs" min="0" max="4" ng-model="user.profile.dark_spells.haste" ng-mouseup="saveUser()" integer>
+                                                        <select class="form-control-small profile-select hidden-lg hidden-md hidden-sm visible-xs" ng-model="user.profile.dark_spells.haste" ng-change="saveUser()" integer>
+                                                            <option>0</option>
+                                                            <option>1</option>
+                                                            <option>2</option>
+                                                            <option>3</option>
+                                                            <option>4</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-xs-4">
+                                                        <span class="army-icon skeletonspell-icon" ng-class="{'top-lvl':user.profile.dark_spells.skeleton==4, active:user.profile.dark_spells.skeleton>0}"><span>{{user.profile.dark_spells.skeleton}}</span></span>
+                                                    </div>
+                                                    <div class="col-sm-7 col-xs-8 profile-slider">
+                                                        <input type="range" class="hidden-xs" min="0" max="4" ng-model="user.profile.dark_spells.skeleton" ng-mouseup="saveUser()" integer>
+                                                        <select class="form-control-small profile-select hidden-lg hidden-md hidden-sm visible-xs" ng-model="user.profile.dark_spells.skeleton" ng-change="saveUser()" integer>
+                                                            <option>0</option>
+                                                            <option>1</option>
+                                                            <option>2</option>
+                                                            <option>3</option>
+                                                            <option>4</option>
                                                         </select>
                                                     </div>
                                                 </div>

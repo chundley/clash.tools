@@ -44,7 +44,9 @@ function ($rootScope, $scope, $location, md5, authService, sessionService, mailS
                     wizard: 0,
                     healer: 0,
                     dragon: 0,
-                    pekka: 0
+                    pekka: 0,
+                    babydragon: 0,
+                    miner: 0
                 },
                 dark_troops: {
                     minion: 0,
@@ -60,12 +62,14 @@ function ($rootScope, $scope, $location, md5, authService, sessionService, mailS
                     heal: 0,
                     rage: 0,
                     jump: 0,
-                    freeze: 0
+                    freeze: 0,
+                    clone: 0
                 },
                 dark_spells: {
                     poison: 0,
                     earthquake: 0,
-                    haste: 0
+                    haste: 0,
+                    skeleton: 0
                 },
                 heroes: {
                     bk: 0,

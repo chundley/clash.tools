@@ -58,7 +58,7 @@ function ($rootScope, $scope, $interval, $modal, $window, moment, authService, c
 
 
     $scope.uploadAvatar = function(file) {
-        if (file.size > 0) {
+        if (file && file.size > 0) {
             imageUploadService.uploadAvatar(authService.user.id, file, function (err, result) {
                 if (err) {
                     err.stack_trace.unshift( { file: 'profile-controller.js', func: '$scope.uploadAvatar', message: 'Error saving user' } );
@@ -75,7 +75,7 @@ function ($rootScope, $scope, $interval, $modal, $window, moment, authService, c
             });
         }
 
-        else if ($scope.badAvatar.length > 0) {
+        else  {
             $scope.avatarError = 'That file is not an image, or is too big. The file size limit is 128KB';
         }
     }
