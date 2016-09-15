@@ -764,7 +764,7 @@ exports.allUsersValidEmail = function(callback) {
             callback(err, null);
         }
         else {
-            collection.find({ 'mail_settings.enabled': true, 'mail_settings.bounced': false }, {ign: 1, email_address: 1}).toArray(function (err, items) {
+            collection.find({ 'mail_settings.enabled': true, 'mail_settings.bounced': false }, {ign: 1, email_address: 1}).sort({last_login: -1}).toArray(function (err, items) {
                 if (err) {
                     callback(err, null);
                 }
