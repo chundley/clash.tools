@@ -814,6 +814,18 @@
                                 <div class="widget-body">
                                     <div class="row">
                                         <div class="col-sm-1 col-xs-3">
+                                            <span class="wall-icon wall-12">
+                                            <span class="troop-level">{{user.profile.walls[11]}}</span>
+                                        </div>
+                                        <div class="col-sm-5 col-xs-9 profile-slider">
+                                            <input type="range" class="hidden-xs" min="0" max="275" ng-model="user.profile.walls[11]" ng-mouseup="saveUser()" integer>
+                                            <select class="form-control-small profile-select hidden-lg hidden-md hidden-sm visible-xs" ng-model="user.profile.walls[11]" ng-change="saveUser()">
+                                                <option ng-repeat="w in walls" value="{{w.count}}">{{w.count}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-1 col-xs-3">
                                             <span class="wall-icon wall-11">
                                             <span class="troop-level">{{user.profile.walls[10]}}</span>
                                         </div>

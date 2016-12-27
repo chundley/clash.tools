@@ -76,7 +76,7 @@ function ($rootScope, $scope, $location, md5, authService, sessionService, mailS
                     aq: 0,
                     gw: 0
                 },
-                walls: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                walls: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             },
             last_login: now
         };
