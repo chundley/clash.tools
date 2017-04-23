@@ -93,11 +93,9 @@ angular.module('Clashtools', ['ngRoute', 'ngCookies', 'ngAnimate', 'ngSanitize',
                 created_at: parseInt(dt.getTime()/1000),
                 name: meta.ign,
                 user_id: authService.user.id,
-                widget: {
-                    activator: "#IntercomDefaultWidget"
-                },
                 clan: meta.current_clan.name ? meta.current_clan.name : 'none',
-                role: meta.role
+                role: meta.role,
+                hide_default_launcher: true
             });
         });
     }
