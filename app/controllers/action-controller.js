@@ -10,8 +10,6 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
     // initialize
     $rootScope.title = 'Actions - clash.tools';
 
-    //$scope.helpLink = 'http://www.siftrock.com/help/dashboard/';
-
     $scope.nullState = false;
 
     sessionService.getUserMeta(authService.user.id, function (err, meta) {
@@ -28,7 +26,7 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
             }
             else if (actionType == 'decline') {
                 declineNewMember(meta, $location.search().id)
-                $location.url('/mail').replace();           
+                $location.url('/mail').replace();
             }
         }
 
@@ -91,11 +89,11 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
                             }
                         });
 
-                        $rootScope.globalMessage = user.ign + ' has been added to the clan.';                        
+                        $rootScope.globalMessage = user.ign + ' has been added to the clan.';
                     }
                 });
             }
-        });        
+        });
     }
 
     function declineNewMember(userMeta, newUserId) {
@@ -144,6 +142,6 @@ function ($rootScope, $scope, $routeParams, $location, authService, sessionServi
 
                 $rootScope.globalMessage = user.ign + ' has been declined.';
             }
-        });        
-    }    
+        });
+    }
 }]);

@@ -7,7 +7,6 @@
 angular.module('Clashtools.controllers')
 .controller('NewMailCtrl', ['$rootScope', '$scope', '$routeParams', '$location', 'moment', 'authService', 'sessionService', 'errorService', 'emailMessageService', 'clanService',
 function ($rootScope, $scope, $routeParams, $location, moment, authService, sessionService, errorService, emailMessageService, clanService) {
-    //$scope.helpLink = 'http://www.siftrock.com/help/dashboard/';
 
     $scope.emailId = $routeParams.id;
     $scope.folder = $location.search().folder ? $location.search().folder : 'inbox';

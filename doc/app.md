@@ -1,5 +1,5 @@
 ## App server setup and configuration in production
-This document outlines the steps to set up the Siftrock application in production.
+This document outlines the steps to set up the application in production.
 
 ### ct-app[n]
 Each app server should be exactly the same other than host name
@@ -18,7 +18,7 @@ Every server in the cluster needs to be set to the same timezone:
 
 
 #### Verify hostname is ct-app[n]
-Edit the hostname file, replace what's there with siftrock-app[n]
+Edit the hostname file, replace what's there with ct-app[n]
 
 `$ vim /etc/hostname`
 

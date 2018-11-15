@@ -68,7 +68,7 @@ config.env = {
 };
 
 config.admins = [
-    'chundley@gmail.com'
+    'fieldsg22@outlook.com'
 ];
 
 module.exports = config;

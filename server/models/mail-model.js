@@ -6,7 +6,6 @@ var _        = require('underscore'),
     async    = require('async'),
     fs       = require('fs'),
     path     = require('path'),
-    mandrill = require('mandrill-api'),
     sendgrid = require('sendgrid')('blah');
 
 var user         = require('./user-model'),
@@ -151,81 +150,6 @@ exports.welcome = function(userId, callback) {
 }
 
 /*
-*   Welcome email for new user added by someone in the account
-*/
-/*exports.invite = function(userId, tempPW, from, callback) {
-    user.findById(userId, function (err, u) {
-        if (err) {
-            logger.error('Error getting user id ' +  userId + ' - ' + err);
-            callback('Error getting user id ' +  userId + ' - ' + err, null);
-        }
-        else {
-            if (u) {
-                // create email
-                var msg = new MailMessage();
-
-                msg.setHtml(inviteUserTemplate(true, tempPW, from));
-                msg.setText(inviteUserTemplate(false, tempPW, from));
-                msg.setSubject('Welcome to Siftrock');
-                msg.addRecipient(u.email_address, u.email_address, 'to');
-                msg.addTags(['invite', appVersion]);
-
-                // use mandrill client library to send an email
-                var mandrill_client = new mandrill.Mandrill(config.env[process.env.NODE_ENV].mandrill);
-                mandrill_client.messages.send({"message": msg.createMessage(), "async": false, "ip_pool": null, "send_at": null}, function (result) {
-                    logger.info('Sent invite email to: ' + u.email_address);
-                    callback(null, u.email_address);
-                },
-                function (e) {
-                    // Mandrill returns the error as an object with name and message keys
-                    logger.error('A mandrill error occurred: ' + e.name + ' - ' + e.message);
-                    callback(e.name + ' - ' + e.message, null);
-                });
-            }
-            else {
-                callback(null, null);
-            }
-        }
-    });
-}*/
-
-/*
-*   Generic email template for quick and dirty sends, such as new customer registration to admins
-*/
-/*exports.genericMail = function(recipients, subject, content, callback) {
-    async.forEach(recipients, function (recipient, callback_inner) {
-        // create email
-        var msg = new MailMessage();
-
-        msg.setHtml(genericTemplate(content, true));
-        msg.setText(genericTemplate(content, false));
-        msg.setSubject(subject);
-        msg.addRecipient(recipient, recipient, 'to');
-        msg.addTags(['generic', appVersion]);
-
-        // use mandrill client library to send an email
-        var mandrill_client = new mandrill.Mandrill(config.env[process.env.NODE_ENV].mandrill);
-        mandrill_client.messages.send({"message": msg.createMessage(), "async": false, "ip_pool": null, "send_at": null}, function (result) {
-            logger.info('Sent generic email (' + subject + ') to: ' + recipient);
-            callback_inner(null, recipient);
-        },
-        function (e) {
-            // Mandrill returns the error as an object with name and message keys
-            logger.error('A mandrill error occurred: ' + e.name + ' - ' + e.message);
-            callback_inner(e.name + ' - ' + e.message, null);
-        });
-    }, function (err) {
-        if (err) {
-            logger.error('Problem sending generic email (' + subject + ': ' + err);
-            callback(err);
-        }
-        else {
-            callback(null);
-        }
-    });
-}*/
-
-/*
 *   Send a canned email (product update, downtime notice, etc.)
 */
 exports.cannedMail = function(recipient, ign, subject, contentHtml, contentText, callback) {
@@ -264,42 +188,6 @@ exports.cannedMail = function(recipient, ign, subject, contentHtml, contentText,
         }
     });
 }
-
-/*
-*   Form submitted from web site
-*/
-/*exports.wwwForm = function(formData, callback) {
-    async.forEach(config.admins, function (recipient, callback_inner) {
-        // create email
-        var msg = new MailMessage();
-
-        msg.setHtml(wwwFormTemplate(formData, true));
-        msg.setText(wwwFormTemplate(JSON.stringify(formData), false));
-        msg.setSubject('clash.tools form submission [' + formData.type + ']');
-        msg.addRecipient(recipient, recipient, 'to');
-        msg.addTags(['wwwForm', appVersion]);
-
-        // use mandrill client library to send an email
-        var mandrill_client = new mandrill.Mandrill(config.env[process.env.NODE_ENV].mandrill);
-        mandrill_client.messages.send({"message": msg.createMessage(), "async": false, "ip_pool": null, "send_at": null}, function (result) {
-            logger.info('Sent wwwForm email to: ' + recipient);
-            callback_inner(null, recipient);
-        },
-        function (e) {
-            // Mandrill returns the error as an object with name and message keys
-            logger.error('A mandrill error occurred: ' + e.name + ' - ' + e.message);
-            callback_inner(e.name + ' - ' + e.message, null);
-        });
-    }, function (err) {
-        if(err) {
-            logger.error('Problem sending www form email: ' + err);
-            callback(err);
-        }
-        else {
-            callback(null);
-        }
-    });
-}*/
 
 function sendEmail(emailMessage, callback) {
     sendgrid.api_key = config.env[process.env.NODE_ENV].sendgrid;
@@ -433,7 +321,7 @@ function wwwFormTemplate(formData, html) {
 /*
 *   mailMessage
 *
-*   A wrapper class for Mandrill-based email
+*   A wrapper class for Sendgrid-based email
 */
 function MailMessage() {
     this.html = '';

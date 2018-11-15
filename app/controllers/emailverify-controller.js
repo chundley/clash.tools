@@ -8,7 +8,7 @@ angular.module('Clashtools.controllers')
 .controller('EmailVerifyCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$timeout', 'userService', 'errorService',
 function ($rootScope, $scope, $routeParams, $location, $timeout, userService, errorService) {
 
-    $rootScope.title = "Siftrock - Verify Email";
+    $rootScope.title = "Clash.tools - Verify Email";
 
     var token = $routeParams.id;
 

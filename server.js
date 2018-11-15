@@ -94,7 +94,7 @@ var app = new App();
 
 app.init(function(err) {
     if (err) {
-        logger.error('Failed to initialize Siftrock');
+        logger.error('Failed to initialize Clash.tools');
         return;
     }
 

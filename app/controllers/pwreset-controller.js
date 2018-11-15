@@ -8,7 +8,7 @@ angular.module('Clashtools.controllers')
 .controller('PWResetCtrl', ['$rootScope', '$scope', '$routeParams', 'md5', 'userService', 'pwResetService', 'errorService',
 function ($rootScope, $scope, $routeParams, md5, userService, pwResetService, errorService) {
 
-    $rootScope.title = "Siftrock - Password reset request";
+    $rootScope.title = "Clash.tools - Password reset request";
 
     var token = $routeParams.id;
 

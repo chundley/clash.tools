@@ -1,0 +1,25 @@
+Hi [ign],
+
+I hope you have enjoyed using clash.tools during these past 3 years!
+
+It's been an amazing run for the community and this free tool with more than 65,000 members and almost 1.5 million attacks logged. As most of you know I stopped playing COC over a year ago. For a while I continued updating the app with new walls, townhall, and troop levels.
+
+First, thanks for your support through my cancer scare!
+
+I received almost $4,000 from this awesome community to help offset the cost of my surgeries - which ended up being around $15,000. If you missed it the first time around, here is the info from a little over 2 years ago --> http://clash.tools/sept.
+
+One more favor!
+
+A shameless plug for my younger brother's YouTube channel, Flexible Games: https://www.youtube.com/channel/UChtObaxXd1H-8yeR9ABFvIw. He generates a TON of great content on smaller, lesser known independent games. He also streams regularly and is an all around good guy. He's sitting at 4,300 subscribers and I thought maybe we could all help him get to 10,000. If you love games and want to support great content creators please check him out and give him a sub or a few likes.
+
+Lastly
+
+I can no longer support clash.tools from a work or financial perspective. The server infrastructure (hosted at Digital Ocean) costs around $50 per month to maintain. Unfortunately the ads that run in clash.tools only generate about $2 a month, and Supercell does not allow charging a fee for an app like this. Since I no longer play the game I simply can't justify $600/year to keep the site running.
+
+I'm planning to retire the application at the end of November. This should give you a few weeks to grab whatever data you need.
+
+Thanks again
+
+It's been a blast, thanks to everyone who's supported clash.tools through the years.
+
+Chris (minpin)

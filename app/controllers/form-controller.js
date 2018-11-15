@@ -19,7 +19,7 @@ function ($scope, $routeParams, $location, errorService, mailService) {
     $scope.formTypes = {
         question: {
             type: 'Question',
-            message: 'Your question has been submitted. Thanks for your interest in Siftrock, we will be in contact with you shortly.',
+            message: 'Your question has been submitted. Thanks for your interest in Clash.tools, we will be in contact with you shortly.',
             fields: [
                 {
                     name: 'name',
@@ -54,7 +54,7 @@ function ($scope, $routeParams, $location, errorService, mailService) {
         },
         lp_hubspot: {
             type: 'Hubspot landing page',
-            message: 'Thank you for your interest in Siftrock. We will be in contact with you shortly.',
+            message: 'Thank you for your interest in Clash.tools. We will be in contact with you shortly.',
             fields: [
                 {
                     name: 'name',

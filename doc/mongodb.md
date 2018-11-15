@@ -353,7 +353,7 @@ It should look something like this:
             "lastHeartbeatRecv" : ISODate("2014-09-26T15:46:31Z"),
             "pingMs" : 0,
             "lastHeartbeatMessage" : "syncing to: ct-db1:27017",
-            "syncingTo" : "siftrock-db1:27017"
+            "syncingTo" : "ct-db1:27017"
         },
         {
             "_id" : 2,
@@ -368,7 +368,7 @@ It should look something like this:
             "lastHeartbeatRecv" : ISODate("2014-09-26T15:46:30Z"),
             "pingMs" : 80,
             "lastHeartbeatMessage" : "syncing to: ct-db1:27017",
-            "syncingTo" : "siftrock-db1:27017"
+            "syncingTo" : "ct-db1:27017"
         }
     ],
     "ok" : 1

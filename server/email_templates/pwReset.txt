@@ -3,4 +3,4 @@ Hello,
 There was recently a request to change the password on your account. If you requested this password change, please set a new password by following this link: [link]. Please note this link is only valid for 24 hours. If you don't want to change your password, just ignore this message.
 
 Thanks,
-The Siftrock Team
+The Clash.tools Team
